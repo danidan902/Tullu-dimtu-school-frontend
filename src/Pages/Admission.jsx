@@ -12,7 +12,7 @@ import {
 } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
 import schoolHero from '../assets/bulding.jpg'; // High-res image
-import { Tilt } from 'react-tilt';
+import Tilt from 'react-parallax-tilt';
 import Footer from '../components/Footer';
 
 const AdmissionPortal = () => {
