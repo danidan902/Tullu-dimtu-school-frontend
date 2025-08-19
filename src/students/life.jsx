@@ -161,7 +161,7 @@ const StudentLife = () => {
           initial="hidden"
           animate="visible"
           variants={fadeIn}
-          className="relative h-[27rem] bg-fixed w-full bg-cover bg-center"
+          className="relative h-[90vh] bg-fixed w-full bg-cover bg-center"
           style={{ backgroundImage: `url(${studentLifeHero})`,}}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/40 to-transparent" />
