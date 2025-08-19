@@ -137,14 +137,14 @@ const TulluDimtuSportsClub = () => {
     tennis,
     foot1
   ];
-  // ... (keep all your existing data definitions)
+ 
 
   return (
     <>
       <div className="font-sans min-h-screen">
-        {/* Hero Section with new animation */}
+        
         <div 
-          className="relative h-[30rem] bg-fixed w-full bg-cover bg-center"
+          className="relative h-[90vh] bg-fixed w-full bg-cover bg-center"
           style={{ backgroundImage: `url(${matchAction})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/40 to-transparent" />

@@ -92,7 +92,7 @@ const TulluDimtuSchoolRules = () => {
    <>
    
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="relative   h-[450px] w-full overflow-hidden bg-fixed">
+      <div className="relative   h-[90vh] w-full overflow-hidden bg-fixed">
         <motion.div
                  initial={{ scale: 1.2 }}
                  animate={{ scale: 1 }}
