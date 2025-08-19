@@ -27,7 +27,7 @@ const ContactPage = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await axios.post('http://localhost:5001/api/contact', formData);
+      const res = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/contact', formData);
       toast.success(res.data.message);
       setFormData({ name: '', email: '', message: '' });
       setSubmitSuccess(true);
