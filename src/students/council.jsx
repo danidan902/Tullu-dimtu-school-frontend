@@ -4,6 +4,7 @@ import counsl from '../assets/bulding.jpg'
 import Footer from '../components/Footer';
 import life from '../assets/life2.jpg'
 import axios from 'axios'
+
 const CounselingPage = () => {
   
     const [activeSection, setActiveSection] = useState("welcome");
