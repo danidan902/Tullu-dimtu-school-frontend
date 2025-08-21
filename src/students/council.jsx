@@ -4,6 +4,7 @@ import counsl from '../assets/bulding.jpg'
 import Footer from '../components/Footer';
 import life from '../assets/life2.jpg'
 import axios from 'axios'
+import { toast } from "react-toastify";
 
 const CounselingPage = () => {
   
@@ -28,7 +29,7 @@ const CounselingPage = () => {
         const res = await axios.post("https://tullu-dimtu-school-backend.onrender.com/api/concerns", formData);
         console.log("✅ Concern submitted:", res.data);
   
-        // alert("Your counseling request has been submitted successfully!");
+        toast.success("Your counseling request has been submitted successfully!");
   
         // reset form
         setFormData({
@@ -41,8 +42,8 @@ const CounselingPage = () => {
   
         setActiveSection("confirmation");
       } catch (error) {
-        console.error("❌ Error submitting concern:", error);
-        alert("Something went wrong. Please try again.");
+        toast.error("❌ Error submitting concern:", error);
+        toast.error("Something went wrong. Please try again.");
       }
     };
   
