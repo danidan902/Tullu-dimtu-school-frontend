@@ -45,7 +45,7 @@ function Home() {
                     <ScrollReveal delay={0.8}>
                         <div className="flex flex-col sm:flex-row gap-4">
 
-                                       <a 
+ <a 
   href="/admission" 
   rel="noopener noreferrer"
 >
@@ -54,7 +54,7 @@ function Home() {
     </button>                 
 </a>
              <a 
-              href='/'
+              href='/' 
               rel='noopener noreferrer'
               >
              <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/20 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105">
