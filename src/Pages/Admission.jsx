@@ -153,8 +153,7 @@ const AdmissionPortal = () => {
 
 
                 <a 
-  href="href='/contact'" 
-  target="_blank" 
+  href="href='/contact'"  
   rel="noopener noreferrer"
 >
   <motion.button
