@@ -9,7 +9,7 @@ function Home() {
     return (
         <div className="relative h-[87vh] w-full font-sans antialiased">
 
-            <section className="relative   w-full h-screen overflow-hidden">
+            <section className="relative  w-full h-screen overflow-hidden">
 
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-fixed"
@@ -56,7 +56,7 @@ function Home() {
 
 
                     <ScrollReveal delay={1}>
-                        <div className="absolute bottom-8 animate-bounce">
+                        <div className="absolute bottom-12 animate-bounce">
                             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
                             </svg>
