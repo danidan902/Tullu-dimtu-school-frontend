@@ -21,12 +21,12 @@ const RegistrationForm = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [activeField, setActiveField] = useState(null);
 
-  // Handle input change
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Simple validation
+
   const validateForm = () => {
     let tempErrors = {};
     if (!formData.fullName) tempErrors.fullName = "Full Name is required";
@@ -79,7 +79,7 @@ const RegistrationForm = () => {
             transition={{ duration: 0.3 }}
             className="w-full max-w-md mt-20 bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100"
         >
-          {/* Header */}
+          
           <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-center">
             <motion.div
                 initial={{ opacity: 0, y: -10 }}
@@ -121,7 +121,6 @@ const RegistrationForm = () => {
             </motion.p>
           </div>
 
-          {/* Success Message */}
           <AnimatePresence>
             {isSuccess && (
                 <motion.div
@@ -135,9 +134,9 @@ const RegistrationForm = () => {
             )}
           </AnimatePresence>
 
-          {/* Form */}
+         
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
-            {/* Full Name */}
+           
             <div className="relative">
               <motion.label
                   htmlFor="fullName"
@@ -165,7 +164,7 @@ const RegistrationForm = () => {
               </AnimatePresence>
             </div>
 
-            {/* Email or Phone */}
+           
             <div className="relative">
               <motion.label
                   htmlFor="emailOrPhone"
@@ -193,7 +192,7 @@ const RegistrationForm = () => {
               </AnimatePresence>
             </div>
 
-            {/* Student ID */}
+           
             <div className="relative">
               <motion.label
                   htmlFor="studentId"
@@ -221,9 +220,8 @@ const RegistrationForm = () => {
               </AnimatePresence>
             </div>
 
-            {/* Title & Date */}
             <div className="grid grid-cols-2 gap-4">
-              {/* Title */}
+          
               <div className="relative">
                 <motion.label
                     htmlFor="title"
@@ -255,15 +253,14 @@ const RegistrationForm = () => {
                   {errors.title && <p className="mt-1 text-xs text-red-500">{errors.title}</p>}
                 </AnimatePresence>
               </div>
-
-              {/* Date */}
               <div className="relative">
                 <motion.label
                     htmlFor="day"
                     initial="initial"
                     animate={activeField === "day" || formData.day ? "active" : "initial"}
                     variants={floatingLabel}
-                    className="absolute left-3 px-1 bg-white text-gray-500 pointer-events-none origin-left"
+         
+                className="absolute left-3 px-1 bg-white text-gray-500 pointer-events-none origin-left"
                 >
                   Date
                 </motion.label>
@@ -285,7 +282,6 @@ const RegistrationForm = () => {
               </div>
             </div>
 
-            {/* Submit Button */}
             <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
@@ -299,13 +295,13 @@ const RegistrationForm = () => {
             </motion.button>
           </form>
 
-          {/* Footer */}
+        
           <div className="px-6 py-4 border-t border-gray-100 text-center bg-gray-50">
             <p className="text-xs text-gray-500">
               Already have an account?{" "}
               <a href="#" className="text-blue-600 hover:underline font-medium">
-                Sign in
-              </a>
+                Sign in  
+              </a>   
             </p>
           </div>
         </motion.div>

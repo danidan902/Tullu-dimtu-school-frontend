@@ -22,7 +22,7 @@ const AdmissionPortal = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [flippedCard, setFlippedCard] = useState(null);
 
-  // Admission data
+  
   const admissionData = {
     code: "TDS-ADM-2024-XYZ",
     deadline: "August 30, 2024",
@@ -83,14 +83,17 @@ const AdmissionPortal = () => {
         {darkMode ? <FaSun size={20} /> : <FaMoon size={20} />}
       </button>
 
+<<<<<<< HEAD
       
+=======
+>>>>>>> 1752c5e (Initial commit 2)
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
         className="relative h-screen max-h-[800px] overflow-hidden"
       >
-        <motion.div
+        <motion.div      
           initial={{ scale: 1.3 }}
           animate={{ scale: 1 }}
           transition={{ duration: 1.5 }}
@@ -100,7 +103,7 @@ const AdmissionPortal = () => {
             filter: darkMode ? 'brightness(0.7)' : 'none'
           }}
         />
-        
+      
         <div className={`absolute inset-0 ${darkMode ? 'bg-black/60' : 'bg-gradient-to-t from-blue-900/80 via-blue-800/40 to-transparent'}`} />
 
         <div className="relative z-10 h-full flex items-center justify-center">
@@ -136,7 +139,11 @@ const AdmissionPortal = () => {
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <Tilt options={{ max: 15, scale: 1.05 }}>
+<<<<<<< HEAD
 <a 
+=======
+                <a 
+>>>>>>> 1752c5e (Initial commit 2)
   href="https://tulludimturegistration.vercel.app/" 
   target="_blank" 
   rel="noopener noreferrer"
@@ -144,13 +151,18 @@ const AdmissionPortal = () => {
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
+<<<<<<< HEAD
     className={`px-8 py-3 ml-8 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
+=======
+    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
+>>>>>>> 1752c5e (Initial commit 2)
   >
     Apply Online <FiArrowRight />
   </motion.button>
 </a>
 
                 </Tilt>
+<<<<<<< HEAD
 
                 <a 
   href='/contact'  
@@ -165,6 +177,18 @@ const AdmissionPortal = () => {
   </motion.button>
 </a>
            </motion.div>
+=======
+                
+                <Tilt options={{ max: 15, scale: 1.05 }}>
+            <motion.button  t
+                    whileTap={{ scale: 0.95 }}
+                    className={`px-8 py-3 rounded-xl font-bold border-2 ${darkMode ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : 'border-white text-white hover:bg-white/10'}`}
+                  >
+                    <a href='/contact'>Contact Our</a>
+                  </motion.button>
+                </Tilt>
+              </motion.div>
+>>>>>>> 1752c5e (Initial commit 2)
             </motion.div>
           </div>
         </div>
@@ -183,8 +207,14 @@ const AdmissionPortal = () => {
         </motion.div>
       </motion.section>
 
+<<<<<<< HEAD
  
       <section ref={ref} className="py-20 relative">
+=======
+      
+      <section ref={ref} className="py-20 relative">
+      
+>>>>>>> 1752c5e (Initial commit 2)
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <motion.div
             animate={{ x: [0, 100, 0], y: [0, 50, 0] }}
@@ -199,7 +229,11 @@ const AdmissionPortal = () => {
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 1752c5e (Initial commit 2)
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -236,20 +270,19 @@ const AdmissionPortal = () => {
                   <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-blue-600'} mb-1`}>Tullu Dimtu Secondary</p>
                   <p className={`text-2xl font-mono font-bold tracking-wider ${darkMode ? 'text-yellow-400' : 'text-blue-700'}`}>
                     {admissionData.code}
-                  </p>
+                  </p>  this is name of yje9r
                 </motion.div>
               </div>
             </div>
           </motion.div>
-
-          {/* Interactive Flip Cards */}
+      
           <motion.div
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ delay: 0.5 }}
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
           >
-            {/* Deadline Card */}
+
             <Tilt options={{ max: 10, scale: 1.03 }}>
               <motion.div 
                 whileHover={{ y: -5 }}
@@ -282,7 +315,7 @@ const AdmissionPortal = () => {
                           <p className={`font-medium ${darkMode ? 'text-yellow-400' : 'text-blue-700'}`}>{admissionData.examDate}</p>
                         </div>
                       </div>
-                      <motion.div 
+                      <motion.div  
                         whileHover={{ x: 5 }}
                         className={`flex items-center gap-2 mt-6 ${darkMode ? 'text-yellow-400' : 'text-blue-600'} font-medium`}
                       >
@@ -320,12 +353,11 @@ const AdmissionPortal = () => {
                         <FiArrowRight className="transform rotate-180" /> Back
                       </button>
                     </motion.div>
-                  )}
+                  )}  
                 </AnimatePresence>
               </motion.div>
-            </Tilt>
+            </Tilt>   this is name of this personal emotiona ooa bu
 
-            {/* Requirements Card */}
             <Tilt options={{ max: 10, scale: 1.03 }}>
               <motion.div 
                 whileHover={{ y: -5 }}
@@ -363,7 +395,6 @@ const AdmissionPortal = () => {
               </motion.div>
             </Tilt>
 
-            {/* Contact Card */}
             <Tilt options={{ max: 10, scale: 1.03 }}>
               <motion.div 
                 whileHover={{ y: -5 }}
@@ -411,7 +442,7 @@ const AdmissionPortal = () => {
             </Tilt>
           </motion.div>
 
-          {/* CTA Section */}
+         
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -442,18 +473,14 @@ const AdmissionPortal = () => {
                   className={`px-8 py-4 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-400' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                 >
                   <a href='https://tulludimturegistration.vercel.app/' target='_blank'>Start Application</a> <FiArrowRight />
-                 
                 </motion.button>
               </Tilt>
-             
             </div>
           </motion.div>
         </div>
       </section>
     </div>
-
    <Footer/>
-  
    </> 
   );
 };

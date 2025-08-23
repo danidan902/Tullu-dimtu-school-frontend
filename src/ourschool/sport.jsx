@@ -182,9 +182,9 @@ const TulluDimtuSportsClub = () => {
           </div>
         </div>
 
-        {/* Main Content */}
+        
         <div className="container mx-auto px-4 py-12">
-          {/* Sports Tabs */}
+          
           <section className="mb-16">
             <motion.h2 
               initial="hidden"
@@ -196,7 +196,7 @@ const TulluDimtuSportsClub = () => {
               Our <span className="text-yellow-600">Sports Programs</span>
             </motion.h2>
             
-            {/* Sport Navigation */}
+            
             <motion.div 
               initial="hidden"
               whileInView="visible"
@@ -220,8 +220,6 @@ const TulluDimtuSportsClub = () => {
                 ))}
               </div>
             </motion.div>
-
-            {/* Active Sport Content */}
             {sportsData[activeTab] && (
               <motion.div 
                 initial="hidden"
