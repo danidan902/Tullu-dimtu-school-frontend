@@ -135,15 +135,20 @@ const AdmissionPortal = () => {
                 className="flex flex-col sm:flex-row gap-4 justify-center"
               >
                 <Tilt options={{ max: 15, scale: 1.05 }}>
-                 <Link href='https://tulludimturegistration.vercel.app/' target='_balnk'>
-                    <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
-                  >
-                   Apply Online <FiArrowRight />
-                  </motion.button>
-                 </Link>
+<a 
+  href="https://tulludimturegistration.vercel.app/" 
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
+  >
+    Apply Online <FiArrowRight />
+  </motion.button>
+</a>
+
                 </Tilt>
                 
                 <Tilt options={{ max: 15, scale: 1.05 }}>
