@@ -35,7 +35,7 @@ const AdmissionPortal = () => {
     ],
     contact: {
       email: "admissions@tulludimtu.edu.et",
-      phone: "+251 123 456 789",
+      phone: "+251 921 225 887",
       address: "Tullu Dimtu, Oromia, Ethiopia"
     }
   };
@@ -73,7 +73,7 @@ const AdmissionPortal = () => {
 
     <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-br from-blue-50 to-gray-50 text-gray-900'}`}>
       
-      {/* Dark Mode Toggle */}
+      
       <button 
         onClick={() => setDarkMode(!darkMode)}
         className={`fixed top-20 right-6 z-50 p-3 rounded-full ${darkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'} shadow-lg transition-all`}
@@ -82,7 +82,7 @@ const AdmissionPortal = () => {
         {darkMode ? <FaSun size={20} /> : <FaMoon size={20} />}
       </button>
 
-      {/* Glassmorphism Hero */}
+      
       <motion.section 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -143,14 +143,13 @@ const AdmissionPortal = () => {
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
+    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-yellow-600 text-blue-800'}`}
   >
     Apply Online <FiArrowRight />
   </motion.button>
 </a>
 
                 </Tilt>
-
 
                 <a 
   href='/contact'  
@@ -183,9 +182,8 @@ const AdmissionPortal = () => {
         </motion.div>
       </motion.section>
 
-      {/* Main Content */}
+ 
       <section ref={ref} className="py-20 relative">
-        {/* Floating abstract shapes */}
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <motion.div
             animate={{ x: [0, 100, 0], y: [0, 50, 0] }}
@@ -200,7 +198,7 @@ const AdmissionPortal = () => {
         </div>
 
         <div className="container mx-auto px-6 relative z-10">
-          {/* Admission Code Card */}
+
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
