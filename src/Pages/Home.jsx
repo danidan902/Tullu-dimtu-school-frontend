@@ -42,17 +42,27 @@ function Home() {
                             Empowering minds, shaping futures through excellence in education
                         </p>
                     </ScrollReveal>
-
                     <ScrollReveal delay={0.8}>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <button className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
-                                <a href='/admission'>Apply Now</a>
+
+                                       <a 
+  href="/admission" 
+  rel="noopener noreferrer"
+>
+<button className="px-8 py-3 bg-yellow-500 hover:bg-yellow-400 text-blue-900 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
+    Apply Now
+    </button>                 
+</a>
+             <a 
+              href='/'
+              rel='noopener noreferrer'
+              >
+             <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/20 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105">
+                               Take a Virtual Tour
                             </button>
-                            <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/20 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105">
-                                <a href='/'>Take a Virtual Tour</a>
-                            </button>
-                        </div>
-                    </ScrollReveal>
+             </a>               
+            </div>
+               </ScrollReveal>
 
 
                     <ScrollReveal delay={1}>
