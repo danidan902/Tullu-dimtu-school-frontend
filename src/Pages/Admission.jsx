@@ -143,7 +143,7 @@ const AdmissionPortal = () => {
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`px-8 py-3 ml-5 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-yellow-500 text-blue-800'}`}
+    className={`px-8 py-3 ml-5 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
   >
     Apply Online <FiArrowRight />
   </motion.button>
@@ -158,7 +158,7 @@ const AdmissionPortal = () => {
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
+    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-100 text-gray-900' : ' text-blue-800'}`}
   >
     Contact Our <FiArrowRight />
   </motion.button>
