@@ -158,7 +158,7 @@ const AdmissionPortal = () => {
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-    className={`px-8 py-3 border-2 ml-8 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-100 text-gray-900' : ' text-blue-800'}`}
+    className={`px-8 py-3 border-2 ml-8 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : ' border-white text-white hover:bg-white/10'}`}
   >
     Contact Our <FiArrowRight />
   </motion.button>
