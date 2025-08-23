@@ -150,17 +150,22 @@ const AdmissionPortal = () => {
 </a>
 
                 </Tilt>
-                
-                <Tilt options={{ max: 15, scale: 1.05 }}>
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className={`px-8 py-3 rounded-xl font-bold border-2 ${darkMode ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : 'border-white text-white hover:bg-white/10'}`}
-                  >
-                    <a href='/contact'>Contact Our</a>
-                  </motion.button>
-                </Tilt>
-              </motion.div>
+
+
+                <a 
+  href="href='/contact'" 
+  target="_blank" 
+  rel="noopener noreferrer"
+>
+  <motion.button
+    whileHover={{ scale: 1.05 }}
+    whileTap={{ scale: 0.95 }}
+    className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
+  >
+    Contact Our <FiArrowRight />
+  </motion.button>
+</a>
+           </motion.div>
             </motion.div>
           </div>
         </div>
