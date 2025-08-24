@@ -141,8 +141,7 @@ const AdmissionPortal = () => {
                 <Tilt options={{ max: 15, scale: 1.05 }}>
 <<<<<<< HEAD
 <a 
-=======
-                <a 
+<a 
 >>>>>>> 1752c5e (Initial commit 2)
   href="https://tulludimturegistration.vercel.app/" 
   target="_blank" 
@@ -151,20 +150,17 @@ const AdmissionPortal = () => {
   <motion.button
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
-<<<<<<< HEAD
+
     className={`px-8 py-3 ml-8 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
-=======
+
     className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
->>>>>>> 1752c5e (Initial commit 2)
+ 1752c5e (Initial commit 2)
   >
     Apply Online <FiArrowRight />
   </motion.button>
 </a>
-
-                </Tilt>
-<<<<<<< HEAD
-
-                <a 
+</Tilt>
+  <a 
   href='/contact'  
   rel="noopener noreferrer"
 >
@@ -176,10 +172,8 @@ const AdmissionPortal = () => {
     Contact Our <FiArrowRight />
   </motion.button>
 </a>
-           </motion.div>
-=======
-                
-                <Tilt options={{ max: 15, scale: 1.05 }}>
+     </motion.div>
+            <Tilt options={{ max: 15, scale: 1.05 }}>
             <motion.button  t
                     whileTap={{ scale: 0.95 }}
                     className={`px-8 py-3 rounded-xl font-bold border-2 ${darkMode ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : 'border-white text-white hover:bg-white/10'}`}
@@ -207,10 +201,7 @@ const AdmissionPortal = () => {
         </motion.div>
       </motion.section>
 
-<<<<<<< HEAD
- 
       <section ref={ref} className="py-20 relative">
-=======
       
       <section ref={ref} className="py-20 relative">
       
