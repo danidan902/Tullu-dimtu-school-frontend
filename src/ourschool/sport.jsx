@@ -1,5 +1,3 @@
-
-
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaRunning, FaFutbol, FaVolleyballBall, FaTrophy, FaMedal } from 'react-icons/fa';
@@ -355,13 +353,16 @@ const TulluDimtuSportsClub = () => {
                       <IoMdStopwatch className="mr-2" />
                       <span>{event.time}</span>
                     </div>
-                    <motion.button 
+                  <a href='/register'>
+                      <motion.button 
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="mt-4 w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded-lg font-medium transition-colors"
                     >
-                       <a href='/register'>Register Team</a>
+                       Register Team
                     </motion.button>
+                    
+                  </a>
                   </div>
                 </motion.div>
               ))}
