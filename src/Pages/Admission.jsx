@@ -114,7 +114,7 @@ const AdmissionPortal = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="backdrop-blur-sm bg-white/10 dark:bg-black/20 p-8 sm:p-12 rounded-3xl border border-white/20 shadow-2xl inline-block"
             >
-              <motion.h1
+              <motion.h1   
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.5, type: 'spring' }}
