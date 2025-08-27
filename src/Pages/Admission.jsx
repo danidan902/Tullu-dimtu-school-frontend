@@ -146,17 +146,23 @@ const AdmissionPortal = () => {
                     </a>
                   </Tilt>
                   
-                  <Tilt options={{ max: 15, scale: 1.05 }}>
-                    <a href='/contact'>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`px-8 py-3 rounded-xl font-bold border-2 ${darkMode ? 'border-yellow-400 text-yellow-400 hover:bg-yellow-400/10' : 'border-white text-white hover:bg-white/10'}`}
-                      >
-                        Contact Us <FiArrowRight />
-                      </motion.button>
-                    </a>
-                  </Tilt>
+                 <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block">
+      <motion.a
+        href="https://tulludimturegistration.vercel.app" // 🔗 change link here
+        target="_blank"
+        rel="noopener noreferrer"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`block px-8 py-3 rounded-xl font-bold border-2 flex items-center gap-2 transition-colors ${
+          darkMode
+            ? "border-yellow-400 text-yellow-400 hover:bg-yellow-400/10"
+            : "border-white text-white hover:bg-white/10"
+        }`}
+      >
+        Contact Us 
+        <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
+      </motion.a>
+    </Tilt>
                 </motion.div>
               </motion.div>
             </div>
