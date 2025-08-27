@@ -4,7 +4,7 @@ import {
   FaFileAlt, 
   FaCalendarAlt, 
   FaCheckCircle, 
-  FaPhoneAlt, 
+  FaPhoneAlt,    
   FaMapMarkerAlt,
   FaDownload,
   FaSun,
@@ -372,7 +372,7 @@ const AdmissionPortal = () => {
                           <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>Email</p>
                           <p className={`${darkMode ? 'text-gray-100' : 'text-gray-900'}`}>{admissionData.contact.email}</p>
                         </div>
-                      </div>
+                      </div>    
                       <div className="flex items-center gap-3">
                         <div className={`p-2 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-100'}`}>
                           <FiArrowRight className={`${darkMode ? 'text-yellow-400' : 'text-blue-600'}`} />
