@@ -130,7 +130,7 @@ const AdmissionPortal = () => {
                   transition={{ delay: 0.9, duration: 0.6 }}
                   className="flex flex-col sm:flex-row gap-4 justify-center"
                 >
-                  <Tilt options={{ max: 15, scale: 1.05 }}>
+ <Tilt options={{ max: 15, scale: 1.05 }}>
                     <a 
                       href="https://tulludimturegistration.vercel.app/" 
                       target="_blank" 
