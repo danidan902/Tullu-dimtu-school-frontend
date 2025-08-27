@@ -15,7 +15,7 @@ import schoolHero from '../assets/bulding.jpg';
 import Tilt from 'react-parallax-tilt';
 import Footer from '../components/Footer';
 
-const AdmissionPortal = ({ darkMode }) => {
+const AdmissionPortal = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [darkMode, setDarkMode] = useState(false);
