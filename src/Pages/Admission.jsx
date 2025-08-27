@@ -155,7 +155,6 @@ const AdmissionPortal = () => {
 <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block mx-3">
   <motion.a
     href="/contact"
-    target="_blank"
     rel="noopener noreferrer"
     whileHover={{ scale: 1.05 }}
     whileTap={{ scale: 0.95 }}
