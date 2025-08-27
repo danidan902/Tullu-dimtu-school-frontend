@@ -15,7 +15,7 @@ import schoolHero from '../assets/bulding.jpg';
 import Tilt from 'react-parallax-tilt';
 import Footer from '../components/Footer';
 
-const AdmissionPortal = () => {
+const AdmissionPortal = ({ darkMode }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
   const [darkMode, setDarkMode] = useState(false);
@@ -130,39 +130,50 @@ const AdmissionPortal = () => {
                   transition={{ delay: 0.9, duration: 0.6 }}
                   className="flex flex-col sm:flex-row gap-4 justify-center"
                 >
- <Tilt options={{ max: 15, scale: 1.05 }}>
-                    <a 
-                      href="https://tulludimturegistration.vercel.app/" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                    >
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className={`px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900' : 'bg-white text-blue-800'}`}
-                      >
-                        Apply Online <FiArrowRight />
-                      </motion.button>
-                    </a>
-                  </Tilt>
+<div className="flex gap-4 flex-wrap">
+      {/* Apply Online Button */}
+      <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block">
+        <motion.a
+          href="https://tulludimturegistration.vercel.app/"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className={`block px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 transition-colors pointer-events-auto ${
+            darkMode
+              ? "bg-yellow-500 text-gray-900 hover:bg-yellow-400 focus:ring-yellow-400"
+              : "bg-white text-blue-800 hover:bg-gray-100 focus:ring-blue-300"
+          }`}
+        >
+          Apply Online
+          <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+        </motion.a>
+      </Tilt>
+
+      {/* Contact Us Button */}
+      <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block">
+        <motion.a
+          href="https://tulludimturegistration.vercel.app/contact"
+          target="_blank"
+          rel="noopener noreferrer"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className={`block px-8 py-3 rounded-xl font-bold border-2 flex items-center gap-2 transition-colors ${
+            darkMode
+              ? "border-yellow-400 text-yellow-400 hover:bg-yellow-400/10"
+              : "border-white text-white hover:bg-white/10"
+          }`}
+        >
+          Contact Us
+          <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+        </motion.a>
+      </Tilt>
+    </div>
+
+
+
+
                   
-                 <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block">
-      <motion.a
-        href="https://tulludimturegistration.vercel.app" // 🔗 change link here
-        target="_blank"
-        rel="noopener noreferrer"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={`block px-8 py-3 rounded-xl font-bold border-2 flex items-center gap-2 transition-colors ${
-          darkMode
-            ? "border-yellow-400 text-yellow-400 hover:bg-yellow-400/10"
-            : "border-white text-white hover:bg-white/10"
-        }`}
-      >
-        Contact Us 
-        <FiArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
-      </motion.a>
-    </Tilt>
                 </motion.div>
               </motion.div>
             </div>
