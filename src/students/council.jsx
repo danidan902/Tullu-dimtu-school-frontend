@@ -26,7 +26,7 @@ const CounselingPage = () => {
       setLoading(true);
       e.preventDefault();
       try {
-        // send data to backend
+        
         const res = await axios.post("https://tullu-dimtu-school-backend.onrender.com/api/concerns", formData);
         console.log("✅ Concern submitted:", res.data);
   
