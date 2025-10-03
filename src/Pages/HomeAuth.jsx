@@ -329,14 +329,14 @@ const ContactForm = () => {
                 {/* Error Message */}
                 {error && (
                   <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-4 animate-shake">
-                    <p className="text-red-200 text-sm">{error}</p>
-                    <button 
+                    <p className="text-red-200 text-sm"></p>
+                    {/* <button 
                       type="button"
                       onClick={() => setError('')}
                       className="mt-2 text-red-300 hover:text-white text-xs underline"
                     >
                       Clear Error
-                    </button>
+                    </button> */}
                   </div>
                 )}
 
