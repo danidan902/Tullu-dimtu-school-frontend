@@ -180,9 +180,9 @@ const ContactForm = () => {
       // Generate unique email with timestamp to avoid duplicates
       const timestamp = new Date().getTime();
       const testData = {
-        name: "Test User",
-        email: `test${timestamp}@example.com`,
-        password: "testpassword"
+        name: "",
+        email: ``,
+        password: ""
       };
       
       console.log('Test data:', testData);
