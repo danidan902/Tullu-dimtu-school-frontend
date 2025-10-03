@@ -61,8 +61,9 @@ const ContactForm = () => {
           console.log('🔄 Auto-submitting saved form data after authentication...');
           await submitToBackend(parsedData);
         }
-      }  
-    }; 
+      }
+    };
+
     autoSubmitAfterAuth();
   }, [isSignedIn]);
 
@@ -105,20 +106,12 @@ const ContactForm = () => {
 
     try {
       console.log('🔵 SUBMITTING TO BACKEND:', {
-<<<<<<< HEAD
-        url: 'https://tullu-dimtu-school-backend.onrender.com/api/users/submit',
-=======
         url: 'http://localhost:5000/api/users/submit',
->>>>>>> c35293e (Your commit message)
         data: dataToSubmit,
         timestamp: new Date().toISOString()
       });
       
-<<<<<<< HEAD
-      const response = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/users/submit', dataToSubmit, {
-=======
       const response = await axios.post('http://localhost:5000/api/users/submit', dataToSubmit, {
->>>>>>> c35293e (Your commit message)
         headers: {
           'Content-Type': 'application/json',
         },
@@ -194,16 +187,11 @@ const ContactForm = () => {
       
       console.log('Test data:', testData);
       
-<<<<<<< HEAD
-      const response = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/users/submit', testData, {
-        timeout: 5000
-=======
       const response = await axios.post('http://localhost:5000/api/users/submit', testData, {
         timeout: 5000,
         headers: {
           'Content-Type': 'application/json'
         }
->>>>>>> c35293e (Your commit message)
       });
       
       console.log('✅ BACKEND TEST SUCCESS:', response.data);
