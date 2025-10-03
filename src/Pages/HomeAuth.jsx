@@ -106,12 +106,12 @@ const ContactForm = () => {
 
     try {
       console.log('🔵 SUBMITTING TO BACKEND:', {
-        url: 'http://localhost:5001/api/users/submit',
+        url: 'https://tullu-dimtu-school-backend.onrender.com/api/users/submit',
         data: dataToSubmit,
         timestamp: new Date().toISOString()
       });
       
-      const response = await axios.post('http://localhost:5001/api/users/submit', dataToSubmit, {
+      const response = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/users/submit', dataToSubmit, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -179,7 +179,7 @@ const ContactForm = () => {
       
       console.log('Test data:', testData);
       
-      const response = await axios.post('http://localhost:5001/api/users/submit', testData, {
+      const response = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/users/submit', testData, {
         timeout: 5000
       });
       
