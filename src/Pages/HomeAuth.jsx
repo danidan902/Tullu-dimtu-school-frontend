@@ -61,9 +61,8 @@ const ContactForm = () => {
           console.log('🔄 Auto-submitting saved form data after authentication...');
           await submitToBackend(parsedData);
         }
-      }
-    };
-
+      }  
+    }; 
     autoSubmitAfterAuth();
   }, [isSignedIn]);
 
