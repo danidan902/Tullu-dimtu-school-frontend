@@ -105,12 +105,20 @@ const ContactForm = () => {
 
     try {
       console.log('🔵 SUBMITTING TO BACKEND:', {
+<<<<<<< HEAD
         url: 'https://tullu-dimtu-school-backend.onrender.com/api/users/submit',
+=======
+        url: 'http://localhost:5000/api/users/submit',
+>>>>>>> c35293e (Your commit message)
         data: dataToSubmit,
         timestamp: new Date().toISOString()
       });
       
+<<<<<<< HEAD
       const response = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/users/submit', dataToSubmit, {
+=======
+      const response = await axios.post('http://localhost:5000/api/users/submit', dataToSubmit, {
+>>>>>>> c35293e (Your commit message)
         headers: {
           'Content-Type': 'application/json',
         },
@@ -158,7 +166,12 @@ const ContactForm = () => {
       setIsSubmitting(false);
       
       if (err.response) {
-        setError(`Server error: ${err.response.status} - ${err.response.data?.message || 'Unknown error'}`);
+        // Handle duplicate email error specifically
+        if (err.response.status === 400 && err.response.data.error?.includes('Email already exists')) {
+          setError('This email is already registered. Please use a different email address.');
+        } else {
+          setError(`Server error: ${err.response.status} - ${err.response.data?.error || err.response.data?.message || 'Unknown error'}`);
+        }
       } else if (err.request) {
         setError('Cannot connect to backend server. Make sure it\'s running on port 5000.');
       } else {
@@ -170,16 +183,27 @@ const ContactForm = () => {
   const testBackendConnection = async () => {
     try {
       console.log('🧪 TESTING BACKEND CONNECTION...');
+      
+      // Generate unique email with timestamp to avoid duplicates
+      const timestamp = new Date().getTime();
       const testData = {
         name: "Test User",
-        email: "test@example.com",
+        email: `test${timestamp}@example.com`,
         password: "testpassword"
       };
       
       console.log('Test data:', testData);
       
+<<<<<<< HEAD
       const response = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/users/submit', testData, {
         timeout: 5000
+=======
+      const response = await axios.post('http://localhost:5000/api/users/submit', testData, {
+        timeout: 5000,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+>>>>>>> c35293e (Your commit message)
       });
       
       console.log('✅ BACKEND TEST SUCCESS:', response.data);
@@ -192,7 +216,7 @@ const ContactForm = () => {
       });
       
       if (err.response) {
-        alert(`❌ Backend responded with error: ${err.response.status} - ${err.response.data?.message || 'Unknown error'}`);
+        alert(`❌ Backend error (${err.response.status}): ${JSON.stringify(err.response.data, null, 2)}`);
       } else if (err.request) {
         alert(`❌ Cannot connect to backend. Make sure:\n1. Backend is running: node server.js\n2. Port 5000 is available\n3. CORS is configured\n4. MongoDB is connected`);
       } else {
@@ -285,18 +309,18 @@ const ContactForm = () => {
 
               
               <div className="mt-6 flex gap-3 justify-center">
-                {/* <button
+                 <button
                   onClick={testBackendConnection}
                   className="text-sm bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   Test Backend
-                </button> */}
-                {/* <button
+                </button> 
+                <button 
                   onClick={clearForm}
                   className="text-sm bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   Clear Form
-                </button> */}
+                </button>
               </div>
             </div>
 
@@ -440,7 +464,7 @@ const ContactForm = () => {
         </div>
       </div>
 
-      {/* Add custom animations to tailwind config */}
+      
       <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
