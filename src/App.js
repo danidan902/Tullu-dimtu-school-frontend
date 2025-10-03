@@ -1,6 +1,6 @@
 import './App.css';                     
 import Header from './components/Header'; 
-import { Routes, Route } from 'react-router-dom';  
+import { Routes, Route, Navigate } from 'react-router-dom';  
 import Home from './Pages/Home';
 import ChairmanWelcome from './about/chairman-welcome';
 import MissionVision from './about/mission-vision';
@@ -22,40 +22,224 @@ import Contact from './Pages/Contact';
 import AdmissionPortal from './Pages/Admission';
 import RegistrationForm from './Pages/Registration';
 import StudentEvent from "./Pages/Studentlife";
+import ContactForm from './Pages/HomeAuth';
+import { ClerkProvider, useAuth } from '@clerk/clerk-react';
 
 
+function ProtectedRoute({ children }) {
+  const { isSignedIn, isLoaded } = useAuth();
+  
+  if (!isLoaded) {
+    return <div>Loading...</div>; 
+  }
+  
+  return isSignedIn ? children : <Navigate to="/" replace />;
+}
 
+// Public Route Component (redirect to home if already authenticated)
+function PublicRoute({ children }) {
+  const { isSignedIn, isLoaded } = useAuth();
+  
+  if (!isLoaded) {
+    return <div>Loading...</div>;
+  }
+  
+  return !isSignedIn ? children : <Navigate to="/home" replace />;
+}
 
-function App() {
+// Main App Content
+function AppContent() {
+  const { isSignedIn } = useAuth();
+
   return (
     <>
-      <Header />
-     <div className="">
+      
+      {isSignedIn && <Header />}
+      
+      <div className="">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about/chairman-welcome" element={<ChairmanWelcome />} />
-          <Route path='/about/mission-vision' element={<MissionVision/>} />
-          <Route path='/about/our-history' element={<OurHistory/>} />
-          <Route path='/about/principal-message' element={<PrincipalMessage/>} />
-          <Route path='/about/school-profile' element={<SchoolProfile/>} />
-          <Route path='/about/school-achievements' element={<SchoolAchievements/>}/>
-          <Route path='/ourschool/overview' element={<SchoolOverview/>} />
-          <Route path='/ourschool/curriculum' element={<CurriculumShowcase/>} />
-          <Route path='/ourschool/secondary' element={<Secondary/>} />
-          <Route path='/ourschool/community' element={<TulluDimtuSchool/>} />
-          <Route path='/ourschool/sport' element={<TulluDimtuSportsClub/>} />
-          <Route path='/students/life' element={<StudentLife/>}/>
-          <Route path='/students/rules' element={<TulluDimtuSchoolRules/>} />
-          <Route path='/students/council' element={<CounselingPage/>} />
-          <Route path='/contact' element={<Contact/>} />
-          <Route path='/admission' element={<AdmissionPortal/>} />
-          <Route path='/register' element={<RegistrationForm/>}/>
-          <Route path='/studentlife' element={<StudentEvent/>} />
-
+          
+          <Route 
+            path='/' 
+            element={
+              <PublicRoute>
+                <ContactForm />
+              </PublicRoute>
+            } 
+          />
+          
+          
+          <Route 
+            path="/home" 
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
+            path="/about/chairman-welcome" 
+            element={
+              <ProtectedRoute>
+                <ChairmanWelcome />
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/about/mission-vision' 
+            element={
+              <ProtectedRoute>
+                <MissionVision/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/about/our-history' 
+            element={
+              <ProtectedRoute>
+                <OurHistory/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/about/principal-message' 
+            element={
+              <ProtectedRoute>
+                <PrincipalMessage/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/about/school-profile' 
+            element={
+              <ProtectedRoute>
+                <SchoolProfile/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/about/school-achievements' 
+            element={
+              <ProtectedRoute>
+                <SchoolAchievements/>
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path='/ourschool/overview' 
+            element={
+              <ProtectedRoute>
+                <SchoolOverview/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/ourschool/curriculum' 
+            element={
+              <ProtectedRoute>
+                <CurriculumShowcase/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/ourschool/secondary' 
+            element={
+              <ProtectedRoute>
+                <Secondary/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/ourschool/community' 
+            element={
+              <ProtectedRoute>
+                <TulluDimtuSchool/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/ourschool/sport' 
+            element={
+              <ProtectedRoute>
+                <TulluDimtuSportsClub/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/students/life' 
+            element={
+              <ProtectedRoute>
+                <StudentLife/>
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path='/students/rules' 
+            element={
+              <ProtectedRoute>
+                <TulluDimtuSchoolRules/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/students/council' 
+            element={
+              <ProtectedRoute>
+                <CounselingPage/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/contact' 
+            element={
+              <ProtectedRoute>
+                <Contact/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/admission' 
+            element={
+              <ProtectedRoute>
+                <AdmissionPortal/>
+              </ProtectedRoute>
+            } 
+          />
+          <Route 
+            path='/register' 
+            element={
+              <ProtectedRoute>
+                <RegistrationForm/>
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+            path='/studentlife' 
+            element={
+              <ProtectedRoute>
+                <StudentEvent/>
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Redirect root to auth page */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
         <ToastContainer />
       </div>
     </>
+  );
+}
+
+
+function App() {
+  const clerkPubKey = "pk_test_aW5maW5pdGUtc29sZS05LmNsZXJrLmFjY291bnRzLmRldiQ";
+
+  return (
+    <ClerkProvider publishableKey={clerkPubKey}>
+      <AppContent />
+    </ClerkProvider>
   );
 }
 
