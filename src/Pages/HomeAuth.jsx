@@ -173,25 +173,14 @@ const ContactForm = () => {
     }
   };
 
+  // FIXED: Test backend without creating MongoDB records
   const testBackendConnection = async () => {
     try {
       console.log('🧪 TESTING BACKEND CONNECTION...');
       
-      // Generate unique email with timestamp to avoid duplicates
-      const timestamp = new Date().getTime();
-      const testData = {
-        name: "",
-        email: ``,
-        password: ""
-      };
-      
-      console.log('Test data:', testData);
-      
-      const response = await axios.post('http://localhost:5000/api/users/submit', testData, {
-        timeout: 5000,
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      // Test with a simple GET request instead of POST that creates records
+      const response = await axios.get('http://localhost:5000/api/users/test', {
+        timeout: 5000
       });
       
       console.log('✅ BACKEND TEST SUCCESS:', response.data);
@@ -297,18 +286,13 @@ const ContactForm = () => {
 
               
               <div className="mt-6 flex gap-3 justify-center">
-                 <button
-                  onClick={testBackendConnection}
+                  <button
+                   onClick={clearForm}
                   className="text-sm bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                  Test Backend
+                   Clear Form
                 </button> 
-                <button 
-                  onClick={clearForm}
-                  className="text-sm bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  Clear Form
-                </button>
+                
               </div>
             </div>
 
@@ -329,14 +313,14 @@ const ContactForm = () => {
                 {/* Error Message */}
                 {error && (
                   <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-4 animate-shake">
-                    <p className="text-red-200 text-sm"></p>
-                    {/* <button 
+                    <p className="text-red-200 text-sm">{error}</p>
+                    <button 
                       type="button"
                       onClick={() => setError('')}
                       className="mt-2 text-red-300 hover:text-white text-xs underline"
                     >
                       Clear Error
-                    </button> */}
+                    </button>
                   </div>
                 )}
 
