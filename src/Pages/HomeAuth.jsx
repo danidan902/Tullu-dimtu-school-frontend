@@ -92,6 +92,7 @@ const ContactForm = () => {
           redirectUrl: window.location.href,
         });
       } catch (err) {
+        console.error('Sign-in error:', err);
         setError('Sign-in failed. Please try again.');
       }
       return;
@@ -111,12 +112,16 @@ const ContactForm = () => {
         timestamp: new Date().toISOString()
       });
       
-      const response = await axios.post('https://tullu-dimtu-school-backend.onrender.com/api/users/submit', dataToSubmit, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        timeout: 10000,
-      });
+      const response = await axios.post(
+        'https://tullu-dimtu-school-backend.onrender.com/api/users/submit', 
+        dataToSubmit, 
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          timeout: 15000, // Increased timeout
+        }
+      );
 
       console.log('🟢 BACKEND RESPONSE SUCCESS:', {
         status: response.status,
@@ -124,13 +129,13 @@ const ContactForm = () => {
         message: response.data.message
       });
       
-      if (response.data.message === "User submitted successfully") {
+      if (response.data.message === "User submitted successfully" || response.status === 200) {
         console.log('✅ SUBMISSION CONFIRMED BY BACKEND - DATA SAVED TO MONGODB');
         setIsSubmitting(false);
         setIsSubmitted(true);
         
-        // Navigate after successful submission
-        navigate('/some');
+        // Navigate after successful submission - FIXED: Use valid route
+        navigate('/success'); // Changed from '/some' to '/success'
         
         // Clear form and localStorage on success
         setTimeout(() => {
@@ -153,7 +158,8 @@ const ContactForm = () => {
         message: err.message,
         code: err.code,
         response: err.response?.data,
-        status: err.response?.status
+        status: err.response?.status,
+        config: err.config
       });
       
       setIsSubmitting(false);
@@ -162,25 +168,26 @@ const ContactForm = () => {
         // Handle duplicate email error specifically
         if (err.response.status === 400 && err.response.data.error?.includes('Email already exists')) {
           setError('This email is already registered. Please use a different email address.');
+        } else if (err.response.status === 409) {
+          setError('This email is already registered. Please use a different email address.');
         } else {
           setError(`Server error: ${err.response.status} - ${err.response.data?.error || err.response.data?.message || 'Unknown error'}`);
         }
       } else if (err.request) {
-        setError('Cannot connect to backend server. Make sure it\'s running on port 5000.');
+        setError('Cannot connect to backend server. Please check your internet connection and try again.');
       } else {
         setError(`Request error: ${err.message}`);
       }
     }
   };
 
-  // FIXED: Test backend without creating MongoDB records
+  // Test backend connection
   const testBackendConnection = async () => {
     try {
       console.log('🧪 TESTING BACKEND CONNECTION...');
       
-      // Test with a simple GET request instead of POST that creates records
-      const response = await axios.get('https://tullu-dimtu-school-backend.onrender.com/api/users/test', {
-        timeout: 5000
+      const response = await axios.get('https://tullu-dimtu-school-backend.onrender.com/api/users/health', {
+        timeout: 10000
       });
       
       console.log('✅ BACKEND TEST SUCCESS:', response.data);
@@ -195,7 +202,7 @@ const ContactForm = () => {
       if (err.response) {
         alert(`❌ Backend error (${err.response.status}): ${JSON.stringify(err.response.data, null, 2)}`);
       } else if (err.request) {
-        alert(`❌ Cannot connect to backend. Make sure:\n1. Backend is running: node server.js\n2. Port 5000 is available\n3. CORS is configured\n4. MongoDB is connected`);
+        alert(`❌ Cannot connect to backend. Make sure:\n1. Backend is running\n2. CORS is configured\n3. MongoDB is connected`);
       } else {
         alert(`❌ Error: ${err.message}`);
       }
@@ -204,13 +211,13 @@ const ContactForm = () => {
 
   const handleSignIn = async () => {
     try {
-      // Save current form data before redirecting
       localStorage.setItem('contactFormData', JSON.stringify(formData));
       
       await openSignIn({
         redirectUrl: window.location.href,
       });
     } catch (err) {
+      console.error('Sign-in error:', err);
       setError('Sign-in failed. Please try again.');
     }
   };
@@ -225,15 +232,28 @@ const ContactForm = () => {
     setError('');
   };
 
+  // Add this function to check backend status
+  const checkBackendStatus = async () => {
+    try {
+      const response = await fetch('https://tullu-dimtu-school-backend.onrender.com/api/users/health');
+      if (response.ok) {
+        console.log('✅ Backend is reachable');
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('❌ Backend is not reachable:', error);
+      return false;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
       
       <div className="absolute inset-0 overflow-hidden">
-        
         <div className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-r from-violet-600 to-purple-600 rounded-full blur-3xl opacity-70 animate-pulse"></div>
         <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full blur-3xl opacity-70 animate-bounce"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full blur-3xl opacity-50 animate-spin-slow"></div>
-        
         
         <div className="absolute inset-0">
           {[...Array(20)].map((_, i) => (
@@ -250,7 +270,6 @@ const ContactForm = () => {
           ))}
         </div>
 
-        
         <div className="absolute inset-0 opacity-10">
           <div className="w-full h-full bg-gradient-to-br from-transparent via-white to-transparent bg-[length:50px_50px] animate-grid-flow"></div>
         </div>
@@ -265,7 +284,6 @@ const ContactForm = () => {
               </h1>
               <p className="text-cyan-200 text-lg">Our Tulu Dimtu School</p>
               
-             
               <div className="mt-6">
                 {isSignedIn ? (
                   <div className="flex items-center justify-center space-x-2 bg-green-500/20 border border-green-500/50 rounded-full py-2 px-4">
@@ -284,15 +302,19 @@ const ContactForm = () => {
                 )}
               </div>
 
-              
               <div className="mt-6 flex gap-3 justify-center">
-                  <button
-                   onClick={clearForm}
+                <button
+                  onClick={clearForm}
                   className="text-sm bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                   Clear Form
-                </button> 
-                
+                  Clear Form
+                </button>
+                <button
+                  onClick={testBackendConnection}
+                  className="text-sm bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Test Backend
+                </button>
               </div>
             </div>
 
@@ -436,7 +458,6 @@ const ContactForm = () => {
         </div>
       </div>
 
-      
       <style jsx>{`
         @keyframes float {
           0%, 100% { transform: translateY(0px) rotate(0deg); }
