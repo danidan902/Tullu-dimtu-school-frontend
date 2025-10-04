@@ -20,6 +20,7 @@ const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState('');
+  const [hasPendingSubmission, setHasPendingSubmission] = useState(false);
 
   // Save form data to localStorage whenever it changes
   useEffect(() => {
@@ -32,6 +33,7 @@ const ContactForm = () => {
   useEffect(() => {
     if (isSubmitted) {
       localStorage.removeItem('contactFormData');
+      setHasPendingSubmission(false);
     }
   }, [isSubmitted]);
 
@@ -49,23 +51,30 @@ const ContactForm = () => {
     }
   }, [isSignedIn, user]);
 
-  
+  // FIXED: Auto-submit after authentication
   useEffect(() => {
     const autoSubmitAfterAuth = async () => {
-      const savedData = localStorage.getItem('contactFormData');
-      
-      if (isSignedIn && savedData) {
-        const parsedData = JSON.parse(savedData);
+      // Only auto-submit if we have pending submission and user just signed in
+      if (isSignedIn && hasPendingSubmission) {
+        const savedData = localStorage.getItem('contactFormData');
         
-        if (parsedData.name && parsedData.email && parsedData.password) {
-          console.log('🔄 Auto-submitting saved form data after authentication...');
-          await submitToBackend(parsedData);
+        if (savedData) {
+          const parsedData = JSON.parse(savedData);
+          
+          if (parsedData.name && parsedData.email && parsedData.password) {
+            console.log('🔄 AUTO-SUBMITTING SAVED FORM DATA AFTER AUTHENTICATION...', parsedData);
+            
+            // Small delay to ensure component is ready
+            setTimeout(async () => {
+              await submitToBackend(parsedData);
+            }, 1000);
+          }
         }
       }
     };
 
     autoSubmitAfterAuth();
-  }, [isSignedIn]);
+  }, [isSignedIn, hasPendingSubmission]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -84,20 +93,36 @@ const ContactForm = () => {
       return;
     }
 
+    console.log('📝 FORM SUBMISSION STARTED:', {
+      isSignedIn,
+      formData,
+      hasPendingSubmission
+    });
+
     if (!isSignedIn) {
       try {
+        // Save form data and mark that we have a pending submission
         localStorage.setItem('contactFormData', JSON.stringify(formData));
+        setHasPendingSubmission(true);
+        
+        console.log('🔐 REDIRECTING TO SIGN IN...');
         
         await openSignIn({
-          redirectUrl: window.location.href,
+          redirectUrl: window.location.href, // This will redirect back after sign-in
         });
+        
+        // Don't submit here - wait for the redirect back and auto-submit
+        return;
       } catch (err) {
         console.error('Sign-in error:', err);
         setError('Sign-in failed. Please try again.');
+        setHasPendingSubmission(false);
       }
       return;
     }
 
+    // If already signed in, submit directly
+    console.log('🚀 USER IS SIGNED IN - SUBMITTING DIRECTLY');
     await submitToBackend(formData);
   };
 
@@ -109,6 +134,8 @@ const ContactForm = () => {
       console.log('🔵 SUBMITTING TO BACKEND:', {
         url: 'https://tullu-dimtu-school-backend.onrender.com/api/users/submit',
         data: dataToSubmit,
+        userSignedIn: isSignedIn,
+        userEmail: user?.primaryEmailAddress?.emailAddress,
         timestamp: new Date().toISOString()
       });
       
@@ -119,7 +146,7 @@ const ContactForm = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          timeout: 15000, // Increased timeout
+          timeout: 15000,
         }
       );
 
@@ -129,13 +156,20 @@ const ContactForm = () => {
         message: response.data.message
       });
       
-      if (response.data.message === "User submitted successfully" || response.status === 200) {
+      // Accept multiple success responses
+      if (response.data.message === "User submitted successfully" || 
+          response.status === 200 || 
+          response.status === 201 ||
+          response.data.success) {
         console.log('✅ SUBMISSION CONFIRMED BY BACKEND - DATA SAVED TO MONGODB');
         setIsSubmitting(false);
         setIsSubmitted(true);
+        setHasPendingSubmission(false);
         
-        // Navigate after successful submission - FIXED: Use valid route
-        navigate('/success'); // Changed from '/some' to '/success'
+        // Navigate after successful submission
+        setTimeout(() => {
+          navigate('/success');
+        }, 1000);
         
         // Clear form and localStorage on success
         setTimeout(() => {
@@ -151,30 +185,39 @@ const ContactForm = () => {
         console.log('🟡 UNEXPECTED RESPONSE:', response.data);
         setError(`Unexpected response: ${JSON.stringify(response.data)}`);
         setIsSubmitting(false);
+        setHasPendingSubmission(false);
       }
     } catch (err) {
-      console.error('🔴 SUBMISSION ERROR:', {
+      console.error('🔴 SUBMISSION ERROR - FULL DETAILS:', {
         name: err.name,
         message: err.message,
         code: err.code,
         response: err.response?.data,
         status: err.response?.status,
-        config: err.config
+        config: {
+          url: err.config?.url,
+          method: err.config?.method,
+          data: err.config?.data
+        }
       });
       
       setIsSubmitting(false);
+      setHasPendingSubmission(false);
       
       if (err.response) {
-        // Handle duplicate email error specifically
-        if (err.response.status === 400 && err.response.data.error?.includes('Email already exists')) {
+        if (err.response.status === 404) {
+          setError('Submit endpoint not found (404). Please contact support.');
+        } else if (err.response.status === 400 && err.response.data.error?.includes('Email already exists')) {
           setError('This email is already registered. Please use a different email address.');
         } else if (err.response.status === 409) {
           setError('This email is already registered. Please use a different email address.');
+        } else if (err.response.status === 500) {
+          setError('Server error. Please try again later.');
         } else {
           setError(`Server error: ${err.response.status} - ${err.response.data?.error || err.response.data?.message || 'Unknown error'}`);
         }
       } else if (err.request) {
-        setError('Cannot connect to backend server. Please check your internet connection and try again.');
+        setError('Cannot connect to backend server. Please check your internet connection.');
       } else {
         setError(`Request error: ${err.message}`);
       }
@@ -191,7 +234,7 @@ const ContactForm = () => {
       });
       
       console.log('✅ BACKEND TEST SUCCESS:', response.data);
-      alert(`✅ Backend is working! Response: ${JSON.stringify(response.data)}`);
+      alert(`✅ Backend is working!\nStatus: ${response.data.status}\nMessage: ${response.data.message}\nDatabase: ${response.data.database}`);
     } catch (err) {
       console.error('❌ BACKEND CONNECTION TEST FAILED:', {
         error: err.message,
@@ -202,23 +245,10 @@ const ContactForm = () => {
       if (err.response) {
         alert(`❌ Backend error (${err.response.status}): ${JSON.stringify(err.response.data, null, 2)}`);
       } else if (err.request) {
-        alert(`❌ Cannot connect to backend. Make sure:\n1. Backend is running\n2. CORS is configured\n3. MongoDB is connected`);
+        alert(`❌ Cannot connect to backend. Make sure:\n1. Backend is deployed\n2. URL is correct\n3. CORS is configured`);
       } else {
         alert(`❌ Error: ${err.message}`);
       }
-    }
-  };
-
-  const handleSignIn = async () => {
-    try {
-      localStorage.setItem('contactFormData', JSON.stringify(formData));
-      
-      await openSignIn({
-        redirectUrl: window.location.href,
-      });
-    } catch (err) {
-      console.error('Sign-in error:', err);
-      setError('Sign-in failed. Please try again.');
     }
   };
 
@@ -230,21 +260,20 @@ const ContactForm = () => {
     });
     localStorage.removeItem('contactFormData');
     setError('');
+    setHasPendingSubmission(false);
   };
 
-  // Add this function to check backend status
-  const checkBackendStatus = async () => {
-    try {
-      const response = await fetch('https://tullu-dimtu-school-backend.onrender.com/api/users/health');
-      if (response.ok) {
-        console.log('✅ Backend is reachable');
-        return true;
-      }
-      return false;
-    } catch (error) {
-      console.error('❌ Backend is not reachable:', error);
-      return false;
-    }
+  // Debug function to check current state
+  const debugState = () => {
+    console.log('🔍 DEBUG STATE:', {
+      isSignedIn,
+      user: user?.primaryEmailAddress?.emailAddress,
+      formData,
+      hasPendingSubmission,
+      localStorage: localStorage.getItem('contactFormData'),
+      isSubmitting,
+      isSubmitted
+    });
   };
 
   return (
@@ -302,6 +331,15 @@ const ContactForm = () => {
                 )}
               </div>
 
+              {hasPendingSubmission && (
+                <div className="mt-4 flex items-center justify-center space-x-2 bg-blue-500/20 border border-blue-500/50 rounded-full py-2 px-4">
+                  <svg className="w-5 h-5 text-blue-400 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                  <span className="text-blue-300 text-sm">Form data saved - submit after sign in</span>
+                </div>
+              )}
+
               <div className="mt-6 flex gap-3 justify-center">
                 <button
                   onClick={clearForm}
@@ -314,6 +352,12 @@ const ContactForm = () => {
                   className="text-sm bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   Test Backend
+                </button>
+                <button
+                  onClick={debugState}
+                  className="text-sm bg-gradient-to-r from-gray-500 to-gray-700 hover:from-gray-600 hover:to-gray-800 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Debug
                 </button>
               </div>
             </div>
