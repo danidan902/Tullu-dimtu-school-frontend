@@ -77,7 +77,7 @@ const TulluDimtuSchool = () => {
   return (
    <>
    
-   <div className="font-sans mt-22 bg-gray-50 text-gray-800">
+   <div className="font-sans mt-24 bg-gray-50 text-gray-800">
      
      <header className="bg-green-900 text-white">
        <div className="container mx-auto px-4 py-8 flex flex-col md:flex-row items-center">
