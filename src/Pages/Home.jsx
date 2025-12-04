@@ -6,6 +6,41 @@ import ScrollReveal from "../components/ScrollReveal";
 import { FaGraduationCap, FaBook, FaChalkboardTeacher, FaAward } from "react-icons/fa";
 
 function Home() {
+
+ const Features = () => {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const features = [
+    { 
+      icon: <FaGraduationCap className="text-4xl mb-4" />, 
+      title: "Academic Excellence", 
+      desc: "Tullu Dimtu Secondary School takes great pride in its long-standing tradition of academic excellence. Year after year, our students consistently achieve outstanding results in national examinations, placing our school among the top-performing institutions in the region. This success is a reflection of our dedicated teachers, rigorous curriculum, and the strong work ethic of our students. We believe that high achievement is not by chance—it is the result of commitment, discipline, and a supportive learning environment." 
+    },
+    { 
+      icon: <FaBook className="text-4xl mb-4" />, 
+      title: "Holistic Curriculum", 
+      desc: "Our commitment to a holistic curriculum means that students receive a comprehensive education that extends beyond the classroom. While excelling in core academic subjects, students are encouraged to explore their talents in sports, music, drama, and visual arts. This balanced approach develops critical thinking, teamwork, creativity, and leadership skills, preparing learners for both personal and professional success." 
+    },
+    { 
+      icon: <FaChalkboardTeacher className="text-4xl mb-4" />, 
+      title: "Expert Faculty", 
+      desc: "Tullu Dimtu’s highly qualified teaching staff embodies excellence, commitment, and inspiration. With a blend of expertise, experience, and passion, our faculty guides students through a challenging curriculum while encouraging creativity, critical thinking, and personal growth. Their dedication is the driving force behind the school’s consistent academic success and well-rounded student development." 
+    },
+    { 
+      icon: <FaAward className="text-4xl mb-4" />, 
+      title: "National Recognition", 
+      desc: "Our alumni are a testament to Tullu Dimtu’s commitment to excellence. Many have graduated from prestigious Ethiopian universities, earning honors, scholarships, and leadership positions. Their achievements bring pride to the school and serve as motivation for current students to strive for academic and personal success." 
+    }
+  ];
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+
+
+
+   
+
+ 
     return (
         <div className="relative h-[87vh] w-full font-sans antialiased">
 
@@ -87,24 +122,46 @@ function Home() {
                         </div>
                     </ScrollReveal>
 
-                    <ScrollReveal delay={0.2}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                            {[
-                                { icon: <FaGraduationCap className="text-4xl mb-4" />, title: "Academic Excellence", desc: "Tullu Dimtu Secondary School takes great pride in its long-standing tradition of academic excellence. Year after year, our students consistently achieve outstanding results in national examinations, placing our school among the top-performing institutions in the region. This success is a reflection of our dedicated teachers, rigorous curriculum, and the strong work ethic of our students. We believe that high achievement is not by chance—it is the result of commitment, discipline, and a supportive learning environment." },
-                                { icon: <FaBook className="text-4xl mb-4" />, title: "Holistic Curriculum", desc: "Our commitment to a holistic curriculum means that students receive a comprehensive education that extends beyond the classroom. While excelling in core academic subjects, students are encouraged to explore their talents in sports, music, drama, and visual arts. This balanced approach develops critical thinking, teamwork, creativity, and leadership skills, preparing learners for both personal and professional success." },
-                                { icon: <FaChalkboardTeacher className="text-4xl mb-4" />, title: "Expert Faculty", desc: "Tullu Dimtu’s highly qualified teaching staff embodies excellence, commitment, and inspiration. With a blend of expertise, experience, and passion, our faculty guides students through a challenging curriculum while encouraging creativity, critical thinking, and personal growth. Their dedication is the driving force behind the school’s consistent academic success and well-rounded student development." },
-                                { icon: <FaAward className="text-4xl mb-4" />, title: "National Recognition", desc: "Our alumni are a testament to Tullu Dimtu’s commitment to excellence. Many have graduated from prestigious Ethiopian universities, earning honors, scholarships, and leadership positions. Their achievements bring pride to the school and serve as motivation for current students to strive for academic and personal success." }
-                            ].map((feature, index) => (
-                                <div key={index} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 group">
-                                    <div className="text-blue-700 group-hover:text-yellow-500 transition-colors duration-300">
-                                        {feature.icon}
-                                    </div>
-                                    <h3 className="text-xl font-bold text-gray-800 mb-3">{feature.title}</h3>
-                                    <p className="text-gray-600">{feature.desc}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </ScrollReveal>
+
+
+
+                 
+
+                     <ScrollReveal delay={0.2}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {features.map((feature, index) => {
+          const isExpanded = expandedIndex === index;
+          const shortDesc = feature.desc.slice(0, 150) + "...";
+
+          return (
+            <div 
+              key={index} 
+              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+            >
+              <div className="text-blue-700 group-hover:text-yellow-500 transition-colors duration-300">
+                {feature.icon}
+              </div>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">{feature.title}</h3>
+              <p className="text-gray-600">
+                {isExpanded ? feature.desc : shortDesc}
+              </p>
+              <button 
+                onClick={() => toggleExpand(index)}
+                className="mt-2 text-blue-600 hover:text-blue-800 font-semibold"
+              >
+                {isExpanded ? "Read Less" : "Read More"}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </ScrollReveal>
+
+
+
+
+
+                 
                 </div>
             </section>
 
