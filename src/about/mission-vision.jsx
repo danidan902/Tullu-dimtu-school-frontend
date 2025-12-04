@@ -20,25 +20,25 @@ const VisionMission = () => {
     { 
       icon: <FaLightbulb className="text-3xl" />, 
       title: "Excellence", 
-      shortDesc: "Pursuing the highest standards in all we do",
+      shortDesc: "Pursuing the highest standards in all we do...",
       fullDesc: "Excellence is at the core of everything we do at Tullu Dimtu. We are committed to maintaining the highest standards in academic instruction, student support, and institutional operations. Our faculty undergoes regular professional development to stay current with educational best practices, while our curriculum is continuously reviewed and enhanced. We measure excellence not just by academic results, but by the holistic development of each student—their critical thinking skills, creativity, character growth, and readiness for future challenges. This commitment to excellence extends beyond the classroom to our sports programs, arts initiatives, and community engagement activities."
     },
     { 
       icon: <FaHandsHelping className="text-3xl" />, 
       title: "Integrity", 
-      shortDesc: "Upholding honesty and ethical conduct",
+      shortDesc: "Upholding honesty and ethical conduct...",
       fullDesc: "Integrity forms the moral foundation of our educational community. We cultivate an environment where honesty, transparency, and ethical behavior are expected and celebrated. Students learn that true success comes not from shortcuts or compromises, but from hard work, honesty, and respect for others. Our honor code, implemented across all grade levels, teaches students to take responsibility for their actions and decisions. We model integrity through fair assessment practices, transparent communication with parents, and equitable treatment of all community members. This value extends to academic work, interpersonal relationships, and participation in school activities, preparing students to be trustworthy leaders in society."
     },
     { 
       icon: <FaGraduationCap className="text-3xl" />, 
       title: "Innovation", 
-      shortDesc: "Encouraging creative thinking and problem-solving",
+      shortDesc: "Encouraging creative thinking and problem-solving...",
       fullDesc: "Innovation drives our approach to education in an ever-changing world. We foster a culture of curiosity, creativity, and forward-thinking that prepares students for the challenges of the 21st century. Our classrooms incorporate project-based learning, technology integration, and real-world problem-solving activities. We have established innovation labs where students can experiment with robotics, coding, and scientific inquiry. Teachers are encouraged to implement creative teaching methodologies that engage different learning styles. Annual science fairs, innovation challenges, and entrepreneurship programs provide platforms for students to showcase their inventive ideas. We believe that nurturing innovation today creates the problem-solvers and change-makers of tomorrow."
     },
     { 
       icon: <FaUsers className="text-3xl" />, 
       title: "Community", 
-      shortDesc: "Fostering collaboration and social responsibility",
+      shortDesc: "Fostering collaboration and social responsibility...",
       fullDesc: "Community is the heartbeat of Tullu Dimtu Secondary School. We believe that education thrives in a supportive, collaborative environment where every member feels valued and connected. Our school functions as an extended family where students, teachers, parents, and staff work together towards common goals. We foster this through regular community service projects, collaborative learning activities, and school-wide events that build relationships. Our mentorship programs pair older students with younger ones, creating bonds across grade levels. Parent involvement is actively encouraged through workshops, volunteer opportunities, and advisory committees. Beyond our school walls, we engage with the local community through outreach programs, environmental initiatives, and cultural exchanges, teaching students the importance of social responsibility and global citizenship."
     }
   ];
