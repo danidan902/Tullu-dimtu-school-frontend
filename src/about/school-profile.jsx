@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { FaSchool, FaUsers, FaAward, FaBook, FaGraduationCap, FaChalkboardTeacher } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import ScrollReveal from '../components/ScrollReveal';
@@ -7,6 +7,36 @@ import studentsImage from '../assets/Children.jpg';
 import Footer from '../components/Footer';
 
 const SchoolProfile = () => {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const features = [
+    {
+      icon: <FaBook className="text-4xl" />,
+      title: "Academic Programs",
+      shortDesc: "Comprehensive curriculum from grades 7-12 with STEM focus",
+      fullDesc: "Our comprehensive curriculum from grades 7-12 includes advanced STEM programs with dedicated science and computer labs. We offer specialized tracks in Mathematics, Physics, Chemistry, Biology, and Computer Science, with Advanced Placement (AP) courses available for high-achieving students. Our curriculum is regularly updated to meet national standards while incorporating international best practices in education.",
+      highlight: "Advanced Placement courses available"
+    },
+    {
+      icon: <FaGraduationCap className="text-4xl" />,
+      title: "University Preparation",
+      shortDesc: "Dedicated counseling for college applications worldwide",
+      fullDesc: "Our comprehensive university preparation program begins in grade 9 with career guidance and continues through grade 12 with intensive college application support. We offer SAT/ACT preparation courses, personalized counseling sessions, assistance with application essays, and guidance on scholarship opportunities. Our alumni have been accepted to prestigious universities across Ethiopia and internationally, with a 70% placement rate in higher education institutions.",
+      highlight: "70% university placement rate"
+    },
+    {
+      icon: <FaUsers className="text-4xl" />,
+      title: "Extracurriculars",
+      shortDesc: "30+ clubs and activities for holistic development",
+      fullDesc: "With over 30 clubs and extracurricular activities, students can explore their interests beyond academics. Our offerings include sports teams (football, basketball, volleyball, track and field), arts clubs (music, drama, visual arts), academic clubs (debate, science club, mathematics Olympiad), and community service organizations. We have championship-winning sports teams and award-winning arts programs that compete at regional and national levels.",
+      highlight: "Championship sports teams"
+    }
+  ];
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
   return (
     <>
       {/* Hero Section */}
@@ -113,7 +143,7 @@ const SchoolProfile = () => {
             </div>
           </ScrollReveal>
 
-          {/* Features Section */}
+          {/* Features Section with Read More */}
           <ScrollReveal delay={0.2}>
             <div className="mb-28">
               <div className="text-center mb-16">
@@ -124,44 +154,44 @@ const SchoolProfile = () => {
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                {[
-                  {
-                    icon: <FaBook className="text-4xl" />,
-                    title: "Academic Programs",
-                    description: "Comprehensive curriculum from grades 7-12 with STEM focus",
-                    highlight: "Advanced Placement courses available"
-                  },
-                  {
-                    icon: <FaGraduationCap className="text-4xl" />,
-                    title: "University Preparation",
-                    description: "Dedicated counseling for college applications worldwide",
-                    highlight: "70% university placement rate"
-                  },
-                  {
-                    icon: <FaUsers className="text-4xl" />,
-                    title: "Extracurriculars",
-                    description: "30+ clubs and activities for holistic development",
-                    highlight: "Championship sports teams"
-                  }
-                ].map((feature, index) => (
-                  <motion.div 
-                    key={index}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.15 }}
-                    viewport={{ once: true }}
-                    whileHover={{ y: -10 }}
-                    className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-yellow-400"
-                  >
-                    <div className="bg-blue-100 w-20 h-20 rounded-xl flex items-center justify-center mx-auto mb-6">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-center text-blue-900 mb-4">{feature.title}</h3>
-                    <p className="text-gray-700 text-center mb-6">{feature.description}</p>
-                    <p className="text-yellow-600 font-semibold text-center text-sm">{feature.highlight}</p>
-
-                  </motion.div>
-                ))}
+                {features.map((feature, index) => {
+                  const isExpanded = expandedIndex === index;
+                  
+                  return (
+                    <motion.div 
+                      key={index}
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.15 }}
+                      viewport={{ once: true }}
+                      whileHover={{ y: -10 }}
+                      className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-yellow-400"
+                    >
+                      <div className="bg-blue-100 w-20 h-20 rounded-xl flex items-center justify-center mx-auto mb-6">
+                        {feature.icon}
+                      </div>
+                      
+                      <h3 className="text-2xl font-bold text-center text-blue-900 mb-4">{feature.title}</h3>
+                      
+                      <p className="text-gray-700 text-center mb-4">
+                        {isExpanded ? feature.fullDesc : feature.shortDesc}
+                      </p>
+                      
+                      <div className="text-center">
+                        <button 
+                          onClick={() => toggleExpand(index)}
+                          className="mt-2 text-blue-600 hover:text-blue-800 font-semibold text-sm transition-colors duration-200"
+                        >
+                          {isExpanded ? "Read Less" : "Read More"}
+                        </button>
+                      </div>
+                      
+                      <p className="text-yellow-600 font-semibold text-center text-sm mt-4">
+                        {feature.highlight}
+                      </p>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </ScrollReveal>
@@ -216,7 +246,7 @@ const SchoolProfile = () => {
         </div>
       </section>
 
-    <Footer/>
+      <Footer/>
     </>
   );
 };
