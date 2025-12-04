@@ -90,7 +90,7 @@ function Home() {
                     <ScrollReveal delay={0.2}>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {[
-                                { icon: <FaGraduationCap className="text-4xl mb-4" />, title: "Academic Excellence", desc: "Consistent top performance in national examinations" },
+                                { icon: <FaGraduationCap className="text-4xl mb-4" />, title: "Academic Excellence", desc: "Tullu Dimtu Secondary School takes great pride in its long-standing tradition of academic excellence. Year after year, our students consistently achieve outstanding results in national examinations, placing our school among the top-performing institutions in the region. This success is a reflection of our dedicated teachers, rigorous curriculum, and the strong work ethic of our students. We believe that high achievement is not by chance—it is the result of commitment, discipline, and a supportive learning environment." },
                                 { icon: <FaBook className="text-4xl mb-4" />, title: "Holistic Curriculum", desc: "Balanced education covering academics, sports, and arts" },
                                 { icon: <FaChalkboardTeacher className="text-4xl mb-4" />, title: "Expert Faculty", desc: "Highly qualified and dedicated teaching staff" },
                                 { icon: <FaAward className="text-4xl mb-4" />, title: "National Recognition", desc: "Alumni excelling in top universities worldwide" }
