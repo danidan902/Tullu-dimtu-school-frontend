@@ -12,6 +12,7 @@ import Prinsipal1 from '../assets/tennis.jpg';
 import Footer from '../components/Footer';
 import tennis from '../assets/foot2.jpg';
 import foot1 from '../assets/foot1.jpg'
+import { Helmet } from "react-helmet-async";
 
 
 const fadeUp = {
@@ -139,6 +140,11 @@ const TulluDimtuSportsClub = () => {
 
   return (
     <>
+
+  <Helmet>
+             <title>Sport | Tullu Dimtu Secondary School</title>
+     </Helmet>
+
       <div className="font-sans min-h-screen">
         
         <div 

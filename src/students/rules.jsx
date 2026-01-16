@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import bulding from '../assets/life1.jpg'
 import Footer from '../components/Footer';
+import { Helmet } from "react-helmet-async";
 const TulluDimtuSchoolRules = () => {
   const [activeTab, setActiveTab] = useState('general');
   const [isHovering, setIsHovering] = useState(null);
@@ -90,7 +91,10 @@ const TulluDimtuSchoolRules = () => {
 
   return (
    <>
-   
+    <Helmet>
+      <title>Community | Tullu Dimtu Secondary School</title>
+      </Helmet>
+
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="relative   h-[90vh] w-full overflow-hidden bg-fixed">
         <motion.div

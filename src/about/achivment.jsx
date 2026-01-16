@@ -47,6 +47,11 @@ const SchoolAchievements = () => {
   return (
    
    <>
+    <Helmet>
+        <title>Tullu Dimtu School</title>
+        </Helmet>
+
+
     <section className="py-20 bg-gray-100">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16">

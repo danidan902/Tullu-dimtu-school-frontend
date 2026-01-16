@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@clerk/clerk-react": "^5.49.1",
+    "@heroicons/react": "^2.2.0",
+    "@monaco-editor/react": "^4.7.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.6.4",
     "@testing-library/react": "^16.3.0",
@@ -11,8 +13,12 @@
     "ajv": "^8.12.0",
     "ajv-keywords": "^5.1.0",
     "axios": "^1.11.0",
+    "browser-image-compression": "^2.0.2",
+    "date-fns": "^4.1.0",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.534.0",
+    "monaco-editor": "^0.55.1",
+    "pdf-lib": "^1.17.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.5",
@@ -21,8 +27,12 @@
     "react-parallax-tilt": "^1.7.304",
     "react-router-dom": "^7.7.1",
     "react-scripts": "5.0.1",
+    "react-simple-code-editor": "^0.14.1",
+    "react-syntax-highlighter": "^16.1.0",
     "react-toastify": "^11.0.5",
-    "web-vitals": "^2.1.4"
+    "socket.io-client": "^4.8.1",
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -2,6 +2,28 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import logo from '../assets/tullulogo.png';
+import leftBgImage from '../assets/studentlife.jpg';
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1
+  }
+};
 
 const ContactForm = () => {
   const { user, isSignedIn } = useUser();
@@ -11,7 +33,6 @@ const ContactForm = () => {
   const [formData, setFormData] = useState(() => {
     const savedData = localStorage.getItem('contactFormData');
     return savedData ? JSON.parse(savedData) : {
-      name: '',
       email: '',
       password: ''
     };
@@ -19,11 +40,22 @@ const ContactForm = () => {
   
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState('');
+  const [message, setMessage] = useState({ text: '', type: '' });
+
+  // Initialize form with user data if signed in
+  useEffect(() => {
+    if (isSignedIn && user) {
+      const userEmail = user.primaryEmailAddress?.emailAddress || '';
+      setFormData(prev => ({
+        email: userEmail || prev.email,
+        password: prev.password
+      }));
+    }
+  }, [isSignedIn, user]);
 
   // Save form data to localStorage whenever it changes
   useEffect(() => {
-    if (formData.name || formData.email || formData.password) {
+    if (formData.email || formData.password) {
       localStorage.setItem('contactFormData', JSON.stringify(formData));
     }
   }, [formData]);
@@ -35,21 +67,7 @@ const ContactForm = () => {
     }
   }, [isSubmitted]);
 
-  // Initialize form with user data if signed in
-  useEffect(() => {
-    if (isSignedIn && user) {
-      const userName = `${user.firstName || ''} ${user.lastName || ''}`.trim();
-      const userEmail = user.primaryEmailAddress?.emailAddress || '';
-      
-      setFormData(prev => ({
-        name: userName || prev.name,
-        email: userEmail || prev.email,
-        password: prev.password // Keep existing password
-      }));
-    }
-  }, [isSignedIn, user]);
-
-  
+  // Auto-submit after authentication
   useEffect(() => {
     const autoSubmitAfterAuth = async () => {
       const savedData = localStorage.getItem('contactFormData');
@@ -57,7 +75,7 @@ const ContactForm = () => {
       if (isSignedIn && savedData) {
         const parsedData = JSON.parse(savedData);
         
-        if (parsedData.name && parsedData.email && parsedData.password) {
+        if (parsedData.email && parsedData.password) {
           console.log('🔄 Auto-submitting saved form data after authentication...');
           await submitToBackend(parsedData);
         }
@@ -73,14 +91,27 @@ const ContactForm = () => {
       ...prevState,
       [name]: value
     }));
-    if (error) setError('');
+    if (message.text) setMessage({ text: '', type: '' });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim()) {
-      setError('Please fill in all fields');
+    if (!formData.email.trim() || !formData.password.trim()) {
+      setMessage({ text: 'Please fill in both email and password', type: 'error' });
+      return;
+    }
+
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setMessage({ text: 'Please enter a valid email address', type: 'error' });
+      return;
+    }
+
+    // Password validation (optional)
+    if (formData.password.length < 6) {
+      setMessage({ text: 'Password must be at least 6 characters long', type: 'error' });
       return;
     }
 
@@ -92,7 +123,7 @@ const ContactForm = () => {
           redirectUrl: window.location.href,
         });
       } catch (err) {
-        setError('Sign-in failed. Please try again.');
+        setMessage({ text: 'Sign-in failed. Please try again.', type: 'error' });
       }
       return;
     }
@@ -102,7 +133,7 @@ const ContactForm = () => {
 
   const submitToBackend = async (dataToSubmit = formData) => {
     setIsSubmitting(true);
-    setError('');
+    setMessage({ text: '', type: '' });
 
     try {
       console.log('🔵 SUBMITTING TO BACKEND:', {
@@ -128,15 +159,17 @@ const ContactForm = () => {
         console.log('✅ SUBMISSION CONFIRMED BY BACKEND - DATA SAVED TO MONGODB');
         setIsSubmitting(false);
         setIsSubmitted(true);
+        setMessage({ text: 'Data submitted successfully!', type: 'success' });
         
         // Navigate after successful submission
-        navigate('/some');
+        setTimeout(() => {
+          navigate('/some');
+        }, 1500);
         
         // Clear form and localStorage on success
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({
-            name: user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : '',
             email: user?.primaryEmailAddress?.emailAddress || '',
             password: ''
           });
@@ -144,7 +177,7 @@ const ContactForm = () => {
         }, 3000);
       } else {
         console.log('🟡 UNEXPECTED RESPONSE:', response.data);
-        setError(`Unexpected response: ${JSON.stringify(response.data)}`);
+        setMessage({ text: `Unexpected response: ${JSON.stringify(response.data)}`, type: 'error' });
         setIsSubmitting(false);
       }
     } catch (err) {
@@ -161,339 +194,441 @@ const ContactForm = () => {
       if (err.response) {
         // Handle duplicate email error specifically
         if (err.response.status === 400 && err.response.data.error?.includes('Email already exists')) {
-          setError('This email is already registered. Please use a different email address.');
+          setMessage({ text: 'This email is already registered. Please use a different email address.', type: 'error' });
         } else {
-          setError(`Server error: ${err.response.status} - ${err.response.data?.error || err.response.data?.message || 'Unknown error'}`);
+          setMessage({ text: `Server error: ${err.response.status} - ${err.response.data?.error || err.response.data?.message || 'Unknown error'}`, type: 'error' });
         }
       } else if (err.request) {
-        setError('Cannot connect to backend server. Make sure it\'s running on port 5000.');
+        setMessage({ text: 'Cannot connect to backend server. Make sure it\'s running on port 5000.', type: 'error' });
       } else {
-        setError(`Request error: ${err.message}`);
+        setMessage({ text: `Request error: ${err.message}`, type: 'error' });
       }
-    }
-  };
-
-  const testBackendConnection = async () => {
-    try {
-      console.log('🧪 TESTING BACKEND CONNECTION...');
-      
-      // Generate unique email with timestamp to avoid duplicates
-      const timestamp = new Date().getTime();
-      const testData = {
-        name: "Test User",
-        email: `test${timestamp}@example.com`,
-        password: "testpassword"
-      };
-      
-      console.log('Test data:', testData);
-      
-      const response = await axios.post('http://localhost:5000/api/users/submit', testData, {
-        timeout: 5000,
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      console.log('✅ BACKEND TEST SUCCESS:', response.data);
-      alert(`✅ Backend is working! Response: ${JSON.stringify(response.data)}`);
-    } catch (err) {
-      console.error('❌ BACKEND CONNECTION TEST FAILED:', {
-        error: err.message,
-        response: err.response?.data,
-        status: err.response?.status
-      });
-      
-      if (err.response) {
-        alert(`❌ Backend error (${err.response.status}): ${JSON.stringify(err.response.data, null, 2)}`);
-      } else if (err.request) {
-        alert(`❌ Cannot connect to backend. Make sure:\n1. Backend is running: node server.js\n2. Port 5000 is available\n3. CORS is configured\n4. MongoDB is connected`);
-      } else {
-        alert(`❌ Error: ${err.message}`);
-      }
-    }
-  };
-
-  const handleSignIn = async () => {
-    try {
-      // Save current form data before redirecting
-      localStorage.setItem('contactFormData', JSON.stringify(formData));
-      
-      await openSignIn({
-        redirectUrl: window.location.href,
-      });
-    } catch (err) {
-      setError('Sign-in failed. Please try again.');
     }
   };
 
   const clearForm = () => {
     setFormData({
-      name: user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : '',
       email: user?.primaryEmailAddress?.emailAddress || '',
       password: ''
     });
     localStorage.removeItem('contactFormData');
-    setError('');
+    setMessage({ text: '', type: '' });
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4 relative overflow-hidden">
+    <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
+      {/* LEFT SECTION - Welcome Section with Professional Amazing Shapes */}
       
-      <div className="absolute inset-0 overflow-hidden">
+      <motion.div
+  className="
+    relative flex flex-col justify-center md:justify-between
+    px-5 py-8 md:px-10 md:py-10
+    overflow-hidden
+    rounded-b-[10%]
+    md:rounded-none md:rounded-r-[30%]
+  "
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.8 }}
+  style={{
+    // filter: 'brightness(1.05) contrast(1.05)',
+  }}
+>
+
         
-        <div className="absolute -top-40 -left-40 w-80 h-80 bg-gradient-to-r from-violet-600 to-purple-600 rounded-full blur-3xl opacity-70 animate-pulse"></div>
-        <div className="absolute -bottom-40 -right-40 w-80 h-80 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-full blur-3xl opacity-70 animate-bounce"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full blur-3xl opacity-50 animate-spin-slow"></div>
+        {/* Main Background Image with Fluid Organic Shape */}
+        <>
+  {/* Image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+    style={{
+      backgroundImage: `url(${leftBgImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      clipPath: 'polygon(0% 0%, 100% 0%, 100% 87%, 85% 100%, 0% 100%)',
+    
+    }}
+  />
+
+  {/* Main readability layer */}
+  <div className="absolute inset-0 bg-gradient-to-r from-blue-950/80 via-blue-900/50 to-transparent" />
+
+  {/* Subtle highlight */}
+  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />
+
+  {/* Bottom shadow */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+</>
+
         
         
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <div
+        {/* Professional Gradient Overlay with Diagonal Cut */}
+        {/* <div 
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(155deg, 
+              rgba(15, 23, 42, 0.95) 0%, 
+              rgba(30, 58, 138, 0.85) 40%, 
+              rgba(37, 99, 235, 0.6) 100%
+            )`,
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 92% 100%, 0% 100%)',
+            borderRadius: '0% 0% 50% 15% / 0% 0% 35% 8%',
+          }}
+        /> */}
+        
+        {/* Modern Geometric Pattern - Top Right */}
+        {/* <div 
+          className="absolute top-0 right-0 w-2/5 h-2/5"
+          style={{
+            background: 'linear-gradient(45deg, rgba(59, 130, 246, 0.25) 0%, rgba(96, 165, 250, 0.15) 100%)',
+            clipPath: 'polygon(100% 0%, 100% 60%, 60% 100%, 0% 40%, 0% 0%)',
+            borderRadius: '0% 0% 0% 30%',
+            backdropFilter: 'blur(10px)',
+          }}
+        /> */}
+        
+        {/* Elegant Corner Accent - Bottom Left */}
+        {/* <div 
+          className="absolute bottom-0 left-0 w-1/3 h-1/4"
+          style={{
+            background: 'linear-gradient(315deg, rgba(29, 78, 216, 0.4) 0%, rgba(37, 99, 235, 0.2) 100%)',
+            clipPath: 'polygon(0% 100%, 25% 0%, 100% 0%, 100% 100%)',
+            borderRadius: '0% 80% 0% 0% / 0% 60% 0% 0%',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+          }}
+        /> */}
+        
+        {/* Floating Circle Pattern */}
+        {/* <div 
+          className="absolute top-1/4 left-1/4 w-40 h-40 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 70%, transparent 100%)',
+            filter: 'blur(40px)',
+            animation: 'float 15s ease-in-out infinite',
+          }}
+        /> */}
+        
+        {/* Floating Circle 2 */}
+        {/* <div 
+          className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full"
+          style={{
+            background: 'radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, rgba(59, 130, 246, 0.08) 70%, transparent 100%)',
+            filter: 'blur(30px)',
+            animation: 'float 12s ease-in-out infinite 2s',
+          }}
+        /> */}
+        
+        {/* Modern Decorative Lines */}
+        {/* <div 
+          className="absolute top-1/2 -left-4 w-12 h-px transform -translate-y-1/2"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.7), transparent)',
+          }}
+        /> */}
+        
+        {/* Decorative Dot Pattern */}
+        <div className="absolute top-10 right-10 flex space-x-2">
+          {[1, 2, 3].map((i) => (
+            <div 
               key={i}
-              className="absolute w-2 h-2 bg-white rounded-full opacity-30 animate-float"
+              className="w-2 h-2 rounded-full"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${10 + Math.random() * 10}s`
+                background: `rgba(255, 255, 255, ${0.3 + i * 0.1})`,
+                animation: `pulse 2s ease-in-out infinite ${i * 0.3}s`,
               }}
             />
           ))}
         </div>
-
         
-        <div className="absolute inset-0 opacity-10">
-          <div className="w-full h-full bg-gradient-to-br from-transparent via-white to-transparent bg-[length:50px_50px] animate-grid-flow"></div>
-        </div>
-      </div>
+        {/* CSS Animations */}
+        <style jsx>{`
+          @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(10px, -10px) scale(1.05); }
+            66% { transform: translate(-5px, 5px) scale(0.95); }
+          }
+          @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+          }
+        `}</style>
+        
+        {/* Content Container with Glass Morphism Effect */}
+        <motion.div
+          className="relative z-10 max-w-md mx-auto md:mx-0 text-center md:text-left"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          {/* Logo with Professional Border */}
+          <motion.div
+            className="w-32 md:w-36 mx-auto md:mx-0 mb-8 relative"
+            variants={itemVariants}
+          >
+            <div className="absolute -ins-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur opacity-30"></div>
+            <img
+              src={logo}
+              alt="Tulu Dimtu School Logo"
+              className="relative w-full h-auto bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-lg rounded-full p-4 border border-white/20 shadow-2xl"
+            />
+          </motion.div>
+          
+          {/* Main Heading with Gradient Text */}
+          <motion.h1 
+            className="text-3xl md:text-4xl font-bold mb-6 text-white"
+            variants={itemVariants}
+           
+          >
+            Welcome to <span className="text-yellow-500 italic">Tulu Dimtu School</span> 
+          </motion.h1>
+          
+          {/* Description with Glass Effect */}
+          <motion.p
+            className="text-lg mb-8 leading-relaxed   text-blue-200/90 p-6  "
+            variants={itemVariants}
+            // style={{
+            //   background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
+            // }}
+          >
+            At Tulu Dimtu School, we are dedicated to nurturing young minds through quality education, 
+            strong values, and modern learning approaches.
+          </motion.p>
 
-      <div className="max-w-lg w-full relative z-10">
-        <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl overflow-hidden border border-white/20 hover:border-white/30 transition-all duration-500 hover:shadow-3xl">
-          <div className="p-8">
-            <div className="text-center mb-10">
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent mb-2 animate-pulse">
-                Welcome Back
-              </h1>
-              <p className="text-cyan-200 text-lg">Our Tulu Dimtu School</p>
-              
-             
-              <div className="mt-6">
-                {isSignedIn ? (
-                  <div className="flex items-center justify-center space-x-2 bg-green-500/20 border border-green-500/50 rounded-full py-2 px-4">
-                    <svg className="w-5 h-5 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-green-300 text-sm">Signed in as {user?.primaryEmailAddress?.emailAddress}</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-center space-x-2 bg-yellow-500/20 border border-yellow-500/50 rounded-full py-2 px-4">
-                    <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-yellow-300 text-sm">Sign in required to submit form</span>
-                  </div>
-                )}
-              </div>
+          {/* Features List with Professional Cards */}
+          {/* <motion.div className="space-y-4" variants={itemVariants}>
+            {[
+              { text: '5000+ Students Enrolled', icon: '' },
+              { text: '200+ Certified Teachers', icon: '' },
+              { text: '98% Success Rate', icon: '' },
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                className="flex items-center text-white p-4 rounded-xl backdrop-blur-sm bg-white/10 border border-white/10 hover:bg-white/15 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
+                whileHover={{ x: 5 }}
+              >
+                <span className="text-2xl mr-4">{item.icon}</span>
+                <span className="font-medium">{item.text}</span>
+              </motion.div>
+            ))}
+          </motion.div> */}
+        </motion.div>
 
-              
-              <div className="mt-6 flex gap-3 justify-center">
-                 <button
-                  onClick={testBackendConnection}
-                  className="text-sm bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  Test Backend
-                </button> 
-                <button 
-                  onClick={clearForm}
-                  className="text-sm bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white px-4 py-2 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg"
-                >
-                  Clear Form
-                </button>
-              </div>
-            </div>
+        {/* Footer */}
+        
+      </motion.div>
 
-            {isSubmitted ? (
-              <div className="text-center py-8">
-                <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4 animate-bounce">
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+      {/* RIGHT SECTION - Sign In Form - NO background image */}
+      <motion.div
+        className="flex items-center justify-center bg-white px-4 py-8 md:px-6 md:py-0"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.7, ease: "easeOut" }}
+      >
+        <div className="w-full max-w-md">
+          {/* Message Display */}
+          {message.text && (
+            <motion.div 
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`w-full mb-6 rounded-lg p-4 ${message.type === 'success' ? 'bg-green-50 border border-green-200 text-green-700' : message.type === 'error' ? 'bg-red-50 border border-red-200 text-red-700' : 'bg-yellow-50 border border-yellow-200 text-yellow-700'}`}
+            >
+              <div className="flex items-center">
+                {message.type === 'success' && (
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                </div>
-                <h3 className="text-2xl font-bold bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent mb-2">
-                  Success!
-                </h3>
-                <p className="text-cyan-200">Your information has been submitted successfully to MongoDB.</p>
+                )}
+                {message.type === 'error' && (
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                  </svg>
+                )}
+                {message.type === 'warning' && (
+                  <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                  </svg>
+                )}
+                <span>{message.text}</span>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Error Message */}
-                {error && (
-                  <div className="bg-red-500/20 border border-red-500/50 rounded-xl p-4 animate-shake">
-                    <p className="text-red-200 text-sm">{error}</p>
-                    <button 
-                      type="button"
-                      onClick={() => setError('')}
-                      className="mt-2 text-red-300 hover:text-white text-xs underline"
+            </motion.div>
+          )}
+
+          {/* Form Container */}
+          <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+            <div className="px-8 pt-8 pb-6">
+              {/* Auth status display */}
+              <div className="mb-6 text-center">
+                {/* <h2 className="text-3xl font-bold text-gray-800 mb-2">Student Portal</h2>
+                <p className="text-gray-600">Sign in to access your account</p> */}
+                
+                <div className="mt-4">
+                  {isSignedIn ? (
+                    <div className="inline-flex items-center space-x-2 bg-emerald-500/20 backdrop-blur-sm rounded-full py-1.5 px-4 border border-emerald-500/20">
+                      <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                      <span className="text-emerald-700 text-sm font-medium truncate max-w-[200px]">
+                        Welcome, {user?.firstName || user?.primaryEmailAddress?.emailAddress}
+                      </span>
+                    </div>
+                  ) : (
+                    <div className="inline-flex items-center space-x-2 bg-amber-500/20 backdrop-blur-sm rounded-full py-1.5 px-4 border border-amber-500/20 animate-pulse">
+                      <svg className="w-4 h-4 text-amber-500" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-amber-700 text-sm font-medium">Sign In Required</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {isSubmitted ? (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="text-center py-8"
+                >
+                  <div className="relative inline-block mb-6">
+                    <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-green-500 rounded-full flex items-center justify-center mx-auto shadow-md">
+                      <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    </div>
+                    <div className="absolute -inset-2 bg-emerald-500/10 rounded-full blur"></div>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">Submission Successful!</h3>
+                  {/* <p className="text-gray-600 mb-4">Your data has been securely saved to our database.</p> */}
+                  <div className="mt-6">
+                    <button
+                      onClick={clearForm}
+                      className="inline-flex items-center space-x-2 text-blue-600 font-medium hover:text-blue-800 transition duration-200"
                     >
-                      Clear Error
+                      <span>Submit another response</span>
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+                      </svg>
                     </button>
                   </div>
-                )}
-
-                <div className="relative group">
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    disabled={isSubmitting}
-                    className="w-full px-5 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-cyan-200 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-300 disabled:opacity-50 group-hover:border-cyan-400/50 backdrop-blur-sm"
-                    placeholder="Your Name"
-                  />
-                  <svg className="w-5 h-5 text-cyan-300 absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                  </svg>
-                </div>
-
-                <div className="relative group">
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    disabled={isSubmitting}
-                    className="w-full px-5 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-cyan-200 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent transition-all duration-300 disabled:opacity-50 group-hover:border-purple-400/50 backdrop-blur-sm"
-                    placeholder="Your Email"
-                  />
-                  <svg className="w-5 h-5 text-purple-300 absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                  </svg>
-                </div>
-
-                <div className="relative group">
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    disabled={isSubmitting}
-                    className="w-full px-5 py-4 bg-white/10 border border-white/20 rounded-xl text-white placeholder-cyan-200 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-300 disabled:opacity-50 group-hover:border-pink-400/50 backdrop-blur-sm"
-                    placeholder="Your Password"
-                  />
-                  <svg className="w-5 h-5 text-pink-300 absolute right-5 top-1/2 transform -translate-y-1/2 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                  </svg>
-                </div>
-
-                {!isSignedIn ? (
-                  <button
-                    type="submit"
-                    className="w-full py-4 px-6 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-2xl hover:shadow-3xl animate-pulse-slow"
-                  >
-                    Sign In & Submit
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className={`w-full py-4 px-6 rounded-xl font-bold text-white transition-all duration-300 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 shadow-2xl hover:shadow-3xl ${
-                      isSubmitting 
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 cursor-not-allowed' 
-                        : 'bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700'
-                    }`}
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center justify-center">
-                        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Email Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                         </svg>
-                        Submitting to MongoDB...
-                      </span>
-                    ) : (
-                      'Submit Information to MongoDB'
-                    )}
-                  </button>
-                )}
-              </form>
-            )}
-          </div>
-          
-          <div className="bg-black/20 py-6 px-8 border-t border-white/10">
-            <div className="flex justify-center space-x-8">
-              {[
-                { icon: 'facebook', color: 'blue' },
-                { icon: 'twitter', color: 'cyan' },
-                { icon: 'pinterest', color: 'red' },
-                { icon: 'linkedin', color: 'blue' }
-              ].map((social, index) => (
-                <a 
-                  key={index}
-                  href="#" 
-                  className={`text-${social.color}-300 hover:text-${social.color}-100 transition-all duration-300 transform hover:scale-125 hover:rotate-12`}
-                >
-                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    {social.icon === 'facebook' && <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>}
-                    {social.icon === 'twitter' && <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723 10.016 10.016 0 01-3.127 1.184 4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>}
-                    {social.icon === 'pinterest' && <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.174-.105-.949-.199-2.403.042-3.441.219-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.402.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.357-.629-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24.009 12.017 24.009c6.624 0 11.99-5.367 11.99-11.988C24.007 5.367 18.641.001.012.017 12.017 0z"/>}
-                    {social.icon === 'linkedin' && <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>}
-                  </svg>
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-        
-        <div className="mt-8 text-center">
-          <p className="text-cyan-300 text-sm opacity-80">© 2025 Tullu Dimtu Secondary School. All rights reserved.Developed by Daniel Sheleme.</p>
-        </div>
-      </div>
+                      </div>
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        disabled={isSubmitting || isSignedIn}
+                        className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Enter your email"
+                      />
+                    </div>
+                  </div>
 
-      
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(180deg); }
-        }
-        @keyframes spin-slow {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes grid-flow {
-          0% { transform: translateY(0px) translateX(0px); }
-          100% { transform: translateY(-50px) translateX(-50px); }
-        }
-        @keyframes shake {
-          0%, 100% { transform: translateX(0); }
-          25% { transform: translateX(-5px); }
-          75% { transform: translateX(5px); }
-        }
-        @keyframes pulse-slow {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.8; }
-        }
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        .animate-spin-slow {
-          animation: spin-slow 20s linear infinite;
-        }
-        .animate-grid-flow {
-          animation: grid-flow 20s linear infinite;
-        }
-        .animate-shake {
-          animation: shake 0.5s ease-in-out;
-        }
-        .animate-pulse-slow {
-          animation: pulse-slow 2s ease-in-out infinite;
-        }
-        .hover\\:shadow-3xl:hover {
-          box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-      `}</style>
+                  {/* Password Field */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                        </svg>
+                      </div>
+                      <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                        disabled={isSubmitting}
+                        className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                        placeholder="Enter your password"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Submit Button */}
+                  <div className="pt-2">
+                    {!isSignedIn ? (
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-br from-teal-600 via-teal-500 to-teal-700 opacity-95 text-white py-3 px-4 rounded-lg font-medium hover:from-teal-700 hover:via-teal-600 hover:to-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? (
+                          <span className="flex items-center justify-center">
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Signing In...
+                          </span>
+                        ) : 'SignIn'}
+                      </button>
+                    ) : (
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {isSubmitting ? (
+                          <span className="flex items-center justify-center">
+                            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Securing Data...
+                          </span>
+                        ) : 'Submit to Database'}
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Additional info */}
+                  {/* <div className="text-center pt-4">
+                    <p className="text-sm text-gray-600">
+                      By signing in, you agree to our{' '}
+                      <a href="/school-terms" className="text-blue-600 hover:text-blue-800 transition duration-200">Terms of Service</a>
+                      {' '}and{' '}
+                      <a href="/tuludimtuschool-policy" className="text-blue-600 hover:text-blue-800 transition duration-200">Privacy Policy</a>
+                    </p>
+                  </div> */}
+                </form>
+              )}
+            </div>
+<div className="px-8 py-4 bg-blue-50 border-t border-blue-100 shadow-lg">
+  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+    <motion.div
+      className="relative z-10 mt-4 md:mt-0"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.8 }}
+    >
+      <p className="text-center justify-center  text-gray-400">
+        © {new Date().getFullYear()} Tulu Dimtu School. All rights reserved. Developed with ❤️ by Daniel Sheleme.
+      </p>
+    </motion.div>
+  </div>
+</div>
+
+            {/* Card footer */}
+           
+            
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

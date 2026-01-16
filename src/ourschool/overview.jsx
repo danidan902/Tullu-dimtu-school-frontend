@@ -5,7 +5,11 @@ import { FaGraduationCap, FaUsers, FaTrophy, FaChartLine } from 'react-icons/fa'
 import schoolImage from '../assets/bulding.jpg';
 import studentsImage from '../assets/Student.jpg';
 import Footer from '../components/Footer';
+import Bg from '../assets/bulding.jpg';
+import { Helmet } from "react-helmet-async";
 
+
+   
 const SchoolOverview = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
@@ -19,7 +23,19 @@ const SchoolOverview = () => {
 
   return (
    <>
-    <div className="bg-white overflow-hidden">
+   <Helmet>
+    <title>Overview | Tullu Dimtu Secondary School</title>
+      </Helmet>
+
+    <div className="min-h-screen py-12 px-4 bg-cover bg-center bg-fixed"
+          style={{
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url(${Bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
+          }}
+    
+    >
       {/* Hero Section with Parallax Effect */}
       <motion.div 
         initial={{ opacity: 0 }}
@@ -27,15 +43,7 @@ const SchoolOverview = () => {
         transition={{ duration: 0.8 }}
         className="relative h-screen max-h-[450px] overflow-hidden"
       >
-        <motion.div
-          initial={{ scale: 1.2 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{ backgroundImage: `url(${schoolImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/40 to-transparent" />
-        </motion.div>
+       
 
         <div className="relative z-10 h-full flex items-end pb-20">
           <div className="container mx-auto px-6 text-center">
@@ -133,7 +141,7 @@ const SchoolOverview = () => {
                 ))}
               </motion.div>
             </div>
-          </motion.div>
+          </motion.div> 
 
           {/* Mission Statement */}
           <motion.div

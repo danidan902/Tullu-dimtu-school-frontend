@@ -1,24 +1,21 @@
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { 
-  FaFileAlt, 
   FaCalendarAlt, 
   FaCheckCircle, 
   FaPhoneAlt,    
-  FaMapMarkerAlt,
   FaDownload,
-  FaSun,
-  FaMoon
 } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
-import schoolHero from '../assets/bulding.jpg'; 
+import schoolHero from '../assets/tul8.jpg'; 
 import Tilt from 'react-parallax-tilt';
 import Footer from '../components/Footer';
+import { Helmet } from "react-helmet-async";
 
 const AdmissionPortal = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const [flippedCard, setFlippedCard] = useState(null);
 
   const admissionData = {
@@ -43,32 +40,35 @@ const AdmissionPortal = () => {
     {
       title: "1. Application",
       description: "Submit online or physical application form",
-      icon: "📝"
+      icon: ""
     },
     {
       title: "2. Document Review",
       description: "Verification of academic records",
-      icon: "🔍"
+      icon: ""
     },
     {
       title: "3. Entrance Exam",
       description: "Written assessment for Grades 5-12",
-      icon: "✍️"
+      icon: ""
     },
     {
       title: "4. Interview",
       description: "Family interview with academic board",
-      icon: "💬"
+      icon: ""
     },
     {
       title: "5. Admission Offer",
       description: "Formal acceptance letter issued",
-      icon: "🎉"
+      icon: ""
     }
   ];
 
   return (
     <>
+      <Helmet>
+        <title>Admission | Tullu Dimtu Secondary School</title>
+      </Helmet>
       <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-br from-blue-50 to-gray-50 text-gray-900'}`}>
         
         <button 
@@ -76,7 +76,7 @@ const AdmissionPortal = () => {
           className={`fixed top-20 right-6 z-50 p-3 rounded-full ${darkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'} shadow-lg transition-all`}
           aria-label="Toggle dark mode"
         >
-          {darkMode ? <FaSun size={20} /> : <FaMoon size={20} />}
+          {/* {darkMode ? <FaSun size={20} /> : <FaMoon size={20} />} */}
         </button>
 
         <motion.section 
@@ -112,7 +112,7 @@ const AdmissionPortal = () => {
                   transition={{ delay: 0.5, type: 'spring' }}
                   className="text-4xl sm:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-600"
                 >
-                  Admissions 2024
+                  Admissions 2026
                 </motion.h1>
                 
                 <motion.p
@@ -121,7 +121,7 @@ const AdmissionPortal = () => {
                   transition={{ delay: 0.7, duration: 0.6 }}
                   className={`text-xl sm:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-white'}`}
                 >
-                  Excellence in Education Since 1995
+                  Excellence in Education Since 2000
                 </motion.p>
                 
                 <motion.div
@@ -130,46 +130,40 @@ const AdmissionPortal = () => {
                   transition={{ delay: 0.9, duration: 0.6 }}
                   className="flex flex-col sm:flex-row gap-4 justify-center"
                 >
+                  <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block mx-3">
+                    <motion.a
+                      href="https://tulludimturegistration.vercel.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`block px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 transition-colors ${
+                        darkMode
+                          ? "bg-yellow-500 text-gray-900 hover:bg-yellow-400 focus:ring-yellow-400"
+                          : "bg-white text-blue-800 hover:bg-blue-100 focus:ring-blue-300"
+                      }`}
+                    >
+                      Apply Online 
+                      <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </motion.a>
+                  </Tilt>
 
-
-                
-<Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block mx-3">
-  <motion.a
-    href="https://tulludimturegistration.vercel.app/"
-    target="_blank"
-    rel="noopener noreferrer"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    className={`block px-8 py-3 rounded-xl font-bold shadow-lg flex items-center gap-2 transition-colors ${
-      darkMode
-        ? "bg-yellow-500 text-gray-900 hover:bg-yellow-400 focus:ring-yellow-400"
-        : "bg-white text-blue-800 hover:bg-blue-100 focus:ring-blue-300"
-    }`}
-  >
-    Apply Online 
-    <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-  </motion.a>
-</Tilt>
-
-
-<Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block mx-3">
-  <motion.a
-    href="/contact"
-    rel="noopener noreferrer"
-    whileHover={{ scale: 1.05 }}
-    whileTap={{ scale: 0.95 }}
-    className={`block px-8 py-3 rounded-xl font-bold border-2 flex items-center gap-2 transition-colors ${
-      darkMode
-        ? "border-yellow-400 text-yellow-400 hover:bg-yellow-400/10"
-        : "border-white text-white hover:bg-white/10"
-    }`}
-  >
-    Contact Us 
-    <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-  </motion.a>
-</Tilt>
-
-
+                  <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block mx-3">
+                    <motion.a
+                      href="/contact"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`block px-8 py-3 rounded-xl font-bold border-2 flex items-center gap-2 transition-colors ${
+                        darkMode
+                          ? "border-yellow-400 text-yellow-400 hover:bg-yellow-400/10"
+                          : "border-white text-white hover:bg-white/10"
+                      }`}
+                    >
+                      Contact Us 
+                      <FiArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
+                    </motion.a>
+                  </Tilt>
                 </motion.div>
               </motion.div>
             </div>
@@ -245,13 +239,159 @@ const AdmissionPortal = () => {
                 </div>
               </div>
             </motion.div>
-        
+
+          
+
+            {/* Admission Process Section - Beautifully Styled */}
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.6 }}
+              className={`mb-20 p-8 rounded-3xl ${darkMode ? 'bg-gradient-to-br from-gray-800 to-gray-900' : 'bg-gradient-to-br from-white to-gray-50'} shadow-2xl border ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}
+            >
+              <div className="text-center mb-12">
+                <motion.h2 
+                  initial={{ scale: 0.95 }}
+                  animate={isInView ? { scale: 1 } : {}}
+                  transition={{ type: 'spring' }}
+                  className={`text-4xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}
+                >
+                  Our <span className="text-yellow-500">Admission Philosophy</span>
+                </motion.h2>
+                <div className="w-24 h-1 bg-yellow-500 mx-auto mb-8 rounded-full"></div>
+              </div>
+
+              <div className="space-y-8">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.7 }}
+                  className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50' : 'bg-blue-50/50'} backdrop-blur-sm`}
+                >
+                  <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <span className="text-yellow-500">Inclusive</span> Education
+                  </h3>
+                  <p className={`text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    <span className="italic font-serif">Tulu Dimtu School welcomes applications from all students, regardless of background, ethnicity, religion, gender, or ability.</span> We believe that every child deserves access to a quality education and the opportunity to reach their full potential.
+                  </p>
+                  <p className={`mt-4 text-lg leading-relaxed ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                    Our goal is to create a <span className="font-semibold italic">diverse and inclusive learning environment</span> where all students feel valued and respected. We encourage applicants with a variety of strengths, interests, and learning styles to apply.
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.8 }}
+                  className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50' : 'bg-green-50/50'} backdrop-blur-sm`}
+                >
+                  <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    What We <span className="text-yellow-500">Prioritize</span>
+                  </h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start">
+                      <span className={`text-yellow-500 mr-3 mt-1 font-bold`}>•</span>
+                      <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <span className="italic font-semibold">A genuine desire to learn and grow:</span> We welcome students who are curious, motivated, and eager to engage with new ideas and challenges.
+                      </span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className={`text-yellow-500 mr-3 mt-1 font-bold`}>•</span>
+                      <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <span className="italic font-semibold">A commitment to respect and collaboration:</span> We promote a positive and supportive learning environment where students treat each other with kindness and understanding, and work together effectively.
+                      </span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className={`text-yellow-500 mr-3 mt-1 font-bold`}>•</span>
+                      <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        <span className="italic font-semibold">A willingness to adapt and embrace new experiences:</span> We encourage students to step outside their comfort zones, explore new interests, and learn from diverse perspectives.
+                      </span>
+                    </li>
+                  </ul>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.9 }}
+                  className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50' : 'bg-red-50/50'} backdrop-blur-sm`}
+                >
+                  <h3 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    Applicants We <span className="text-yellow-500">May Not Accept</span>
+                  </h3>
+                  <ul className="space-y-3">
+                    <li className="flex items-start">
+                      <span className={`text-red-400 mr-3 mt-1`}>✗</span>
+                      <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Students who <span className="italic">lack academic motivation</span> and struggle with basic learning concepts.
+                      </span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className={`text-red-400 mr-3 mt-1`}>✗</span>
+                      <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Individuals who exhibit <span className="italic">disruptive behavior, disrespect towards others</span>, or a lack of commitment to the school community.
+                      </span>
+                    </li>
+                    <li className="flex items-start">
+                      <span className={`text-red-400 mr-3 mt-1`}>✗</span>
+                      <span className={`text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                        Students who are <span className="italic">unwilling to adapt</span> to the school's expectations and requirements.
+                      </span>
+                    </li>
+                  </ul>
+                  <p className={`mt-4 text-lg italic ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                    Dandii Boru School offers a <span className="font-semibold">rigorous academic program</span> and expects students to be dedicated to their studies.
+                  </p>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={isInView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 1.0 }}
+                  className={`p-6 rounded-2xl ${darkMode ? 'bg-gray-800/50' : 'bg-purple-50/50'} backdrop-blur-sm border ${darkMode ? 'border-yellow-500/20' : 'border-yellow-400/20'}`}
+                >
+                  <h3 className={`text-2xl font-bold mb-6 text-center ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                    <span className="text-yellow-500">Admission Process</span> Overview
+                  </h3>
+                  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {processSteps.map((step, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={isInView ? { opacity: 1, y: 0 } : {}}
+                        transition={{ delay: 1.1 + index * 0.1 }}
+                        className={`p-4 rounded-xl text-center ${darkMode ? 'bg-gray-700/50' : 'bg-white/80'}`}
+                      >
+                        <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 ${darkMode ? 'bg-yellow-500/20' : 'bg-yellow-100'}`}>
+                          <span className={`text-xl font-bold ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
+                            {index + 1}
+                          </span>
+                        </div>
+                        <h4 className={`font-bold mb-2 ${darkMode ? 'text-white' : 'text-gray-900'}`}>
+                          {step.title.split('. ')[1]}
+                        </h4>
+                        <p className={`text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                          {step.description}
+                        </p>
+                      </motion.div>
+                    ))}
+                  </div>
+                  <div className={`mt-8 p-4 rounded-lg ${darkMode ? 'bg-gray-700/30' : 'bg-gray-100/50'} border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}>
+                    <p className={`text-center ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                      <span className="font-semibold italic">Note:</span> Complete the application form and submit in-person all required documents, including transcripts, 4 Recent Passport Size Photo, Parent or Guardian ID, Vaccination card, Birth Certificate, and recommendation letters (Optional).
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={isInView ? { opacity: 1 } : {}}
               transition={{ delay: 0.5 }}
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20"
             >
+              {/* Existing cards remain unchanged */}
               <Tilt options={{ max: 10, scale: 1.03 }}>
                 <motion.div 
                   whileHover={{ y: -5 }}
@@ -430,7 +570,7 @@ const AdmissionPortal = () => {
                 transition={{ delay: 0.3 }}
                 className={`text-xl mb-8 max-w-3xl mx-auto ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}
               >
-                Limited seats available for the 2024/2025 academic year. Apply today to secure your spot.
+                Limited seats available for the 2025/2026 academic year. Apply today to secure your spot.
               </motion.p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Tilt options={{ max: 15, scale: 1.05 }}>

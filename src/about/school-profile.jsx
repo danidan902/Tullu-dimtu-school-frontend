@@ -1,222 +1,369 @@
-
-import { FaSchool, FaUsers, FaAward, FaBook, FaGraduationCap, FaChalkboardTeacher } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { useState, useEffect } from "react";
+import { FaSchool, FaUsers, FaAward, FaBook, FaGraduationCap, FaChalkboardTeacher, FaChevronDown, FaStar, FaCalendarAlt, FaMapMarkerAlt, FaRegClock } from 'react-icons/fa';
+import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from '../components/ScrollReveal';
-import schoolImage from '../assets/cerimony2.jpg';
+import schoolImage from '../assets/tullu.png';
 import studentsImage from '../assets/Children.jpg';
+import campusImage from '../assets/char.jpg';
+import labImage from '../assets/cul.jpg';
 import Footer from '../components/Footer';
+import { Helmet } from "react-helmet-async";
+import logo from '../assets/tullulogo.png'
 
 const SchoolProfile = () => {
+  const [expandedIndex, setExpandedIndex] = useState(null);
+  const [activeStat, setActiveStat] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Auto-rotate statistics
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveStat((prev) => (prev + 1) % 4);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Scroll effect for header
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const features = [
+    {
+      icon: <FaBook className="text-4xl text-blue-700" />,
+      title: "Academic Programs",
+      shortDesc: "Comprehensive curriculum from grades 9-12 with STEM focus",
+      fullDesc: "Our comprehensive curriculum from grades 7-12 includes advanced STEM programs with dedicated science and computer labs. We offer specialized tracks in Mathematics, Physics, Chemistry, Biology, and Other Social Science, with Advanced Placement (AP) courses available for high-achieving students. Our curriculum is regularly updated to meet national standards while incorporating  best practices in education.",
+      highlight: "Advanced Placement courses available",
+      stats: ["12+ AP Courses", "1:15 Teacher Ratio", "95% Exam Pass Rate"],
+      image: labImage
+    },
+    {
+      icon: <FaGraduationCap className="text-4xl text-blue-700" />,
+      title: "University Preparation",
+      shortDesc: "Dedicated counseling for college applications nationwide",
+      fullDesc: "Our comprehensive university preparation program begins in grade 9 with career guidance and continues through grade 12 with intensive college application support. We offer personalized counseling sessions, assistance with application essays, and guidance on scholarship opportunities. Our alumni have been accepted to prestigious Ethiopian universities with a 70% placement rate.",
+      highlight: "80% university placement rate",
+      stats: [" Alumni Network", " Partner Universities", " Scholarship Rate"],
+      image: campusImage
+    },
+    {
+      icon: <FaUsers className="text-4xl text-blue-700" />,
+      title: "Extracurriculars",
+      shortDesc: "30+ clubs and activities for holistic development",
+      fullDesc: "With over 30 clubs and extracurricular activities, students can explore their interests beyond academics. Our offerings include sports teams (football, basketball, volleyball, track and field), arts clubs (music, drama, visual arts), academic clubs (debate, science club, mathematics Olympiad), and community service organizations. We have championship-winning sports teams and award-winning arts programs that compete at regional and national levels.",
+      highlight: "Championship sports teams",
+      stats: ["15 Sports Teams", "25+ Annual Events", "500+ Community Hours"],
+      image: studentsImage
+    }
+  ];
+
+  const schoolStats = [
+    { icon: <FaUsers className="text-2xl" />, value: "1,200+", label: "Students", description: "Active enrolled students" },
+    { icon: <FaChalkboardTeacher className="text-2xl" />, value: "85+", label: "Faculty", description: "Certified educators" },
+    { icon: <FaGraduationCap className="text-2xl" />, value: "20+", label: "Years", description: "Of educational excellence" },
+    { icon: <FaAward className="text-2xl" />, value: "70%", label: "Pass Rate", description: "National exam success" }
+  ];
+
+  const toggleExpand = (index) => {
+    setExpandedIndex(expandedIndex === index ? null : index);
+  };
+
+  const scrollToSection = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <>
+      <Helmet>
+        <title>School Profile | Tullu Dimtu Secondary School</title>
+        <meta name="description" content="Discover Tullu Dimtu Secondary School - Excellence in education since 1998. Explore our academic programs, campus facilities, and student achievements." />
+      </Helmet>
+
+      
+
       {/* Hero Section */}
-      <div className="relative h-[90vh] w-full overflow-hidden">
-        {/* Background Image with Gradient Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{ backgroundImage: `url(${schoolImage})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-blue-900/30"></div>
-        </div>
-        
-        {/* Hero Content */}
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 h-full flex flex-col justify-center text-center px-6"
-        >
-          <div className="max-w-5xl mx-auto">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-              <span className="text-yellow-300">Tullu Dimtu</span> Secondary School
-            </h1>
-            <div className="w-48 h-1.5 bg-yellow-400 mx-auto mb-8 rounded-full"></div>
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-              Excellence in Education Since 1995
-            </p>
-          </div>
-        </motion.div>
+
+      <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-12">
+  <div className="absolute inset-0 bg-black opacity-40"></div>
+  <div className="relative container mx-auto px-4 text-center">
+    
+  </div>
+</div>
+     
+       <div className="relative h-screen w-full overflow-hidden">
+      
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-fixed"
+        style={{ backgroundImage: `url(${schoolImage})` }}
+      >
+        <div className="absolute inset-0 bg-white/70 backdrop-blur-sm"></div>
       </div>
 
+      {/* Content */}
+      <motion.div
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9 }}
+        className="relative z-10 h-full container mx-auto px-6 flex items-center"
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center w-full">
+
+          {/* Left Logo / Emblem */}
+          <div className="flex justify-center md:justify-start opacity-80">
+            <img
+              src={logo}
+              alt="School Logo"
+              className="w-56 md:w-72 lg:w-80"
+            />
+          </div>
+
+          {/* Right Text */}
+          <div className="text-center md:text-left">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-blue-900 leading-tight">
+              COMMUNITY
+              <br />
+              <span className="text-blue-700 font-semibold">
+                OF LEARNING
+              </span>
+            </h1>
+
+            <div className="w-20 h-1 bg-cyan-500 my-6 md:mx-0 mx-auto"></div>
+
+            <p className="text-lg md:text-xl text-blue-800 max-w-xl">
+              A safe and supportive environment where students grow in
+              academics, leadership, creativity, and character.
+            </p>
+          </div>
+
+        </div>
+      </motion.div>
+    </div>
+
       {/* Main Content */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gradient-to-b from-white to-blue-50">
         <div className="container mx-auto px-6">
           {/* About Section */}
           <ScrollReveal>
-            <div className="max-w-6xl mx-auto mb-28">
-              <div className="flex flex-col lg:flex-row gap-16 items-center">
-                {/* School Image */}
-                <motion.div 
-                  initial={{ opacity: 0, x: -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                  className="lg:w-1/2"
-                >
-                  <div className="relative rounded-2xl overflow-hidden shadow-2xl h-96">
-                    <img 
-                      src={studentsImage} 
-                      alt="Students at Tullu Dimtu" 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute -bottom-6 -right-6 bg-yellow-500 w-24 h-24 rounded-xl flex items-center justify-center shadow-xl rotate-6">
-                      <FaSchool className="text-white text-3xl" />
-                    </div>
+            <div className="max-w-6xl mx-auto mb-28 flex flex-col lg:flex-row gap-16 items-center">
+              <motion.div 
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+                className="lg:w-1/2"
+              >
+                <div className="relative rounded-2xl overflow-hidden shadow-2xl h-96 group">
+                  <img 
+                    src={studentsImage} 
+                    alt="Students at Tullu Dimtu" 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/40 to-transparent"></div>
+                  <div className="absolute -bottom-6 -right-6 bg-yellow-500 w-28 h-28 rounded-xl flex items-center justify-center shadow-2xl rotate-6 group-hover:rotate-12 transition-transform duration-300">
+                    <FaSchool className="text-white text-4xl" />
                   </div>
-                </motion.div>
+                  <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg">
+                    <p className="text-blue-900 font-bold">Since 1995</p>
+                  </div>
+                </div>
+              </motion.div>
 
-                {/* About Content */}
-                <motion.div 
-                  initial={{ opacity: 0, x: 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                  className="lg:w-1/2"
-                >
-                  <h2 className="text-4xl font-bold text-blue-900 mb-8">
-                    Our <span className="text-yellow-500">School Profile</span>
-                  </h2>
-                  
-                  <div className="space-y-6">
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      Established in 1995, Tullu Dimtu Secondary School has grown from humble beginnings to become 
-                      one of the region's most respected educational institutions. Our commitment to academic 
-                      excellence and holistic development has produced generations of successful alumni.
-                    </p>
-                    
-                    <p className="text-gray-700 leading-relaxed text-lg">
-                      Located on a spacious 10-acre campus, our school combines modern facilities with a nurturing 
-                      environment that encourages students to explore their potential and develop lifelong skills.
-                    </p>
-                  </div>
+              <motion.div 
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="lg:w-1/2"
+              >
+                <h2 className="text-4xl font-bold text-blue-900 mb-8">
+                  Our <span className="text-yellow-500">Educational Legacy</span>
+                </h2>
+                <p className="text-gray-700 leading-relaxed text-lg mb-6">
+                  Established in 1995, Tullu Dimtu Secondary School has grown from humble beginnings to become 
+                  one of the region's most respected educational institutions. Our commitment to academic 
+                  excellence and holistic development has produced generations of successful alumni who 
+                  contribute meaningfully to society.
+                </p>
+                <p className="text-gray-700 leading-relaxed text-lg mb-8">
+                  Located on a spacious 10-acre campus in Addis Ababa, our school combines modern facilities 
+                  with a nurturing environment that encourages students to explore their potential, develop 
+                  critical thinking skills, and cultivate lifelong learning habits.
+                </p>
 
-                  <div className="mt-12 grid grid-cols-2 gap-6">
-                    {[
-                      { icon: <FaUsers className="text-2xl" />, value: "1,200+", label: "Students" },
-                      { icon: <FaChalkboardTeacher className="text-2xl" />, value: "85+", label: "Faculty" },
-                      { icon: <FaGraduationCap className="text-2xl" />, value: "20+", label: "Years" },
-                      { icon: <FaAward className="text-2xl" />, value: "70%", label: "Pass Rate" }
-                    ].map((stat, index) => (
-                      <motion.div 
-                        key={index}
-                        whileHover={{ y: -5 }}
-                        className="bg-blue-50 p-6 rounded-xl text-center"
-                      >
-                        <div className="text-blue-700 mb-2">{stat.icon}</div>
-                        <p className="text-3xl font-bold text-blue-900">{stat.value}</p>
-                        <p className="text-gray-600">{stat.label}</p>
-                      </motion.div>
-                    ))}
-                  </div>
-                </motion.div>
-              </div>
+                <div className="mt-12 grid grid-cols-2 gap-6" id="stats">
+                  {schoolStats.map((stat, index) => (
+                    <motion.div 
+                      key={index}
+                      whileHover={{ y: -8, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="bg-white p-6 rounded-xl shadow-lg border-l-4 border-yellow-400 hover:shadow-xl transition-all duration-300 cursor-pointer"
+                      onClick={() => setActiveStat(index)}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="bg-blue-100 p-3 rounded-lg">
+                          <div className="text-blue-700">{stat.icon}</div>
+                        </div>
+                        <div>
+                          <p className="text-3xl font-bold text-blue-900">{stat.value}</p>
+                          <p className="text-gray-600 font-medium">{stat.label}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.div>
             </div>
           </ScrollReveal>
 
           {/* Features Section */}
           <ScrollReveal delay={0.2}>
-            <div className="mb-28">
+            <div className="mb-28" id="features">
               <div className="text-center mb-16">
+                <div className="inline-block mb-4">
+                  <span className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold">
+                    OUR OFFERINGS
+                  </span>
+                </div>
                 <h2 className="text-4xl md:text-5xl font-bold text-blue-900 mb-6">
-                  Our <span className="text-yellow-500">Key Features</span>
+                  Comprehensive <span className="text-yellow-500">Education</span>
                 </h2>
                 <div className="w-32 h-1.5 bg-yellow-500 mx-auto rounded-full"></div>
+                <p className="text-gray-600 max-w-2xl mx-auto mt-6 text-lg">
+                  We provide a balanced educational experience that prepares students for academic success and personal growth
+                </p>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                {[
-                  {
-                    icon: <FaBook className="text-4xl" />,
-                    title: "Academic Programs",
-                    description: "Comprehensive curriculum from grades 7-12 with STEM focus",
-                    highlight: "Advanced Placement courses available"
-                  },
-                  {
-                    icon: <FaGraduationCap className="text-4xl" />,
-                    title: "University Preparation",
-                    description: "Dedicated counseling for college applications worldwide",
-                    highlight: "70% university placement rate"
-                  },
-                  {
-                    icon: <FaUsers className="text-4xl" />,
-                    title: "Extracurriculars",
-                    description: "30+ clubs and activities for holistic development",
-                    highlight: "Championship sports teams"
-                  }
-                ].map((feature, index) => (
-                  <motion.div 
-                    key={index}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: index * 0.15 }}
-                    viewport={{ once: true }}
-                    whileHover={{ y: -10 }}
-                    className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border-t-4 border-yellow-400"
-                  >
-                    <div className="bg-blue-100 w-20 h-20 rounded-xl flex items-center justify-center mx-auto mb-6">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-2xl font-bold text-center text-blue-900 mb-4">{feature.title}</h3>
-                    <p className="text-gray-700 text-center mb-6">{feature.description}</p>
-                    <p className="text-yellow-600 font-semibold text-center text-sm">{feature.highlight}</p>
+              <div className="space-y-12">
+                {features.map((feature, index) => {
+                  const isExpanded = expandedIndex === index;
 
-                  </motion.div>
-                ))}
+                  return (
+                    <motion.div 
+                      key={index}
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className={`flex flex-col lg:flex-row gap-10 items-center p-8 rounded-2xl ${
+                        isExpanded ? 'bg-blue-50 shadow-2xl' : 'bg-white shadow-lg'
+                      } transition-all duration-500`}
+                    >
+                      <div className="lg:w-2/5">
+                        <div className="relative rounded-xl overflow-hidden h-64 lg:h-80">
+                          <img 
+                            src={feature.image} 
+                            alt={feature.title}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-transparent"></div>
+                        </div>
+                      </div>
+
+                      <div className="lg:w-3/5">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="bg-blue-100 p-4 rounded-xl">
+                            {feature.icon}
+                          </div>
+                          <h3 className="text-2xl font-bold text-blue-900">{feature.title}</h3>
+                        </div>
+                        
+                        <AnimatePresence>
+                          <motion.div
+                            key={isExpanded ? 'expanded' : 'collapsed'}
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.3 }}
+                            className="overflow-hidden"
+                          >
+                            <p className="text-gray-700 leading-relaxed mb-6">
+                              {isExpanded ? feature.fullDesc : feature.shortDesc}
+                            </p>
+                          </motion.div>
+                        </AnimatePresence>
+
+                        <div className="flex flex-wrap gap-3 mb-6">
+                          {feature.stats.map((stat, statIndex) => (
+                            <span key={statIndex} className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                              {stat}
+                            </span>
+                          ))}
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <p className="text-yellow-600 font-semibold text-sm">
+                            <FaStar className="inline mr-1" />
+                            {feature.highlight}
+                          </p>
+                          
+                          <motion.button
+                            onClick={() => toggleExpand(index)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold"
+                          >
+                            {isExpanded ? (
+                              <>
+                                Show Less
+                                <FaChevronDown className="inline ml-2 rotate-180" />
+                              </>
+                            ) : (
+                              <>
+                                Learn More
+                                <FaChevronDown className="inline ml-2" />
+                              </>
+                            )}
+                          </motion.button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Testimonials Section */}
-          <ScrollReveal delay={0.4}>
-            <div className="bg-gradient-to-r from-blue-700 to-blue-900 rounded-3xl p-14 text-white overflow-hidden relative">
-              <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-white/5"></div>
-              <div className="absolute -bottom-20 -left-20 w-48 h-48 rounded-full bg-yellow-400/10"></div>
-              
-              <div className="relative z-10 text-center max-w-4xl mx-auto">
-                <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                  Why <span className="text-yellow-300">Parents Choose</span> Us
-                </h2>
-                <div className="w-32 h-1.5 bg-yellow-400 mx-auto mb-12 rounded-full"></div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-16">
-                  {[
-                    {
-                      quote: "Tullu Dimtu provided my child with both academic excellence and strong values. The teachers go above and beyond.",
-                      author: "Mrs. Kebede, Parent"
-                    },
-                    {
-                      quote: "The university counseling program helped my daughter get into her dream school with a scholarship.",
-                      author: "Mr. Teshome, Alumni Parent"
-                    }
-                  ].map((testimonial, index) => (
-                    <motion.div 
-                      key={index}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.2 }}
-                      viewport={{ once: true }}
-                      className="bg-white/10 p-8 rounded-xl backdrop-blur-sm"
-                    >
-                      <p className="italic mb-6">"{testimonial.quote}"</p>
-                      <p className="font-semibold text-yellow-300">{testimonial.author}</p>
-                    </motion.div>
-                  ))}
-                </div>
-                
-                <motion.button 
+          {/* Call to Action */}
+          <ScrollReveal>
+            <div className="max-w-4xl mx-auto text-center p-12 bg-gradient-to-r from-blue-900 to-blue-700 rounded-3xl shadow-2xl" id="contact">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+                Ready to Join Our Community?
+              </h2>
+              <p className="text-blue-100 text-lg mb-10 max-w-2xl mx-auto">
+                Schedule a campus tour or speak with our admissions team to learn more about enrollment opportunities.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center">
+                <motion.a
+                  href="/schedule-visit"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="px-12 py-5 bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold rounded-xl transition-all duration-300 shadow-lg"
+                  className="px-8 py-4 bg-yellow-500 text-white font-semibold rounded-lg hover:bg-yellow-600 transition-colors flex items-center justify-center gap-3"
                 >
-                  Schedule a Campus Tour
-                </motion.button>
+                  <FaCalendarAlt />
+                  Schedule Visit
+                </motion.a>
+                <motion.a
+                  href="/contact"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+                >
+                  Contact 
+                </motion.a>
               </div>
             </div>
           </ScrollReveal>
         </div>
       </section>
 
-    <Footer/>
+      {/* Footer */}
+      <Footer />
     </>
   );
 };

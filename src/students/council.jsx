@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import counsl from '../assets/bulding.jpg'
+import counsl from '../assets/gal.jpg'
 import Footer from '../components/Footer';
-import life from '../assets/life2.jpg'
+import life from '../assets/gal16.jpg'
 import axios from 'axios'
 import { toast } from "react-toastify";
+import { Helmet } from "react-helmet-async";
+// import counsl from '../assets/life2.jpg'
 
 const CounselingPage = () => {
     const [ loading, setLoading ] = useState(false);
@@ -27,7 +29,8 @@ const CounselingPage = () => {
       e.preventDefault();
       try {
         
-        const res = await axios.post("https://tullu-dimtu-school-backend.onrender.com/api/concerns", formData);
+        const res = await axios.post("http://localhost:5000/api/concerns", formData);
+
         console.log("✅ Concern submitted:", res.data);
   
         toast.success("Your counseling request has been submitted successfully!");
@@ -51,28 +54,72 @@ const CounselingPage = () => {
     };
   
     const concerns = [
-      { id: "academic", title: "Academic Support", icon: "📚", color: "bg-blue-100 text-blue-600" },
-      { id: "career", title: "Career Guidance", icon: "💼", color: "bg-purple-100 text-purple-600" },
-      { id: "personal", title: "Personal Issues", icon: "🧠", color: "bg-green-100 text-green-600" },
-      { id: "university", title: "University Prep", icon: "🎓", color: "bg-amber-100 text-amber-600" },
-      { id: "emergency", title: "Emergency Help", icon: "🆘", color: "bg-red-100 text-red-600" },
+      { id: "academic", title: "Academic Support", icon: "", color: "bg-blue-100 text-blue-600" },
+      { id: "career", title: "Career Guidance", icon: "", color: "bg-purple-100 text-purple-600" },
+      { id: "personal", title: "Personal Issues", icon: "", color: "bg-green-100 text-green-600" },
+      { id: "university", title: "University Prep", icon: "", color: "bg-amber-100 text-amber-600" },
+      { id: "emergency", title: "Emergency Help", icon: "", color: "bg-red-100 text-red-600" },
     ];
 
   return (
   <>
-  
-   <div className="min-h-screen mt-16  bg-gradient-to-br from-indigo-50 to-blue-100">
-     
 
-       <motion.div
-          initial={{ scale: 1.2 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="absolute inset-0 bg-cover bg-center bg-fixed"
-          style={{ backgroundImage: `url(${counsl})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/40 to-transparent" />
-        </motion.div>
+  <Helmet>
+      <title>Council </title>
+       </Helmet>
+
+    {/* Top Gradient Header */}
+{/* Counseling Call-to-Action Section */}
+ <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-12">
+            <div className="absolute inset-0 bg-black opacity-40"></div>
+            <div className="relative container mx-auto px-4 text-center">
+              
+            </div>
+          </div>
+<div className="relative bg-gradient-to-r from-sky-50 to-blue-100 py-20 overflow-hidden">
+  
+  <div className="container mx-auto px-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-14">
+
+      {/* Left Image */}
+      <div className="relative flex justify-center lg:justify-start">
+        <div className="relative w-[420px] h-[420px] rounded-[3rem] overflow-hidden shadow-2xl">
+          <img
+            src={counsl}
+            alt="Student Counseling"
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        {/* Decorative Shape */}
+        <div className="absolute -right-8 -bottom-8 w-24 h-24 border-4 border-cyan-400 rotate-45 rounded-xl opacity-60"></div>
+      </div>
+
+      {/* Right Content */}
+      <div className="text-center lg:text-left">
+        <h3 className="text-lg text-blue-700 font-medium mb-2">
+          Student Support Services
+        </h3>
+
+        <h2 className="text-3xl md:text-4xl font-bold text-blue-900 leading-snug">
+          Student Counseling <br />
+          <span className="text-cyan-600">Center</span>
+        </h2>
+
+        <div className="w-16 h-1 bg-yellow-400 my-6 mx-auto lg:mx-0"></div>
+
+        <p className="text-gray-700 text-lg leading-relaxed max-w-xl">
+          The Student Counseling Center at Tullu Dimtu Secondary School provides
+          a safe, confidential, and supportive environment for students.
+          Our professional counselors help students manage academic challenges,
+          emotional wellbeing, and personal development with care and guidance.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+ 
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         {[...Array(15)].map((_, i) => (
           <motion.div
@@ -104,34 +151,19 @@ const CounselingPage = () => {
         ))}
       </div>
 
+
+
       <div className="relative z-10 max-w-6xl mx-auto px-4 py-12">
         
-        <motion.header
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
-        >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="w-20 h-20  rounded-2xl shadow-lg mx-auto mb-3 flex items-center justify-center"
-          >
-            <span className="text-4xl"></span>
-          </motion.div>
-          <h1 className="text-4xl text-white font-bold  mb-3">
-            Student <span className="text-indigo-600">Counseling</span> Center
-          </h1>
-          <p className="text-xl text-white">
-            Confidential support for your academic and personal growth
-          </p>
-        </motion.header>
+        
+        
 
 
    <motion.section 
   initial={{ opacity: 0 }}
   animate={{ opacity: 1 }}
   transition={{ delay: 0.3 }}
-  className="bg-white rounded-3xl shadow-xl overflow-hidden mb-16"
+  className="bg-white rounded-3xl shadow-xl overflow-hidden mt-36"
 >
   <div className="md:flex">
     <div className="md:w-1/2 bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center min-h-64">
@@ -173,7 +205,7 @@ const CounselingPage = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="bg-white rounded-3xl shadow-xl overflow-hidden mb-16"
+              className="bg-white rounded-3xl shadow-xl overflow-hidden mb-16 mt-24"
             >
               <div className="p-8 md:p-10">
                 <div className="flex justify-between items-start mb-8">
@@ -185,7 +217,7 @@ const CounselingPage = () => {
                     whileHover={{ rotate: 15 }}
                     className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center"
                   >
-                    <span className="text-xl">👋</span>
+                    <span className="text-xl"></span>
                   </motion.div>
                 </div>
 
@@ -212,7 +244,7 @@ const CounselingPage = () => {
                   <div className="md:flex items-center">
                     <div className="md:w-1/3 mb-4 md:mb-0 md:pr-6">
                       <div className="bg-gradient-to-br from-blue-500 to-indigo-700 rounded-xl aspect-square flex items-center justify-center text-white text-7xl">
-                        👩‍🏫
+                        
                       </div>
                     </div>
                     <div className="md:w-2/3">
@@ -242,7 +274,7 @@ const CounselingPage = () => {
                     }}
                     className="w-full bg-red-500 text-white py-3 px-6 rounded-lg font-medium hover:bg-red-600 transition-colors flex items-center justify-center"
                   >
-                    <span className="mr-2">🆘</span> Emergency Assistance
+                    <span className="mr-2"></span> Emergency Assistance
                   </button>
                 </div>
               </div>

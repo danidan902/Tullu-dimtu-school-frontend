@@ -3,12 +3,13 @@ import { FaChalkboardTeacher, FaMusic, FaPaintBrush, FaMicroscope, FaLaptopCode,
 import { GiBookshelf, GiTeacher, GiSoccerBall } from 'react-icons/gi';
 import { MdScience, MdTheaterComedy } from 'react-icons/md';
 import { IoIosArrowForward } from 'react-icons/io';
-import studentLifeHero from '../assets/life.jpg';
+import studentLifeHero from '../assets/studentlife.jpg';
 import clubMeeting from '../assets/inovation.jpg';
 import sportsDay from '../assets/sport.jpg';
 import culturalEvent from '../assets/culture.jpg';
 import Footer from '../components/Footer';
 import { motion } from 'framer-motion';
+import { Helmet } from "react-helmet-async";
 
 
 // Animation variants
@@ -155,6 +156,9 @@ const StudentLife = () => {
 
   return (
     <>
+    <Helmet>
+      <title>Student Life | Tulu Dimtu School</title>
+          </Helmet>
       <div className="font-sans min-h-screen bg-gray-50">
         {/* Hero Section */}
         <motion.div
