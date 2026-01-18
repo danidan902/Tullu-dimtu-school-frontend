@@ -198,7 +198,7 @@ const VisionMission = () => {
 
             {/* Philosophy Section */}
             <ScrollReveal delay={0.6}>
-              <div className="bg-gradient-to-r from-blue-700 to-blue-900 rounded-2xl p-10 text-white">
+              <div className="bg-[#04395E] via-[#04395E]/90 to-transparent md:bg-gradient-to-r from-[#04395E] via-[#04395E]/90 to-transparent rounded-2xl p-10 text-white">
                 <div className="max-w-4xl mx-auto text-center">
                   <h2 className="text-3xl md:text-4xl font-bold mb-6">Our Educational Philosophy</h2>
                   <p className="text-lg md:text-xl leading-relaxed mb-6">

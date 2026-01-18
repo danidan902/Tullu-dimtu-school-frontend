@@ -1,6 +1,8 @@
 
 
+import { ChevronLeft } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Using simple emoji icons as fallback to avoid import issues
 const SubjectButton = ({ subject, currentSubject, onClick }) => {
@@ -123,6 +125,7 @@ const EthiopianGrade11Quiz = () => {
   const [showExplanation, setShowExplanation] = useState(false);
   const [answeredQuestions, setAnsweredQuestions] = useState(new Set());
 
+   const navigate = useNavigate();
   // Subjects configuration
   const subjects = [
     { id: 'physics', name: 'Physics', questionCount: 20 },
@@ -801,8 +804,13 @@ const EthiopianGrade11Quiz = () => {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 p-3 sm:p-4 md:p-6 lg:p-8">
       <div className="max-w-6xl mx-auto">
       
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6">
+       <div className="fixed top-2 left-2 right-2 z-10 md:top-4 md:left-4 md:right-auto">
+            
+              <ChevronLeft onClick={() => navigate('/studentstudy-dashboard')} className="w-8 h-8" />
+              {/* <span className="truncate">Back to Home</span> */}
+           
+          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 mt-16">
           {/* Main Results Card - Full width on mobile, 2/3 on desktop */}
           <div className="lg:col-span-2">
             <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-5 md:p-6 border border-white/20">
@@ -996,9 +1004,15 @@ const EthiopianGrade11Quiz = () => {
 return (
   <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 p-3 sm:p-4 md:p-6 lg:p-8">
     <div className="max-w-7xl mx-auto">
-    
+      
+      <div className="fixed top-2 left-2 right-2 z-10 md:top-4 md:left-4 md:right-auto">
+            
+              <ChevronLeft onClick={() => navigate('/studentstudy-dashboard')} className="w-8 h-8" />
+              {/* <span className="truncate">Back to Home</span> */}
+           
+          </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-5 md:gap-6 mt-16">
         {/* Left Panel - Subject Selection */}
         <div className="lg:col-span-1">
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl sm:rounded-3xl shadow-xl p-4 sm:p-5 md:p-6 border border-white/20 mb-4 sm:mb-6">

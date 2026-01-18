@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { Home, BookOpen, Download, FileText, ExternalLink, Video, Book, Clock, Users, Search, Filter, Star, ChevronDown, ChevronUp, Sparkles, Layers, DoorOpen, CodeIcon, Terminal, TerminalSquare, Code2Icon, Code2, BookOpenCheckIcon, User, LogOut } from "lucide-react";
+import { FaChevronLeft } from "react-icons/fa";
 
 
 const videos = [
@@ -907,7 +908,7 @@ const YouTubeCards = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-violet-900 overflow-hidden" ref={containerRef}>
-      
+  
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
@@ -916,55 +917,44 @@ const YouTubeCards = () => {
 
       <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Header with Back Button and Profile */}
-        <div className="fixed top-4 left-4 right-4 z-10 flex justify-between items-center">
-          <button
-            onClick={() => navigate('/studentstudy-dashboard')}
-            className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
-          >
-            <Home className="w-5 h-5" />
-            <span className="hidden sm:inline">Back to Home</span>
-          </button>
-
-         
-                  </div>
-
-             
-              
-                    
+         <div className="fixed top-4 left-4 right-4 z-10 flex justify-between items-center">
+          <FaChevronLeft className="w-8 h-8 text-white" onClick={() => navigate('/studentstudy-dashboard')}/>
+            </div>  
 
         {/* Tab Buttons */}
-        <div className="mb-8 flex justify-center">
-          <div className="inline-flex bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 p-1">
-            <button
-              onClick={() => setActiveTab("videos")}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 ${activeTab === "videos" ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
-            >
-              <Video className="w-5 h-5" />
-              Videos 
-            </button>
-            <button
-              onClick={() => setActiveTab("premium")}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 ${activeTab === "premium" ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
-            >
-              <Sparkles className="w-5 h-5" />
-              Premium Resources 
-            </button>
-            <button
-              onClick={() => setActiveTab("pdfs")}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 ${activeTab === "pdfs" ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
-            >
-              <FileText className="w-5 h-5" />
-              PDF Materials 
-            </button>
-            <button
-              onClick={() => setActiveTab("coding")}
-              className={`px-6 py-3 rounded-lg transition-all duration-300 flex items-center gap-2 ${activeTab === "coding" ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
-            >
-              <Code2 className="w-5 h-5" />
-              Coding 
-            </button>
-          </div>
-        </div>
+    
+<div className="mb-6 sm:mb-8 flex justify-center px-2 sm:px-0 mt-12">
+  <div className="inline-flex flex-wrap justify-center gap-1 sm:gap-0 bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 p-1 sm:p-1 max-w-full">
+    <button
+      onClick={() => setActiveTab("videos")}
+      className={`px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none min-w-[100px] sm:min-w-0 justify-center ${activeTab === "videos" ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
+    >
+      <Video className="w-4 h-4 sm:w-5 sm:h-5" />
+      <span className="text-xs sm:text-sm truncate">Videos</span>
+    </button>
+    <button
+      onClick={() => setActiveTab("premium")}
+      className={`px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none min-w-[100px] sm:min-w-0 justify-center ${activeTab === "premium" ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
+    >
+      <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
+      <span className="text-xs sm:text-sm truncate">Premium</span>
+    </button>
+    <button
+      onClick={() => setActiveTab("pdfs")}
+      className={`px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none min-w-[100px] sm:min-w-0 justify-center ${activeTab === "pdfs" ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
+    >
+      <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
+      <span className="text-xs sm:text-sm truncate">PDFs</span>
+    </button>
+    <button
+      onClick={() => setActiveTab("coding")}
+      className={`px-3 sm:px-4 py-2 sm:py-3 rounded-lg transition-all duration-300 flex items-center gap-1 sm:gap-2 flex-1 sm:flex-none min-w-[100px] sm:min-w-0 justify-center ${activeTab === "coding" ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg' : 'text-gray-300 hover:text-white hover:bg-gray-700/50'}`}
+    >
+      <Code2 className="w-4 h-4 sm:w-5 sm:h-5" />
+      <span className="text-xs sm:text-sm truncate">Coding</span>
+    </button>
+  </div>
+</div>
 
         {/* Search and Filter Section */}
         <div className="mb-8 p-6 bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50">

@@ -36,6 +36,11 @@ function Header() {
   const isGrade9 = location.pathname === "/grade9";
   const isGrade10 = location.pathname === "/grade10";
   const isGrade11 = location.pathname === "/grade11";
+  const isPage = location.pathname === "/admission-Page";
+  const isAdmissionPage = location.pathname === "/online-admission";
+  const isLogInPage = location.pathname === "/logIn";
+  const isAdminPortalPage = location.pathname === "/admission-portal";
+  const isGrade12Pge = location.pathname === "/grade12";  
 
 
 
@@ -61,7 +66,7 @@ function Header() {
     {
       name: "Home",
       path: "/",
-      icon: <Home size={16} className="mr-1" />
+      // icon: <Home size={16} className="mr-1" />
     },
     {
       name: "About Us",
@@ -72,16 +77,16 @@ function Header() {
         { name: "Principal's Message", path: "/about/principal-message" },
         { name: "School Profile", path: "/about/school-profile" },
         { name: "School Achievements", path: "/about/school-achievements" },
-        { name: "Core Values", path: "/about/core-values" },
-        { name: "Campus Tour / Facilities", path: "/about/campus" },
+        // { name: "Core Values", path: "/about/core-values" },
+        // { name: "Campus Tour / Facilities", path: "/about/campus" },
       ],
     },
     {
       name: "Our School",
       subItems: [
-        { name: "Overview", path: "/ourschool/overview" },
+        // { name: "Overview", path: "/ourschool/overview" },
         { name: "Our Curriculum", path: "/ourschool/curriculum" },
-        { name: "Our Secondary School", path: "/ourschool/secondary" },
+        // { name: "Our Secondary School", path: "/ourschool/secondary" },
         { name: "Our Community", path: "/ourschool/community" },
         { name: "Sport", path: "/ourschool/sport" },
       ],
@@ -110,6 +115,10 @@ function Header() {
          {name: "School Gallary", path: "/gallery"},
          { name: "School Calendar", path: '/school-Calendar'},
          { name: "Phone", path: "/verify-phone"},
+        //  { name: "Notes gade", path: "/student-note"},
+        //  { name: "Notes Grade 9", path: "/student-note9"},
+        //  { name: "Gadre 10 Notes", path: "/student-note10"},
+        //  { name: "Gadre 11 Notes", path: "/student-note11"},
         //  { name: "Student", path: "/student-dashbord"}
         //  { name: "School Visit", path: "/schedule-visit"}
         // { name: "Teachers", path: "/teachersupload-platform"},
@@ -175,9 +184,38 @@ function Header() {
   );
 
 
-  if (isSignInPage || isAdminSignInPage || isDirectorNewsPage || isTeacherUploadPage || isTeacherListPage || isTuluDimtuPolicyPage || isStudentFormPage || isSchoolTermsPage || isEmailVerification || isYoutubePage || isTeacherEmail || isTeacherUploads || isProfleName || isStudyPlaceRmove || isStudentStudyMaterial || isTeacherUploadsPlatform || isVisitorBookTaur || isAllAdminControll || isAcadamicsPlatform || isGrade9 || isGrade10 || isGrade11)  {
-    return null;
-  }
+if (
+  isSignInPage ||
+  isAdminSignInPage ||
+  isDirectorNewsPage ||
+  isTeacherUploadPage ||
+  isTeacherListPage ||
+  isTuluDimtuPolicyPage ||
+  isStudentFormPage ||
+  isSchoolTermsPage ||
+  isEmailVerification ||
+  isYoutubePage ||
+  isTeacherEmail ||
+  isTeacherUploads ||
+  isProfleName ||
+  isStudyPlaceRmove ||
+  isStudentStudyMaterial ||
+  isTeacherUploadsPlatform ||
+  isVisitorBookTaur ||
+  isAllAdminControll ||
+  isAcadamicsPlatform ||
+  isGrade9 ||
+  isGrade10 ||
+  isGrade11 ||
+  isPage ||
+  isAdmissionPage ||
+  isLogInPage || 
+  isAdminPortalPage ||
+  isGrade12Pge
+) {
+  return null;
+}
+
 
   return (
     <motion.header

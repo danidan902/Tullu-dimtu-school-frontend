@@ -81,7 +81,7 @@ const SchoolVisit = () => {
     }));
   };
 
-  return (
+  return (  
     <>
       <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-24">
         <div className="absolute inset-0 bg-black opacity-40"></div>

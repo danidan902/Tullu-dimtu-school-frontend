@@ -2,9 +2,9 @@
 
 
 import React, { useState, useEffect } from 'react';
-import { FaAccessibleIcon, FaBookOpen, FaHome, FaRegAddressBook } from 'react-icons/fa';
+import { FaAccessibleIcon, FaBookOpen, FaHome, FaRegAddressBook, FaSignature } from 'react-icons/fa';
 import { FiHome, FiBook, FiDownload, FiStar, FiClock, FiShare2, FiHash, FiUpload, FiSettings, FiBell, FiSearch, FiFileText, FiVideo, FiFile, FiClipboard, FiBookOpen, FiAward, FiEye, FiPrinter, FiMaximize2, FiX, FiMoon, FiSun, FiUser, FiLogOut, FiEdit2, FiSave, FiPlay, FiCamera, FiMenu } from 'react-icons/fi';
-import {  FileArchiveIcon } from 'lucide-react';
+import {  FileArchiveIcon, icons } from 'lucide-react';
 import sheger from '../assets/sheger3.png'
 import logo from '../assets/tullulogo.png'
 import sheger2 from '../assets/sheger2.png';
@@ -991,15 +991,6 @@ Downloaded from StudySync Dashboard`;
 
 
 
-
-
-
-
-
-
-
-
-
   {
     title: '',
     type: 'image',
@@ -1050,15 +1041,12 @@ Downloaded from StudySync Dashboard`;
 
   const navLinks = [
     { icon: <FiHome />, label: 'Dashboard', key: 'dashboard' },
-    { icon: <FiBook />, label: 'My Resources', key: 'my-resources' },
+    { icon: <FaSignature />, label: 'Study Portal', key: 'studyportal' },
     { icon: <FileArchiveIcon />, label: 'Liberary', key: 'liberay'},
     { icon: <FaBookOpen />, label: 'Access Teacher', key: 'teacher', },
     { icon: <FaRegAddressBook />, label: 'Sheger Digital', key: 'sheger'},
     { icon: <FaAccessibleIcon />, label: 'Start Exam', key: 'exam'},
-    { icon: <FiDownload />, label: 'Downloads', key: 'downloads' },
-    { icon: <FiStar />, label: 'Favorites', key: 'favorites' },
-    { icon: <FiClock />, label: 'Recent', key: 'recent' },
-    { icon: <FiShare2 />, label: 'Shared', key: 'shared' },
+  
 
   ];
 
@@ -1085,57 +1073,6 @@ Downloaded from StudySync Dashboard`;
 
   const renderContent = () => {
     switch (activeSection) {
-      case 'my-resources':
-        const filteredMyResources = filterResourcesBySubject(myResources);
-        return (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">My Resources</h2>
-            {selectedSubject !== 'all' && (
-              <div className="mb-4">
-                <div className="flex items-center">
-                  <span className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">
-                    Showing: {selectedSubject}
-                  </span>
-                  <button 
-                    onClick={() => setSelectedSubject('all')}
-                    className="ml-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                  >
-                    × Clear filter
-                  </button>
-                </div>
-              </div>
-            )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredMyResources.map((resource, index) => (
-                <ResourceCard
-                  key={`my-${index}`}
-                  title={resource.title}
-                  type={resource.type}
-                  subject={resource.subject}
-                  date={resource.date}
-                  downloads={resource.downloads}
-                  thumbnail={resource.thumbnail}
-                  onView={() => resource.type === 'video' ? handleVideoCardClick(resource.videoUrl, resource.title) : handleViewPdf(resource.url, resource.title)}
-                  onDownload={() => handleDownload(resource.title, resource.type)}
-                  videoUrl={resource.videoUrl}
-                />
-              ))}
-              {filteredMyResources.length === 0 && (
-                <div className="col-span-3 text-center py-12">
-                  <p className="text-gray-500 dark:text-gray-400">No resources found for {selectedSubject} in My Resources.</p>
-                  <button 
-                    onClick={() => setSelectedSubject('all')}
-                    className="mt-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
-                  >
-                    View all resources
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        );
-
-
 
 
 
@@ -2158,6 +2095,72 @@ case 'liberay':
   )
 
 
+
+  
+
+
+   case 'studyportal':
+     return(
+     <div className='mb-8'>
+  <h2 className='text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center'>Start <span className='text-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#581c87]'>Study </span></h2>
+     <p className="max-w-3xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300">
+  Choose your grade and start studying. Learn with{" "}
+  <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent font-semibold">
+    clear lessons
+  </span>
+  ,{" "}
+  <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent font-semibold">
+    structured notes
+  </span>
+  , and{" "}
+  <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent font-semibold">
+    trusted materials
+  </span>{" "}
+  that make studying easier, faster, and more effective.
+</p>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-8 rounded-2xl bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 shadow-xl">
+
+    <a href='/student-note9'>
+      <button className="group relative overflow-hidden px-8 py-6 w-full rounded-xl bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#581c87] text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+      <div className="flex items-center justify-center gap-3">
+        <span>Grade 9</span>
+      </div>
+      <span className="absolute bottom-0 left-0 w-full h-1 bg-white/30 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+      </button>
+    </a>
+
+    <a href='/student-note10'>
+      <button className="group relative overflow-hidden px-8 py-6 w-full rounded-xl bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#581c87] text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+      <div className="flex items-center justify-center gap-3">
+        <span>Grade 10</span>
+      </div>
+      </button>
+    </a>
+
+    <a href='/student-note11'>
+      <button className="group relative overflow-hidden px-8 py-6 w-full rounded-xl bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#581c87] text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+      <div className="flex items-center justify-center gap-3">
+        <span>Grade 11</span>
+      </div>
+      </button>
+    </a>
+
+    <a href='/student-note'>
+      <button className="group relative overflow-hidden px-8 py-6 w-full rounded-xl bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#581c87] text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+      <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+      <div className="flex items-center justify-center gap-3">
+        <span>Grade 12</span>
+      </div>
+      </button>
+    </a>
+  </div>
+</div>
+     )
+
+
   case 'exam':
      return(
      <div className='mb-8'>
@@ -2192,7 +2195,7 @@ case 'liberay':
       </button>
     </a>
 
-    <a href=''>
+    <a href='/grade12'>
       <button className="group relative overflow-hidden px-8 py-6 w-full rounded-xl bg-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#581c87] text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
       <div className="absolute inset-0 bg-white opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
       <div className="flex items-center justify-center gap-3">
@@ -2206,107 +2209,9 @@ case 'liberay':
 
 
 
-   case 'favorites':
-        return (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">Favorites</h2>
-            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-600">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {recentResources.slice(0, 3).map((resource, index) => (
-                  <ResourceCard
-                    key={`fav-${index}`}
-                    title={resource.title}
-                    type={resource.type}
-                    subject={resource.subject}
-                    date={resource.date}
-                    downloads={resource.downloads}
-                    thumbnail={resource.thumbnail}
-                    onView={() => resource.type === 'video' ? handleVideoCardClick(resource.videoUrl, resource.title) : handleViewPdf(resource.url, resource.title)}
-                    onDownload={() => handleDownload(resource.title, resource.type)}
-                    videoUrl={resource.videoUrl}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'recent':
-        const filteredRecentResources = filterResourcesBySubject(recentResources);
-        return (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">Recent Activity</h2>
-            {selectedSubject !== 'all' && (
-              <div className="mb-4">
-                <div className="flex items-center">
-                  <span className="text-sm font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">
-                    Showing: {selectedSubject}
-                  </span>
-                  <button 
-                    onClick={() => setSelectedSubject('all')}
-                    className="ml-2 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
-                  >
-                    × Clear filter
-                  </button>
-                </div>
-              </div>
-            )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredRecentResources.map((resource, index) => (
-                <ResourceCard
-                  key={`recent-${index}`}
-                  title={resource.title}
-                  type={resource.type}
-                  subject={resource.subject}
-                  date={resource.date}
-                  downloads={resource.downloads}
-                  thumbnail={resource.thumbnail}
-                  onView={() => resource.type === 'video' ? handleVideoCardClick(resource.videoUrl, resource.title) : handleViewPdf(resource.url, resource.title)}
-                  onDownload={() => handleDownload(resource.title, resource.type)}
-                  videoUrl={resource.videoUrl}
-                />
-              ))}
-              {filteredRecentResources.length === 0 && (
-                <div className="col-span-3 text-center py-12">
-                  <p className="text-gray-500 dark:text-gray-400">No resources found for {selectedSubject} in Recent Activity.</p>
-                  <button 
-                    onClick={() => setSelectedSubject('all')}
-                    className="mt-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
-                  >
-                    View all resources
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-        );
 
 
-
-      case 'shared':
-        return (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">Shared with Me</h2>
-            <div className="bg-white dark:bg-gray-700 rounded-xl p-6 shadow-sm border border-gray-100 dark:border-gray-600">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {recentResources.slice(0, 3).map((resource, index) => (
-                  <ResourceCard
-                    key={`shared-${index}`}
-                    title={resource.title}
-                    type={resource.type}
-                    subject={resource.subject}
-                    date={resource.date}
-                    downloads={resource.downloads}
-                    thumbnail={resource.thumbnail}
-                    onView={() => resource.type === 'video' ? handleVideoCardClick(resource.videoUrl, resource.title) : handleViewPdf(resource.url, resource.title)}
-                    onDownload={() => handleDownload(resource.title, resource.type)}
-                    videoUrl={resource.videoUrl}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        );
+    
 
       default:
         const filteredDashboardResources = filterResourcesBySubject(
@@ -2321,7 +2226,7 @@ case 'liberay':
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
               <div className="flex-1">
                 <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-white">Tulu Dimtu Students <span className='text-blue-500'>Study Dashboard</span></h1>
-                <p className="text-gray-600 dark:text-gray-400">Dear Students Access all your learning resources in one place</p>
+                {/* <p className="text-gray-600 dark:text-gray-400">Dear Students Access all your learning resources in one place</p> */}
                 <div className="mt-2 flex items-center flex-wrap gap-2">
 
 

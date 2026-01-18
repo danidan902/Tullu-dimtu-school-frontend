@@ -491,13 +491,13 @@ function Home() {
 </div>
 
        
-           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 via-blue-900/55 to-blue-900/10" />
-
-
+   {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 via-blue-900/55 to-blue-900/10" />
   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />  */}
 
-  
-  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />
+<div className="absolute inset-0 bg-gradient-to-r from-[#04395E] via-[#04395E]/70 to-transparent" />
+
+
           {/* Hero Content */}
           <div className="relative z-20 flex flex-col items-start justify-center h-full px-4 md:px-8 lg:px-16 text-left">
             {/* Text Content */}
@@ -1119,7 +1119,7 @@ function Home() {
           <ScrollReveal>
             <div className="container mx-auto px-6">
               <div 
-                className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-12 text-center shadow-xl"
+                className="bg-gradient-to-r from-[#04395E] via-[#04395E]/90 to-transparent rounded-2xl p-12 text-center shadow-xl"
               >
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                   Ready to Join Our Community?

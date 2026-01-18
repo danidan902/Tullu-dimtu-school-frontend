@@ -63,6 +63,15 @@ import ProfessionalQuizApp from './components/PhoneVerification';
 import Grade9 from './exams/Grade9';
 import Grade10 from './exams/Grade10';
 import EthiopianGrade11Quiz from './exams/Grade11';
+import AdmissionPage from './Pages/ProfilePage';
+import AdmissionFormOnline from './Admission/Addmision';
+import AdminDashboardPage from './Admission/AdminDashboard';
+import AdminSignInPage from './Admission/AdminSign';
+import EthiopianUniversityEntranceExam from './exams/Grade12';
+import StudentNotes from './Pages/StudentNotes';
+import StudentNotes1 from './Pages/StudentNote1';
+import StudentNotes2 from './Pages/StudentNote2';
+import StudentNotes3 from './Pages/StudentNote3';
 
 
 
@@ -120,7 +129,7 @@ const TeacherDataContext = React.createContext();
 // Beautiful Loading Component
 function BeautifulLoader() {
   const [colorIndex, setColorIndex] = useState(0);
-  const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#00f2fe'];
+  const colors = ['#000000', ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -198,6 +207,11 @@ const Layout = ({ children }) => {
      '/grade9',
      '/grade10',
       '/grade11',
+      '/admission-Page',
+      '/online-admission',
+      '/logIn',
+      '/admission-portal',
+      '/grade12'
      
   ];
   
@@ -219,13 +233,86 @@ const Layout = ({ children }) => {
 // Main App Content with Teacher Data Provider
 function AppContent() {
   const teacherData = useTeacherData();
-
+ 
   return (
     <>
     
     <TeacherDataContext.Provider value={teacherData}>
       <Layout>
         <Routes>
+          <Route 
+          path='/student-note11'
+            element={
+              <ProtectedRoute>
+                <StudentNotes3 />
+              </ProtectedRoute>
+            }
+          />
+           <Route 
+           path='/student-note10'
+           element={
+            <ProtectedRoute>
+              <StudentNotes2 />
+            </ProtectedRoute>
+           }
+           />
+          <Route 
+           path='/student-note9'
+            element={
+              <ProtectedRoute>
+                <StudentNotes1 />
+              </ProtectedRoute>
+            } />
+   
+       <Route 
+       path='/student-note'
+        element={
+          <ProtectedRoute>
+            <StudentNotes />
+          </ProtectedRoute>
+        } />
+
+          <Route 
+           path='/grade12'
+           element={
+            <ProtectedRoute>
+              <EthiopianUniversityEntranceExam />
+            </ProtectedRoute>
+           }
+          />
+          <Route 
+          path='/logIn'
+            element={
+              <ProtectedRoute>
+                <AdminSignInPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route 
+          path='/admission-portal'
+            element={
+              <ProtectedRoute>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+           <Route 
+           path='/online-admission'
+            element={
+              <ProtectedRoute>
+                <AdmissionFormOnline />
+              </ProtectedRoute>
+            }
+           />
+           
+          <Route 
+          path='/admission-Page'
+          element={
+            <ProtectedRoute>
+              <AdmissionPage/>
+            </ProtectedRoute>
+          }
+          />
           <Route 
           path='/grade11'
           element={

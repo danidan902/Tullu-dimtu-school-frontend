@@ -132,7 +132,7 @@ const AdmissionPortal = () => {
                 >
                   <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block mx-3">
                     <motion.a
-                      href="https://tulludimturegistration.vercel.app/"
+                      href="/admission-Page"
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}

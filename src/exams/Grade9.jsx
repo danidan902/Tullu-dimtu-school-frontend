@@ -18,7 +18,7 @@ import {
   Globe,
   HistoryIcon
 } from "lucide-react";
-
+import { useNavigate } from 'react-router-dom';
 // Categories with icons and question counts
 const categories = [
   { 
@@ -421,6 +421,7 @@ export default function Grade9() {
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [quizProgress, setQuizProgress] = useState(0);
+  const navigate = useNavigate();
   
   const timerRef = useRef(null);
   const questionRef = useRef(null);
@@ -569,13 +570,18 @@ export default function Grade9() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-         
+        
 
-          
 
-          {/* Category Selection */}
+
+        <div className="fixed top-2 left-2 right-2 z-10 md:top-4 md:left-4 md:right-auto">
+                    
+                      <ChevronLeft onClick={() => navigate('/studentstudy-dashboard')} className="w-8 h-8" />
+                      {/* <span className="truncate">Back to Home</span> */}
+                   
+                  </div>
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2 mt-16">
               
               Choose Your Subject
             </h2>

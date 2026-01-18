@@ -55,7 +55,7 @@ function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-tr from-blue-950 via-blue-900 to-blue-800 text-white pt-14 pb-10 w-full">
+    <footer className="bg-[#04395E] via-[#04395E]/120 to-transparent text-white pt-14 pb-10 w-full">
       <div className="px-4 sm:px-6 lg:px-8 py-4">
         {/* Main Footer Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">

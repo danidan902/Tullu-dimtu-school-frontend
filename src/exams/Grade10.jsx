@@ -21,7 +21,7 @@ import {
   BookText,
   HeartPulse
 } from "lucide-react";
-
+import { useNavigate } from 'react-router-dom';
 // Updated categories with all subjects
 const categories = [
   { 
@@ -1080,8 +1080,8 @@ const englishQuiz = [
     question: "Why is the theme important in understanding a literary text?",
     options: [
       "It explains grammar rules",
-      "It reveals the central message of the text",
       "It describes the author’s biography",
+      "It reveals the central message of the text",
       "It replaces the plot"
     ],
     correctAnswer: "It reveals the central message of the text"
@@ -1090,9 +1090,9 @@ const englishQuiz = [
     question: "Which explanation best describes the purpose of a metaphor?",
     options: [
       "To confuse the reader",
-      "To compare two unlike things for deeper meaning",
       "To explain facts",
-      "To summarize a story"
+      "To summarize a story",
+      "To compare two unlike things for deeper meaning",
     ],
     correctAnswer: "To compare two unlike things for deeper meaning"
   },
@@ -1109,8 +1109,8 @@ const englishQuiz = [
   {
     question: "What is the main purpose of a topic sentence in a paragraph?",
     options: [
-      "To conclude ideas",
       "To introduce the main idea",
+      "To conclude ideas",
       "To give examples",
       "To add vocabulary"
     ],
@@ -1120,9 +1120,9 @@ const englishQuiz = [
     question: "Why is reading comprehension important?",
     options: [
       "It increases speed only",
-      "It helps understand meaning and context",
       "It improves handwriting",
-      "It reduces vocabulary"
+      "It reduces vocabulary",
+      "It helps understand meaning and context",
     ],
     correctAnswer: "It helps understand meaning and context"
   },
@@ -1130,8 +1130,8 @@ const englishQuiz = [
     question: "What is the function of a thesis statement?",
     options: [
       "To list references",
-      "To present the main argument",
       "To repeat ideas",
+      "To present the main argument",
       "To end an essay"
     ],
     correctAnswer: "To present the main argument"
@@ -1139,8 +1139,8 @@ const englishQuiz = [
   {
     question: "Why are conjunctions important in writing?",
     options: [
-      "They shorten words",
       "They connect ideas and clauses",
+      "They shorten words",
       "They replace verbs",
       "They remove repetition"
     ],
@@ -1160,9 +1160,9 @@ const englishQuiz = [
     question: "Why is formal language important in academic writing?",
     options: [
       "It sounds emotional",
-      "It maintains clarity and professionalism",
       "It shortens essays",
-      "It avoids structure"
+      "It avoids structure",
+      "It maintains clarity and professionalism",
     ],
     correctAnswer: "It maintains clarity and professionalism"
   },
@@ -1170,9 +1170,9 @@ const englishQuiz = [
     question: "What is the role of punctuation in writing?",
     options: [
       "To decorate text",
-      "To clarify meaning and structure",
       "To increase length",
-      "To change vocabulary"
+      "To change vocabulary",
+      "To clarify meaning and structure",
     ],
     correctAnswer: "To clarify meaning and structure"
   },
@@ -1210,17 +1210,17 @@ const englishQuiz = [
     question: "What is the purpose of dialogue in a narrative?",
     options: [
       "To increase length",
-      "To reveal character and advance plot",
       "To avoid description",
-      "To replace narration"
+      "To replace narration",
+      "To reveal character and advance plot",
     ],
     correctAnswer: "To reveal character and advance plot"
   },
   {
     question: "Why is coherence important in writing?",
     options: [
-      "It removes ideas",
       "It ensures logical flow",
+      "It removes ideas",
       "It shortens paragraphs",
       "It adds vocabulary"
     ],
@@ -1515,6 +1515,8 @@ export default function Grade10() {
   const [answeredQuestions, setAnsweredQuestions] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [quizProgress, setQuizProgress] = useState(0);
+
+  const navigate = useNavigate();
   
   const timerRef = useRef(null);
   const questionRef = useRef(null);
@@ -1539,7 +1541,7 @@ export default function Grade10() {
   // Get category icon
   const getCategoryIcon = (categoryId) => {
     const category = categories.find(c => c.id === categoryId);
-    return category ? category.icon : '📚';
+    return category ? category.icon : '';
   };
 
   // Get category color class
@@ -1730,11 +1732,14 @@ export default function Grade10() {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4 md:p-8 ">
         <div className="max-w-6xl mx-auto">
-          {/* Header */}
-        
-
-          {/* Stats */}
+         
           
+      <div className="fixed top-2 left-2 right-2 z-10 md:top-4 md:left-4 md:right-auto">
+                  
+                    <ChevronLeft onClick={() => navigate('/studentstudy-dashboard')} className="w-8 h-8" />
+                    {/* <span className="truncate">Back to Home</span> */}
+                 
+                </div>
 
           {/* Category Selection */}
           <div className="mb-12">

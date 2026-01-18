@@ -120,7 +120,7 @@ const CurriculumShowcase = () => {
         <title>Curriculum | Tullu Dimtu Secondary School</title>
         </Helmet>
 
-      <div className="bg-gradient-to-b from-gray-50 to-white overflow-hidden" ref={ref}>
+      <div className="  overflow-hidden" ref={ref}>
         {/* Enhanced Animated Header with professional blue gradient */}
         <motion.div 
           initial={{ opacity: 0 }}
@@ -131,8 +131,8 @@ const CurriculumShowcase = () => {
           {/* Background with professional blue gradient and parallax */}
           <motion.div 
             style={{ y: yBg, opacity: opacityBg, scale: scaleBg }}
-            className="absolute inset-0 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900"
-          >
+            className="absolute inset-0 bg-gradient-to-r from-[#04395E] to-[#04395E]/85 "
+          > 
             {/* Subtle geometric pattern overlay */}
             <div className="absolute inset-0 opacity-10 ">
               <div className="absolute inset-0" style=
