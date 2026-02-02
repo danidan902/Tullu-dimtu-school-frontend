@@ -227,7 +227,7 @@ function EmailVerification() {
             >
            
         <img src={bg} 
-        className='w-full h-full rounded-full md:p-16'
+        className='w-full h-full rounded-full p-8'
         />
              
               {error && (
