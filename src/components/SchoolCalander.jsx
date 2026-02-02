@@ -320,7 +320,7 @@ export default function EthiopianSchoolCalendar() {
 
   return (
     <>
-     <div className="relative w-full h-[90vh] md:h-92 overflow-hidden">
+     <div className="relative w-full h-[70vh] md:h-92 overflow-hidden">
         {/* Background Image Container */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
