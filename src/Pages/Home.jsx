@@ -3,9 +3,9 @@ import students from "../assets/gal3.jpg";
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import { Helmet } from "react-helmet-async";
-import anim from '../assets/studentlife.jpg';
+import anim from '../assets/mekdes.jpg';
 import anim1 from '../assets/por.jpg'
-import anim2 from '../assets/cro.jpg'
+import anim2 from '../assets/local.jpg'
 import anim5 from '../assets/tul6.jpg'
 import anim6 from '../assets/stu1.jpg'
 import anim7 from '../assets/lab.png'

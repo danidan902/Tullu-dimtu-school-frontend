@@ -6,13 +6,13 @@ import { Helmet } from "react-helmet-async";
 import gal from '../assets/po1.jpg';
 import pot from '../assets/po2.jpg';
 import pot1 from '../assets/gal2.jpg';
-import anim1 from '../assets/life4.jpg';
+import anim1 from '../assets/mekdes.jpg';
 import anim2 from '../assets/gal.jpg';
 import anim3 from '../assets/pot1.jpg';
 import anim4 from '../assets/gal1.jpg';
 import anim5 from '../assets/gal3.jpg';
 import anim6 from '../assets/gal4.jpg';
-import anim7 from '../assets/gal5.jpg';
+import anim7 from '../assets/tech1.jpg';
 import anim8 from '../assets/gal6.jpg';
 import anim9 from '../assets/gal7.jpg';
 import anim10 from '../assets/gal8.jpg';
@@ -47,6 +47,7 @@ import anim38 from '../assets/gal33.jpg';
 import anim18 from '../assets/chem.png';
 import schoolBgImage from '../assets/tul8.jpg';
 import dir1 from '../assets/dir1.png'
+import loc from '../assets/local.jpg'
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -99,6 +100,16 @@ const Gallery = () => {
       date: "2023-09-05",
       tags: ["teachers", "celebration", "appreciation"],
       color: "from-pink-500 to-rose-500"
+    },
+    {
+      id: 4,
+      title: "Computer Lab Sessions",
+      category: "academics",
+      description: "Students learning computer skills",
+      image: loc,
+      date: "2024-02-10",
+      tags: ["technology", "computers", "learning"],
+      color: "from-cyan-500 to-blue-500"
     },
     {
       id: 8,

@@ -50,6 +50,7 @@ const PrincipalMessage = () => {
       <div className="block lg:hidden w-full p-8">
         <img 
           src={schoolEvent}
+          className='w-full h-[50vh] rounded-xl'
         />
         <div className="mt-4 text-center p-4">
           <p className="text-xl font-semibold text-gray-800">
@@ -58,17 +59,7 @@ const PrincipalMessage = () => {
           <p className="text-gray-600">
             Principal, Tulu Dimtu School
           </p>
-          <div className="mt-2 space-y-1">
-            <p className="text-gray-700 text-sm">
-              M.Sc., M.Ed., Ph.D.
-            </p>
-            <p className="text-gray-600 text-xs">
-              25+ Years in Education
-            </p>
-            <p className="text-gray-600 text-xs">
-              Email: principal@tuludimtu.edu
-            </p>
-          </div>
+         
         </div>
       </div>
 
@@ -171,7 +162,7 @@ const PrincipalMessage = () => {
               <div className="sticky top-8 py-8">
                 <img 
                   src={schoolEvent}
-                  className="w-full h-auto rounded-lg shadow-lg "
+                  className="w-full h-[70vh] rounded-lg shadow-lg "
                 />
                 <div className="mt-4 text-center">
                   <p className="text-xl font-semibold text-gray-800">

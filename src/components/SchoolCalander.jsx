@@ -1,7 +1,8 @@
 
-import React, { useState, useEffect, useRef } from "react";
-import bgImage from '../assets/tullu.png';
+import { useState, useEffect, useRef } from "react";
+import bgImage from '../assets/local.jpg';
 import Footer from "./Footer";
+import { vh } from "framer-motion";
 
 
 const ETH_MONTHS = [
@@ -319,7 +320,7 @@ export default function EthiopianSchoolCalendar() {
 
   return (
     <>
-     <div className="relative w-full h-[340px] md:h-92 overflow-hidden">
+     <div className="relative w-full h-[90vh] md:h-92 overflow-hidden">
         {/* Background Image Container */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
@@ -329,25 +330,26 @@ export default function EthiopianSchoolCalendar() {
             backgroundPosition: 'center',
             // Ensure image covers the area on all devices
             width: '100%',
-            height: '100%',
+            height: '',
             minHeight: '260px'
           }}
         >
           {/* Mobile-specific fallback */}
           <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden bg-fixed"
+            className="absolute inset-0 bg-cover h-[90vh] bg-center bg-no-repeat md:hidden bg-fixed"
             style={{
               backgroundImage: `url(${bgImage})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               width: '100%',
-              height: '100%'
+              height: '120vh'
+              
             }}
           />
         </div>
         
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-indigo-900/70 to-purple-900/80 flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-[#04395E] via-[#04395E]/70 to-transparent flex items-center justify-center">
           <div className="text-center text-white px-4">
             <h1 className="text-3xl md:text-5xl mt-8 md:mt-16 font-extrabold mb-3 tracking-wide drop-shadow-lg">
               Tuludimtu School Calendar

@@ -1,18 +1,15 @@
 import { FaQuoteLeft } from "react-icons/fa";
+
 import Footer from "../components/Footer";
 import schoolBgImage from '../assets/tul8.jpg';
 import { Helmet } from "react-helmet-async";
+import badhasa from '../assets/badhasa.jpg'
 
 const DirectorMessage = () => {
   return (
    <>
        <Helmet>
           <title>School Director Message</title>
-          <meta
-  name="description"
-  content="Read the School Director’s message highlighting our commitment to quality education, strong leadership, student success, and academic excellence."
-/>
-
          </Helmet> 
    
     <div className="min-h-screen bg-white">
@@ -42,7 +39,7 @@ const DirectorMessage = () => {
                       </div>
                   </div>
               </div>
-     <div className="absolute bottom-0 left-0 w-full h-[80px] sm:h-[120px] md:h-[150px] z-30">
+     <div className="absolute bottom-0 left-0 w-full h-[80px] sm:h-[120px] md:h-[150px] z-30 hidden md:block">
   
   {/* solid background overlap */}
   <div className="absolute bottom-0 left-0 w-full h-[6px] bg-white"></div>
@@ -72,9 +69,9 @@ const DirectorMessage = () => {
       {/* Phone Director Image - Full width on mobile */}
       <div className="block lg:hidden p-4 mt-16">
         <img 
-          src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" 
+          src={badhasa}
           alt="Director, Tulu Dimtu School"
-          className="w-full h-auto"
+          className="w-[50vh] h-[60vh] rounded-xl"
         />
         <div className="mt-4 text-center p-4">
           <p className="text-xl font-semibold text-gray-800">
@@ -175,9 +172,9 @@ const DirectorMessage = () => {
             <div className="lg:w-1/3 hidden lg:block">
               <div className="sticky top-8">
                 <img 
-                  src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
+                  src={badhasa}
                   alt="Director, Tulu Dimtu School"
-                  className="w-full h-auto rounded-lg shadow-lg"
+                  className="h-[70vh] rounded-lg shadow-lg"
                 />
                 <div className="mt-4 text-center">
                   <p className="text-xl font-semibold text-gray-800">

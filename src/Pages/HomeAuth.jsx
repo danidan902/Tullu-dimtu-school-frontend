@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import leftBgImage from '../assets/cro.jpg';
+import leftBgImage from '../assets/local.jpg';
 
 // Animation variants
 const containerVariants = {
@@ -217,48 +217,33 @@ const ContactForm = () => {
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
       <motion.div
-  className="
-    relative flex flex-col justify-center md:justify-between
-    px-5 py-8 md:px-10 md:py-10
-    overflow-hidden
-    rounded-b-[10%]
-    md:rounded-none md:rounded-r-[30%]
-  "
-  initial={{ opacity: 0 }}
-  animate={{ opacity: 1 }}
-  transition={{ duration: 0.8 }}
-  style={{
- 
-  }}
->
+        className="
+          relative flex flex-col justify-center md:justify-between
+          px-5 py-8 md:px-10 md:py-10
+          overflow-hidden
+          rounded-b-[10%]
+          md:rounded-none md:rounded-r-[30%]
+        "
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url(${leftBgImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            clipPath: 'polygon(0% 0%, 100% 0%, 100% 87%, 85% 100%, 0% 100%)',
+          }}
+        />
 
-    
-        <>
- 
-  <div
-    className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-    style={{
-      backgroundImage: `url(${leftBgImage})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      clipPath: 'polygon(0% 0%, 100% 0%, 100% 87%, 85% 100%, 0% 100%)',
-    
-    }}
-  />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-950/80 via-blue-900/50 to-transparent" />
 
- 
-  <div className="absolute inset-0 bg-gradient-to-r from-blue-950/80 via-blue-900/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />
 
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 
-  <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />
-
- 
-  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
-</>
-
-        
-        
-   
         <div className="absolute top-10 right-10 flex space-x-2">
           {[1, 2, 3].map((i) => (
             <div 
@@ -272,7 +257,6 @@ const ContactForm = () => {
           ))}
         </div>
         
-    
         <style jsx>{`
           @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -285,36 +269,27 @@ const ContactForm = () => {
           }
         `}</style>
         
-     
         <motion.div
           className="relative z-10 max-w-md mx-auto md:mx-0 text-center md:text-left"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-   
           <motion.h1 
             className="text-3xl md:text-4xl font-bold mb-6 text-white"
             variants={itemVariants}
-           
           >
             Welcome to <span className="text-yellow-500 italic">Tulu Dimtu School</span> 
           </motion.h1>
 
           <motion.p
-            className="text-lg mb-8 leading-relaxed   text-blue-200/90 p-6  "
+            className="text-lg mb-8 leading-relaxed text-blue-200/90 p-6"
             variants={itemVariants}
-
           >
             At Tulu Dimtu School, we are dedicated to nurturing young minds through quality education, 
             strong values, and modern learning approaches.
           </motion.p>
-
-    
         </motion.div>
-
-      
-        
       </motion.div>
 
       <motion.div
@@ -324,7 +299,6 @@ const ContactForm = () => {
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
         <div className="w-full max-w-md">
-      
           {message.text && (
             <motion.div 
               initial={{ opacity: 0, y: -20 }}
@@ -352,11 +326,9 @@ const ContactForm = () => {
             </motion.div>
           )}
 
-        
           <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
             <div className="px-8 pt-8 pb-6">
               <div className="mb-6 text-center">
-
                 <div className="mt-4">
                   {isSignedIn ? (
                     <div className="inline-flex items-center space-x-2 bg-emerald-500/20 backdrop-blur-sm rounded-full py-1.5 px-4 border border-emerald-500/20">
@@ -404,60 +376,11 @@ const ContactForm = () => {
                   </div>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Email Address
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-                        </svg>
-                      </div>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        disabled={isSubmitting || isSignedIn}
-                        className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                        placeholder="Enter your email"
-                      />
-                    </div>
-                  </div>
-
-                 
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Password  
-                    </label>   
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
-                      </div> this name of this name of this name of thia name of this name 
-                      <input
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                        disabled={isSubmitting}
-                        className="w-full pl-10 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                        placeholder="Enter your password"
-                      />
-                    </div>
-                  </div>
-
-                
+                <div className="space-y-6">
                   <div className="pt-2">
                     {!isSignedIn ? (
                       <button
-                        type="submit"
+                        onClick={handleSubmit}
                         disabled={isSubmitting}
                         className="w-full bg-gradient-to-br from-teal-600 via-teal-500 to-teal-700 opacity-95 text-white py-3 px-4 rounded-lg font-medium hover:from-teal-700 hover:via-teal-600 hover:to-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
@@ -473,7 +396,7 @@ const ContactForm = () => {
                       </button>
                     ) : (
                       <button
-                        type="submit"
+                        onClick={handleSubmit}
                         disabled={isSubmitting}
                         className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
@@ -489,25 +412,23 @@ const ContactForm = () => {
                       </button>
                     )}
                   </div>
-
-                </form>
+                </div>
               )}
             </div>
-<div className="px-8 py-4 bg-blue-50 border-t border-blue-100 shadow-lg">
-  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-    <motion.div
-      className="relative z-10 mt-4 md:mt-0"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5, duration: 0.8 }}
-    >
-      <p className="text-center justify-center  text-gray-400">
-        © {new Date().getFullYear()} Tulu Dimtu School. All rights reserved. Developed with ❤️ by Daniel Sheleme.
-      </p>
-    </motion.div>
-  </div>
-</div>
-
+            <div className="px-8 py-4 bg-blue-50 border-t border-blue-100 shadow-lg">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <motion.div
+                  className="relative z-10 mt-4 md:mt-0"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5, duration: 0.8 }}
+                >
+                  <p className="text-center justify-center text-gray-400 text-sm">
+                    © {new Date().getFullYear()} Tulu Dimtu School. All rights reserved. Developed with ❤️ by Daniel Sheleme.
+                  </p>
+                </motion.div>
+              </div>
+            </div>
           </div>
         </div>
       </motion.div>

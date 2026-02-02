@@ -39,17 +39,21 @@ const CambridgeAcademy = () => {
        
         <div className="absolute inset-0">
           <img 
-            src={bg} 
-            alt="School Background"
-            className="w-full h-full object-cover object-center"
-          />
-         
-         
-        
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-        </div>
+  src={bg} 
+  alt="School Background"
+  className="
+    w-full 
+    h-[90vh]        
+    md:h-full       
+    object-cover 
+    object-center
+  "
+/>
 
-        <div className="relative z-10 min-h-screen flex flex-col justify-between px-5 py-8 md:px-10 md:py-12">
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+        </div>  
+
+        <div className="relative  grid-cols-1 md:grid-cols-2 md:min-h-screen  justify-between px-5 py-32 md:px-10 md:py-12">
           <motion.div
             className="max-w-lg"
             variants={containerVariants}

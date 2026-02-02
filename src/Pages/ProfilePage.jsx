@@ -1,4 +1,3 @@
-
 import React from "react";
 import { motion } from "framer-motion";
 import logo from "../assets/tullulogo.png";
@@ -37,7 +36,7 @@ const AdmissionPage = () => {
 
   {/* wave */}
   <svg
-    className="absolute bottom-0 left-0 block w-full h-full scale-y-[-1]"
+    className="absolute bottom-0 left-0 block w-full h-full scale-y-[-1] hidden md:block"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1200 120"
     preserveAspectRatio="none"
@@ -61,7 +60,11 @@ const AdmissionPage = () => {
           <img 
             src={bg} 
             alt="School Background"
-            className="w-full h-full object-cover object-center"
+            className="w-full 
+    h-[80vh]        
+    md:h-full       
+    object-cover 
+    object-center "
           />
           {/* Gradient Overlay - Left to Right */}
         
@@ -73,7 +76,7 @@ const AdmissionPage = () => {
         </div>
 
         {/* Content Overlay - Positioned on left side */}
-        <div className="relative z-10 min-h-screen flex flex-col justify-between px-5 py-8 md:px-10 md:py-12">
+        <div className="relative z-10  flex flex-col justify-between px-5 py-40 md:px-10 md:py-12">
           <motion.div
             className="max-w-lg"
             variants={containerVariants}
@@ -98,7 +101,7 @@ const AdmissionPage = () => {
     className="font-[Playfair_Display] 
                text-4xl sm:text-5xl md:text-6xl 
                font-bold tracking-tight 
-               text-white mb-3 mt-20"
+               text-white mb-3 mt-4"
   >
     Welcome <span className="text-teal-400">Back</span>
   </motion.h1>
@@ -128,7 +131,7 @@ const AdmissionPage = () => {
 
       {/* RIGHT SECTION - FORM */}
       <motion.div
-        className="flex items-center justify-center bg-white px-4 py-8 md:px-6 md:py-0"
+        className="flex items-center grid-cols-1 md:grid-cols-2 md:min-h-screen justify-center bg-white px-4 py-8 md:px-6 md:py-0"
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.0, ease: "easeOut" }}
