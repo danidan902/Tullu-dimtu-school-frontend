@@ -1,14 +1,28 @@
-import { Home } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { FaEye  } from 'react-icons/fa';
-import logo from '../assets/tullulogo.png'
+import studentLifeHero from '../assets/por.jpg';
 
 const GlassCards = () => {
   const navigate = useNavigate();
   
   const cards = [
+   
     {
       id: 1,
+      title: "Student Registration Portal",
+      description: "Admin can access Teacher upload attendance records, enter marks, manage class schedules, and communicate with students and parents efficiently.",
+      stats: "Attendance & Marks",
+      buttons: [
+        {
+          text: "View Upload Attendance",
+          action: () => navigate('/admission-portal'),
+          type: 'secondary'
+        },
+      ]
+    },
+      {
+      id: 2,
       title: "Teacher Upload Attendance $ Mark List",
       description: "Admin can access Teacher upload attendance records, enter marks, manage class schedules, and communicate with students and parents efficiently.",
       stats: "Attendance & Marks",
@@ -21,7 +35,7 @@ const GlassCards = () => {
       ]
     },
     {
-      id: 2,
+      id: 3,
       title: "Student Academics Registered",
       description: "Registered students can view their academic records, attendance, marks, download study materials, and track their academic progress.",
       stats: "Academic Tracking",
@@ -34,33 +48,33 @@ const GlassCards = () => {
       ]
     },
     {
-      id: 3,
+      id: 4,
       title: "Student Council Registered",
       description: "Student council members can manage events, post announcements, gather feedback, and coordinate extracurricular activities.",
       stats: "Student Leadership",
       buttons: [
         {
-          text: "",
-          action: () => navigate('/manage-events'),
+          text: "View Student Councle List",
+          action: () => navigate('/student-councle-port'),
           type: 'info'
         },
       ]
     },
     {
-      id: 4,
+      id: 5,
       title: "School Contact Registered",
       description: "Centralized contact information for departments, staff, and administration. Parents can submit inquiries and schedule meetings.",
       stats: "Communication Hub",
       buttons: [
         {
           text: "View School Contact",
-          action: () => navigate('/contact-directory'),
+          action: () => navigate('/contact-school-port'),
           type: 'warning'
         },
       ]
     },
     {
-      id: 5,
+      id: 6,
       title: "School Visitor Registered",
       description: "Visitor management system for logging guest entries, scheduling appointments, and maintaining campus security records.",
       stats: "Visitor Management",
@@ -73,7 +87,7 @@ const GlassCards = () => {
       ]
     },
     {
-      id: 6,
+      id: 7,
       title: "Director News Portal",
       description: "Administrators can access all system modules, manage user permissions, oversee school operations, and generate comprehensive reports.",
       stats: "Upload News & Announcment",
@@ -85,6 +99,7 @@ const GlassCards = () => {
         },
       ]
     },
+   
   ];
 
 
@@ -111,32 +126,46 @@ const GlassCards = () => {
 
   return (
    <>
-
-     <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-16">
-                <div className="fixed top-2 left-2 right-2 z-10 md:top-4 md:left-4 md:right-auto">
-                            <button
-                              onClick={() => navigate('/')}
-                              className="flex items-center justify-center space-x-2 w-full md:w-auto px-3 py-2 md:px-4 md:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md text-sm md:text-base"
-                            >
-                              <Home className="w-4 h-4 md:w-5 md:h-5" />
-                              <span className="truncate">Back to Home Page</span>
-                            </button>
-                          </div>
-              <div className="absolute inset-0 bg-black opacity-40"></div>
-              <div className="flex justify-center mb-4 md:mb-6 mt-4 md:mt-0">
-                           <div className="bg-blue-100 rounded-2xl max-w-[200px] md:max-w-none">
-                             <img src={logo} alt='Tuludimtu School Logo' className='w-56 h-56'/>
-                           </div>
-                         </div>
-              <div className="relative container mx-auto px-4 text-center">
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">School Management System</h2>
-                <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                  The Admin Portal of Tullu Dimtu School is designed to manage core academic operations securely and efficiently. Through this portal, administrators can register students, manage teachers, upload attendance records and mark lists, and handle school visitor access and contact requests.
-                </p>
-              </div>
-            </div>
+  
    
-    <div className="min-h-screen relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900">
+    
+  {/* Background Image */}
+  <div
+    className="absolute inset-0 w-full h-full bg-cover bg-center bg-fixed"
+    style={{ backgroundImage: `url(${studentLifeHero})` }}
+  >
+    {/* Gradient Overlay */}
+    <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/50 to-transparent" />
+    {/* Semi-transparent dark overlay for text readability */}
+    <div className="absolute inset-0 bg-black/30" />
+  </div>
+
+  {/* Top Navigation Button */}
+  <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+              <button
+                onClick={() => navigate('/')}
+                className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                aria-label="Go back"
+              >
+                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+              </button>
+            </div>
+
+
+
+  {/* Hero Text */}
+  <div className="relative z-10 flex flex-col items-center justify-center text-center px-4 mt-8 md:mt-12 max-w-4xl mx-auto">
+    <h1 className="text-4xl md:text-5xl font-bold mb-4 mt-40 text-white">
+      School <span className='text-blue-500'>Management System</span>
+    </h1>
+    <p className="text-lg md:text-xl text-white/90 mt-12 mb-40">
+      The Admin Portal of Tullu Dimtu School is designed to manage core academic operations securely and efficiently. Administrators can register students, manage teachers, upload attendance records and mark lists, and handle school visitor access and contact requests.
+    </p>
+  </div>
+
+
+   
+    <div className="min-h-screen relative bg-blue-50">
                 
           
 
@@ -155,7 +184,7 @@ const GlassCards = () => {
                 className="relative group"
               >
                 {/* Glass Effect Card */}
-                <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 h-full flex flex-col">
+                <div className=" bg-blue-50 rounded-2xl p-6 border border-black/20 shadow-2xl hover:shadow-3xl transition-all duration-500 transform hover:-translate-y-2 h-full flex flex-col">
                   
                   {/* Card Header */}
                   <div className="mb-6">
@@ -177,10 +206,10 @@ const GlassCards = () => {
                   
                   {/* Card Content */}
                   <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-white mb-3">
+                    <h3 className="text-2xl text-gray-800 font-bold  mb-3">
                       {card.title}
                     </h3>
-                    <p className="text-blue-100 mb-6 leading-relaxed">
+                    <p className="text-gary-600 mb-6 leading-relaxed">
                       {card.description}
                     </p>
                   </div>

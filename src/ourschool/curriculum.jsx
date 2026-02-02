@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { FaBookOpen, FaFlask, FaCalculator, FaGlobeAfrica, FaHistory, FaLanguage, FaRunning, FaSearch, FaChevronRight, FaGraduationCap, FaChalkboardTeacher } from 'react-icons/fa';
+import { FaBookOpen, FaFlask, FaCalculator, FaGlobeAfrica, FaHistory,  FaRunning, FaSearch, FaChevronRight, FaGraduationCap, FaChalkboardTeacher } from 'react-icons/fa';
 import Footer from '../components/Footer';
 import schoolBgImage from '../assets/tullu.png';
 import { Helmet } from "react-helmet-async";

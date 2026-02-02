@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { Home, Eye, Download } from 'lucide-react';
+import {  Eye, Download, ChevronLeft } from 'lucide-react';
 
 const API_URL = 'http://localhost:5000/api/registrations';
 
@@ -330,18 +330,17 @@ const Dashboard = () => {
         </div>
       )}
 
-      <div className="fixed top-4 left-4 right-4 z-10 flex justify-between items-center">
-        <button
-          onClick={() => navigate('/admin-control')}
-          className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
-        >
-          <Home className="w-5 h-5" />
-          <span className="hidden sm:inline">Back to Home</span>
-        </button>
-        
-        {/* Download Options */}
-        
-      </div>
+     
+
+       <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+                    <button
+                      onClick={() => navigate('/admin-control')}
+                      className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                      aria-label="Go back"
+                    >
+                      <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                    </button>
+                  </div>
 
       <div className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

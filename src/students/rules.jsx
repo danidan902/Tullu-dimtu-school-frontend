@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import bulding from '../assets/life1.jpg'
+import bulding from '../assets/por.jpg'
 import Footer from '../components/Footer';
 import { Helmet } from "react-helmet-async";
 const TulluDimtuSchoolRules = () => {

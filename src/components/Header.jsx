@@ -1,6 +1,6 @@
  import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, ChevronDown, ChevronUp, LogOut, Home, User, Lock, ExternalLink, Shield } from "lucide-react";
+import { Menu, X, ChevronDown, ChevronUp, LogOut, Lock, ExternalLink, Shield,  } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { UserButton, useUser, SignOutButton, SignInButton } from '@clerk/clerk-react';
 import logo from '../assets/tullulogo.png'
@@ -41,6 +41,11 @@ function Header() {
   const isLogInPage = location.pathname === "/logIn";
   const isAdminPortalPage = location.pathname === "/admission-portal";
   const isGrade12Pge = location.pathname === "/grade12";  
+  const isContactSchool = location.pathname === "/contact-school-port";
+  const isConcernsStudent = location.pathname === "/student-councle-port";
+  const isSeeProfileDash = location.pathname === "/studet-see-dash";
+  const isShowprofilestudent = location.pathname === "/student-see-profile"
+
 
 
 
@@ -208,11 +213,15 @@ if (
   isGrade10 ||
   isGrade11 ||
   isPage ||
-  isAdmissionPage ||
+  isAdmissionPage ||   
   isLogInPage || 
   isAdminPortalPage ||
-  isGrade12Pge
-) {
+  isGrade12Pge || 
+  isContactSchool ||
+  isConcernsStudent || 
+  isSeeProfileDash ||
+  isShowprofilestudent
+) { 
   return null;
 }
 
@@ -301,7 +310,7 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
             <img 
               src={logo} 
               alt="Tullu Dimtu School Logo" 
-              className="h-16 w-16"
+              className="h-16 w-16 hidden md:block"
             />
             <motion.div
               initial={{ scale: 0 }}
@@ -311,7 +320,7 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
           </motion.div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 font-semibold">
+        <nav className="hidden md:flex items-center gap-8 font-semibold ml-20">
           {navItems.map((item, index) => (
             <div key={index} className="relative">
               {item.path ? (
@@ -398,7 +407,7 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
               />
               <Link
                 to="/admission"
-                className="relative flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white shadow-lg transition-all duration-300 bg-gradient-to-r from-blue-700 to-teal-600 hover:from-blue-800 hover:to-teal-700 hover:shadow-xl hover:shadow-blue/30 active:translate-y-0.5"
+                className="relative flex items-center gap-2 px-6 py-3 rounded-lg text-sm font-semibold text-white shadow-lg transition-all duration-300 bg-gradient-to-r from-blue-700 to-teal-600   active:translate-y-0.5"
               >
                 Apply Now
                 <motion.span
@@ -461,10 +470,10 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
         </nav>
 
 
-
+    
 
         {/* Enhanced Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-2">
+        <div className="md:hidden flex items-center gap-2 mr-auto">
           <motion.button
             onClick={() => setOpen(!open)}
             className="relative p-3 group focus:outline-none z-10"
@@ -473,7 +482,7 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
             whileTap={{ scale: 0.9 }}
           >
             <motion.div
-              className="absolute inset-0 border-2 rounded-xl group-hover:border-blue-400"
+              className="absolute inset-0 border-2 rounded-xl group-hover:border-blue-400 "
               initial={false}
               animate={{
                 borderColor: open ? "rgba(59, 130, 246, 1)" : hasScrolled ? "rgba(99, 102, 241, 0.5)" : "rgba(255, 255, 255, 0.5)",
@@ -503,6 +512,8 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
             </motion.div>
           </motion.button>
         </div>
+
+        <LiveAnnouncements />
       </div>
 
       <AnimatePresence>
@@ -601,14 +612,7 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
               ))}
 
               {/* Mobile Sign In Button - Wrap with SignInButton */}
-              <div className="mt-4">
-                <SignInButton mode="modal">
-                  <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-red-600 text-base font-medium rounded-lg text-white bg-red-500 hover:bg-red-600 transition-all duration-300">
-                    <Lock size={18} />
-                    Sign In
-                  </button>
-                </SignInButton>
-              </div>
+             
 
               {/* Mobile Apply Now Button */}
               <div className="mt-4">
@@ -619,6 +623,17 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
                 >
                   Apply Now
                 </Link>
+              </div>
+
+               <div className="mt-4">
+              
+                 <a href="/profile-page">
+                   <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-blue-600 text-base font-medium rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition-all duration-300">
+                    <Lock size={18} />
+                    Sign In
+                  </button>
+                  </a>
+              
               </div>
             </div>
           </motion.div>

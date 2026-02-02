@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/registrations';
@@ -28,7 +28,8 @@ const Registration = () => {
     'Technology and Innovation',
     'Arts and Humanities',
     'Cultural Day',
-    'Mini Media'
+    'Mini Media',
+    "Sports"
   ];
 
   // Grade options for dropdown
@@ -221,7 +222,7 @@ const Registration = () => {
                 {isSubmitted && successMessage && (
                   <div className="mb-6 p-4 bg-green-500/20 border border-green-400 rounded-xl text-green-100 text-center">
                     <p className="font-semibold">✓ {successMessage}</p>
-                    <p className="text-sm mt-1">Your registration has been saved to the database.</p>
+                    <p className="text-sm mt-1">Thank you for registration for this programs.</p>
                   </div>
                 )}
                 

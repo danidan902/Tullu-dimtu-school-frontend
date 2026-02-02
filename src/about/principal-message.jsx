@@ -1,6 +1,7 @@
 import schoolBgImage from '../assets/bul.jpg';
 import { Helmet } from "react-helmet-async";
 import Footer from '../components/Footer';
+import schoolEvent from '../assets/saq.jpg';
 
 const PrincipalMessage = () => {
   return (
@@ -46,11 +47,9 @@ const PrincipalMessage = () => {
       </div>
 
       {/* Phone Principal Image - Full width on mobile */}
-      <div className="block lg:hidden w-full">
+      <div className="block lg:hidden w-full p-8">
         <img 
-          src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80" 
-          alt="Principal, Tulu Dimtu School"
-          className="w-full h-auto"
+          src={schoolEvent}
         />
         <div className="mt-4 text-center p-4">
           <p className="text-xl font-semibold text-gray-800">
@@ -80,9 +79,7 @@ const PrincipalMessage = () => {
             {/* Message on Left */}
             <div className="lg:w-2/3">
               <div className="space-y-6">
-                <p className="text-gray-700 text-lg">
-                  Dear Students, Parents, and Members of the Tulu Dimtu Community,
-                </p>
+                <h2 className='text-3xl font-bold'>Principal's Message - <span className='text-blue-800'>Tulu Dimtu School</span></h2>
 
                 <p className="text-gray-700 text-lg">
                   It gives me immense pleasure to welcome you to another academic year at 
@@ -171,11 +168,10 @@ const PrincipalMessage = () => {
 
             {/* Principal Image on Right - Only visible on desktop */}
             <div className="lg:w-1/3 hidden lg:block">
-              <div className="sticky top-8">
+              <div className="sticky top-8 py-8">
                 <img 
-                  src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" 
-                  alt="Principal, Tulu Dimtu School"
-                  className="w-full h-auto rounded-lg shadow-lg"
+                  src={schoolEvent}
+                  className="w-full h-auto rounded-lg shadow-lg "
                 />
                 <div className="mt-4 text-center">
                   <p className="text-xl font-semibold text-gray-800">

@@ -7,7 +7,7 @@ import {
   FaDownload,
 } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
-import schoolHero from '../assets/tul8.jpg'; 
+import schoolHero from '../assets/tullu.png'; 
 import Tilt from 'react-parallax-tilt';
 import Footer from '../components/Footer';
 import { Helmet } from "react-helmet-async";
@@ -70,14 +70,6 @@ const AdmissionPortal = () => {
         <title>Admission | Tullu Dimtu Secondary School</title>
       </Helmet>
       <div className={`min-h-screen transition-colors duration-500 ${darkMode ? 'bg-gray-900 text-gray-100' : 'bg-gradient-to-br from-blue-50 to-gray-50 text-gray-900'}`}>
-        
-        <button 
-          onClick={() => setDarkMode(!darkMode)}
-          className={`fixed top-20 right-6 z-50 p-3 rounded-full ${darkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'} shadow-lg transition-all`}
-          aria-label="Toggle dark mode"
-        >
-          {/* {darkMode ? <FaSun size={20} /> : <FaMoon size={20} />} */}
-        </button>
 
         <motion.section 
           initial={{ opacity: 0 }}
@@ -133,7 +125,7 @@ const AdmissionPortal = () => {
                   <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} scale={1.05} className="inline-block mx-3">
                     <motion.a
                       href="/admission-Page"
-                      target="_blank"
+                
                       rel="noopener noreferrer"
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -579,7 +571,7 @@ const AdmissionPortal = () => {
                     whileTap={{ scale: 0.95 }}
                     className={`px-8 py-4 rounded-xl font-bold shadow-lg flex items-center gap-2 ${darkMode ? 'bg-yellow-500 text-gray-900 hover:bg-yellow-400' : 'bg-blue-600 text-white hover:bg-blue-700'}`}
                   >
-                    <a href='https://tulludimturegistration.vercel.app/' target='_blank' rel="noopener noreferrer">Start Application</a> <FiArrowRight />
+                    <a href='/admission-Page'  rel="noopener noreferrer">Start Application</a> <FiArrowRight />
                   </motion.button>
                 </Tilt>
               </div>

@@ -1,12 +1,15 @@
 
+import { ChevronLeft } from "lucide-react";
 import { notesGrade9 } from "../data/note";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentNotes1() {
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [pdfViewerHeight, setPdfViewerHeight] = useState("h-[calc(100vh-120px)]");
+  const navigate = useNavigate();
 
   // Get unique categories
   const categories = ['all', ...new Set(notesGrade9.map(note => note.grade))];
@@ -22,13 +25,23 @@ export default function StudentNotes1() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/20">
+      
       {/* Navigation */}
       <nav className="bg-white/95 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between h-auto md:h-20 py-4 md:py-0">
             <div className="flex items-center mb-4 md:mb-0">
               <div className="ml-3">
-                <h1 className="text-xl font-bold text-gray-900">Grade 9</h1>
+                 <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+                                    <button
+                                      onClick={() => navigate('/studentstudy-dashboard')}
+                                      className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                                      aria-label="Go back"
+                                    >
+                                      <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                                    </button>
+                                  </div>
+                <h1 className="text-xl font-bold text-gray-900 ml-16 md:ml-8">Grade 9</h1>
               </div>
             </div>
 

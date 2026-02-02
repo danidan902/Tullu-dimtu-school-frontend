@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiClock, FiUser, FiMessageSquare } from 'react-icons/fi';
-import { FaSchool, FaGraduationCap } from 'react-icons/fa';
+import {  FaGraduationCap } from 'react-icons/fa';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Footer from '../components/Footer';

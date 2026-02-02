@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import * as XLSX from 'xlsx';
-// import toast from "react-hot-toast";
 import {
   FaUserCircle, FaPhone, FaEnvelope, FaSchool, FaFilePdf, 
-  FaFileImage, FaFileAlt, FaMoneyBill, FaBirthdayCake,
+  FaFileImage, FaFileAlt, 
   FaPrint, FaDownload, FaEye, FaFolderOpen, FaCamera, FaTimes,
-  FaUsers, FaFileArchive, FaFileWord, FaFileExcel, FaFilePowerpoint,
-  FaEdit, FaSave, FaTrash, FaUpload, FaArchive, FaDatabase,
+  FaUsers, FaFileWord, FaFileExcel, FaFilePowerpoint,
+  FaTrash, FaUpload, 
   FaMale, FaFemale
 } from 'react-icons/fa';
  
@@ -41,9 +40,9 @@ const AdminDashboardPage = () => {
   const fileInputRef = useRef(null);
   
   // New states for enhanced features
-  const [editingField, setEditingField] = useState(null);
-  const [editValue, setEditValue] = useState('');
-  const [bulkActions, setBulkActions] = useState([]);
+  // const [editingField, setEditingField] = useState(null);
+  // const [editValue, setEditValue] = useState('');
+  // const [bulkActions, setBulkActions] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [uploadingDocuments, setUploadingDocuments] = useState(false);
   const [documentFiles, setDocumentFiles] = useState([]);
@@ -52,7 +51,7 @@ const AdminDashboardPage = () => {
   const [showDocumentUpload, setShowDocumentUpload] = useState(false);
   const [newDocumentType, setNewDocumentType] = useState('');
   const [teachers, setTeachers] = useState([]);
-  const [assignedTeacher, setAssignedTeacher] = useState('');
+  // const [assignedTeacher, setAssignedTeacher] = useState('');
 
   // Function to calculate gender statistics
   const calculateGenderStats = (admissionsData) => {
@@ -296,7 +295,8 @@ const AdminDashboardPage = () => {
           'Student ID': student.studentId || student.admissionId || 'N/A',
           'First Name': student.firstName || '',
           'Last Name': student.lastName || '',
-          'Full Name': `${student.firstName || ''} ${student.lastName || ''}`.trim(),
+          'Full Name': `${student.firstName || ''} ${student.lastName || ''} ${student.grandParentName || ''}`.trim(),
+          'grandParentName': student.grandParentName || 'N/A',
           'Gender': student.gender || 'N/A',
           'Date of Birth': student.dob ? new Date(student.dob).toLocaleDateString() : 'N/A',
           'Age': student.age || 'N/A',
@@ -314,7 +314,11 @@ const AdminDashboardPage = () => {
           'Status': student.status || 'pending',
           'Application Date': student.createdAt ? new Date(student.createdAt).toLocaleDateString() : 'N/A',
           'Last Updated': student.updatedAt ? new Date(student.updatedAt).toLocaleDateString() : 'N/A',
-          'Registration Condition': student.condition || 'N/A'
+          'Registration Condition': student.condition || 'N/A',
+          'FAN/FIN': student.fayida || 'N/A',
+          'Program': student.program || 'N/A',
+          'field': student.field || 'N/A',
+
         }));
         
         // Create worksheet
@@ -469,7 +473,7 @@ const AdminDashboardPage = () => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Profile - ${student.firstName} ${student.lastName}</title>
+    <title>Student Profile - ${student.firstName} ${student.lastName} ${student.grandParentName}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -1063,7 +1067,7 @@ const AdminDashboardPage = () => {
             <div class="photo_container">
                 <div class="photo_wrapper">
                     ${studentPhotoUrl ? 
-                        `<img src="${studentPhotoUrl}" alt="${student.firstName} ${student.lastName}" class="student_photo" 
+                        `<img src="${studentPhotoUrl}" alt="${student.firstName} ${student.lastName} ${student.grandParentName}" class="student_photo" 
                              onerror="this.onerror=null; this.src='';">` : 
                         `<div class="photo_placeholder">
                             <i class="fas fa-user-graduate"></i>
@@ -1086,7 +1090,7 @@ const AdminDashboardPage = () => {
                     <div class="info_grid">
                         <div class="info_row">
                             <span class="info_label">Full Name:</span>
-                            <span class="info_value underline_info">${student.firstName} ${student.lastName}</span>
+                            <span class="info_value underline_info">${student.firstName} ${student.lastName} ${student.grandParentName}</span>
                         </div>
                         <div class="info_row">
                             <span class="info_label">Date of Birth:</span>
@@ -1095,6 +1099,18 @@ const AdminDashboardPage = () => {
                         <div class="info_row">
                             <span class="info_label">Gender:</span>
                             <span class="info_value underline_info">${student.gender || 'N/A'}</span>
+                        </div>
+                         <div class="info_row">
+                            <span class="info_label">FAN:</span>
+                            <span class="info_value underline_info">${student.fayida || 'N/A'}</span>
+                        </div>
+                         <div class="info_row">
+                            <span class="info_label">Program:</span>
+                            <span class="info_value underline_info">${student.program || 'N/A'}</span>
+                        </div>
+                        <div class="info_row">
+                            <span class="info_label">Field:</span>
+                            <span class="info_value underline_info">${student.field || 'N/A'}</span>
                         </div>
                         <div class="info_row">
                             <span class="info_label">Media Of Instruction:</span>
@@ -2245,39 +2261,7 @@ const AdminDashboardPage = () => {
 
             {/* Modal Content */}
             <div className="p-6 overflow-y-auto max-h-[70vh]">
-              {/* Gender Statistics Section */}
-              {/* <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-pink-50 rounded-lg border border-gray-200">
-                <h5 className="font-semibold text-gray-900 mb-3">Gender Statistics</h5>
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="bg-blue-100 p-4 rounded-lg text-center">
-                    <FaMale className="w-6 h-6 text-blue-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-blue-700">{stats.male}</div>
-                    <div className="text-sm text-blue-600">Male Students</div>
-                  </div>
-                  <div className="bg-pink-100 p-4 rounded-lg text-center">
-                    <FaFemale className="w-6 h-6 text-pink-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-pink-700">{stats.female}</div>
-                    <div className="text-sm text-pink-600">Female Students</div>
-                  </div>
-                  <div className="bg-gray-100 p-4 rounded-lg text-center">
-                    <FaUserCircle className="w-6 h-6 text-gray-600 mx-auto mb-2" />
-                    <div className="text-2xl font-bold text-gray-700">{stats.otherGender}</div>
-                    <div className="text-sm text-gray-600">Other Gender</div>
-                  </div>
-                </div>
-                <div className="mt-4 text-sm text-gray-600">
-                  <p>Total Applications: <span className="font-semibold">{stats.total}</span></p>
-                  <p>Gender Distribution: 
-                    <span className="ml-2 text-blue-600 font-semibold">Male: {stats.total > 0 ? Math.round((stats.male / stats.total) * 100) : 0}%</span>, 
-                    <span className="ml-2 text-pink-600 font-semibold">Female: {stats.total > 0 ? Math.round((stats.female / stats.total) * 100) : 0}%</span>
-                    {stats.otherGender > 0 && (
-                      <span className="ml-2 text-gray-600 font-semibold">Other: {stats.total > 0 ? Math.round((stats.otherGender / stats.total) * 100) : 0}%</span>
-                    )}
-                  </p>
-                </div>
-              </div> */}
 
-              {/* Photo Upload Section */}
               <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
                 <div className="flex items-center justify-between">
                   <div>
@@ -2329,7 +2313,7 @@ const AdminDashboardPage = () => {
                       <div>
                         <label className="block text-sm font-medium text-gray-500">Full Name <span className='text-red-400 text-sm'>*</span></label>
                         <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.firstName} {selectedAdmission.lastName}
+                          {selectedAdmission.firstName} {selectedAdmission.lastName} {selectedAdmission.grandParentName}
                         </p>
                       </div>
 
@@ -2364,11 +2348,12 @@ const AdminDashboardPage = () => {
                           {selectedAdmission.nationality || 'N/A'}
                         </p>
                       </div>
-                      
+
+                                           
                       <div>
-                        <label className="block text-sm font-medium text-gray-500">Religion <span className='text-red-400 text-sm'>*</span></label>
+                        <label className="block text-sm font-medium text-gray-500">FAN <span className='text-red-400 text-sm'>*</span></label>
                         <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.religion || 'Not specified'}
+                          {selectedAdmission.fayida || 'Not specified'}
                         </p>
                       </div>
                     </div>
@@ -2386,6 +2371,18 @@ const AdminDashboardPage = () => {
                     </div>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-500">Field <span className='text-red-400 text-sm'>*</span></label>
+                        <p className="mt-1 text-lg font-semibold text-gray-900">
+                          {selectedAdmission.field || 'N/A'}
+                        </p>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-500">Program <span className='text-red-400 text-sm'>*</span></label>
+                        <p className="mt-1 text-lg font-semibold text-gray-900">
+                          {selectedAdmission.program || 'N/A'}
+                        </p>
+                      </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-500">Apply For Grade <span className='text-red-400 text-sm'>*</span></label>
                         <p className="mt-1 text-lg font-semibold text-gray-900">

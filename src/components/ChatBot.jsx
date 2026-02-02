@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import{ useState, useEffect, useRef, useCallback } from "react";
 import { 
   Send, X, Bot, User, Loader2, 
-  Maximize2, Minimize2, Sparkles, Zap, Brain, 
-  RefreshCw, Star, Volume2, VolumeX,
-  MessageCircleCodeIcon
+  Sparkles, Zap, Brain, 
+  RefreshCw,  Volume2, VolumeX, MessageSquareText
+
 } from "lucide-react";
 
 // Add CSS animations directly
@@ -463,14 +463,14 @@ const ChatBot = () => {
         {/* Chat toggle button */}
         {!isOpen && !isFullscreen && (
           <div className="relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
+            <div className="absolute -inset-1 bg-[#04595E] hover:[#04395E]  rounded-full"></div>
             <button
               onClick={toggleChat}
-              className="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 shadow-2xl hover:shadow-cyan-500/30 hover:scale-110 transition-all duration-300 text-white focus:outline-none focus:ring-4 focus:ring-cyan-300/50"
+              className="relative flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-full"
               aria-label="Open chat"
             >
-              <MessageCircleCodeIcon size={24} className="sm:size-7" />
-              <Sparkles size={12} className="absolute -top-1 -right-1 text-yellow-300 animate-spin" />
+              <MessageSquareText size={24} className="sm:size-7 text-white" />
+              {/* <Sparkles size={12} className="absolute -top-1 -right-1 text-yellow-300 animate-spin" /> */}
              
             </button>
           </div>
@@ -526,26 +526,7 @@ const ChatBot = () => {
                 >
                   {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
                 </button>
-                {!isFullscreen && (
-                  <button
-                    onClick={toggleFullscreen}
-                    className="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
-                    aria-label="Enter fullscreen"
-                    title="Fullscreen"
-                  >
-                    <Maximize2 size={16} />
-                  </button>
-                )}
-                {isFullscreen && (
-                  <button
-                    onClick={toggleFullscreen}
-                    className="text-white/80 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-all duration-300"
-                    aria-label="Exit fullscreen"
-                    title="Exit fullscreen"
-                  >
-                    <Minimize2 size={16} />
-                  </button>
-                )}
+               
                 <button
                   onClick={clearChat}
                   className="text-white/80 hover:text-white text-sm px-3 py-1.5 rounded-lg hover:bg-white/10 transition-all duration-300 flex items-center gap-1"
@@ -662,12 +643,6 @@ const ChatBot = () => {
 
             {/* Input area */}
             <div className={`border-t ${currentTheme.border} p-4 backdrop-blur-lg bg-black/30`}>
-              {/* <div className="flex items-center gap-2 mb-2">
-                <div className={`text-xs ${currentTheme.text} opacity-70 flex items-center gap-1`}>
-                  <Star size={10} className="fill-yellow-400 text-yellow-400" />
-                  Ready to assist with education
-                </div>
-              </div> */}
               
               <div className="flex items-center gap-2">
                 <div className="flex-1 relative">

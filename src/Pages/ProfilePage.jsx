@@ -152,11 +152,10 @@ const AdmissionPage = () => {
               <button className="w-full bg-teal-200 hover:bg-teal-300
                                  text-teal-900 py-3 rounded-lg font-semibold">
                 New admission
-              </button>
-            </motion.a>
-  
-            <motion.a
-              href="/logIn"
+              </button> 
+            </motion.a> 
+            <motion.a 
+              href="/studet-see-dash"
               className="block"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}

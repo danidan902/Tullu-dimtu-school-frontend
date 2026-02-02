@@ -1,12 +1,15 @@
 
+import { ChevronLeft } from "lucide-react";
 import { notesGrade11 } from "../data/note";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentNotes3() {
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [pdfViewerHeight, setPdfViewerHeight] = useState("h-[calc(100vh-120px)]");
+  const navigate = useNavigate();
 
   // Get unique categories
   const categories = ['all', ...new Set(notesGrade11.map(note => note.grade))];
@@ -28,7 +31,16 @@ export default function StudentNotes3() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between h-auto md:h-20 py-4 md:py-0">
             <div className="flex items-center mb-4 md:mb-0">
               <div className="ml-3">
-                <h1 className="text-xl font-bold text-gray-900">Grade 11</h1>
+                 <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+                                    <button
+                                      onClick={() => navigate('/studentstudy-dashboard')}
+                                      className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                                      aria-label="Go back"
+                                    >
+                                      <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                                    </button>
+                                  </div>
+                <h1 className="text-xl font-bold text-gray-900 ml-16 md:ml-8">Grade 11</h1>
               </div>
             </div>
 
@@ -279,7 +291,7 @@ export default function StudentNotes3() {
             {/* PDF Viewer Container */}
             <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
               {/* PDF Header Bar */}
-              <div className="bg-gray-50 border-b border-gray-200 px-4 py-3">
+              <div className="bg-white border-b border-gray-200 px-4 py-3">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
                     <div className="flex items-center space-x-2">
@@ -324,7 +336,7 @@ export default function StudentNotes3() {
               <div className={`${pdfViewerHeight} w-full bg-gray-900`}>
                 <iframe
                   src={`${selectedPdf.pdf}#view=fitH&toolbar=1&navpanes=0&scrollbar=1`}
-                  className="w-full h-full border-0"
+                  className="w-full h-full border-0 "
                   title={`PDF Viewer - ${selectedPdf.title}`}
                   loading="lazy"
                   allowFullScreen

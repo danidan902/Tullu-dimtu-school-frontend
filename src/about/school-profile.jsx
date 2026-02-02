@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
-import { FaSchool, FaUsers, FaAward, FaBook, FaGraduationCap, FaChalkboardTeacher, FaChevronDown, FaStar, FaCalendarAlt, FaMapMarkerAlt, FaRegClock } from 'react-icons/fa';
+import { FaSchool, FaUsers, FaAward, FaBook, FaGraduationCap, FaChalkboardTeacher, FaChevronDown, FaStar, FaCalendarAlt, } from 'react-icons/fa';
 import { motion, AnimatePresence } from "framer-motion";
 import ScrollReveal from '../components/ScrollReveal';
 import schoolImage from '../assets/tullu.png';
-import studentsImage from '../assets/Children.jpg';
-import campusImage from '../assets/char.jpg';
-import labImage from '../assets/cul.jpg';
+import studentsImage from '../assets/badhasa.jpg';
+import studentsImage1 from '../assets/gal1.jpg';
+import campusImage from '../assets/lo.jpg';
+import labImage from '../assets/loc.jpg';
 import Footer from '../components/Footer';
 import { Helmet } from "react-helmet-async";
 import logo from '../assets/tullulogo.png'
@@ -36,7 +37,7 @@ const SchoolProfile = () => {
     {
       icon: <FaBook className="text-4xl text-blue-700" />,
       title: "Academic Programs",
-      shortDesc: "Comprehensive curriculum from grades 9-12 with STEM focus",
+      shortDesc: "Our institution offers a diverse range of academic programs designed to cater to the varied interests and career goals of our students. From foundational courses to advanced specialized studies, each program is structured to provide both theoretical knowledge and practical skills...",
       fullDesc: "Our comprehensive curriculum from grades 7-12 includes advanced STEM programs with dedicated science and computer labs. We offer specialized tracks in Mathematics, Physics, Chemistry, Biology, and Other Social Science, with Advanced Placement (AP) courses available for high-achieving students. Our curriculum is regularly updated to meet national standards while incorporating  best practices in education.",
       highlight: "Advanced Placement courses available",
       stats: ["12+ AP Courses", "1:15 Teacher Ratio", "95% Exam Pass Rate"],
@@ -45,7 +46,7 @@ const SchoolProfile = () => {
     {
       icon: <FaGraduationCap className="text-4xl text-blue-700" />,
       title: "University Preparation",
-      shortDesc: "Dedicated counseling for college applications nationwide",
+      shortDesc: "Our University Preparation programs are designed to equip students with the knowledge, skills, and confidence needed to succeed in higher education. Through focused guidance, comprehensive coursework, and personalized support, students develop strong academic foundations, effective study habits, and critical thinking abilities...",
       fullDesc: "Our comprehensive university preparation program begins in grade 9 with career guidance and continues through grade 12 with intensive college application support. We offer personalized counseling sessions, assistance with application essays, and guidance on scholarship opportunities. Our alumni have been accepted to prestigious Ethiopian universities with a 70% placement rate.",
       highlight: "80% university placement rate",
       stats: [" Alumni Network", " Partner Universities", " Scholarship Rate"],
@@ -54,11 +55,11 @@ const SchoolProfile = () => {
     {
       icon: <FaUsers className="text-4xl text-blue-700" />,
       title: "Extracurriculars",
-      shortDesc: "30+ clubs and activities for holistic development",
+      shortDesc: "Our Extracurricular Programs provide students with opportunities to explore their interests, develop new skills, and build lasting friendships beyond the classroom. From sports and arts to clubs and community service, these activities encourage teamwork, leadership, and creativity...",
       fullDesc: "With over 30 clubs and extracurricular activities, students can explore their interests beyond academics. Our offerings include sports teams (football, basketball, volleyball, track and field), arts clubs (music, drama, visual arts), academic clubs (debate, science club, mathematics Olympiad), and community service organizations. We have championship-winning sports teams and award-winning arts programs that compete at regional and national levels.",
       highlight: "Championship sports teams",
       stats: ["15 Sports Teams", "25+ Annual Events", "500+ Community Hours"],
-      image: studentsImage
+      image: studentsImage1
     }
   ];
 

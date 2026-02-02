@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 const NewsDetailModal = ({ news, isOpen, onClose }) => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);

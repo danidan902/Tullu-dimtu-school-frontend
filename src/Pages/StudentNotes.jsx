@@ -1,14 +1,16 @@
 
 
-import { BookOpen, ChevronRight, FileText } from "lucide-react";
+import { ChevronLeft} from "lucide-react";
 import { notes } from "../data/note";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function StudentNotes() {
   const [selectedPdf, setSelectedPdf] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [pdfViewerHeight, setPdfViewerHeight] = useState("h-[calc(100vh-120px)]");
+  const navigate = useNavigate();
 
   // Get unique categories
   const categories = ['all', ...new Set(notes.map(note => note.grade))];
@@ -30,6 +32,15 @@ export default function StudentNotes() {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between h-auto md:h-20 py-4 md:py-0">
             <div className="flex items-center mb-4 md:mb-0">
               <div className="ml-3">
+                 <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+                                    <button
+                                      onClick={() => navigate('/studentstudy-dashboard')}
+                                      className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                                      aria-label="Go back"
+                                    >
+                                      <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                                    </button>
+                                  </div>
                 <h1 className="text-xl font-bold text-gray-900">Grade 12</h1>
               </div>
             </div>

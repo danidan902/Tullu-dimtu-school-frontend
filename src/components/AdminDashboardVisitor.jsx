@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import logo from '../assets/tullulogo.png'
 import {
-  Search, Filter, Download, Eye, CheckCircle,
+  Search, Eye, CheckCircle,
   XCircle, Trash2, ChevronLeft, ChevronRight,
   Loader, Mail, Phone, Users, Calendar, AlertCircle,Home
 } from 'lucide-react';

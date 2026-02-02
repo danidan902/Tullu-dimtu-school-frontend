@@ -1,17 +1,18 @@
-
-
-
-import React, { useState, useEffect } from 'react';
-import { FaAccessibleIcon, FaBookOpen, FaHome, FaRegAddressBook, FaSignature } from 'react-icons/fa';
-import { FiHome, FiBook, FiDownload, FiStar, FiClock, FiShare2, FiHash, FiUpload, FiSettings, FiBell, FiSearch, FiFileText, FiVideo, FiFile, FiClipboard, FiBookOpen, FiAward, FiEye, FiPrinter, FiMaximize2, FiX, FiMoon, FiSun, FiUser, FiLogOut, FiEdit2, FiSave, FiPlay, FiCamera, FiMenu } from 'react-icons/fi';
-import {  FileArchiveIcon, icons } from 'lucide-react';
+import  { useState, useEffect } from 'react';
+import { FaBook, FaBookOpen, FaGraduationCap, FaHome, FaRegAddressBook, } from 'react-icons/fa';
+import { FiHome,  FiDownload, FiStar,  FiHash, FiUpload, FiSettings,  FiSearch, FiFileText, FiVideo, FiFile, FiClipboard, FiBookOpen, FiAward, FiEye, FiPrinter, FiMaximize2, FiX, FiMoon, FiSun, FiUser, FiLogOut, FiEdit2, FiSave, FiPlay, FiCamera, FiMenu } from 'react-icons/fi';
+import {  FileArchiveIcon,  } from 'lucide-react';
 import sheger from '../assets/sheger3.png'
 import logo from '../assets/tullulogo.png'
-import sheger2 from '../assets/sheger2.png';
-import { Home } from 'lucide-react';
+import sheger2 from '../assets/lo.jpg';
 import { useNavigate } from 'react-router-dom';
-import bg1 from '../assets/gal5.jpg'
-import bg from '../assets/gal2.jpg'
+import sheg from '../assets/lo.jpg'
+import pot from '../assets/gal2.jpg';
+import anim16 from '../assets/lib.jpg';
+import anim12 from '../assets/hom1.jpg';
+import bg from '../assets/lab.png';
+import bg1 from '../assets/gal11.jpg';
+
 const StudentStudyPlace = () => {
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
@@ -338,6 +339,674 @@ Downloaded from StudySync Dashboard`;
   ];
 
   const recentResources = [
+   {
+    title: 'Photosynthesis-Diagram',
+    type: 'image',
+    subject: 'Biology',
+    date: '',
+    downloads: '23',
+    thumbnail: 'https://sciencenotes.org/wp-content/uploads/2025/11/Photosynthesis-Diagram-1024x683.png',
+    category: 'notes',
+    url: 'https://sciencenotes.org/wp-content/uploads/2025/11/Photosynthesis-Diagram-1024x683.png',
+    videoUrl: ''
+  },
+
+
+
+{ 
+  title: '2017 Biology Entrance Exam With Answer',
+  type: 'video',
+  subject: 'Biology',
+  date: 'Unknown Date',         
+  downloads: '89',     
+  thumbnail: 'https://img.youtube.com/vi/EkRLs1NUvTo/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=EkRLs1NUvTo&list=PLMwcYNErqmSzm6mOBFQyFGsOJ6ygKDuJP&index=6',
+  videoUrl: 'https://www.youtube.com/watch?v=EkRLs1NUvTo'
+},
+{ 
+  title: '2017 Chemistry Entrance Examination Answers with Explanations',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',          
+  downloads: '55',     
+  thumbnail: 'https://img.youtube.com/vi/4qIIZHuyMZo/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=4qIIZHuyMZo',
+  videoUrl: 'https://www.youtube.com/watch?v=4qIIZHuyMZo'
+},
+{ 
+  title: '2017 Economics Entrance exam Answers 2017 part 2 Economics Entrance Examination',
+  type: 'video',
+  subject: 'Economics',
+  date: '',          
+  downloads: '89',   
+  thumbnail: 'https://img.youtube.com/vi/yPAByXB_Iy4/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=yPAByXB_Iy4&list=PLMwcYNErqmSzm6mOBFQyFGsOJ6ygKDuJP',
+  videoUrl: 'https://www.youtube.com/watch?v=yPAByXB_Iy4'
+},
+{ 
+  title: '2017 Mathematics Entrance Examination Answers with Explanations',
+  type: 'video',
+  subject: 'Mathematics',
+  date: '',           
+  downloads: '34',     
+  thumbnail: 'https://img.youtube.com/vi/UTj3lBpDSpw/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=UTj3lBpDSpw',
+  videoUrl: 'https://www.youtube.com/watch?v=UTj3lBpDSpw'
+},
+{ 
+  title: '2017 English Entrance Examination Answers with Explanations',
+  type: 'video',
+  subject: 'English',
+  date: '',          
+  downloads: '90',     
+  thumbnail: 'https://img.youtube.com/vi/xUNsN6TfSCY/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=xUNsN6TfSCY',
+  videoUrl: 'https://www.youtube.com/watch?v=xUNsN6TfSCY'
+},
+{ 
+  title: '2017 Geography Entrance Examination Answers with Explanations',
+  type: 'video',
+  subject: 'Geography',
+  date: '',          
+  downloads: '89',  
+  thumbnail: 'https://img.youtube.com/vi/Ck7mMhceiNA/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=Ck7mMhceiNA',
+  videoUrl: 'https://www.youtube.com/watch?v=Ck7mMhceiNA'
+},
+{ 
+  title: '2017 History Entrance Examination Answers with Explanations',
+  type: 'video',
+  subject: 'History',
+  date: '',         
+  downloads: '78',    
+  thumbnail: 'https://img.youtube.com/vi/id3GfRWGUIw/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=id3GfRWGUIw',
+  videoUrl: 'https://www.youtube.com/watch?v=id3GfRWGUIw'
+},
+{ 
+  title: '2017 Physics Entrance Examination Answers with Explanations',
+  type: 'video',
+  subject: 'Physics',
+  date: '',          
+  downloads: '99',    
+  thumbnail: 'https://img.youtube.com/vi/jCm5Apazh40/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=jCm5Apazh40',
+  videoUrl: 'https://www.youtube.com/watch?v=jCm5Apazh40'
+},
+
+  {
+  title: 'Maths 2017 Entrance Exam (first round) | Ethiopia | EUEE | Maths EUEE',     // 📌 replace with the actual video title
+  type: 'video',
+  subject: 'Entrance ',       // 📌 replace with appropriate subject
+  date: '',             // 📌 replace with actual publish date
+  downloads: '30',                   // 📌 replace with view/download count if desired
+  thumbnail: 'https://img.youtube.com/vi/Nwrg32sWs_Q/maxresdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=Nwrg32sWs_Q&list=PLUf24gkZq8wK6ZfO10GI7esj6WXH8kdiU',
+  videoUrl: 'https://www.youtube.com/watch?v=Nwrg32sWs_Q'
+},
+{
+  title: 'Part 3 of 4 | Maths Entrance Exam Prep | Grade 11 Maths',
+  type: 'video',
+  subject: 'Maths',
+  date: 'Unknown Date',
+  downloads: '8k',
+  thumbnail: 'https://img.youtube.com/vi/fY40sb93hdo/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=fY40sb93hdo&list=PLUf24gkZq8wK6ZfO10GI7esj6WXH8kdiU&index=5',
+  videoUrl: 'https://www.youtube.com/watch?v=fY40sb93hdo'
+},
+{
+  title: 'English 2016 Entrance Exam | Ethiopia | EUEE | Saquama',
+  type: 'video',
+  subject: 'English',
+  date: '',          // 📌 replace with actual publish date if needed
+  downloads: '5k',    // 📌 replace with actual view/download count if desired
+  thumbnail: 'https://img.youtube.com/vi/u3mXSTmxPFU/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=u3mXSTmxPFU',
+  videoUrl: 'https://www.youtube.com/watch?v=u3mXSTmxPFU'
+},
+{
+  title: 'ENTRANCE English Scholastic Aptitude Test (Exam Prep)',
+  type: 'video',
+  subject: 'English',
+  date: '',        // 📌 replace with actual publish date if you want
+  downloads: '3k',  // 📌 replace with actual view/downloads if desired
+  thumbnail: 'https://img.youtube.com/vi/RU9LTsvVoRo/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=RU9LTsvVoRo',
+  videoUrl: 'https://www.youtube.com/watch?v=RU9LTsvVoRo'
+},
+{
+  title: 'እንደፈረንጅ እንዴት እንናገር | Get',  
+  type: 'video',
+  subject: 'English',
+  date: '',        // 📌 replace with actual publish date if you want
+  downloads: '2k',  // 📌 replace with actual view count if desired
+  thumbnail: 'https://img.youtube.com/vi/FppRGOlHPUg/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=FppRGOlHPUg',
+  videoUrl: 'https://www.youtube.com/watch?v=FppRGOlHPUg'
+},
+{
+  title: 'እንግሊዝኛን በአቋራጭ ለጀማሪዎች (shortcut grammar part 1)',
+  type: 'video',
+  subject: 'English',
+  date: 'Unknown Date',        // 📌 replace with actual publish date if you want
+  downloads: '1k',  // 📌 replace with actual view/download stats if desired
+  thumbnail: 'https://img.youtube.com/vi/DNGcTmTj7Dc/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=DNGcTmTj7Dc',
+  videoUrl: 'https://www.youtube.com/watch?v=DNGcTmTj7Dc'
+}
+,
+{
+  title: '2017 History Entrance Examination Answers with Explanations',
+  type: 'video',
+  subject: 'History',
+  date: 'Unknown Date',       
+  downloads: '23.2k', 
+  thumbnail: 'https://img.youtube.com/vi/id3GfRWGUIw/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=id3GfRWGUIw',
+  videoUrl: 'https://www.youtube.com/watch?v=id3GfRWGUIw'
+}
+,
+{
+  title: 'Ethiopian Grade 12 Maths 1#1 Sequences and Series',
+  type: 'video',
+  subject: 'Maths',
+  date: 'Unknown Date',       
+  downloads: '1.1k',  
+  thumbnail: 'https://img.youtube.com/vi/nX2tT_SwZWY/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=nX2tT_SwZWY&list=PLN5XUISsXgLb65VWelPyR-6ostDeed-fT',
+  videoUrl: 'https://www.youtube.com/watch?v=nX2tT_SwZWY'
+},
+{
+  title: 'Ethiopian Grade 12 Maths 1#7 The Sigma Notation',
+  type: 'video',
+  subject: 'Maths',
+  date: 'Unknown Date',       
+  downloads: '2.9k',  
+  thumbnail: 'https://img.youtube.com/vi/IfYaW_zv3g4/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=IfYaW_zv3g4&list=PLN5XUISsXgLb65VWelPyR-6ostDeed-fT&index=7',
+  videoUrl: 'https://www.youtube.com/watch?v=IfYaW_zv3g4'
+},
+{
+  title: 'Ethiopian Grade 12 Maths 1#12 Recurring Sequences',
+  type: 'video',
+  subject: 'Maths',
+  date: 'Unknown Date',        
+  downloads: '1.2k',  
+  thumbnail: 'https://img.youtube.com/vi/-nPh4LM6VEM/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=-nPh4LM6VEM&list=PLN5XUISsXgLb65VWelPyR-6ostDeed-fT&index=12',
+  videoUrl: 'https://www.youtube.com/watch?v=-nPh4LM6VEM'
+},
+{
+  title: 'Grade 12 Chemistry Unit 1: Bronsted‑Lowry Concept of Acids & Bases',
+  type: 'video',
+  subject: 'Chemistry',
+  date: 'Unknown Date',        
+  downloads: '78',  
+  thumbnail: 'https://img.youtube.com/vi/oEoA9C1QBuk/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=oEoA9C1QBuk&list=PLhXdcrTaVuV_BdB2H4BfIFgfBARjzXFzb&index=2',
+  videoUrl: 'https://www.youtube.com/watch?v=oEoA9C1QBuk'
+},
+{
+  title: 'Grade 12 Chemistry Unit 1: The Common Ion Effect',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',       
+  downloads: '98',  
+  thumbnail: 'https://img.youtube.com/vi/eVcI0I6jVSI/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=eVcI0I6jVSI&list=PLhXdcrTaVuV_BdB2H4BfIFgfBARjzXFzb&index=13',
+  videoUrl: 'https://www.youtube.com/watch?v=eVcI0I6jVSI'
+},
+{
+  title: 'Grade 11 Maths Unit 1: Introduction and Learning Objectives',
+  type: 'video',
+  subject: 'Maths',
+  date: '',       
+  downloads: '78',
+  thumbnail: 'https://img.youtube.com/vi/w-IZ38kTQkQ/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=w-IZ38kTQkQ&list=PLhXdcrTaVuV-naaUVHaXQAuNnuuhZzFbZ',
+  videoUrl: 'https://www.youtube.com/watch?v=w-IZ38kTQkQ'
+},
+{
+  title: 'Grade 11 Maths Unit 1: Modulus (Absolute Value) Function',
+  type: 'video',
+  subject: 'Maths',
+  date: '',        
+  downloads: '', 
+  thumbnail: 'https://img.youtube.com/vi/-vi6DrptG0Y/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=-vi6DrptG0Y&list=PLhXdcrTaVuV-naaUVHaXQAuNnuuhZzFbZ&index=12',
+  videoUrl: 'https://www.youtube.com/watch?v=-vi6DrptG0Y'
+},
+{
+  title: 'Grade 11 Maths Unit 1: Entrance Exam Questions',
+  type: 'video',
+  subject: 'Maths',
+  date: '',       
+  downloads: '',  
+  thumbnail: 'https://img.youtube.com/vi/SJmcLIamXgE/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=SJmcLIamXgE&list=PLhXdcrTaVuV-naaUVHaXQAuNnuuhZzFbZ&index=36',
+  videoUrl: 'https://www.youtube.com/watch?v=SJmcLIamXgE'
+},
+{
+  title: 'Grade 11 Physics Unit 1: 1.1 Introduction',
+  type: 'video',
+  subject: 'Physics',
+  date: '',
+  downloads: '90',
+  thumbnail: 'https://img.youtube.com/vi/Yaz1hd9byb0/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=Yaz1hd9byb0&list=PLhXdcrTaVuV_TqHn8dQixOKr6L0V8IGrf',
+  videoUrl: 'https://www.youtube.com/watch?v=Yaz1hd9byb0'
+},
+{
+  title: 'Grade 11 Physics Unit 1: 1.5 The Mission of Physics and Career Awareness',         
+  type: 'video',
+  subject: 'Physics',     
+  date: '',           
+  downloads: '23',     
+  thumbnail: 'https://img.youtube.com/vi/wdZogMNcqCo/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=wdZogMNcqCo&list=PLhXdcrTaVuV_TqHn8dQixOKr6L0V8IGrf&index=5',
+  videoUrl: 'https://www.youtube.com/watch?v=wdZogMNcqCo'
+},
+{
+  title: 'Grade 11 Physics 3#5 Acceleration Time graph',
+  type: 'video',
+  subject: 'Physics',
+  date: 'Unknown Date',        
+  downloads: 'Unknown Views',  
+  thumbnail: 'https://img.youtube.com/vi/hNStzw0fmbI/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=hNStzw0fmbI&list=PLN5XUISsXgLYu7YqiXJh6bTyvxDBJrIVV&index=5',
+  videoUrl: 'https://www.youtube.com/watch?v=hNStzw0fmbI'
+},
+{
+  title: ' Grade 11 Biology 3#1 Enzymes',
+  type: 'video',
+  subject: 'Biology',
+  date: '',        
+  downloads: '44',  
+  thumbnail: 'https://img.youtube.com/vi/bXRNhb_N2h8/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=bXRNhb_N2h8&list=PLN5XUISsXgLYxX8yYkNDJIQH5yVogSK-c',
+  videoUrl: 'https://www.youtube.com/watch?v=bXRNhb_N2h8'
+},
+{
+  title: ' Grade 11 Biology 3#3 Enzyme Substrate Model',
+  type: 'video',
+  subject: 'Biology',
+  date: '',        
+  downloads: '34', 
+  thumbnail: 'https://img.youtube.com/vi/sJSp3KxJQ0Q/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=sJSp3KxJQ0Q&list=PLN5XUISsXgLYxX8yYkNDJIQH5yVogSK-c&index=3',
+  videoUrl: 'https://www.youtube.com/watch?v=sJSp3KxJQ0Q'
+},
+{
+  title: 'Grade 11 Economics 3#1 National Income Accounting',
+  type: 'video',
+  subject: 'Economics',
+  date: '',        
+  downloads: '89',  
+  thumbnail: 'https://img.youtube.com/vi/H3hWDFZ_CXc/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=H3hWDFZ_CXc&list=PLN5XUISsXgLbzre3ZWvY2aVC2I3DdlKVD',
+  videoUrl: 'https://www.youtube.com/watch?v=H3hWDFZ_CXc'
+},
+{
+  title: 'Grade 11 Economics 3#2 Approaches of Measuring National Income',
+  type: 'video',
+  subject: 'Economics',
+  date: 'Unknown Date',        // 📌 replace with actual publish date if desired
+  downloads: 'Unknown Views',  // 📌 replace with actual view/download count if desired
+  thumbnail: 'https://img.youtube.com/vi/a2wybcaGGB0/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=a2wybcaGGB0&list=PLN5XUISsXgLbzre3ZWvY2aVC2I3DdlKVD&index=2',
+  videoUrl: 'https://www.youtube.com/watch?v=a2wybcaGGB0'
+},
+{
+  title: 'Grade 11 history unit 9 part 4 | The Age Evolution | The Period of Napoleon Bonaparte',
+  type: 'video',
+  subject: 'History',
+  date: '',       
+  downloads: '45', 
+  thumbnail: 'https://img.youtube.com/vi/YTs8TgKqGt0/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=YTs8TgKqGt0&list=PLfXpdCfxjXmZgw93PwvFD_aFGUv87QeHC',
+  videoUrl: 'https://www.youtube.com/watch?v=YTs8TgKqGt0'
+},
+{
+  title: 'Grade 11 history unit 9 part 3 | The Age of Revolution | The French Revolution',
+  type: 'video',
+  subject: 'History',
+  date: 'Unknown Date',       
+  downloads: '22',  
+  thumbnail: 'https://img.youtube.com/vi/8pP3yngQ8X8/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=8pP3yngQ8X8&list=PLfXpdCfxjXmZgw93PwvFD_aFGUv87QeHC&index=2',
+  videoUrl: 'https://www.youtube.com/watch?v=8pP3yngQ8X8'
+},
+{
+  title: 'Grade 11 history unit 8 Peoples and States of Southern, Western and Eastern Ethiopia',      
+  type: 'video',
+  subject: 'History',           
+  date: 'Unknown Date',       
+  downloads: '45',   
+  thumbnail: 'https://img.youtube.com/vi/VFKTJ3GaBXE/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=VFKTJ3GaBXE&list=PLfXpdCfxjXmZgw93PwvFD_aFGUv87QeHC&index=10',
+  videoUrl: 'https://www.youtube.com/watch?v=VFKTJ3GaBXE'
+},
+{
+  title: 'Grade 11 history unit 8 part 1 | Peoples and States of Southern, Western and Eastern Ethiopia',
+  type: 'video',
+  subject: 'History',
+  date: 'Unknown Date',       
+  downloads: 'Unknown Views',  
+  thumbnail: 'https://img.youtube.com/vi/OcZ-BZoDBP8/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=OcZ-BZoDBP8&list=PLfXpdCfxjXmZgw93PwvFD_aFGUv87QeHC&index=11',
+  videoUrl: 'https://www.youtube.com/watch?v=OcZ-BZoDBP8'
+},
+{
+  title: 'Grade 11 History unit 2 part 3 | major spots of ancient world civilization up to 500AD | Mesopotamia',
+  type: 'video',
+  subject: 'History',
+  date: 'Unknown Date',        
+  downloads: 'Unknown Views', 
+  thumbnail: 'https://img.youtube.com/vi/qU3Q98VhMm4/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=qU3Q98VhMm4&list=PLfXpdCfxjXmZgw93PwvFD_aFGUv87QeHC&index=49',
+  videoUrl: 'https://www.youtube.com/watch?v=qU3Q98VhMm4'
+},
+{
+  title: 'Ethiopian Grade 11 Geography 3#1 Natural Resources',
+  type: 'video',
+  subject: 'Geography',
+  date: '',       
+  downloads: '45',  
+  thumbnail: 'https://img.youtube.com/vi/9jhmHj88ZPM/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=9jhmHj88ZPM&list=PLN5XUISsXgLbUwR_ySjNvk_sqUes_tXAd',
+  videoUrl: 'https://www.youtube.com/watch?v=9jhmHj88ZPM'
+},
+{
+  title: 'Ethiopian Grade 11 Geography 3#2 Land Resource Depletion',
+  type: 'video',
+  subject: 'Geography',
+  date: '',     
+  downloads: '12',  
+  thumbnail: 'https://img.youtube.com/vi/Nu_6jOPSud0/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=Nu_6jOPSud0',
+  videoUrl: 'https://www.youtube.com/watch?v=Nu_6jOPSud0'
+},
+{
+  title: 'Grade 10 Geography unit 8 part 4 | Advances in Mapmaking and the Birth of Geographic Information Sys',
+  type: 'video',
+  subject: 'Geography',
+  date: '',       
+  downloads: '32',
+  thumbnail: 'https://img.youtube.com/vi/3dx0iocxw78/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=3dx0iocxw78&list=PLfXpdCfxjXmYXuf73oC6k9xvakjdwE9P-',
+  videoUrl: 'https://www.youtube.com/watch?v=3dx0iocxw78'
+},
+{
+  title: 'Grade 10 Geography unit 7 part 2 | Migration – Factors and Impacts on Africa',
+  type: 'video',
+  subject: 'Geography',
+  date: '',        
+  downloads: '32',  
+  thumbnail: 'https://img.youtube.com/vi/4eg-AqDTgd4/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=4eg-AqDTgd4&list=PLfXpdCfxjXmYXuf73oC6k9xvakjdwE9P-&index=5',
+  videoUrl: 'https://www.youtube.com/watch?v=4eg-AqDTgd4'
+},
+{
+  title: 'Grade 10 Maths Unit 2: Review Exercise Unit 2: Polynomial Functions',
+  type: 'video',
+  subject: 'Maths',
+  date: '',        
+  downloads: '23',  
+  thumbnail: 'https://img.youtube.com/vi/8xwFLHMlT-g/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=8xwFLHMlT-g&list=PLUf24gkZq8wLP8y8_3OWC4ek92KaIjIRi',
+  videoUrl: 'https://www.youtube.com/watch?v=8xwFLHMlT-g'
+},
+{
+  title: 'Grade 10 Maths Unit 2: 2.5 Graphs of Polynomial Functions',
+  type: 'video',
+  subject: 'Maths',
+  date: '1',        
+  downloads: '23',  
+  thumbnail: 'https://img.youtube.com/vi/Ocy_INtPC9A/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=Ocy_INtPC9A&list=PLUf24gkZq8wLP8y8_3OWC4ek92KaIjIRi&index=5',
+  videoUrl: 'https://www.youtube.com/watch?v=Ocy_INtPC9A'
+},
+{
+  title: 'Grade 10 Maths Unit 2: 2.4 Zeros of a Polynomial Function',
+  type: 'video',
+  subject: 'Maths',
+  date: 'Unknown Date',        // 📌 replace with actual publish date if desired
+  downloads: 'Unknown Views',  // 📌 replace with actual view/download count if desired
+  thumbnail: 'https://img.youtube.com/vi/qF1x3dpC1Oo/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=qF1x3dpC1Oo&list=PLUf24gkZq8wLP8y8_3OWC4ek92KaIjIRi&index=11',
+  videoUrl: 'https://www.youtube.com/watch?v=qF1x3dpC1Oo'
+},
+{ 
+  title: 'Grade 10 Physics 3#1 Elasticity',
+  type: 'video',
+  subject: 'Physics',
+  date: '',        
+  downloads: '56',  
+  thumbnail: 'https://img.youtube.com/vi/65txtnQgOng/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=65txtnQgOng&list=PLN5XUISsXgLZNz7WKAFqQnDWPlJ4aN4NW',
+  videoUrl: 'https://www.youtube.com/watch?v=65txtnQgOng'
+},
+{ 
+  title: 'Grade 10 physics 3#3 Stress and strain',
+  type: 'video',
+  subject: 'Physics',              
+  date: '',           
+  downloads: '34',     
+  thumbnail: 'https://img.youtube.com/vi/SevfOoCStKY/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=SevfOoCStKY&list=PLN5XUISsXgLZNz7WKAFqQnDWPlJ4aN4NW&index=3',
+  videoUrl: 'https://www.youtube.com/watch?v=SevfOoCStKY'
+},
+{ 
+  title: 'Grade 10 Biology unit 1 part 1 | Sub-fields of Biology',
+  type: 'video',
+  subject: 'Biology',
+  date: '22',          
+  downloads: '12',    
+  thumbnail: 'https://img.youtube.com/vi/rj5RiNtmoQk/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=rj5RiNtmoQk&list=PLfXpdCfxjXmaZKO1cz8tk4l7rWThyCL8Z',
+  videoUrl: 'https://www.youtube.com/watch?v=rj5RiNtmoQk'
+},
+{ 
+  title: 'Grade 10 unit 1 part 3 | Handling and using a light microscope', // copy the exact video title
+  type: 'video',
+  subject: 'Biology',                         
+  date: '',                      
+  downloads: '45',                 
+  thumbnail: 'https://img.youtube.com/vi/1NC-X91QpOI/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=1NC-X91QpOI&list=PLfXpdCfxjXmaZKO1cz8tk4l7rWThyCL8Z&index=3',
+  videoUrl: 'https://www.youtube.com/watch?v=1NC-X91QpOI'
+},
+{ 
+  title: 'Grade 10 biology unit 2 part 1 | plants | Characteristics of ...',
+  type: 'video',
+  subject: 'Biology',
+  date: '',           
+  downloads: '89',   
+  thumbnail: 'https://img.youtube.com/vi/H9scIzPrBAs/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=H9scIzPrBAs&list=PLfXpdCfxjXmaZKO1cz8tk4l7rWThyCL8Z&index=5',
+  videoUrl: 'https://www.youtube.com/watch?v=H9scIzPrBAs'
+},
+{ 
+  title: 'Chemistry grade 10 unit 1 part 1 | Chemical reaction and stoichiometry | Chemical Equations',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',           
+  downloads: '56',     
+  thumbnail: 'https://img.youtube.com/vi/98AVGjRipKg/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=98AVGjRipKg&list=PLfXpdCfxjXmaGRYZ7g9AFJFxRJzcH5oid',
+  videoUrl: 'https://www.youtube.com/watch?v=98AVGjRipKg'
+},
+{ 
+  title: 'Chemistry grade 10 unit 1 part 3 | Oxidation and Reduction',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',          
+  downloads: '45',    
+  thumbnail: 'https://img.youtube.com/vi/CtElDRt5DZA/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=CtElDRt5DZA&list=PLfXpdCfxjXmaGRYZ7g9AFJFxRJzcH5oid&index=3',
+  videoUrl: 'https://www.youtube.com/watch?v=CtElDRt5DZA'
+},
+{ 
+  title: 'Chemistry grade 10 unit 1 part 9 | Types of Chemical Reactions',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',          
+  downloads: '23',   
+  thumbnail: 'https://img.youtube.com/vi/EcPwU81ObRY/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=EcPwU81ObRY&list=PLfXpdCfxjXmaGRYZ7g9AFJFxRJzcH5oid&index=9',
+  videoUrl: 'https://www.youtube.com/watch?v=EcPwU81ObRY'
+},
+{ 
+  title: 'Grade 10 chemistry unit 3 part 5 | Solutions | Solubility as an Equilibrium process',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',          
+  downloads: '34',    
+  thumbnail: 'https://img.youtube.com/vi/R6uhZGtBVq4/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=R6uhZGtBVq4&list=PLfXpdCfxjXmaGRYZ7g9AFJFxRJzcH5oid&index=13',
+  videoUrl: 'https://www.youtube.com/watch?v=R6uhZGtBVq4'
+},
+{ 
+  title: 'Grade 10 chemistry unit 2 part 6 | Solutions | ways of expressing the concentration of solutions',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',         
+  downloads: '34',     
+  thumbnail: 'https://img.youtube.com/vi/A1308_xusMw/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=A1308_xusMw&list=PLfXpdCfxjXmaGRYZ7g9AFJFxRJzcH5oid&index=14',
+  videoUrl: 'https://www.youtube.com/watch?v=A1308_xusMw'
+},
+{ 
+  title: 'Chemistry grade 9 unit 1 part 4 | Some common chemical industries in Ethiopia',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',         
+  downloads: '89',   
+  thumbnail: 'https://img.youtube.com/vi/LwTG7GDNmJg/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=LwTG7GDNmJg&list=PLfXpdCfxjXmZwwwfNAd_U6b_PMy-zBn00',
+  videoUrl: 'https://www.youtube.com/watch?v=LwTG7GDNmJg'
+},
+{ 
+  title: 'Chemistry Grade 9 unit 3 part 1 | Historical Development of Atomic Theories of matter',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',        
+  downloads: '',   
+  thumbnail: 'https://img.youtube.com/vi/U4SG1FHM0WE/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=U4SG1FHM0WE&list=PLfXpdCfxjXmZwwwfNAd_U6b_PMy-zBn00&index=9',
+  videoUrl: 'https://www.youtube.com/watch?v=U4SG1FHM0WE'
+},
+{ 
+  title: 'Chemistry grade 9 unit 3 part 5 | Structure of the atom | composition of the atom and isotopes',
+  type: 'video',
+  subject: 'Chemistry',
+  date: '',           
+  downloads: '33',    
+  thumbnail: 'https://img.youtube.com/vi/wVx0vkvqHls/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=wVx0vkvqHls&list=PLfXpdCfxjXmZwwwfNAd_U6b_PMy-zBn00&index=12',
+  videoUrl: 'https://www.youtube.com/watch?v=wVx0vkvqHls'
+},
+{ 
+  title: 'Mathematics Grade 9 unit 1 Part 2 | Operation on Sets', 
+  type: 'video',
+  subject: 'math',               
+  date: '',                      
+  downloads: '23',                  
+  thumbnail: 'https://img.youtube.com/vi/HA_-yhh8Yx8/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=HA_-yhh8Yx8&list=PLfXpdCfxjXmZooKjB88nHk8FCjnNxSsJ6',
+  videoUrl: 'https://www.youtube.com/watch?v=HA_-yhh8Yx8'
+},
+{ 
+  title: 'Grade 9 Mathematics unit 1 part 1 | The number system | Revision on natural number and integers',
+  type: 'video',
+  subject: 'Mathematics',
+  date: '',         
+  downloads: '45',   
+  thumbnail: 'https://img.youtube.com/vi/7l7BuINCktg/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=7l7BuINCktg&list=PLfXpdCfxjXmZooKjB88nHk8FCjnNxSsJ6&index=3',
+  videoUrl: 'https://www.youtube.com/watch?v=7l7BuINCktg'
+},
+{ 
+  title: 'Grade 9 mathematics unit 1 part 9 | Limit of Accuracy',
+  type: 'video',
+  subject: 'Mathematics',
+  date: '',           
+  downloads: '78',   
+  thumbnail: 'https://img.youtube.com/vi/BLaIFwCsVV4/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=BLaIFwCsVV4&list=PLfXpdCfxjXmZooKjB88nHk8FCjnNxSsJ6&index=11',
+  videoUrl: 'https://www.youtube.com/watch?v=BLaIFwCsVV4'
+},
+{ 
+  title: 'Grade 9 Biology Unit 1: 1.1 Definition of Biology | GlobeDock Academy',
+  type: 'video',
+  subject: 'Biology',
+  date: '',          
+  downloads: '67',   
+  thumbnail: 'https://img.youtube.com/vi/jvdG-FMTINY/hqdefault.jpg',
+  category: 'videos',
+  url: 'https://www.youtube.com/watch?v=jvdG-FMTINY&list=PLhXdcrTaVuV_n2ZxzahFH6qTJyB6aLYwX&index=2',
+  videoUrl: 'https://www.youtube.com/watch?v=jvdG-FMTINY'
+},
+
+ 
   { 
     title: 'Algebra Basics', 
     type: 'video', 
@@ -482,17 +1151,7 @@ Downloaded from StudySync Dashboard`;
     url: '',
     videoUrl: 'https://www.youtube.com/watch?v=YqP5TuwtEdg'
   },
-  {
-    title: 'Grade 8 Mathematics Textbook (PDF)',
-    type: 'pdf',
-    subject: 'Mathematics – Grade 8',
-    date: 'New Curriculum',
-    downloads: '10',
-    thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg',
-    category: 'textbooks',
-    url: 'https://anrseb.gov.et/wp-content/uploads/New_Text_Books/Grade8/Grade%208_Mathematics_Textbook.pdf?utm_source=chatgpt.com',
-    videoUrl: ''
-  },
+ 
   {
     title: 'Mathematics Textbook – High School',
     type: 'pdf',
@@ -561,7 +1220,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '78',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-12-geography/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/geography/grade12geography.pdf',
     videoUrl: ''
   },
   { 
@@ -573,7 +1232,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '29',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-12-history/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/history/grade12history.pdf',
     videoUrl: ''
   },
   {
@@ -584,7 +1243,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-12-economics/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/economics/grade12economics.pdf',
     videoUrl: ''
   },
   {
@@ -595,7 +1254,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-12-english/',
+    url: 'https://www.examgalaxy.com/books/english/grade12english.pdf',
     videoUrl: ''
   },
   {
@@ -606,7 +1265,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337946.png',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-9-physics/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/physics/grade9physics.pdf',
     videoUrl: ''
   },
   {
@@ -617,7 +1276,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337946.png',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-9-biology/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/biology/grade9biology.pdf',
     videoUrl: ''
   },
   {
@@ -628,7 +1287,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337946.png',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-9-english/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/english/grade9english.pdf',
     videoUrl: ''
   },
   {
@@ -639,7 +1298,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337946.png',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-9-history/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/history/grade9history.pdf',
     videoUrl: ''
   },
   {
@@ -650,7 +1309,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337946.png',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-9-geography/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/geography/grade9geography.pdf',
     videoUrl: ''
   },
   {
@@ -661,7 +1320,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337946.png',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-9-economics/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/economics/grade9economics.pdf',
     videoUrl: ''
   },
   {
@@ -672,7 +1331,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://api.iconify.design/mdi:file-pdf-box.svg?color=%23E53E3E',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-10-physics/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/physics/grade10physics.pdf',
     videoUrl: ''
   },
   {
@@ -683,7 +1342,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://api.iconify.design/mdi:file-pdf-box.svg?color=%23E53E3E',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-10-chemistry/?utm_source=chatg1pt.com',
+    url: 'https://www.examgalaxy.com/books/chemistry/grade10chemistry.pdf',
     videoUrl: ''
   },
   {
@@ -694,7 +1353,7 @@ Downloaded from StudySync Dashboard`;
     downloads: '0',
     thumbnail: 'https://api.iconify.design/mdi:file-pdf-box.svg?color=%23E53E3E',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-10-biology/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/biology/grade10biology.pdf',
     videoUrl: ''
   },
   {
@@ -702,10 +1361,10 @@ Downloaded from StudySync Dashboard`;
     type: 'pdf',
     subject: 'English – Grade 10',
     date: 'New Curriculum',
-    downloads: '0',
+    downloads: '20',
     thumbnail: 'https://api.iconify.design/mdi:file-pdf-box.svg?color=%23E53E3E',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-10-english-science/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/english/grade10english.pdf',
     videoUrl: ''
   },
   {
@@ -713,7 +1372,7 @@ Downloaded from StudySync Dashboard`;
     type: 'pdf',
     subject: 'Economics – Grade 10',
     date: 'New Curriculum',
-    downloads: '0',
+    downloads: '40',
     thumbnail: 'https://api.iconify.design/mdi:file-pdf-box.svg?color=%23E53E3E',
     category: 'textbooks',
     url: 'https://www.examgalaxy.com/books/economics/grade10economics.pdf',
@@ -724,10 +1383,10 @@ Downloaded from StudySync Dashboard`;
     type: 'pdf',
     subject: 'Physics – Grade 11',
     date: 'New Curriculum',
-    downloads: '0',
+    downloads: '20',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337932.png',
     category: 'textbooks',
-    url: 'https://books.examgalaxy.com/books/grade-11-physics/?utm_source=chatgpt.com',
+    url: 'https://www.examgalaxy.com/books/physics/grade11physics.pdf',
     videoUrl: ''
   },
   {
@@ -746,7 +1405,7 @@ Downloaded from StudySync Dashboard`;
     type: 'pdf',
     subject: 'Biology – Grade 11',
     date: 'New Curriculum',
-    downloads: '0',
+    downloads: '10',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337932.png',
     category: 'textbooks',
     url: 'https://www.examgalaxy.com/books/biology/grade11biology.pdf',
@@ -768,7 +1427,7 @@ Downloaded from StudySync Dashboard`;
     type: 'pdf',
     subject: 'History – Grade 11',
     date: 'New Curriculum',
-    downloads: '0',
+    downloads: '90',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337932.png',
     category: 'textbooks',
     url: 'https://www.examgalaxy.com/books/history/grade11history.pdf',
@@ -790,7 +1449,7 @@ Downloaded from StudySync Dashboard`;
     type: 'pdf',
     subject: 'Economics – Grade 11',
     date: 'New Curriculum',
-    downloads: '0',
+    downloads: '10',
     thumbnail: 'https://cdn-icons-png.flaticon.com/512/337/337932.png',
     category: 'textbooks',
     url: 'https://www.examgalaxy.com/books/economics/grade11economics.pdf',
@@ -801,7 +1460,7 @@ Downloaded from StudySync Dashboard`;
     type: 'image',
     subject: '',
     date: '',
-    downloads: '0',
+    downloads: '20',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/7/77/Body_Cavities_Lateral_view.jpg',
     category: 'notes',
     url: 'https://upload.wikimedia.org/wikipedia/commons/7/77/Body_Cavities_Lateral_view.jpg',
@@ -879,7 +1538,7 @@ Downloaded from StudySync Dashboard`;
     type: 'image',
     subject: '',
     date: '',
-    downloads: '0',
+    downloads: '80',
     thumbnail: 'https://easy-peasy.ai/cdn-cgi/image/quality=95,format=auto,width=800/https://media.easy-peasy.ai/27feb2bb-aeb4-4a83-9fb6-8f3f2a15885e/22b0fb38-1fe2-47f8-9af1-2f872d0b9799.png',
     category: 'notes',
     url: 'https://easy-peasy.ai/cdn-cgi/image/quality=95,format=auto,width=800/https://media.easy-peasy.ai/27feb2bb-aeb4-4a83-9fb6-8f3f2a15885e/22b0fb38-1fe2-47f8-9af1-2f872d0b9799.png',
@@ -913,7 +1572,7 @@ Downloaded from StudySync Dashboard`;
     type: 'image',
     subject: 'Physics',
     date: '',
-    downloads: '0',
+    downloads: '10',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/en/5/55/Derivation_of_acoustic_wave_equation.png',
     category: 'notes',
     url: 'https://upload.wikimedia.org/wikipedia/en/5/55/Derivation_of_acoustic_wave_equation.png',
@@ -924,13 +1583,72 @@ Downloaded from StudySync Dashboard`;
     type: 'image',
     subject: 'Physics',
     date: '',
-    downloads: '0',
+    downloads: '20',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/d/d7/Local_wavelength.JPG',
     category: 'notes',
     url: 'https://upload.wikimedia.org/wikipedia/commons/d/d7/Local_wavelength.JPG',
     videoUrl: ''
   },
+    {
+    title: 'Photorespiration',
+    type: 'image',
+    subject: 'Biology',
+    date: '',
+    downloads: '23',
+    thumbnail: 'https://www.sciencefacts.net/wp-content/uploads/2021/08/Photorespiration.jpg',
+    category: 'notes',
+    url: 'https://www.sciencefacts.net/wp-content/uploads/2021/08/Photorespiration.jpg',
+    videoUrl: ''
+  },
+   {
+    title: 'Photosynthesis-Diagram',
+    type: 'image',
+    subject: 'Biology',
+    date: '',
+    downloads: '23',
+    thumbnail: 'https://sciencenotes.org/wp-content/uploads/2025/11/Photosynthesis-Diagram-1024x683.png',
+    category: 'notes',
+    url: 'https://sciencenotes.org/wp-content/uploads/2025/11/Photosynthesis-Diagram-1024x683.png',
+    videoUrl: ''
+  },
+   {
+    title: 'Photosynthesis-Diagram',
+    type: 'image',
+    subject: 'Biology',
+    date: '',
+    downloads: '23',
+    thumbnail: 'https://www.vedantu.com/seo/content-images/7ac45a3e-4403-41b1-bac1-fcc9aaad9f97_Photosynthesis_diagram.png',
+    category: 'notes',
+    url: 'https://www.vedantu.com/seo/content-images/7ac45a3e-4403-41b1-bac1-fcc9aaad9f97_Photosynthesis_diagram.png',
+    videoUrl: ''
+  },
+   {
+    title: 'Photosynthesis-Diagram',
+    type: 'image',
+    subject: 'Biology',
+    date: '',
+    downloads: '23',
+    thumbnail: 'https://static.vecteezy.com/system/resources/previews/003/448/985/non_2x/diagram-showing-process-of-photosynthesis-in-plant-free-vector.jpg',
+    category: 'notes',
+    url: 'https://static.vecteezy.com/system/resources/previews/003/448/985/non_2x/diagram-showing-process-of-photosynthesis-in-plant-free-vector.jpg',
+    videoUrl: ''
+  },
+   {
+    title: 'Photosynthesis-Diagram',
+    type: 'image',
+    subject: 'Biology',
+    date: '',
+    downloads: '23',
+    thumbnail: 'https://img.freepik.com/premium-vector/diagram-photosynthesis-biology-life-science-education_1639-48069.jpg',
+    category: 'notes',
+    url: 'https://img.freepik.com/premium-vector/diagram-photosynthesis-biology-life-science-education_1639-48069.jpg',
+    videoUrl: ''
+  },
+ 
 ]
+
+
+
 
   const myResources = [
     { 
@@ -991,6 +1709,7 @@ Downloaded from StudySync Dashboard`;
 
 
 
+
   {
     title: '',
     type: 'image',
@@ -1007,7 +1726,7 @@ Downloaded from StudySync Dashboard`;
     type: 'image',
     subject: '',
     date: '',
-    downloads: '0',
+    downloads: '90',
     thumbnail: 'https://upload.wikimedia.org/wikipedia/commons/4/42/Electronegative.jpg',
     category: 'notes',
     url: 'https://upload.wikimedia.org/wikipedia/commons/4/42/Electronegative.jpg',
@@ -1018,13 +1737,14 @@ Downloaded from StudySync Dashboard`;
     type: 'image',
     subject: '',
     date: '',
-    downloads: '0',
+    downloads: '10',
     thumbnail: 'https://lab.learnbin.net/wp-content/uploads/2025/10/Aufbau-Principle-Electron-Filling-Order.jpg',
     category: 'notes',
     url: 'https://lab.learnbin.net/wp-content/uploads/2025/10/Aufbau-Principle-Electron-Filling-Order.jpg',
     videoUrl: ''
   },
-   
+ 
+  
 
   ];
 
@@ -1041,11 +1761,11 @@ Downloaded from StudySync Dashboard`;
 
   const navLinks = [
     { icon: <FiHome />, label: 'Dashboard', key: 'dashboard' },
-    { icon: <FaSignature />, label: 'Study Portal', key: 'studyportal' },
-    { icon: <FileArchiveIcon />, label: 'Liberary', key: 'liberay'},
-    { icon: <FaBookOpen />, label: 'Access Teacher', key: 'teacher', },
-    { icon: <FaRegAddressBook />, label: 'Sheger Digital', key: 'sheger'},
-    { icon: <FaAccessibleIcon />, label: 'Start Exam', key: 'exam'},
+    { icon: <FaBookOpen/>, label: 'Study Portal ', key: 'studyportal' },
+    { icon: <FileArchiveIcon />, label: 'Study Resource', key: 'liberay'},
+    { icon: <FaBook />, label: 'Access Teacher Upload Material', key: 'teacher', },
+    { icon: <FaRegAddressBook />, label: 'Sheger Digital Library', key: 'sheger'},
+    { icon: <FaGraduationCap />, label: 'Start Exam', key: 'exam'},
   
 
   ];
@@ -1076,69 +1796,91 @@ Downloaded from StudySync Dashboard`;
 
 
 
-
- case 'teacher':
+case 'teacher':
   return (
     <div className='mb-8'>
-      <div className='bg-gradient-to-br from-white to-blue-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-blue-100 dark:border-gray-700'>
-        <div className='md:flex items-center'>
-          {/* Left Content */}
-          <div className='md:w-1/2 p-8'>
+      <div className='bg-gradient-to-br from-white to-green-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl overflow-hidden shadow-xl border border-green-100 dark:border-gray-700'>
+        <div className='md:flex flex-col md:flex-row items-center'>
+          {/* Mobile-first: Button at top */}
+          <div className='md:hidden w-full p-6'>
+            <a href='/studentgetstudy-material'>
+                <button className='px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg flex items-center justify-center gap-3 w-full md:w-auto'>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                  </svg>
+                  Access Study Materials
+                </button>
+              </a>
+          </div>
+          
+          {/* Mobile-first: Image at top (after button) */}
+          <div className='md:w-1/2 w-full p-6 md:p-8 flex items-center justify-center bg-gradient-to-b from-green-100 to-teal-100 dark:from-green-900/20 dark:to-teal-900/20 min-h-[300px] md:min-h-[400px] order-1 md:order-2'>
+            <img 
+              src={pot} 
+              alt="Student accessing study materials on laptop"
+              className='w-full h-full object-cover rounded-xl shadow-2xl border-4 border-white dark:border-gray-800'
+            />
+          </div>
+          
+          {/* Content section */}
+          <div className='md:w-1/2 w-full p-6 md:p-8 order-2 md:order-1'>
             <h2 className='text-3xl font-bold text-gray-800 dark:text-white mb-4'>
-              Share Educational Materials Instantly
+              Access Study Materials Instantly
             </h2>
             
             <div className='space-y-4 mb-6'>
               <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                As a teacher, you can upload assignments, homework, PDFs, images, and videos with one simple click. 
-                Your students get immediate access to all learning materials, creating a seamless educational experience.
+                As a student, you get immediate access to assignments, homework, PDFs, images, and videos 
+                <span className="font-semibold text-green-600 dark:text-green-400"> as soon as your teacher uploads them</span>. 
+                Never miss important study materials with real-time updates and notifications.
               </p>
               
               <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                Once you upload study materials, <span className="font-semibold text-blue-600 dark:text-blue-400">all students in your class will instantly have access</span> to view, download, and engage with the content. Every student receives the same high-quality materials simultaneously, ensuring equal learning opportunities for everyone.
+                When your teacher uploads new materials, <span className="font-semibold text-green-600 dark:text-green-400">you'll instantly have access</span> 
+                to view, download, and engage with the content. Every student in your class receives the same 
+                high-quality materials simultaneously, ensuring equal learning opportunities for everyone.
               </p>
               
               <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                Whether it's a math worksheet, a science project brief, or a history video lecture - share it once 
-                and it becomes available to your entire class. Track submissions, monitor progress, and focus on 
-                teaching while we handle the distribution.
+                Access math worksheets, science project briefs, history video lectures, and more - all organized 
+                by subject and date. Find what you need quickly with our intuitive search and filter system.
               </p>
               
               <p className='text-gray-600 dark:text-gray-300 text-lg'>
-                No complicated setups, no multiple steps. Just upload, click share, and watch your students 
-                engage with the materials immediately.
+                Submit assignments directly through the platform, track your progress, and stay organized 
+                with all your study materials in one convenient location. Focus on learning while we handle 
+                the accessibility.
               </p>
+              
+              <div className='bg-green-50 dark:bg-green-900/20 p-4 rounded-lg border border-green-200 dark:border-green-800 mt-6'>
+                <h3 className='font-bold text-green-800 dark:text-green-300 mb-2 flex items-center gap-2'>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                  </svg>
+                  Real-time Updates
+                </h3>
+                <p className='text-green-700 dark:text-green-400 text-sm'>
+                  Get notified immediately when new study materials are uploaded by your teacher
+                </p>
+              </div>
             </div> 
             
-            <div className='mt-8'>
+            {/* Desktop button (hidden on mobile) */}
+            <div className='mt-8 hidden md:block'>
               <a href='/studentgetstudy-material'>
-                <button className='px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg flex items-center justify-center gap-3 w-full md:w-auto'>
+                <button className='px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 text-lg flex items-center justify-center gap-3 w-full md:w-auto'>
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                   </svg>
-                  Upload & Share with Students 
+                  Access Study Materials
                 </button>
               </a>
             </div>
-          </div>
-          
-          {/* Right Image */}
-          <div className='md:w-1/2 p-8 flex items-center justify-center bg-gradient-to-b from-blue-100 to-purple-100 dark:from-blue-900/20 dark:to-purple-900/20 min-h-[400px]'>
-            <img 
-              src="/images/teacher-sharing.jpg" 
-              alt="Teacher sharing educational materials with students"
-              className='w-full h-full object-cover rounded-xl shadow-2xl border-4 border-white dark:border-gray-800'
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80";
-              }}
-            />
           </div>
         </div>
       </div>
     </div>
   )
-  
 
 
 
@@ -1154,7 +1896,7 @@ case 'liberay':
           <div 
             className="w-full h-full bg-cover bg-center bg-no-repeat"
             style={{
-              backgroundImage: `url(${bg1})`,
+              backgroundImage: `url(${anim16})`,
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-emerald-500/10 dark:from-gray-900/90 dark:via-gray-900/85 dark:to-gray-900/90" />
@@ -1214,9 +1956,9 @@ case 'liberay':
               <div className='group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/95 to-purple-50/95 dark:from-gray-800/95 dark:to-gray-900/95 backdrop-blur-sm border border-white/40 dark:border-gray-700/40 shadow-lg hover:shadow-xl md:hover:shadow-2xl transition-all duration-500 hover:-translate-y-1'>
   <div className='absolute inset-0'>
     <div 
-      className='absolute inset-0 opacity-10 group-hover:opacity-80 transition-opacity duration-500'
+      className='absolute inset-0 opacity-5 group-hover:opacity-20 transition-opacity duration-500'
       style={{
-        backgroundImage: `url(${bg})`,
+        backgroundImage: `url(${anim16})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
@@ -1268,7 +2010,7 @@ case 'liberay':
                   <div 
                     className='absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity duration-500'
                     style={{
-                      backgroundImage: 'url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")',
+                      backgroundImage: `url(${anim12})`,
                       backgroundSize: 'cover',
                       backgroundPosition: 'center'
                     }}
@@ -1423,7 +2165,7 @@ case 'liberay':
                   <div className='text-xs md:text-sm text-gray-700 dark:text-gray-300 font-medium'>Premium Content</div>
                 </div>
                 <div className='p-3 md:p-4'>
-                  <div className='text-xl md:text-2xl lg:text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-1 md:mb-2'>5000+</div>
+                  <div className='text-xl md:text-2xl lg:text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-1 md:mb-2'>100+</div>
                   <div className='text-xs md:text-sm text-gray-700 dark:text-gray-300 font-medium'>Resources</div>
                 </div>
                 <div className='p-3 md:p-4'>
@@ -1871,7 +2613,7 @@ case 'liberay':
             <div className='relative rounded-xl overflow-hidden border border-gray-800 bg-gradient-to-b from-gray-900 to-slate-900'>
               <div className='h-48 overflow-hidden'>
                 <img 
-                  src='https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                  src={sheg}
                   alt='Curriculum Resources'
                   className='w-full h-full object-cover transform group-hover:scale-110 transition duration-700'
                 />
@@ -1901,7 +2643,7 @@ case 'liberay':
             <div className='relative rounded-xl overflow-hidden border border-gray-800 bg-gradient-to-b from-gray-900 to-slate-900'>
               <div className='h-48 overflow-hidden'>
                 <img 
-                  src='https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                  src={bg}
                   alt='Interactive Learning'
                   className='w-full h-full object-cover transform group-hover:scale-110 transition duration-700'
                 />
@@ -1931,7 +2673,7 @@ case 'liberay':
             <div className='relative rounded-xl overflow-hidden border border-gray-800 bg-gradient-to-b from-gray-900 to-slate-900'>
               <div className='h-48 overflow-hidden'>
                 <img 
-                  src='https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                  src={bg1}
                   alt='Analytics Dashboard'
                   className='w-full h-full object-cover transform group-hover:scale-110 transition duration-700'
                 />
@@ -2039,8 +2781,8 @@ case 'liberay':
                   "The Sheger Digital Library transformed how I approach learning. The resources helped me achieve top marks in national exams."
                 </blockquote>
                 <div>
-                  <div className='text-lg font-semibold text-white'>Mesfin A.</div>
-                  <div className='text-gray-400'>Fuludimtu School Alumni</div>
+                  <div className='text-lg font-semibold text-white'>Melat and Nuhamin</div>
+                  <div className='text-gray-400'>Tuludimtu School Student</div>
                   <div className='mt-4 flex space-x-1'>
                     {[...Array(5)].map((_, i) => (
                       <div key={i} className='w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full'></div>
@@ -2374,28 +3116,16 @@ case 'liberay':
               <FiMenu className={`w-6 h-6 ${darkMode ? 'text-gray-300' : 'text-gray-600'}`} />
             </button>
             
-            <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-blue-800 rounded-lg flex items-center justify-center text-white font-bold">
-              
-
-
-
-    
-             <button
+            <div className="  flex items-center justify-center text-white font-bold">
+               <button
              className=''
              onClick={() => naviget('/')}
 
              >
-             <FaHome />
+             <FaHome className='w-6 h-6 sm:w-8 sm:h-8 '/>
              </button>
-          
-
-
-
-
-
-
-            </div>
-            <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'} hidden sm:block`}>Tulu Dimtu <span className='text-blue-700'>Digital Liberary</span></h1>
+           </div>
+            <h1 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-gray-800'} hidden sm:block`}>Tulu Dimtu <span className='text-blue-700'>Student Study Portal</span></h1>
           </div>
           
           <div className="flex items-center space-x-4">
@@ -2407,10 +3137,7 @@ case 'liberay':
               {darkMode ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
             </button>
             
-            <button className={`p-2 rounded-full hover:${darkMode ? 'bg-gray-700' : 'bg-gray-100'} relative transition-colors`}>
-              <FiBell className={`${darkMode ? 'text-gray-300' : 'text-gray-600'} w-5 h-5`} />
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center animate-pulse">3</span>
-            </button>
+            
             
             {/* Profile Dropdown */}
             <div className="relative">
@@ -2540,20 +3267,8 @@ case 'liberay':
                         <div className="text-xs text-gray-500 dark:text-gray-400">See complete profile details</div>
                       </div>
                     </button>
-                    <button className={`flex items-center w-full px-4 py-3 text-sm ${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'} transition-colors`}>
-                      <FiSettings className="mr-3 w-4 h-4" />
-                      <div className="text-left">
-                        <div>Account Settings</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Privacy, security & preferences</div>
-                      </div>
-                    </button>
-                    <button className={`flex items-center w-full px-4 py-3 text-sm ${darkMode ? 'text-gray-300 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-100'} transition-colors`}>
-                      <FiBell className="mr-3 w-4 h-4" />
-                      <div className="text-left">
-                        <div>Notification Settings</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400">Manage alerts & notifications</div>
-                      </div>
-                    </button>
+                    
+                    
                     <div className={`border-t ${darkMode ? 'border-gray-700' : 'border-gray-100'} my-2`}></div>
                     <button 
                       onClick={handleLogout}

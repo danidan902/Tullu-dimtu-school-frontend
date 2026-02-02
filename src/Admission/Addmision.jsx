@@ -1,6 +1,4 @@
 
-
-
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
@@ -48,6 +46,9 @@ const AdmissionForm = () => {
     ParentPhoto: null,
     clearance: null,
     condition: '',
+    program: '',
+    fayida: '',
+    field: ''
   };
 
   const paymentMethods = [
@@ -109,10 +110,10 @@ const AdmissionForm = () => {
     clearance: useRef(null)
   };
 
-  const grades = ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
-  const relationships = ['Father', 'Mother', 'Guardian', 'Other'];
-  const nationalities = ['Afaan Oromoo', 'Afaan Amharaa'];
-  const conditions = ['New Student', 'Old Student'];
+  // const grades = ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
+  // const relationships = ['Father', 'Mother', 'Guardian', 'Other'];
+  // const nationalities = ['Afaan Oromoo', 'Afaan Amharaa'];
+  // const conditions = ['New Student', 'Old Student'];
 
   // Enhanced button styles
   const buttonClasses = {
@@ -393,7 +394,10 @@ const AdmissionForm = () => {
       if (!formData.dob) newErrors.dob = 'Date of birth is required';
       if (!formData.age) newErrors.age = 'Age is required';
       if (!formData.nationality) newErrors.nationality = 'Media Of Instruction is required';
-      
+      if (!formData.program) newErrors.program = "Program is required";
+      if (!formData.fayida) newErrors.fayida = "FAN is required";
+      if (!formData.field) newErrors.field = "Field is required";
+ 
       // Photo validation - only check if it exists
       if (!formData.photo) {
         newErrors.photo = 'Photo is required';
@@ -475,6 +479,9 @@ const AdmissionForm = () => {
         if (!formData.dob) newErrors.dob = 'Date of birth is required';
         if (!formData.age) newErrors.age = 'Age is required';
         if (!formData.nationality) newErrors.nationality = 'Media Of Instruction is required';
+        if (!formData.program) newErrors.program = "Program is required";
+        if (!formData.fayida) newErrors.fayida = "FAN is required";
+        if (!formData.field) newErrors.field = "Field is required";
         if (!formData.photo) newErrors.photo = 'Photo is required';
       }
       
@@ -564,6 +571,9 @@ const AdmissionForm = () => {
         parentOccupation: formData.parentOccupation || '',
         address: formData.address,
         condition: formData.condition,
+        program: formData.program,
+        fayida: formData.fayida,
+        field: formData.field,
       };
       
       // Add text fields
@@ -1155,6 +1165,29 @@ const Step1 = ({ formData, handleChange, errors, handleFileClick, fileUploadProg
         </div>
         {errors.gender && <p className="mt-1 text-sm text-red-400">{errors.gender}</p>}
       </div>
+
+
+       <SelectField
+        label="Program:"
+        name="program"
+        value={formData.program}
+        onChange={handleChange}
+        options={[ 'Regular Program', 'Night Program']} 
+        error={errors.program}
+        required
+        placeholder='-Select-'
+      />
+        
+         <SelectField
+        label="Field :"
+        name="field"
+        value={formData.field}
+        onChange={handleChange}
+        options={[ 'Natural Science', 'Social Science', 'Other']} 
+        error={errors.field}
+        required
+        placeholder='-Select'
+      />
       
       <SelectField
         label="Media Of Instruction :"
@@ -1187,6 +1220,17 @@ const Step1 = ({ formData, handleChange, errors, handleFileClick, fileUploadProg
         error={errors.age}
         placeholder="Enter age"
       />
+    
+    <InputField
+        label="National ID (FAN/FCN Number):"
+        
+        name="fayida"
+        value={formData.fayida}
+        onChange={handleChange}
+        error={errors.fayida}
+        placeholder=""
+      />
+
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">
           Student Photo :
@@ -1320,7 +1364,7 @@ const Step3 = ({ formData, handleChange, errors }) => (
         value={formData.parentPhone}
         onChange={handleChange}
         error={errors.parentPhone}
-        placeholder="+251 ___ ___ ___"
+        placeholder="09 ___ ___ ___"
       />
       
       <InputField
@@ -1468,23 +1512,6 @@ const Step5 = ({ formData, errors, handleFileClick, paymentMethods, activeMethod
       />
     </div>
 
-    {/* {submitError && (
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mt-6 p-4 bg-red-900/20 border border-red-700/30 rounded-xl text-red-300 text-center"
-      >
-        ⚠️ {submitError}
-        <div className="mt-2">
-          <button
-            onClick={testConnection}
-            className="text-sm px-3 py-1 bg-red-800/50 hover:bg-red-700/50 rounded-lg transition-colors hover:scale-105 active:scale-95"
-          >
-            Test Connection
-          </button>
-        </div>
-      </motion.div>
-    )} */}
   </div>
 );
 

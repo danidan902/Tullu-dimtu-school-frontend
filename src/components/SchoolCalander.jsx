@@ -1,8 +1,7 @@
 
-
 import React, { useState, useEffect, useRef } from "react";
-import calendarImage from '../assets/home1.jpg'; 
 import bgImage from '../assets/tullu.png';
+import Footer from "./Footer";
 
 
 const ETH_MONTHS = [
@@ -32,6 +31,25 @@ const SCHOOL_EVENTS = {
     5: "Start 1st semester regular class",
     12: "Broadcasting courses start"
   },
+  January: {
+    18: "First Semester Final Exam",
+    25: "schools will be closed for students"
+  },
+  February: {
+    2: "Second Semester Begins",
+  },
+  March: {
+    24: "Model Exam for Grade 6 & 8",
+  },
+  June: {
+    15: "Second Semester Final Exam",
+    16: "National Exam for Grade 12",
+    22: "For all student school will be closed",
+    30: "Closing all schools for the academic year"
+
+  }, 
+ 
+
  
 };
 
@@ -42,6 +60,34 @@ const HOLIDAYS = {
     17: 'Finding of the cross',
     
   },
+  January: {
+    11: "Epiphany",
+  },
+  February: {
+    23: "Victory of Adwa",
+  },
+  December: {
+    29: "Christmas"
+  },
+  March: {
+    11: "Eid Alfitir"
+  },
+  April: {
+    2: "Good Friday",
+    11: "Easter",
+    23: "Mayday",
+    27: "Patriots Day"
+  },
+   May: {
+    19: "Eid AlAdha",
+    20: "GinbotHaya"
+  },
+  August:{
+    20: "Mewlid"
+  }
+
+  
+  
 
 };
 
@@ -51,27 +97,60 @@ const DETAILS = {
   "Class assignment": " On September 02/2018 Class assignment of students will be conducted. rights and obligations of students will be discussed",
   "Start 1st semester regular class": "On September 05/2018 The first day of 1st semester regular classes starts.",
   "Broadcasting courses start": "On September 12/2018 1st semester radio broadcasting courses will begin",
-  "First Semester Final Exam": "Comprehensive examination marking the end of the first semester.",
-  "Second Semester Begins": "Start of the second semester of the academic year.",
-  "National Exam": "National level examination for primary and secondary school students.",
-  
+  "First Semester Final Exam": "On January 18 - 22/2018 1st semester examination will be given to all students to evaluate their academic performance.",
+  "schools will be closed for students": "On January 25 - 29/2018 Schools will be closed for students after the completion of the first semester exams. It is when exams is given for students and student rosters are made",
+  "Second Semester Begins": "On February 02/2018 The second semester of the academic year begins with regular classes resuming for all students.",
+  "Model Exam for Grade 6 & 8": "On March 24 - 28/2018 Model exams will be conducted for Grade 6 and Grade 8 students to prepare them for their final national exams.",
+  "Second Semester Final Exam": "On June 15 - 19/2018 The final exams for the second semester will be Given",
+  "National Exam for Grade 12": "On June 15 - 26/2018 National exams will be given for all grade 12 .",
+  "For all student school will be closed": "On June 22 - 26/2018  School will be closed. And when exams are given for all students and student rosters are made.",
+  "Closing all schools for the academic year": "Student parents and school community available to close the academic year.",
+
   // Holidays Details
   "New Year": "The beginning of a new year in the Ethiopian calendar and comes after the long rainy season, symbolizing renewal, hope, and a fresh start month.",
   "Finding of the cross": "The Finding of the Cross, known in Ethiopia as Meskel, is an important religious and cultural holiday celebrated by Ethiopians",
   "Epiphany": "Commemoration of the baptism of Jesus Christ (Timket).",
-  "Mawlid": "Birthday of the Prophet Muhammad.",
-  "Adwa Victory Day": "Commemorates the Ethiopian victory at the Battle of Adwa in 1896.",
-  "Easter Friday": "Good Friday - commemorates the crucifixion of Jesus Christ.",
-  "Easter Sunday": "Celebration of the resurrection of Jesus Christ.",
-  "Labour Day": "International Workers' Day celebrating labor and workers.",
-  "Downfall of Derg": "Commemorates the overthrow of the Derg regime in 1991.",
-  "Eid al-Fitr": "Islamic holiday marking the end of Ramadan.",
-  "Eid al-Adha": "Islamic Festival of Sacrifice.",
-  
+  "Victory of Adwa": "Celebration of Ethiopia's victory over Italian forces at the Battle of Adwa in 1896.",
+  "Christmas": "Christmas (Gena)",
+  "Eid Alfitir": "Eid Alfitir",
+  "Good Friday": "Good Friday",
+  "Easter": "Easter",
+  "Mayday": "Mayday",
+  "Patriots Day": "Patriots Day",
+  "Eid AlAdha": "Eid AlAdha",
+  "GinbotHaya": "GinbotHaya",
+  "Mewlid": "Mewlid",
+
+
+
   // Regular School Day
   "School": "Regular school day with normal classes and activities.",
   "Weekend": "Saturday and Sunday - no school activities."
 };
+
+
+  const data = [
+    { name: "August/2017", value: 5 },
+    { name: "Pagume", value: 3 },
+    { name: "September", value: 21 },
+    { name: "October", value: 20 },
+    { name: "November", value: 22 },
+    { name: "December", value: 21 },
+    { name: "January", value: 20 },
+  ];
+
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+
+    const dataSet = [
+     { name: "February", value: 20 },
+     { name: "March", value: 21 },
+      { name: "April", value: 19 },
+      { name: "May", value: 20 },
+      { name: "June", value:  22},
+  ];
+
+  const setTotal = dataSet.reduce((sum, item) => sum + item.value, 0);
+
 
 
 function isLeapYearEC(year) {
@@ -428,19 +507,6 @@ export default function EthiopianSchoolCalendar() {
                             </div>
                           </div>
                         )}
-
-                        {/* Show "School" text for regular school days */}
-
-
-                        {/* {showSchoolText && (
-                          <div className="text-center">
-                            <div className={`${schoolFontSize} font-medium text-green-700 bg-green-50 py-0.5 rounded`}>
-                              School
-                            </div>
-                          </div>
-                        )} */}
-
-                        {/* Show "Weekend" text for weekends without events */}
                         {isWeekendDay && !schoolEvent && !holiday && (
                           <div className="text-center">
                             <div className={`${schoolFontSize} font-medium text-gray-500`}>
@@ -471,8 +537,7 @@ export default function EthiopianSchoolCalendar() {
             </div>
           </div>
 
-          {/* Legend - Responsive */}
-          <div className="mt-3 p-2 bg-white rounded-lg border border-gray-300">
+ <div className="mt-3 p-2 bg-white rounded-lg border border-gray-300">
             
             <div className="grid grid-cols-2 gap-1 md:gap-2">
               <div className="flex items-center space-x-1">
@@ -511,15 +576,93 @@ export default function EthiopianSchoolCalendar() {
             </div>
           </div>
 
+
+<div className="max-w-5xl mx-auto mt-10 flex flex-col md:flex-row gap-6 justify-center items-start">
+  <table className="w-full md:w-1/2 border border-gray-800 text-sm">
+    <thead>
+      <tr>
+        <th
+          colSpan="2"
+          className="border border-gray-800 px-2 py-2 text-center font-bold"
+        >
+          Number of Days in month the <span className="text-blue-600">First Semester</span> 2018
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {data.map((item, index) => (
+        <tr key={index}>
+          <td className="border border-gray-800 px-3 py-2">
+            {item.name}
+          </td>
+          <td className="border border-gray-800 px-3 py-2 text-center">
+            {item.value}    
+          </td> 
+        </tr> 
+      ))}
+      <tr className="font-semibold">   
+      
+        <td className="border border-gray-800 px-3 py-2 text-blue-700 text-right">
+          Total
+        </td>
+        <td className="border border-gray-800 px-3 py-2 text-center text-bold">
+          {total}
+        </td>
+      </tr>
+    </tbody> 
+  </table>
+  
+ 
+  <table className="w-full md:w-1/2 border border-gray-800 text-sm">
+    <thead>
+      <tr>
+        <th
+          colSpan="2"
+          className="border border-gray-800 px-2 py-2 text-center font-bold"
+        >
+          
+  Number of Days in month the <span className="text-blue-600">Second Semester</span> 2018 
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {dataSet.map((item, index) => (
+        <tr key={index}>
+          <td className="border border-gray-800 px-3 py-2">
+            {item.name}
+          </td>
+          <td className="border border-gray-800 px-3 py-2 text-center">
+            {item.value}
+          </td>
+        </tr>
+      ))}
+      <tr className="font-semibold">
+        <td className="border border-gray-800 px-3 py-2 text-blue-700 text-right">
+          Total
+        </td>
+        <td className="border border-gray-800 px-3 py-2 text-center text-bold">
+          {setTotal}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+          {/* Legend - Responsive */}
+         
+
+          
+
           {/* Page Info */}
-          <div className="mt-2 text-center text-gray-500 text-xs">
+          {/* <div className="mt-2 text-center text-gray-500 text-xs">
             <p>
               {isMobile ? 
                 `${currentMonth.substring(0, 3)} • ${currentYear} E.C. • ${currentMonthIndex + 1}/${ETH_MONTHS.length}` : 
                 `${currentMonth} • Year ${currentYear} E.C. • Page ${currentMonthIndex + 1} of ${ETH_MONTHS.length}`
               }
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -651,6 +794,8 @@ export default function EthiopianSchoolCalendar() {
           </div>
         </div>
       )}
+
+      <Footer/>
     </>
   );
 }

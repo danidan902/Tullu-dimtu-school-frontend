@@ -10,7 +10,7 @@ import {
   FaYoutube,
   FaGraduationCap,
 } from "react-icons/fa";
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import { toast } from "react-toastify";
 
 function Footer() {
@@ -25,9 +25,9 @@ function Footer() {
     
     const formData = new FormData();
     formData.append("access_key", "1a714604-528e-4a2d-8a7c-fd07f475de73");
-    formData.append("name", name);
+  
     formData.append("email", email);
-    formData.append("phone", phone);
+  
     formData.append("subject", "Newsletter Subscription");
 
     try {
@@ -97,11 +97,11 @@ function Footer() {
             <ul className="flex flex-wrap gap-x-3 gap-y-1.5 text-sm md:flex-col md:gap-y-2.5">
               {[
                 { name: "Home", path: "/" },
-                { name: "About Us", path: "/about/chairman-welcome" },
-                { name: "Academics", path: "/ourschool/overview" },
+                { name: "About Us", path: "/about/our-history" },
+                { name: "Community", path: "/ourschool/community" },
                 { name: "Admissions", path: "/admission" },
-                { name: "Faculty", path: "/faculty" },
-                { name: "News & Events", path: "/news" },
+                
+                { name: "News & Events", path: "/school-news" },
                 { name: "Contact", path: "/contact" },
               ].map((link) => (
                 <li key={link.name}>
@@ -147,14 +147,7 @@ function Footer() {
               Subscribe to our newsletter for the latest school updates, events, and academic announcements.
             </p>
             <form onSubmit={onSubmit} className="space-y-3">
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="Your Name"
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm backdrop-blur-sm"
-                required
-              />
+             
               <input
                 type="email"
                 value={email}
@@ -163,13 +156,7 @@ function Footer() {
                 className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm backdrop-blur-sm"
                 required
               />
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="Phone Number (Optional)"
-                className="w-full px-4 py-2.5 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-400 text-sm backdrop-blur-sm"
-              />
+             
               <button
                 type="submit"
                 disabled={loading}

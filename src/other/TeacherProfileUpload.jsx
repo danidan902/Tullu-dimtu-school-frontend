@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Home, CheckCircle } from 'lucide-react';
-import logo from '../assets/tullulogo.png';
+import { CheckCircle, ChevronLeft, Upload } from 'lucide-react';
+import studentLifeHero from '../assets/tech1.jpg';
 
 const TeacherUploadForm = () => {
   const navigate = useNavigate();
@@ -155,44 +155,63 @@ const TeacherUploadForm = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
-      <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-28">
-        <div className="fixed top-4 left-4 z-10">
-          <button
-            onClick={() => navigate('/other/teacher-list')}
-            className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
-          >
-            <Home className="w-5 h-5" />
-            <span>Back to Home Page</span>
-          </button>
-        </div>
+     <div className="relative w-full h-[90vh] overflow-hidden">
+  {/* Background Image */}
+  <div
+    className="absolute inset-0 bg-cover bg-center bg-fixed"
+    style={{ backgroundImage: `url(${studentLifeHero})` }}
+  />
 
-        <div className="flex justify-center mb-4 md:mb-6 mt-4 md:mt-0">
-          <div className="bg-blue-100 rounded-2xl max-w-[200px] md:max-w-none">
-            <img src={logo} alt='Tuludimtu School Logo' className='w-56 h-56'/>
-          </div>
-        </div>
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-        <div className="relative container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">Teacher Profile Upload</h2>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
-            Fill in your information to be added to the school's teacher list
-          </p>
-    
-    <div className="flex justify-center items-center mt-12">
-  <a href='/teachersupload-platform'>
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 via-blue-900/50 to-transparent" />
+
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/30" />
+
+  {/* Back Button */}
+  <div className="fixed left-4 top-4 z-30">
     <button
-    className="px-10 py-5 text-xl md:text-2xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-3xl shadow-2xl hover:scale-105 transform transition-all duration-300"
+      onClick={() => navigate('/other/teacher-list')}
+      aria-label="Go back"
+      className="bg-white/90 backdrop-blur p-2 sm:p-3 rounded-full shadow-lg hover:bg-white transition"
+    >
+      <ChevronLeft className="w-6 h-6 sm:w-7 sm:h-7 text-black" />
+    </button>
+  </div>
+
+  {/* Content */}
+  <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-4">
+    <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
+      Teacher Profile Upload
+    </h1>
+
+    <p className="text-lg md:text-xl text-white/90 max-w-2xl mb-10">
+      Fill in your information to be added to the school's official teacher list
+    </p>
+
+   
+<a href="/teachersupload-platform">
+  <button
+    className="
+      inline-flex items-center gap-2
+      px-6 py-3
+      text-sm md:text-base
+      bg-gradient-to-r from-blue-600 to-purple-600
+      text-white font-semibold
+      rounded-full
+      shadow-lg
+      hover:scale-105 hover:shadow-purple-500/40
+      transition-all duration-300
+      focus:outline-none focus:ring-2 focus:ring-purple-400
+    "
   >
-    Upload Study Material
+    <Upload className="w-4 h-4 md:w-5 md:h-5" />
+    Upload Material
   </button>
-  </a>
+</a>
+  </div>
 </div>
 
-          
-        </div>
-
-        
-      </div>
        
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">

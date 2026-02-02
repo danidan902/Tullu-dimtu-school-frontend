@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useUser, useClerk } from '@clerk/clerk-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import logo from '../assets/tullulogo.png';
-import leftBgImage from '../assets/studentlife.jpg';
+import leftBgImage from '../assets/cro.jpg';
 
 // Animation variants
 const containerVariants = {
@@ -42,7 +41,7 @@ const ContactForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
-  // Initialize form with user data if signed in
+  
   useEffect(() => {
     if (isSignedIn && user) {
       const userEmail = user.primaryEmailAddress?.emailAddress || '';
@@ -53,21 +52,21 @@ const ContactForm = () => {
     }
   }, [isSignedIn, user]);
 
-  // Save form data to localStorage whenever it changes
+  
   useEffect(() => {
     if (formData.email || formData.password) {
       localStorage.setItem('contactFormData', JSON.stringify(formData));
     }
   }, [formData]);
 
-  // Clear saved data on successful submission
+ 
   useEffect(() => {
     if (isSubmitted) {
       localStorage.removeItem('contactFormData');
     }
   }, [isSubmitted]);
 
-  // Auto-submit after authentication
+  
   useEffect(() => {
     const autoSubmitAfterAuth = async () => {
       const savedData = localStorage.getItem('contactFormData');
@@ -102,14 +101,14 @@ const ContactForm = () => {
       return;
     }
 
-    // Email validation
+ 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setMessage({ text: 'Please enter a valid email address', type: 'error' });
       return;
     }
 
-    // Password validation (optional)
+   
     if (formData.password.length < 6) {
       setMessage({ text: 'Password must be at least 6 characters long', type: 'error' });
       return;
@@ -161,12 +160,12 @@ const ContactForm = () => {
         setIsSubmitted(true);
         setMessage({ text: 'Data submitted successfully!', type: 'success' });
         
-        // Navigate after successful submission
+        
         setTimeout(() => {
           navigate('/some');
         }, 1500);
         
-        // Clear form and localStorage on success
+    
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({
@@ -192,7 +191,7 @@ const ContactForm = () => {
       setIsSubmitting(false);
       
       if (err.response) {
-        // Handle duplicate email error specifically
+    
         if (err.response.status === 400 && err.response.data.error?.includes('Email already exists')) {
           setMessage({ text: 'This email is already registered. Please use a different email address.', type: 'error' });
         } else {
@@ -217,8 +216,6 @@ const ContactForm = () => {
 
   return (
     <div className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      {/* LEFT SECTION - Welcome Section with Professional Amazing Shapes */}
-      
       <motion.div
   className="
     relative flex flex-col justify-center md:justify-between
@@ -231,14 +228,13 @@ const ContactForm = () => {
   animate={{ opacity: 1 }}
   transition={{ duration: 0.8 }}
   style={{
-    // filter: 'brightness(1.05) contrast(1.05)',
+ 
   }}
 >
 
-        
-        {/* Main Background Image with Fluid Organic Shape */}
+    
         <>
-  {/* Image */}
+ 
   <div
     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
     style={{
@@ -250,84 +246,19 @@ const ContactForm = () => {
     }}
   />
 
-  {/* Main readability layer */}
+ 
   <div className="absolute inset-0 bg-gradient-to-r from-blue-950/80 via-blue-900/50 to-transparent" />
 
-  {/* Subtle highlight */}
+
   <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />
 
-  {/* Bottom shadow */}
+ 
   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
 </>
 
         
         
-        {/* Professional Gradient Overlay with Diagonal Cut */}
-        {/* <div 
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(155deg, 
-              rgba(15, 23, 42, 0.95) 0%, 
-              rgba(30, 58, 138, 0.85) 40%, 
-              rgba(37, 99, 235, 0.6) 100%
-            )`,
-            clipPath: 'polygon(0% 0%, 100% 0%, 100% 85%, 92% 100%, 0% 100%)',
-            borderRadius: '0% 0% 50% 15% / 0% 0% 35% 8%',
-          }}
-        /> */}
-        
-        {/* Modern Geometric Pattern - Top Right */}
-        {/* <div 
-          className="absolute top-0 right-0 w-2/5 h-2/5"
-          style={{
-            background: 'linear-gradient(45deg, rgba(59, 130, 246, 0.25) 0%, rgba(96, 165, 250, 0.15) 100%)',
-            clipPath: 'polygon(100% 0%, 100% 60%, 60% 100%, 0% 40%, 0% 0%)',
-            borderRadius: '0% 0% 0% 30%',
-            backdropFilter: 'blur(10px)',
-          }}
-        /> */}
-        
-        {/* Elegant Corner Accent - Bottom Left */}
-        {/* <div 
-          className="absolute bottom-0 left-0 w-1/3 h-1/4"
-          style={{
-            background: 'linear-gradient(315deg, rgba(29, 78, 216, 0.4) 0%, rgba(37, 99, 235, 0.2) 100%)',
-            clipPath: 'polygon(0% 100%, 25% 0%, 100% 0%, 100% 100%)',
-            borderRadius: '0% 80% 0% 0% / 0% 60% 0% 0%',
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            borderRight: '1px solid rgba(255, 255, 255, 0.1)',
-          }}
-        /> */}
-        
-        {/* Floating Circle Pattern */}
-        {/* <div 
-          className="absolute top-1/4 left-1/4 w-40 h-40 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 70%, transparent 100%)',
-            filter: 'blur(40px)',
-            animation: 'float 15s ease-in-out infinite',
-          }}
-        /> */}
-        
-        {/* Floating Circle 2 */}
-        {/* <div 
-          className="absolute bottom-1/4 right-1/4 w-32 h-32 rounded-full"
-          style={{
-            background: 'radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, rgba(59, 130, 246, 0.08) 70%, transparent 100%)',
-            filter: 'blur(30px)',
-            animation: 'float 12s ease-in-out infinite 2s',
-          }}
-        /> */}
-        
-        {/* Modern Decorative Lines */}
-        {/* <div 
-          className="absolute top-1/2 -left-4 w-12 h-px transform -translate-y-1/2"
-          style={{
-            background: 'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.7), transparent)',
-          }}
-        /> */}
-        
-        {/* Decorative Dot Pattern */}
+   
         <div className="absolute top-10 right-10 flex space-x-2">
           {[1, 2, 3].map((i) => (
             <div 
@@ -341,7 +272,7 @@ const ContactForm = () => {
           ))}
         </div>
         
-        {/* CSS Animations */}
+    
         <style jsx>{`
           @keyframes float {
             0%, 100% { transform: translate(0, 0) scale(1); }
@@ -354,27 +285,14 @@ const ContactForm = () => {
           }
         `}</style>
         
-        {/* Content Container with Glass Morphism Effect */}
+     
         <motion.div
           className="relative z-10 max-w-md mx-auto md:mx-0 text-center md:text-left"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Logo with Professional Border */}
-          <motion.div
-            className="w-32 md:w-36 mx-auto md:mx-0 mb-8 relative"
-            variants={itemVariants}
-          >
-            <div className="absolute -ins-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full blur opacity-30"></div>
-            <img
-              src={logo}
-              alt="Tulu Dimtu School Logo"
-              className="relative w-full h-auto bg-gradient-to-br from-white/25 to-white/10 backdrop-blur-lg rounded-full p-4 border border-white/20 shadow-2xl"
-            />
-          </motion.div>
-          
-          {/* Main Heading with Gradient Text */}
+   
           <motion.h1 
             className="text-3xl md:text-4xl font-bold mb-6 text-white"
             variants={itemVariants}
@@ -382,43 +300,23 @@ const ContactForm = () => {
           >
             Welcome to <span className="text-yellow-500 italic">Tulu Dimtu School</span> 
           </motion.h1>
-          
-          {/* Description with Glass Effect */}
+
           <motion.p
             className="text-lg mb-8 leading-relaxed   text-blue-200/90 p-6  "
             variants={itemVariants}
-            // style={{
-            //   background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%)',
-            // }}
+
           >
             At Tulu Dimtu School, we are dedicated to nurturing young minds through quality education, 
             strong values, and modern learning approaches.
           </motion.p>
 
-          {/* Features List with Professional Cards */}
-          {/* <motion.div className="space-y-4" variants={itemVariants}>
-            {[
-              { text: '5000+ Students Enrolled', icon: '' },
-              { text: '200+ Certified Teachers', icon: '' },
-              { text: '98% Success Rate', icon: '' },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                className="flex items-center text-white p-4 rounded-xl backdrop-blur-sm bg-white/10 border border-white/10 hover:bg-white/15 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg"
-                whileHover={{ x: 5 }}
-              >
-                <span className="text-2xl mr-4">{item.icon}</span>
-                <span className="font-medium">{item.text}</span>
-              </motion.div>
-            ))}
-          </motion.div> */}
+    
         </motion.div>
 
-        {/* Footer */}
+      
         
       </motion.div>
 
-      {/* RIGHT SECTION - Sign In Form - NO background image */}
       <motion.div
         className="flex items-center justify-center bg-white px-4 py-8 md:px-6 md:py-0"
         initial={{ opacity: 0, y: 30 }}
@@ -426,7 +324,7 @@ const ContactForm = () => {
         transition={{ duration: 0.7, ease: "easeOut" }}
       >
         <div className="w-full max-w-md">
-          {/* Message Display */}
+      
           {message.text && (
             <motion.div 
               initial={{ opacity: 0, y: -20 }}
@@ -454,14 +352,11 @@ const ContactForm = () => {
             </motion.div>
           )}
 
-          {/* Form Container */}
+        
           <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
             <div className="px-8 pt-8 pb-6">
-              {/* Auth status display */}
               <div className="mb-6 text-center">
-                {/* <h2 className="text-3xl font-bold text-gray-800 mb-2">Student Portal</h2>
-                <p className="text-gray-600">Sign in to access your account</p> */}
-                
+
                 <div className="mt-4">
                   {isSignedIn ? (
                     <div className="inline-flex items-center space-x-2 bg-emerald-500/20 backdrop-blur-sm rounded-full py-1.5 px-4 border border-emerald-500/20">
@@ -496,7 +391,6 @@ const ContactForm = () => {
                     <div className="absolute -inset-2 bg-emerald-500/10 rounded-full blur"></div>
                   </div>
                   <h3 className="text-2xl font-bold text-gray-800 mb-2">Submission Successful!</h3>
-                  {/* <p className="text-gray-600 mb-4">Your data has been securely saved to our database.</p> */}
                   <div className="mt-6">
                     <button
                       onClick={clearForm}
@@ -511,7 +405,7 @@ const ContactForm = () => {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Email Field */}
+                
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Email Address
@@ -535,17 +429,17 @@ const ContactForm = () => {
                     </div>
                   </div>
 
-                  {/* Password Field */}
+                 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Password
-                    </label>
+                      Password  
+                    </label>   
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                         </svg>
-                      </div>
+                      </div> this name of this name of this name of thia name of this name 
                       <input
                         type="password"
                         name="password"
@@ -559,7 +453,7 @@ const ContactForm = () => {
                     </div>
                   </div>
 
-                  {/* Submit Button */}
+                
                   <div className="pt-2">
                     {!isSignedIn ? (
                       <button
@@ -596,15 +490,6 @@ const ContactForm = () => {
                     )}
                   </div>
 
-                  {/* Additional info */}
-                  {/* <div className="text-center pt-4">
-                    <p className="text-sm text-gray-600">
-                      By signing in, you agree to our{' '}
-                      <a href="/school-terms" className="text-blue-600 hover:text-blue-800 transition duration-200">Terms of Service</a>
-                      {' '}and{' '}
-                      <a href="/tuludimtuschool-policy" className="text-blue-600 hover:text-blue-800 transition duration-200">Privacy Policy</a>
-                    </p>
-                  </div> */}
                 </form>
               )}
             </div>
@@ -623,9 +508,6 @@ const ContactForm = () => {
   </div>
 </div>
 
-            {/* Card footer */}
-           
-            
           </div>
         </div>
       </motion.div>

@@ -4,19 +4,26 @@ import historyImage from '../assets/prin.jpg';
 import schoolHeroImage from '../assets/tech1.jpg';
 import Footer from '../components/Footer';
 import { Helmet } from "react-helmet-async";
-import { motion, useAnimation, useInView } from 'framer-motion';
-import React, { useEffect, useRef, useState } from 'react';
-import { FiArrowRight, FiTrendingUp, FiTarget, FiX, FiChevronRight, FiChevronLeft, FiExternalLink, FiBook, FiMapPin, FiVideo } from 'react-icons/fi';
+import { motion } from 'framer-motion';
+import  { useEffect, useRef, useState } from 'react';
+import { FiArrowRight, FiTrendingUp, FiTarget, FiX, FiChevronRight, FiChevronLeft, FiExternalLink} from 'react-icons/fi';
 import { AnimatePresence } from 'framer-motion';
+import anim14 from '../assets/hom2.jpg';
+import anim18 from '../assets/chem.png';
+import anim24 from '../assets/chem.jpg';
+import anim25 from '../assets/ibs.jpg';
+import anim12 from '../assets/hom1.jpg';
+import doc from '../assets/lab.png'
 
-// Detailed content for each timeline item
+import dir1 from '../assets/dir1.png'
+import visitor from '../assets/visitor.png'
+
 const timelineDetails = {
   "1995": {
     title: "Foundation & Early Years",
     subtitle: "The Beginning of an Educational Legacy",
     images: [
-      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1524178234883-043d5c3f3cf4?ixlib=rb-4.0.3&auto=format&fit=crop&w-800&q=80"
+     visitor
     ],
     content: [
       {
@@ -25,7 +32,7 @@ const timelineDetails = {
       },
       {
         title: "Early Challenges",
-        text: "The school began operations in a rented building with minimal facilities. Initial enrollment was 120 students across all grades, taught by just 8 dedicated teachers who often went beyond their duties to ensure students received comprehensive education."
+        text: "The school began operations with minimal facilities. Initial enrollment was 700 students across all grades, taught by just 20 dedicated teachers who often went beyond their duties to ensure students received comprehensive education."
       },
       {
         title: "Community Support",
@@ -33,21 +40,21 @@ const timelineDetails = {
       }
     ],
     achievements: [
-      "First campus established in rented facilities",
-      "Initial enrollment: 120 students",
-      "8 founding teachers",
+      "First campus established ",
+      "Initial enrollment: 700 students",
+      "20 founding teachers",
       "Community-funded library established"
     ],
     quote: "Education is not preparation for life; education is life itself.",
     author: "John Dewey"
   },
+
+
+  
   "2002": {
     title: "First Graduating Class & National Recognition",
     subtitle: "Setting New Standards of Excellence",
-    images: [
-      "https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    ],
+    images: [schoolHeroImage],
     content: [
       {
         title: "Historic Graduation",
@@ -75,8 +82,7 @@ const timelineDetails = {
     title: "National Recognition & Expansion",
     subtitle: "Becoming a National Leader in Education",
     images: [
-      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1524178234883-043d5c3f3cf4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+      dir1
     ],
     content: [
       {
@@ -104,10 +110,9 @@ const timelineDetails = {
   "2020": {
     title: "Modernization & Digital Transformation",
     subtitle: "Embracing 21st Century Learning",
-    images: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    ],
+      images:[
+         doc
+      ],
     content: [
       {
         title: "STEM Facilities",
@@ -134,10 +139,7 @@ const timelineDetails = {
   "Present": {
     title: "Continuing Excellence & Future Vision",
     subtitle: "Leading Educational Innovation Today",
-    images: [
-      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1524178234883-043d5c3f3cf4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-    ],
+     images: [anim12],
     content: [
       {
         title: "Current Excellence",
@@ -282,84 +284,20 @@ const LearnMoreModal = ({ isOpen, onClose, year }) => {
 
                   {/* Sidebar */}
                   <div className="space-y-8">
-                    {/* Achievements */}
-                    <motion.div
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.2 }}
-                      className="bg-gradient-to-b from-blue-500 to-purple-600 rounded-2xl p-6 text-white"
-                    >
-                      <div className="flex items-center gap-3 mb-6">
-                        <div className="p-2 bg-white/20 rounded-lg">
-                          <FiBook size={24} />
-                        </div>
-                        <h3 className="text-xl font-bold">Key Achievements</h3>
-                      </div>
-                      <ul className="space-y-3">
-                        {details.achievements.map((achievement, index) => (
-                          <li key={index} className="flex items-start gap-3">
-                            <div className="w-2 h-2 bg-white rounded-full mt-2"></div>
-                            <span>{achievement}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </motion.div>
-
-                    {/* Quick Stats */}
-                    <motion.div
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="bg-white border border-gray-200 rounded-2xl p-6"
-                    >
-                      <h3 className="text-xl font-bold text-gray-900 mb-6">By The Numbers</h3>
-                      <div className="space-y-4">
-                        <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
-                              <FaUsers size={20} />
-                            </div>
-                            <span className="text-gray-700">Enrollment</span>
-                          </div>
-                          <span className="text-2xl font-bold text-gray-900">
-                            {year === "1995" ? "120" : 
-                             year === "2002" ? "450" : 
-                             year === "2010" ? "800" : 
-                             year === "2020" ? "1,000" : "1,200+"}
-                          </span>
-                        </div>
-                        <div className="flex items-center justify-between pb-3 border-b border-gray-100">
-                          <div className="flex items-center gap-3">
-                            <div className="p-2 bg-green-100 rounded-lg text-green-600">
-                              <FiMapPin size={20} />
-                            </div>
-                            <span className="text-gray-700">Campus Size</span>
-                          </div>
-                          <span className="text-2xl font-bold text-gray-900">
-                            {year === "1995" ? "2 acres" : 
-                             year === "2002" ? "5 acres" : 
-                             year === "2010" ? "10 acres" : 
-                             year === "2020" ? "12 acres" : "15 acres"}
-                          </span>
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Action Buttons */}
+                   
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.4 }}
                       className="space-y-3"
                     >
-                      <button className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
+                     <a href='/gallery'>
+                       <button className="w-full bg-blue-600 text-white py-3 rounded-xl font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center gap-2">
                         <FiExternalLink size={20} />
-                        View Gallery for {year}
+                        View Gallery 
                       </button>
-                      <button className="w-full border-2 border-blue-600 text-blue-600 py-3 rounded-xl font-semibold hover:bg-blue-50 transition-colors flex items-center justify-center gap-2">
-                        <FiVideo size={20} />
-                        Watch Documentary
-                      </button>
+                     </a>
+                      
                     </motion.div>
                   </div>
                 </div>
@@ -372,7 +310,7 @@ const LearnMoreModal = ({ isOpen, onClose, year }) => {
                     <span className="font-medium">Related Resources:</span>
                     <div className="flex gap-4 mt-2">
                       <button className="text-blue-600 hover:text-blue-700 font-medium">
-                        Annual Report {year}
+                        Annual Report 
                       </button>
                       <button className="text-blue-600 hover:text-blue-700 font-medium">
                         Photo Archive
@@ -489,17 +427,10 @@ const OurHistory = () => {
 
   const campusRef = useRef(null);
   const futureRef = useRef(null);
-  // const heroControls = useAnimation();
-  // const foundingControls = useAnimation();
-  // const timelineControls = useAnimation();
-  // const philosophyControls = useAnimation();
-  // const campusControls = useAnimation();
-  // const futureControls = useAnimation();
-
   return (
     <>
       <Helmet>
-        <title>Our History | Tullu Dimtu School</title>
+        <title>Our History </title>
       </Helmet>
 
       {/* Enhanced Hero Section with Parallax and Gradient Overlay */}
@@ -570,7 +501,7 @@ const OurHistory = () => {
           >
             <div className="inline-flex  mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
               <FaStar className="text-yellow-300 mr-2" />
-              <span className="text-white/90 font-medium">Since 1995</span>
+              <span className="text-white/90 font-medium">Since 2000</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight  mt-20">
@@ -654,7 +585,7 @@ const OurHistory = () => {
                   <div>
                     <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-4">
                       <FiTarget className="text-yellow-300" />
-                      <span className="text-white font-medium">Since 1995</span>
+                      <span className="text-white font-medium">Since 2000</span>
                     </div>
                     <h3 className="text-4xl font-bold text-white leading-tight">Building Futures Since Day One</h3>
                   </div>
@@ -816,15 +747,6 @@ const OurHistory = () => {
             </div>
           </ScrollReveal>
 
-          {/* Enhanced Legacy & Campus Section */}
-        
-        
-        
-        
-        
-        
-        
-        
           <motion.div 
             ref={campusRef}
             className="mt-40 mb-32"
@@ -838,7 +760,7 @@ const OurHistory = () => {
                 <div>
                   <div className="inline-flex items-center gap-2 text-emerald-600 font-semibold mb-4">
                     <FaSchool className="text-xl" />
-                    <span>OUR CAMPUS</span>
+                    <span>OUR SCHOOL</span>
                   </div>
                   <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
                     State-of-the-Art <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-teal-600">Learning Environment</span>
@@ -854,10 +776,10 @@ const OurHistory = () => {
                   {/* Facilities Grid */}
                   <div className="grid grid-cols-2 gap-6 pt-6">
                     {[
-                      { name: "Science Labs", count: "8" },
-                      { name: "Sports Facilities", count: "12+" },
-                      { name: "Smart Classrooms", count: "40" },
-                      { name: "Art Studios", count: "5" }
+                      { name: "Science Labs", count: "4" },
+                      { name: "Sports Facilities", count: "8+" },
+                      { name: "Smart Classrooms", count: "20" },
+                      { name: "Art Studios", count: "2" }
                     ].map((facility, idx) => (
                       <div key={idx} className="bg-white p-4 rounded-xl shadow-md border border-gray-100">
                         <div className="text-2xl font-bold text-emerald-600 mb-1">{facility.count}</div>
@@ -872,18 +794,22 @@ const OurHistory = () => {
                   </p>
                 </div>
                 
-                <button className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:gap-4 group">
-                  Virtual Campus Tour 
+               <a href='/schedule-visit'>
+                 <button className="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-8 py-4 rounded-full font-semibold hover:shadow-xl transition-all duration-300 hover:gap-4 group">
+                  Schedule For Visit 
                   <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </button>
+               </a>
               </div>
               
               {/* Image Gallery Grid with Hover Effects */}
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-6">
                   {[
-                    'https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                    anim14,
+                    anim25,
+
+                    
                   ].map((src, index) => (
                     <motion.div 
                       key={index}
@@ -902,8 +828,8 @@ const OurHistory = () => {
                 </div>
                 <div className="space-y-6 pt-12">
                   {[
-                    'https://images.unsplash.com/photo-1542744095-fcf48d80b0fd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-                    'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+                    anim18,
+                    anim24
                   ].map((src, index) => (
                     <motion.div 
                       key={index}
@@ -941,7 +867,7 @@ const OurHistory = () => {
               <div 
                 className="absolute inset-0 bg-cover bg-center opacity-20"
                 style={{
-                  backgroundImage: 'url("https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80")'
+                  backgroundImage: `url(${anim12})`
                 }}
               />
               {/* Animated Grid Overlay */}
@@ -954,65 +880,11 @@ const OurHistory = () => {
               </div>
             </div>
             
-            <div className="relative z-10 p-12 md:p-24 text-center text-white">
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.6 }}
-                viewport={{ once: true }}
-              >
-                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full mb-8">
-                  <FaRocket className="text-yellow-300" />
-                  <span className="font-semibold">FUTURE VISION</span>
-                </div>
-                
-                <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-tight">
-                  Shaping Tomorrow's <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300">Leaders</span>
-                </h2>
-                
-                <div className="max-w-3xl mx-auto mb-12 space-y-8">
-                  <p className="text-xl leading-relaxed">
-                    We're pioneering new frontiers in education with cutting-edge initiatives that prepare 
-                    students for an increasingly digital and interconnected world.
-                  </p>
-                  
-                  <div className="grid md:grid-cols-3 gap-8 pt-8">
-                    {[
-                      { title: "AI Research Lab", desc: "Artificial Intelligence & Machine Learning" },
-                      { title: "Global Exchange", desc: "Virtual international collaborations" },
-                      { title: "Green Campus", desc: "Sustainable vertical gardens & solar power" }
-                    ].map((initiative, idx) => (
-                      <div key={idx} className="bg-white/10 backdrop-blur-sm p-6 rounded-2xl border border-white/20">
-                        <div className="text-2xl font-bold mb-2">{initiative.title}</div>
-                        <div className="text-white/80 text-sm">{initiative.desc}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="flex flex-wrap justify-center gap-6">
-                  <motion.button 
-                    className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-10 py-4 rounded-full font-semibold text-lg hover:shadow-2xl transition-all duration-300 flex items-center gap-3 group"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Join Our Journey <FiArrowRight className="group-hover:translate-x-1 transition-transform" />
-                  </motion.button>
-                  <motion.button 
-                    className="bg-white/20 backdrop-blur-sm text-white px-10 py-4 rounded-full font-semibold text-lg border border-white/30 hover:bg-white/30 transition-all duration-300"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Download Prospectus
-                  </motion.button>
-                </div>
-              </motion.div>
-            </div>
+            
           </motion.div>
         </div>
       </section>
-
-      {/* Learn More Modal */}
+   
       <LearnMoreModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

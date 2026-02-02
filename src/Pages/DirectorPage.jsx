@@ -1,10 +1,10 @@
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import NewsCard from '../components/NewsCard';
 import axios from 'axios';
-import { Home } from 'lucide-react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { ChevronLeft} from 'lucide-react';
+import {  useNavigate } from 'react-router-dom';
 import logo from '../assets/tullulogo.png'
 import { Helmet } from "react-helmet-async";
 
@@ -548,13 +548,13 @@ const DirectorPage = () => {
         </Helmet>
    
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
-       <div className="fixed top-2 left-2 right-2 z-10 md:top-4 md:left-4 md:right-auto">
+      <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
               <button
                 onClick={() => navigate('/')}
-                className="flex items-center justify-center space-x-2 w-full md:w-auto px-3 py-2 md:px-4 md:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md text-sm md:text-base"
+                className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                aria-label="Go back"
               >
-                <Home className="w-4 h-4 md:w-5 md:h-5" />
-                <span className="truncate">Back to Home Page</span>
+                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
               </button>
             </div>
    

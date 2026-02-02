@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { Home, BookOpen, Download, FileText, ExternalLink, Video, Book, Clock, Users, Search, Filter, Star, ChevronDown, ChevronUp, Sparkles, Layers, DoorOpen, CodeIcon, Terminal, TerminalSquare, Code2Icon, Code2, BookOpenCheckIcon, User, LogOut } from "lucide-react";
-import { FaChevronLeft } from "react-icons/fa";
+import { FileText, ExternalLink, Video,  Clock, Users, Search, Filter, Star, ChevronDown, ChevronUp, Sparkles, Code2Icon, Code2, BookOpenCheckIcon,  ChevronLeft } from "lucide-react";
+
 
 
 const videos = [
@@ -20,7 +20,7 @@ const videos = [
     subject: "Chemistry",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://www.scribd.com/document/865986766/2025-Ethiopian-Entrance-Exam" },
+      { type: "pdf", name: "Entrance Exam Questions", url: "https://www.scribd.com/document/865986766/2025-Ethiopian-Entrance-Exam" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://www.scribd.com/document/865986766/2025-Ethiopian-Entrance-Exam" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -39,7 +39,7 @@ const videos = [
     subject: "Chemistry",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://example.com/chemistry-industry-notes.pdf" },
+      { type: "pdf", name: "Entrance Exam Questions", url: "https://www.scribd.com/document/865986766/2025-Ethiopian-Entrance-Exam" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://example.com/practice-questions.pdf" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -75,7 +75,7 @@ const videos = [
     subject: "Biology",
     grade: "10",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://example.com/chemistry-industry-notes.pdf" },
+     { type: "pdf", name: "Entrance Exam Questions", url: "https://www.scribd.com/document/865986766/2025-Ethiopian-Entrance-Exam" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://example.com/practice-questions.pdf" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -183,7 +183,7 @@ const videos = [
     subject: "History",
     grade: "10",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "#" },
+      { type: "pdf", name: "Entrance Exam From 2008 - 2017", url: "https://fetena.net/exam/entrance" },
       { type: "pdf", name: "Practice Questions.pdf", url: "#" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -201,7 +201,7 @@ const videos = [
     subject: "History",
     grade: "9",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "#" },
+    { type: "pdf", name: "Entrance Exam From 2008 - 2017", url: "https://fetena.net/exam/entrance" },
       { type: "pdf", name: "Practice Questions.pdf", url: "#" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -255,7 +255,7 @@ const videos = [
     subject: "Economics",
     grade: "11",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://example.com/chemistry-industry-notes.pdf" },
+     { type: "pdf", name: "Entrance Exam From 2008 - 2017", url: "https://fetena.net/exam/entrance" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://example.com/practice-questions.pdf" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -273,7 +273,7 @@ const videos = [
     subject: "Economics",
     grade: "11",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://example.com/chemistry-industry-notes.pdf" },
+    { type: "pdf", name: "Entrance Exam From 2008 - 2017", url: "https://fetena.net/exam/entrance" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://example.com/practice-questions.pdf" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -309,7 +309,7 @@ const videos = [
     subject: "Physics",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://www.metaappz.com/References/Exams/Ethiopia_ESSLCE_Exam?s=physics&y=2023" },
+      { type: "pdf", name: "Ethiopian Entrance Exam", url: "https://www.metaappz.com/References/Exams/Ethiopia_ESSLCE_Exam?s=physics&y=2023" },
       { type: "pdf", name: "Practice Questions", url: "https://www.metaappz.com/References/exams/ethiopia_esslce_exam" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -345,7 +345,7 @@ const videos = [
     subject: "Chemistry",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://ptable.com/#Properties" },
+      { type: "pdf", name: "Pradic Table", url: "https://ptable.com/#Properties" },
       { type: "pdf", name: "Practice Questions", url: "https://www.metaappz.com/References/exams/ethiopia_esslce_exam" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -363,7 +363,7 @@ const videos = [
     subject: "Geography",
     grade: "10",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "Libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -381,7 +381,7 @@ const videos = [
     subject: "Geography",
     grade: "10",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -399,7 +399,7 @@ const videos = [
     subject: "Geography",
     grade: "11",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -417,7 +417,7 @@ const videos = [
     subject: "Geography",
     grade: "11",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -435,7 +435,7 @@ const videos = [
     subject: "Geography",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -453,7 +453,7 @@ const videos = [
     subject: "Geography",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -471,7 +471,7 @@ const videos = [
     subject: "Geography",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -489,7 +489,7 @@ const videos = [
     subject: "Geography",
     grade: "12",
     materials: [
-      { type: "pdf", name: "Chemistry Industry Notes.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
+      { type: "pdf", name: "libretexts", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "pdf", name: "Practice Questions.pdf", url: "https://chem.libretexts.org/Special:Search?qid=&fpid=230&fpth=&query=geograph&type=wiki" },
       { type: "link", name: "Additional Resources", url: "https://chem.libretexts.org" }
     ],
@@ -520,30 +520,7 @@ const studyMaterials = {
     { id: "chem19", type: "link", name: "Questions about Grade 12 University Entrance Exam", url: "https://tikuretentrance.com/", subject: "All Subject", grade: "12", downloads: "5.1K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
     { id: "chem20", type: "link", name: "Ethiopian Grade 12 National Exam Questions and Answers", url: "https://www.ethiobookreview.com/national-exams", subject: "All Subject", grade: "12", downloads: "5.1K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
   ],
-  "Mathematics": [
-    { id: "math1", type: "pdf", name: "Grade 10-12 Math Formulas", url: "https://example.com/math-formulas.pdf", subject: "Mathematics", grade: "10-12", downloads: "2.5K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
-    { id: "math2", type: "pdf", name: "Calculus Practice Problems", url: "https://example.com/calculus-practice.pdf", subject: "Mathematics", grade: "11-12", downloads: "1.8K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" }
-  ],
-  "Biology": [
-    { id: "bio1", type: "pdf", name: "Cell Biology Notes", url: "https://example.com/cell-biology.pdf", subject: "Biology", grade: "10-12", downloads: "1.5K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
-    { id: "bio2", type: "pdf", name: "Genetics Study Guide", url: "https://example.com/genetics-guide.pdf", subject: "Biology", grade: "11-12", downloads: "1.2K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" }
-  ],
-  "Physics": [
-    { id: "phy1", type: "pdf", name: "Physics Formula Handbook", url: "https://example.com/physics-formulas.pdf", subject: "Physics", grade: "11-12", downloads: "2.7K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
-    { id: "phy2", type: "pdf", name: "Modern Physics Notes", url: "https://example.com/modern-physics.pdf", subject: "Physics", grade: "12", downloads: "1.9K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" }
-  ],
-  "History": [
-    { id: "his1", type: "pdf", name: "World History Timeline", url: "https://example.com/world-history.pdf", subject: "History", grade: "9-12", downloads: "1.3K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
-    { id: "his2", type: "pdf", name: "Ethiopian History Notes", url: "https://example.com/ethiopian-history.pdf", subject: "History", grade: "9-12", downloads: "2.1K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" }
-  ],
-  "Geography": [
-    { id: "geo1", type: "pdf", name: "World Geography Atlas", url: "https://example.com/geography-atlas.pdf", subject: "Geography", grade: "9-12", downloads: "1.6K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
-    { id: "geo2", type: "pdf", name: "Climate Change Guide", url: "https://example.com/climate-change.pdf", subject: "Geography", grade: "10-12", downloads: "1.4K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" }
-  ],
-  "Economics": [
-    { id: "eco1", type: "pdf", name: "Microeconomics Principles", url: "https://example.com/microeconomics.pdf", subject: "Economics", grade: "11-12", downloads: "1.7K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" },
-    { id: "eco2", type: "pdf", name: "Macroeconomics Study Guide", url: "https://example.com/macroeconomics.pdf", subject: "Economics", grade: "11-12", downloads: "1.5K", image: "https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg" }
-  ]
+ 
 };
 
 const premiumResources = {
@@ -917,9 +894,15 @@ const YouTubeCards = () => {
 
       <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Header with Back Button and Profile */}
-         <div className="fixed top-4 left-4 right-4 z-10 flex justify-between items-center">
-          <FaChevronLeft className="w-8 h-8 text-white" onClick={() => navigate('/studentstudy-dashboard')}/>
-            </div>  
+            <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+                          <button
+                            onClick={() => navigate('/studentstudy-dashboard')}
+                            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                            aria-label="Go back"
+                          >
+                            <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                          </button>
+                        </div>
 
         {/* Tab Buttons */}
     
@@ -1131,9 +1114,9 @@ const YouTubeCards = () => {
                                           >
                                             {material.type === 'link' ? 
                                               <ExternalLink className="w-4 h-4" /> : 
-                                              <Download className="w-4 h-4" />
+                                              <ExternalLink className="w-4 h-4" />
                                             }
-                                            {material.type === 'link' ? 'Open' : 'Download'}
+                                            {material.type === 'link' ? 'View' : 'Open'}
                                           </button>
                                         </div>
                                       ))}

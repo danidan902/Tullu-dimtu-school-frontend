@@ -1,7 +1,4 @@
-import { FaQuoteLeft, FaLinkedin, FaEnvelope, FaGraduationCap, FaLightbulb, FaHandsHelping } from "react-icons/fa";
-import { IoIosSchool } from "react-icons/io";
-import ScrollReveal from "../components/ScrollReveal";
-import chairman from '../assets/dir.jpg';
+import { FaQuoteLeft } from "react-icons/fa";
 import Footer from "../components/Footer";
 import schoolBgImage from '../assets/tul8.jpg';
 import { Helmet } from "react-helmet-async";
@@ -10,7 +7,12 @@ const DirectorMessage = () => {
   return (
    <>
        <Helmet>
-          <title>School ChairMan</title>
+          <title>School Director Message</title>
+          <meta
+  name="description"
+  content="Read the School Director’s message highlighting our commitment to quality education, strong leadership, student success, and academic excellence."
+/>
+
          </Helmet> 
    
     <div className="min-h-screen bg-white">
@@ -91,9 +93,9 @@ const DirectorMessage = () => {
             {/* Message on Left */}
             <div className="lg:w-2/3">
               <div className="space-y-6">
-                <p className="text-blue-700 text-xg">
-                  Dear Students, Parents, and Well-wishers,
-                </p>
+                <h1 className=" text-3xl font-bold">
+                From Tulu Dimtu - <span className="text-blue-800">School Director</span>
+                </h1>
 
                 <p className="text-gray-700 text-lg">
                   It is with great pleasure that I address you as the Director of Tulu Dimtu School. 

@@ -2,7 +2,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { FaGraduationCap, FaUsers, FaTrophy, FaChartLine } from 'react-icons/fa';
-import schoolImage from '../assets/bulding.jpg';
 import studentsImage from '../assets/Student.jpg';
 import Footer from '../components/Footer';
 import Bg from '../assets/bulding.jpg';

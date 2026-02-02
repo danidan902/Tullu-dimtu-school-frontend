@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { CalendarDays, MapPin, Clock, User, Phone, Mail, Users, CheckCircle } from 'lucide-react';
-
+import bg from '../assets/visitor.png';
 // API base URL - change this to your backend URL
 const API_BASE_URL = 'http://localhost:5000/api';
 
@@ -83,18 +83,29 @@ const SchoolVisit = () => {
 
   return (  
     <>
-      <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-24">
-        <div className="absolute inset-0 bg-black opacity-40"></div>
-        <div className="relative container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 mt-16">
-            Welcome <span className='text-yellow-500'>to Tulu Dimtu School</span> 
-          </h1>
-          <p className="text-xl opacity-90 max-w-2xl mx-auto">
-            We are delighted to have you visit our school website! <span className='text-yellow-500'>Explore our programs, student life, events,</span> and achievements. 
-            Tulu Dimtu School is dedicated to nurturing academic excellence, leadership, and community values in every student.
-          </p>
-        </div>
-      </div>
+     <div
+  className="relative w-full h-[90vh] text-white py-24 bg-cover bg-center bg-fixed"
+  style={{ backgroundImage: `url(${bg})` }}
+>
+  {/* Dark Overlay */}
+  <div className="absolute inset-0 bg-black/50"></div>
+
+  {/* Content */}
+  <div className="relative container mx-auto px-4 text-center">
+    <h1 className="text-4xl md:text-5xl font-bold mb-4 mt-16">
+      Welcome <span className="text-yellow-400">to Tulu Dimtu School</span>
+    </h1>
+
+    <p className="text-lg md:text-xl opacity-90 max-w-3xl mx-auto">
+      We are delighted to have you visit our school website!{" "}
+      <span className="text-yellow-400">
+        Explore our programs, student life, and achievements.
+      </span>{" "}
+      Tulu Dimtu School is dedicated to nurturing academic excellence,
+      leadership, and strong community values in every student.
+    </p>
+  </div>
+</div>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

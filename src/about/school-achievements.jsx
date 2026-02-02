@@ -1,11 +1,11 @@
 
-import { FaChevronDown, FaChevronLeft, FaChevronRight, FaTrophy, FaChartLine, FaGraduationCap, FaUsers, FaAward, FaStar, FaMedal } from 'react-icons/fa';
+import { FaChevronDown, FaChevronLeft, FaChevronRight, FaTrophy, FaChartLine, FaGraduationCap, FaUsers,  FaStar, FaMedal } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import BackgroundImageForSchool from '../assets/dir1.png'
 import Images from '../assets/dir2.jpg'
-import SchoolAchivment from '../assets/ImageChild.jpg'
-import SchoolsStudent from '../assets/pag.jpg'
+import SchoolAchivment from '../assets/lab.png'
+import SchoolsStudent from '../assets/lo.jpg' 
 import Footer from '../components/Footer';
 import { Helmet } from "react-helmet-async";
 const SchoolAchievements = () => {
@@ -15,7 +15,7 @@ const SchoolAchievements = () => {
   const achievements = [
     {
       year: "2024",
-      title: "Top Performing University Students",
+      title: "Top Performing School Students",
       description: "Our graduates achieved highest promotion rates from our region to prestigious universities",
       image: BackgroundImageForSchool,
       icon: <FaGraduationCap className="text-3xl" />,
@@ -130,7 +130,7 @@ const SchoolAchievements = () => {
           </div>
 
           <div className="relative max-w-6xl mx-auto">
-            {/* Navigation Arrows - Enhanced */}
+          
             <button 
               onClick={prevSlide}
               onMouseEnter={() => setIsAutoPlaying(false)}

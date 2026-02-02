@@ -5,7 +5,7 @@ import { GiSoccerBall, GiTennisBall } from 'react-icons/gi';
 import { MdSportsHandball } from 'react-icons/md';
 import { IoMdStopwatch } from 'react-icons/io';
 import teamPhoto from '../assets/bascket1.jpg';
-import matchAction from '../assets/stadium.jpg';
+import matchAction from '../assets/loca.jpg';
 import trophy from '../assets/hand1.jpg';
 import Trophy1 from '../assets/bascket2.jpg';
 import Prinsipal1 from '../assets/tennis.jpg';
@@ -142,7 +142,7 @@ const TulluDimtuSportsClub = () => {
     <>
 
   <Helmet>
-             <title>Sport | Tullu Dimtu Secondary School</title>
+             <title>Sport </title>
      </Helmet>
 
       <div className="font-sans min-h-screen">
@@ -179,7 +179,7 @@ const TulluDimtuSportsClub = () => {
                 className="mt-8"
               >
                 <button className="px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition-all">
-                   <a href='/register' >Join Our Team</a>
+                   <a href='/form' >Join Our Team</a>
                 </button>
               </motion.div>
             </div>
@@ -359,7 +359,7 @@ const TulluDimtuSportsClub = () => {
                       <IoMdStopwatch className="mr-2" />
                       <span>{event.time}</span>
                     </div>
-                  <a href='/register'>
+                  <a href='/form'>
                       <motion.button 
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}

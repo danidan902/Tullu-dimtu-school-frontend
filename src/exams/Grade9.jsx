@@ -396,18 +396,19 @@ const quizData = [
   { question: "Mean of 2,4,6?", options: ["3", "4", "5", "6"], correctAnswer: "4", category: "mathematics" },
 
   /* ================= GENERAL KNOWLEDGE (12) ================= */
-  { question: "Synonym of 'Happy'?", options: ["Sad", "Angry", "Joyful", "Weak"], correctAnswer: "Joyful", category: "general" },
-  { question: "Past tense of 'go'?", options: ["Gone", "Went", "Going", "Goes"], correctAnswer: "Went", category: "general" },
-  { question: "CPU is part of?", options: ["Input", "Output", "Processing", "Storage"], correctAnswer: "Processing", category: "general" },
-  { question: "Internet is?", options: ["Local network", "Global network", "Software", "Hardware"], correctAnswer: "Global network", category: "general" },
-  { question: "Capital city of Ethiopia?", options: ["Adama", "Bahir Dar", "Addis Ababa", "Dire Dawa"], correctAnswer: "Addis Ababa", category: "general" },
-  { question: "Longest river in Africa?", options: ["Nile", "Congo", "Niger", "Zambezi"], correctAnswer: "Nile", category: "general" },
-  { question: "Good citizen shows?", options: ["Discipline", "Violence", "Laziness", "Corruption"], correctAnswer: "Discipline", category: "general" },
-  { question: "Democracy means?", options: ["Rule by king", "Rule by people", "Rule by army", "Rule by rich"], correctAnswer: "Rule by people", category: "general" },
-  { question: "Antonym of 'Strong'?", options: ["Hard", "Weak", "Power", "Brave"], correctAnswer: "Weak", category: "general" },
-  { question: "Keyboard is?", options: ["Input", "Output", "Storage", "Process"], correctAnswer: "Input", category: "general" },
-  { question: "Equator divides Earth into?", options: ["East-West", "North-South", "Land-Sea", "Hot-Cold"], correctAnswer: "North-South", category: "general" },
-  { question: "Right to vote is?", options: ["Duty", "Right", "Law", "Punishment"], correctAnswer: "Right", category: "general" }
+{ question: "Which of the following words is considered a precise synonym for 'exuberant', particularly when describing a person's elevated emotional state?", options: ["Melancholy", "Lethargic", "Jubilant", "Apathetic"], correctAnswer: "Jubilant", category: "general" },
+{ question: "In English grammar, which form correctly represents the simple past tense of the irregular verb 'to seek'?", options: ["Seeked", "Sought", "Have sought", "Seeking"], correctAnswer: "Sought", category: "general" },
+{ question: "In computer architecture, the Arithmetic Logic Unit (ALU) is a fundamental component of which larger processing unit?", options: ["RAM", "Hard Drive", "Motherboard", "CPU"], correctAnswer: "CPU", category: "general" },
+{ question: "The term 'World Wide Web' is best described as a:", options: ["Physical infrastructure of cables", "Global system of interconnected computer networks", "Collection of documents linked by hypertext", "Type of internet service provider"], correctAnswer: "Collection of documents linked by hypertext", category: "general" },
+{ question: "Founded in 1886, which Ethiopian city serves as the diplomatic home to the African Union and numerous international organizations?", options: ["Mekele", "Gondar", "Hawassa", "Addis Ababa"], correctAnswer: "Addis Ababa", category: "general" },
+{ question: "Which major river system, flowing through eleven countries and emptying into the Mediterranean Sea, is traditionally considered the longest in the world?", options: ["Amazon River", "Yangtze River", "Mississippi-Missouri", "Nile River"], correctAnswer: "Nile River", category: "general" },
+{ question: "From a civic responsibility perspective, which behavior most exemplifies being an engaged citizen in a democratic society?", options: ["Avoiding jury duty", "Voting informedly in elections", "Disregarding public policies", "Evading taxation"], correctAnswer: "Voting informedly in elections", category: "general" },
+{ question: "The philosophical principle of 'majority rule with protection of minority rights' is a core tenet of which system of government?", options: ["Autocracy", "Oligarchy", "Direct Democracy", "Liberal Democracy"], correctAnswer: "Liberal Democracy", category: "general" },
+{ question: "Select the word that is most directly opposite in meaning to 'resilient', indicating a tendency to break or fail under pressure.", options: ["Durable", "Tenacious", "Fragile", "Sturdy"], correctAnswer: "Fragile", category: "general" },
+{ question: "In the context of computer hardware, a 'scanner' is categorized as what type of device, as it converts physical data into digital signals?", options: ["Output Device", "Processing Device", "Input Device", "Storage Device"], correctAnswer: "Input Device", category: "general" },
+{ question: "The Prime Meridian, running through Greenwich, England, and the 180th meridian primarily divide the Earth into which two hemispheres?", options: ["Northern and Southern", "Temperate and Tropical", "Eastern and Western", "Land and Water"], correctAnswer: "Eastern and Western", category: "general" },
+{ question: "In constitutional democracies, a 'civil liberty' such as freedom of speech is best defined as a:", options: ["Privilege granted by the state", "Fundamental right protected from government interference", "Legal obligation of citizens", "Conditional benefit for good behavior"], correctAnswer: "Fundamental right protected from government interference", category: "general" }
+
 ];
 
 export default function Grade9() {
@@ -574,12 +575,15 @@ export default function Grade9() {
 
 
 
-        <div className="fixed top-2 left-2 right-2 z-10 md:top-4 md:left-4 md:right-auto">
-                    
-                      <ChevronLeft onClick={() => navigate('/studentstudy-dashboard')} className="w-8 h-8" />
-                      {/* <span className="truncate">Back to Home</span> */}
-                   
-                  </div>
+       <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+                    <button
+                      onClick={() => navigate('/studentstudy-dashboard')}
+                      className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+                      aria-label="Go back"
+                    >
+                      <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+                    </button>
+                  </div> 
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2 mt-16">
               
@@ -610,7 +614,7 @@ export default function Grade9() {
                     <ChevronRight className="w-6 h-6" />
                   </div>
                   <h3 className="text-xl font-bold mb-2">{category.name}</h3>
-                  <p className="opacity-90">{category.count} questions</p>
+                  {/* <p className="opacity-90">{category.count} questions</p> */}
                 </button>
               ))}
             </div>

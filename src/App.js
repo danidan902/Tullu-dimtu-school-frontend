@@ -1,7 +1,6 @@
 
 import './App.css';   
-import React from 'react';
-// import { useState } from 'react';                  
+import React from 'react';              
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';  
 import Home from './Pages/Home';
 import ChairmanWelcome from './about/chairman-welcome';
@@ -32,8 +31,6 @@ import TeacherUploadForm from './other/TeacherProfileUpload';
 import TeacherAttendance from './components/TeacherAttendance';
 import AdminPage from './components/Admin';
 import AdminSignIn from './components/AdminSign';
-
-// Import Header component
 import Header from './components/Header';
 import Registration from './components/RegistrationForm';
 import NewsPage from './Pages/NewsPage';
@@ -41,7 +38,6 @@ import DirectorPage from './Pages/DirectorPage';
 import Gallery from './other/Galary';
 import ChatBot from './components/ChatBot';
 import PhoneVerification from './components/PhoneVerification';
-import LiveAnnouncements from './components/LiveAnnouncements';
 import AdminUser from './other/AdminSign';
 import TuludimtuSchoolPolicy from './other/TuludimtuPolicy';
 import AdminTeacher from './students/AdminSign';
@@ -59,7 +55,6 @@ import AdminDashboard from './components/AdminDashboardVisitor';
 import Dashboard from './components/Dashboard';
 import SchoolCalendar from './components/SchoolCalander';
 import GlassCards from './components/AllControl';
-import ProfessionalQuizApp from './components/PhoneVerification';
 import Grade9 from './exams/Grade9';
 import Grade10 from './exams/Grade10';
 import EthiopianGrade11Quiz from './exams/Grade11';
@@ -72,6 +67,10 @@ import StudentNotes from './Pages/StudentNotes';
 import StudentNotes1 from './Pages/StudentNote1';
 import StudentNotes2 from './Pages/StudentNote2';
 import StudentNotes3 from './Pages/StudentNote3';
+import ContactDashboard from './components/SchoolContactDash';
+import ConcernsDashboard from './components/StudentCounsleDash';
+import StudentSeeProfile from './components/StudentSeeProfile';
+import EmailStudent from './other/StudentSeeDash';
 
 
 
@@ -129,7 +128,7 @@ const TeacherDataContext = React.createContext();
 // Beautiful Loading Component
 function BeautifulLoader() {
   const [colorIndex, setColorIndex] = useState(0);
-  const colors = ['#000000', ];
+  const colors = ['#f2faff', ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -148,8 +147,8 @@ function BeautifulLoader() {
       }}
     >
       <div className="text-center">
-        <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p className="text-white text-xl font-semibold">Loading...</p>
+        <div className="w-16 h-16 border-4 border-blue-700 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-black text-xl font-semibold">Loading...</p>
       </div>
     </div>
   );
@@ -211,7 +210,11 @@ const Layout = ({ children }) => {
       '/online-admission',
       '/logIn',
       '/admission-portal',
-      '/grade12'
+      '/grade12',
+      '/contact-school-port',
+      '/student-councle-port',
+      '/studet-see-dash',
+      '/student-see-profile'
      
   ];
   
@@ -240,6 +243,40 @@ function AppContent() {
     <TeacherDataContext.Provider value={teacherData}>
       <Layout>
         <Routes>
+          <Route 
+          path='/studet-see-dash'
+          element={
+            <ProtectedRoute>
+               <EmailStudent/>
+            </ProtectedRoute>
+          }
+          />
+       
+        
+           <Route 
+           path='/student-see-profile'
+           element={
+            <ProtectedRoute>
+              <StudentSeeProfile />
+            </ProtectedRoute>
+           }
+           />
+          <Route 
+          path='/student-councle-port'
+          element={
+            <ProtectedRoute >
+              <ConcernsDashboard />
+            </ProtectedRoute>
+          }
+          />
+          <Route 
+          path='/contact-school-port'
+          element={
+            <ProtectedRoute>
+              <ContactDashboard />
+            </ProtectedRoute>
+          }
+          />
           <Route 
           path='/student-note11'
             element={
@@ -769,7 +806,7 @@ function AppContent() {
 
      
 
-     <LiveAnnouncements />
+   
     </>
   );
 }

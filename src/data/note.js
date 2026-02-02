@@ -27,12 +27,40 @@ export const notes = [
     subject: "Mathematics",
     pdf: "/notes/15_inverse_trigonometry_revision_notes_quizrr_compressed.pdf",
   },
+    {
+    id: 16,
+    title: "FLUID MECHANICS PART 2",
+    grade: "Grade 12",
+    subject: "Physics",
+    pdf: "/notes/fludgrade11.pdf",
+  },
   {
     id: 4,
     title: "Limits short notes",
     grade: "Grade 12",
     subject: "Mathematics",
     pdf: "/notes/14_limit_revision_notes_quizrr_compressed.pdf",
+  },
+   {
+    id: 16,
+    title: "MATRICES PART 2",
+    grade: "Grade 12",
+    subject: "Maths",
+    pdf: "/notes/Matricsshortenote.pdf",
+  },
+  {
+    id: 16,
+    title: "PROOFS IN MATHEMATICS ",
+    grade: "Grade 12",
+    subject: "Maths",
+    pdf: "/notes/profmaths.pdf",
+  },
+  {
+    id: 16,
+    title: "ELECTRIC CHARGES AND FIELDS",
+    grade: "Grade 12",
+    subject: "Physics",
+    pdf: "/notes/physicsshortenote.pdf",
   },
   {
     id: 5,
@@ -58,7 +86,7 @@ export const notes = [
    {
     id: 7,
     title: "English Notes for Form One",
-    grade: "Grade 11",
+    grade: "Grade 12",
     subject: "English",
     pdf: "/notes/FORMONEENGLISHNOTES_compressed.pdf", 
   },
@@ -118,8 +146,63 @@ export const notes = [
     grade: "Grade 12",
     subject: "Geography",
     pdf: "/notes/2017_Geography_second_round_Entrance_Examination_Questions1.pdf",
-  }
+  },
+  {
+    id: 16,
+    title: "Minister EUEE 2005-2013 Questions of Writing or Paragraph",
+    grade: "Grade 12",
+    subject: "English",
+    pdf: "/notes/EnglishEUEE.pdf",
+  },
+   {
+    id: 17,
+    title: "GRADE 12 NATIONAL EXAMINATIONS",
+    grade: "Grade 12",
+    subject: "English",
+    pdf: "/notes/NATIONALEXAMINATION .pdf",
+  },
+   {
+    id: 18,
+    title: "GRADE 12 MATHEMATICS MODEL EXAMINATIONS",
+    grade: "Grade 12",
+    subject: "MATHEMATICS",
+    pdf: "/notes/module.pdf",
+  },
+   {
+    id: 16,
+    title: "GRADE 12 NATIONAL EXAMINATIONS",
+    grade: "Grade 12",
+    subject: "English",
+    pdf: "/notes/NATIONALEXAMINATION .pdf",
+  },
+    {
+    id: 16,
+    title: "GRADE 12TH MATHEMATICS WORKSHEET",
+    grade: "Grade 12",
+    subject: "Maths",
+    pdf: "/notes/mathsgrade12.pdf",
+  },
+  
+   {
+    id: 16,
+    title: "Short note unit 6 Beef cattle production and management",
+    grade: "Grade 12",
+    subject: "Agriculture",
+    pdf: "/notes/agriculture.pdf",
+  },
+   {
+    id: 16,
+    title: "Entrance Exam ENGLISH EUEE (2000-2011) ",
+    grade: "Grade 12",
+    subject: "English",
+    pdf: "/notes/english.pdf",
+  },
+  
+
+
 ];
+
+
 
 export const notesGrade9 = [
   {
@@ -181,11 +264,22 @@ export const notesGrade9 = [
   },
    {
     id: 7,
-    title: "English Notes for Form One",
-    grade: "Grade 11",
+    title: "Grade 9 Exam Related Questions",
+    grade: "Grade 9",
+    subject: "Physics",
+    pdf: "/notes/undefined.pdf",
+  },
+   {
+    id: 16,
+    title: "Further on Sets",
+    grade: "Grade 9",
     subject: "English",
-    pdf: "/notes/FORMONEENGLISHNOTES_compressed.pdf", 
-  }
+    pdf: "/notes/grade9.pdf",
+  },
+
+
+  
+  
 ];
 
 export const notesGrade10 = [
@@ -244,7 +338,37 @@ export const notesGrade10 = [
     grade: "Grade 10",
     subject: "Geography",
     pdf: "/notes/geographygarde10.pdf",
-  }
+  },
+    {
+    id: 6,
+    title: "Unit 6 Electromagnetic wave Shorte Note",
+    grade: "Grade 10",
+    subject: "Physics",
+    pdf: "/notes/physicsshortenot.pdf",
+  },
+    {
+    id: 6,
+    title: "Unit 6 Electromagnetic wave Practice questions ",
+    grade: "Grade 10",
+    subject: "Physics",
+    pdf: "/notes/pdfshortenote.pdf",
+  },
+   {
+    id: 6,
+    title: "Unit 3: Elasticity and Static Equilibrium of a Rigid Body",
+    grade: "Grade 10",
+    subject: "Physics",
+    pdf: "/notes/motion.pdf",
+  },
+   {
+    id: 6,
+    title: "Electrical Safety in General and Local Context",
+    grade: "Grade 10",
+    subject: "Physics",
+    pdf: "/notes/low.pdf",
+  },
+  
+  
 
 ];
 
@@ -304,6 +428,35 @@ export const notesGrade11 = [
     grade: "Grade 11",
     subject: "English",
     pdf: "/notes/FORMONEENGLISHNOTES_compressed.pdf", 
-  }
+  },
+  
+   {
+    id: 7,
+    title: "English Notes for Form One",
+    grade: "Grade 11",
+    subject: "English",
+    pdf: "/notes/FORMONEENGLISHNOTES_compressed.pdf", 
+  },
+  {
+    id: 7,
+    title: "Mathematics Practice question 4G11 ON Matrices and Determinant  ",
+    grade: "Grade 11",
+    subject: "Mathematics",
+    pdf: "/notes/maths.pdf", 
+  },
+  {
+    id: 7,
+    title: "LAWS OF MOTION ",
+    grade: "Grade 11",
+    subject: "Physics",
+    pdf: "/notes/shortenote.pdf", 
+  }, 
+  {
+    id: 7,
+    title: "GRAVITATION",
+    grade: "Grade 11",
+    subject: "Physics",
+    pdf: "/notes/physicsGravitational.pdf", 
+  }, 
 
 ]

@@ -1,60 +1,43 @@
-import { useState, useEffect, useRef } from "react";
-import logo from "../assets/tullulogo.png";
+import { useState, useEffect } from "react";
 import students from "../assets/gal3.jpg"; 
 import Footer from "../components/Footer";
 import ScrollReveal from "../components/ScrollReveal";
 import { Helmet } from "react-helmet-async";
-import bg1 from "../assets/tul4.jpg";
-import bg2 from "../assets/tul6.jpg";
-import bg3 from "../assets/tul5.jpg";
 import anim from '../assets/studentlife.jpg';
 import anim1 from '../assets/por.jpg'
 import anim2 from '../assets/cro.jpg'
-import anim3 from '../assets/tul4.jpg'
-import anim4 from '../assets/ler.jpg'
 import anim5 from '../assets/tul6.jpg'
 import anim6 from '../assets/stu1.jpg'
 import anim7 from '../assets/lab.png'
 import lib1 from '../assets/lib1.jpg'
 import { Link } from "react-router-dom";
-import mob from '../assets/mob.jpg'
-
+import schoolHeroImage from '../assets/gal31.jpg';
+import Bg from '../assets/tech1.jpg';
 import { 
   FaGraduationCap, 
   FaBook, 
   FaChalkboardTeacher, 
-  FaAward,  
-  FaUsers,  
+  FaAward,   
   FaChevronUp,
   FaChevronRight,
   FaChevronDown,
   FaCheckCircle,
-  FaChartLine,
-  FaPause,
-  FaPlay,
-  FaArrowLeft,
   FaArrowRight,
-  FaSchool
 } from "react-icons/fa";
 
 import card1 from "../assets/lab.jpg";
 import card5 from "../assets/cro.png";
 import card6 from "../assets/tech.jpg";
 
+
 import animMobile1 from '../assets/studentlife.jpg';
-import animMobile2 from '../assets/stu1.jpg';
 import animMobile3 from '../assets/mob6.jpg';
 import animMobile4 from '../assets/crop.png';
-import animMobile5 from '../assets/mob4.jpg';
-import animMobile6 from '../assets/tul1.jpg';
-import animMobile7 from '../assets/ict.jpg';
-import animMobile8 from '../assets/ict.jpg';
 
 import campus1 from '../assets/life4.jpg';
-import campus2 from '../assets/stu3.jpg';
-import campus3 from '../assets/red.jpg';
-import campus4 from '../assets/lif1.jpg';
-
+import campus2 from '../assets/red.jpg';
+import campus3 from '../assets/hom1.jpg';
+import campus4 from '../assets/gal31.jpg';
 function Home() {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [showScrollTop, setShowScrollTop] = useState(false);
@@ -89,8 +72,8 @@ function Home() {
       </span>
     </div>
   ),
-  subtitle: "A Legacy of Excellence Since 1995",
-  description: "Where tradition meets innovation in education",
+  subtitle: "A Legacy of Excellence Since 2000",
+  description: "At Tullu Dimtu School, we are committed to excellence in education and the holistic development of every student. ",
   titleStyle: "text-4xl md:text-5xl lg:text-6xl font-bold drop-shadow-lg",
   subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-semibold drop-shadow",
   descStyle: "text-lg md:text-xl text-gray-200",
@@ -111,7 +94,7 @@ function Home() {
     },
 
     {
-      mobileImage: animMobile2,
+      mobileImage: anim1,
       desktopImage: anim1,
       title: (
         <div className="text-white">
@@ -127,7 +110,7 @@ function Home() {
     
     {
       mobileImage: animMobile4,
-      desktopImage: anim3,
+      desktopImage: Bg,
       title: (
         <div className="text-white">
          Modern <span className="text-yellow-500">Facilities</span>
@@ -139,18 +122,37 @@ function Home() {
       subtitleStyle: "text-xl md:text-2xl text-yellow-300  font-semibold",
       descStyle: "text-lg md:text-xl text-gray-200",
     },
-    // {
-    //   mobileImage: animMobile5,
-    //   desktopImage: anim4,
-    //   title: "Inspiring Environment",
-    //   subtitle: "Where Students Thrive",
-    //   description: "Fostering creativity and critical thinking",
-    //   titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white",
-    //   subtitleStyle: "text-xl md:text-2xl text-blue-300 font-medium",
-    //   descStyle: "text-lg md:text-xl text-gray-200",
-    // },
+   
     {
-      mobileImage: animMobile6,
+      mobileImage: anim6,
+      desktopImage: anim6,
+      title: (
+        <div className="text-white">
+          Our Study <span className="text-yellow-500">Portal</span>
+        </div>
+      ),
+      subtitle: "Join Us ",
+      description: "School provides students with easy access to learning resources, assignments, and interactive study materials.",
+      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-xl",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
+      descStyle: "text-lg md:text-xl text-white",
+    },
+    {
+      mobileImage: schoolHeroImage,
+      desktopImage: anim7,
+     title: (
+        <div className="text-white">
+          Our Digital <span className="text-yellow-500">Library</span>
+        </div>
+      ),
+      subtitle: "Tullu Dimtu Digital Library",
+      description: "It provides a modern, convenient way to study, explore new topics, and conduct research from anywhere.",
+      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-xl",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
+      descStyle: "text-lg md:text-xl text-white",
+    },
+     {
+      mobileImage: anim5,
       desktopImage: anim5,
      title: (
         <div className="text-white">
@@ -163,34 +165,6 @@ function Home() {
       subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
       descStyle: "text-lg md:text-xl text-white",
     },
-    {
-      mobileImage: animMobile7,
-      desktopImage: anim6,
-      title: (
-        <div className="text-white">
-          Join Our <span className="text-yellow-500">Community</span>
-        </div>
-      ),
-      subtitle: "Admissions Open 2025",
-      description: "Limited seats available - Apply now!",
-      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-xl",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
-      descStyle: "text-lg md:text-xl text-white",
-    },
-    {
-      mobileImage: animMobile8,
-      desktopImage: anim7,
-     title: (
-        <div className="text-white">
-          Join Our <span className="text-yellow-500">Community</span>
-        </div>
-      ),
-      subtitle: "Admissions Open 2025",
-      description: "Limited seats available - Apply now!",
-      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-xl",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
-      descStyle: "text-lg md:text-xl text-white",
-    }
   ];
 
   // Main hero carousel effect with enhanced text animation
@@ -320,60 +294,62 @@ function Home() {
       id: 1,
       image: card1,
       title: "STEM Program",
-      shortDescription: "Advanced Science, Technology, Physics, and Mathematics curriculum",
+      shortDescription: "STEM Program empowers students to explore Science, Technology,  and Mathematics through hands-on projects and experiments...",
       fullDescription: "Our STEM program integrates cutting-edge technology with hands-on learning. Students work in modern laboratories equipped with printers, robotics kits, and computing systems. The curriculum follows international standards and includes project-based learning, research opportunities, and partnerships with tech companies.",
       color: "from-indigo-500 to-blue-500",
       stats: {
-        labs: "2 Modern Labs",
+        labs: "3 Modern Labs",
         success: "70% University Placement",
         students: "150+ Enrolled"
       },
-      features: [
-        "Advanced Robotics Lab",
-        "Printing & Prototyping",
-        "Website Development & Design",
-        "National Science Olympiad Training",
-        "Industry Internships"
-      ]
+    features: [
+    "Hands-On Science Experiments",
+    "Innovation Projects",
+    "Mathematics & Problem-Solving Challenges",
+    "National STEM Competitions Preparation",
+    "Research & Innovation Projects"
+]
+,
     },
     {
       id: 5,
       image: card5,
       title: "National competitive",
-      shortDescription: "National program",
+      shortDescription: "Our school encourages students to take part in national competitions in academics.These activities help students build confidence and skill...",
       fullDescription: "Our national Programme prepares students for global citizenship with a rigorous, internationally recognized curriculum. The program emphasizes critical thinking, research skills, and intercultural understanding. Students consistently achieve above-world-average scores and gain admission to top universities worldwide.",
       color: "from-indigo-500 to-blue-500",
       stats: {
-        score: "20+ Average IB Score",
-        universities: "20+ Partner Schools",
-        languages: "5 Language Options"
-      },
+    competitions: "10+ National Comp-",
+    awards: "15+ Student Achiev-",
+    training: "5+ Prep Programs"
+}
+,
       features: [
-        "IB national School Certified",
-        "Extended Essay Support",
+         "National Competitive Preparation",
+        "Student Achievement Recognition",
+        "Inter-School & National Level Participation",
         "Theory of Knowledge Excellence",
-        "CAS Program Coordination",
-        "University Placement Service"
+        "Academic Excellence & Ranking Support",
+       
       ]
     },
     {
       id: 6,
       image: card6,
       title: "Technology & Innovation",
-      shortDescription: "Cutting-edge tech education",
+      shortDescription: "School emphasizes Technology & Innovation, giving students the tools and guidance to explore modern digital solutions and innovative projects, students develop creativity, problem-solving, and technical skills...",
       fullDescription: "Our Technology & Innovation program prepares students for the digital future with courses in coding, cybersecurity, data science, and IoT. Students work on real-world projects, participate in hackathons, and intern with tech companies. The program includes state-of-the-art computer labs and maker spaces.",
       color: "from-indigo-500 to-blue-500",
       stats: {
         labs: "6 Tech Labs",
-        certifications: "Industry Certifications",
+        certifications: "Advanced Tech",
         startups: "Student-led Startups"
       },
       features: [
-        "Cybersecurity Lab",
-        "IoT Development Kits",
-        "Data Science Projects",
-        "Mobile App Development",
-        "Tech Entrepreneurship"
+       
+        "Robotics Projects",
+        "Web Development",
+        "Team Work Projects"
       ]
     }
   ];
@@ -434,10 +410,19 @@ function Home() {
     <>
       <Helmet>
         <title>Home</title>
-        <meta name="description" content="Tullu Dimtu Secondary School - Excellence in Education since 1995" />
+       <meta
+          name="description"
+          content="Tullu Dimtu Secondary School provides quality education in Ethiopia. Online registration, student portal, and academic excellence."
+        />
+
+         <meta
+          name="keywords"
+          content="Tullu Dimtu Secondary School, secondary school in Ethiopia, student portal, online registration"
+        />
+        
       </Helmet>
 
-      <div className="relative w-full font-sans antialiased">
+      <div className="relative w-full font-sans antialiased bg-gray-50">
         {/* Hero Section - FIXED for mobile responsiveness */}
         <section className="relative w-full h-screen overflow-hidden">
           {/* Background Images with proper responsive handling */}
@@ -461,7 +446,7 @@ function Home() {
                 
                 {/* Desktop background image - hidden on mobile */}
                 <div
-                  className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
+                  className="hidden md:block  absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
                   style={{
                     backgroundImage: `url(${item.desktopImage})`,
                     transform: index === currentBgIndex ? 'scale(1)' : 'scale(1.05)'
@@ -496,7 +481,7 @@ function Home() {
   <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />  */}
 
 <div className="absolute inset-0 bg-gradient-to-r from-[#04395E] via-[#04395E]/70 to-transparent" />
-
+{/* <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/50 to-transparent" /> */}
 
           {/* Hero Content */}
           <div className="relative z-20 flex flex-col items-start justify-center h-full px-4 md:px-8 lg:px-16 text-left">
@@ -557,30 +542,7 @@ function Home() {
     </button>
   </Link>
 </div>
-
           </div>
-
-          {/* Carousel Controls */}
-          {/* <div className="absolute bottom-8 right-8 z-30 flex gap-4">
-            <button 
-              onClick={prevSlide}
-              className="p-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
-            >
-              <FaArrowLeft />
-            </button>
-            <button 
-              onClick={togglePlayPause}
-              className="p-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
-            >
-              {isPlaying ? <FaPause /> : <FaPlay />}
-            </button>
-            <button 
-              onClick={nextSlide}
-              className="p-3 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 backdrop-blur-sm"
-            >
-              <FaArrowRight />
-            </button>
-          </div> */}
         </section>
 
         {/* Stats Section with animation */}
@@ -697,7 +659,7 @@ function Home() {
                 <div className="w-full min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50 flex items-center justify-center mt-16 px-4 sm:px-6 py-10">
                   <div className="relative w-full max-w-6xl">
                     <div 
-                      className="relative w-full h-[200px] sm:h-[240px] md:h-[280px] lg:h-[490px] overflow-hidden rounded-2xl sm:rounded-3xl group shadow-2xl shadow-blue-500/20"
+                      className="relative w-full h-[500px] sm:h-[240px] md:h-[280px] lg:h-[490px] overflow-hidden rounded-2xl sm:rounded-3xl group shadow-2xl shadow-blue-500/20"
                     >
                       <div className="relative w-full h-full">
                         <img
@@ -720,13 +682,7 @@ function Home() {
 
                       {/* Digital Library Content */}
                       <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10 z-20">
-                        <div 
-                          className="mb-4"
-                        >
-                          <span className="inline-block px-5 py-2.5 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-xl text-sm sm:text-base font-bold text-white mb-4 shadow-lg shadow-blue-500/30">
-                            DIGITAL LIBRARY
-                          </span>
-                        </div>
+                      
                         
                         <h2 
                           className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 md:mb-6 leading-tight"
@@ -748,13 +704,13 @@ function Home() {
                           className="flex flex-wrap gap-4"
                         >
                           <a href="/email-verification">
-                            <button className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-cyan-500/40 transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 active:scale-95 flex items-center gap-3">
+                            <button className="px-8 py-3.5 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold rounded-xl hover:shadow-2xl  transition-all duration-300 transform hover:-translate-y-1 hover:scale-105 active:scale-95 flex items-center gap-3">
                               Explore Digital Library
                             </button>
                           </a>
-                          <button className="px-8 py-3.5 border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 backdrop-blur-sm transition-all duration-300 hover:border-cyan-300/50">
-                            Browse Collections
-                          </button>
+                          {/* <button className="px-8 py-3.5 border-2 border-white/30 text-white font-bold rounded-xl hover:bg-white/10 backdrop-blur-sm transition-all duration-300 hover:border-cyan-300/50">
+                            Explore Digital Library
+                          </button> */}
                         </div>
                       </div>
                     </div>
@@ -906,17 +862,15 @@ function Home() {
         </section>
 
         {/* Campus Section */}
-        <div 
-          className="mt-40 mb-32 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl"
+       <ScrollReveal delay={0.2}>
+           <div 
+          className="mt-40 mb-32 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl "
         >
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="space-y-10">
               <div
               >
-                {/* <div className="inline-flex items-center gap-2 text-emerald-600 font-semibold mb-4">
-                  <FaSchool className="text-xl" />
-                  <span>OUR STUDENT LIFE</span>
-                </div> */}
+
                 <h2 className="text-4xl lg:text-5xl font-bold text-blue-900 mb-6">
                   Our <span className="text-yellow-500">Student Life </span>
                 </h2>
@@ -926,15 +880,15 @@ function Home() {
                 className="space-y-6 text-gray-700 text-lg"
               >
                 <p className="leading-relaxed">
-                  Our 15-acre campus is a living laboratory designed to inspire creativity and innovation. 
-                  Every space is intentionally crafted to enhance the learning experience and foster collaboration.
+                Student life at Tullu Dimtu Secondary School is enriched by both academic learning and vibrant celebrations. 
+                Along with regular classes, students actively participate in special events such as Cultural Day, where different traditions, foods, music, and traditional clothing are proudly displayed.
                 </p>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
                   {[
                     { name: "Science Labs", count: "4" },
                     { name: "Sports Facilities", count: "6+" },
-                    { name: "Smart Classrooms", count: "20" },
+                    { name: "Smart Classrooms", count: "10" },
                     { name: "Art Studios", count: "4" }
                   ].map((facility, idx) => (
                     <div 
@@ -948,8 +902,8 @@ function Home() {
                 </div>
                 
                 <p className="leading-relaxed pt-6">
-                  From solar-powered classrooms to our fully-equipped innovation hub, we're committed to 
-                  sustainable, forward-thinking education that prepares students for tomorrow's challenges.
+                 These events help students appreciate diversity and strengthen unity among the school community. 
+                 Other celebration days, including academic award ceremonies, sports days, and national events, bring students together in joy and teamwork.
                 </p>
               </div>
               
@@ -1006,9 +960,11 @@ function Home() {
             </div>
           </div>
         </div>
+       </ScrollReveal>
 
         {/* About Section with animation */}
-        <section className="py-16 bg-gray-50">
+       <ScrollReveal delay={0.2}>
+         <section className="py-16 bg-gray-50">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div 
@@ -1023,7 +979,7 @@ function Home() {
                   fetchpriority="low"
                 />
                 <div className="absolute -bottom-4 -right-4 bg-yellow-500 text-blue-900 p-4 rounded-lg shadow-lg">
-                  <span className="block text-2xl font-bold">29+</span>
+                  <span className="block text-2xl font-bold">20+</span>
                   <span className="block text-xs">Years of Excellence</span>
                 </div>
               </div>
@@ -1034,14 +990,15 @@ function Home() {
                   Nurturing <span className="text-yellow-500">Future Leaders</span>
                 </h2>
                 <p className="text-gray-600 mb-6">
-                  Established in 1995, Tullu Dimtu Secondary School has consistently ranked among the top educational institutions in the region.
+                  Established in 2000, Tullu Dimtu Secondary School has consistently ranked among the top educational institutions in the region.
                 </p>
                 <div className="space-y-3 mb-8">
                   {[
                     "State-of-the-art science and computer labs",
                     "Comprehensive extracurricular programs",
                     "University placement counseling",
-                    "International exchange programs"
+                    "National Exchange Programs",
+                    "School Community Programs"
                   ].map((item, index) => (
                     <div 
                       key={index} 
@@ -1054,7 +1011,7 @@ function Home() {
                     </div>
                   ))}
                 </div>
-                <Link to="/about">
+                <Link to="/about/our-history">
                   <button className="px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white font-semibold rounded-lg transition-all duration-300">
                     Learn More About Us
                   </button>
@@ -1063,6 +1020,7 @@ function Home() {
             </div>
           </div>
         </section>
+       </ScrollReveal>
 
         {/* Testimonials Section */}
         <section className="py-20 bg-gradient-to-r from-blue-900 to-purple-900 text-white mb-12">
@@ -1082,7 +1040,7 @@ function Home() {
                   {
                     quote: "Tullu Dimtu provided the perfect environment for my academic and personal growth. The teachers go above and beyond.",
                     author: "Sarah Johnson",
-                    role: "Alumna, Harvard University"
+                    role: "Alumna, Tullu Dimtu School"
                   },
                   {
                     quote: "As a parent, I appreciate the school's commitment to both academic excellence and character building.",
@@ -1146,12 +1104,13 @@ function Home() {
         {/* Scroll to Top Button */}
         {showScrollTop && (
           <button
-            onClick={scrollToTop}
-            className="fixed bottom-8 right-8 z-50 w-12 h-12 bg-yellow-500 text-blue-900 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
-            aria-label="Scroll to top"
-          >
-            <FaChevronUp className="text-xl" />
-          </button>
+  onClick={scrollToTop}
+  className="fixed bottom-8 right-32 z-50 w-12 h-12 bg-yellow-500 text-blue-900 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
+  aria-label="Scroll to top"
+>
+  <FaChevronUp className="text-xl" />
+</button>
+
         )}
       </div>
     </>
@@ -1161,7 +1120,3 @@ function Home() {
 export default Home;
 
 
-
-
-// this name of this ane 
-// 

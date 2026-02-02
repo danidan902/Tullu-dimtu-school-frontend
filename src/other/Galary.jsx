@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, ChevronLeft, ChevronRight, Download, Maximize2, Grid, Loader } from 'lucide-react';
 import Footer from '../components/Footer';
 import { Helmet } from "react-helmet-async";
-import gal1 from '../assets/photo1.jpg';
 import gal from '../assets/po1.jpg';
 import pot from '../assets/po2.jpg';
 import pot1 from '../assets/gal2.jpg';
@@ -47,7 +46,7 @@ import anim38 from '../assets/gal33.jpg';
 
 import anim18 from '../assets/chem.png';
 import schoolBgImage from '../assets/tul8.jpg';
-
+import dir1 from '../assets/dir1.png'
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -90,6 +89,16 @@ const Gallery = () => {
       date: "2024-01-30",
       tags: ["art", "creativity", "painting"],
       color: "from-yellow-500 to-amber-500"
+    },
+      {
+      id: 7,
+      title: "Teacher's Day Celebration",
+      category: "events",
+      description: "Students honoring their teachers",
+      image: dir1,
+      date: "2023-09-05",
+      tags: ["teachers", "celebration", "appreciation"],
+      color: "from-pink-500 to-rose-500"
     },
     {
       id: 8,
@@ -151,6 +160,7 @@ const Gallery = () => {
       tags: ["technology", "computers", "learning"],
       color: "from-cyan-500 to-blue-500"
     },
+   
     {
       id: 8,
       title: "Computer Lab Sessions",

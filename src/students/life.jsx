@@ -160,7 +160,7 @@ const StudentLife = () => {
       <title>Student Life | Tulu Dimtu School</title>
           </Helmet>
       <div className="font-sans min-h-screen bg-gray-50">
-        {/* Hero Section */}
+       
         <motion.div
           initial="hidden"
           animate="visible"
@@ -182,9 +182,9 @@ const StudentLife = () => {
           </div>
         </motion.div>
 
-        {/* Main Content */}
+      
         <div className="container mx-auto px-4 py-12">
-          {/* Navigation Tabs */}
+         
           <motion.div 
             initial="hidden"
             animate="visible"
@@ -206,7 +206,7 @@ const StudentLife = () => {
             ))}
           </motion.div>
 
-          {/* Active Tab Content */}
+          
           <section className="mb-16">
             <motion.div 
               initial="hidden"
@@ -282,7 +282,7 @@ const StudentLife = () => {
                           whileTap={{ scale: 0.98 }}
                           className="mt-3 w-full bg-green-800 text-white py-2 rounded-lg font-medium hover:bg-green-900 transition-colors"
                         >
-                           <a href='/studentlife' >Register to Participate</a>
+                           <a href='/form' >Register to Participate</a>
                         </motion.button>
                       </motion.div>
                     )}
@@ -391,7 +391,7 @@ const StudentLife = () => {
                 whileTap={{ scale: 0.95 }}
                 className="px-8 py-3 bg-white hover:bg-gray-100 text-green-800 font-bold rounded-lg transition-colors"
               >
-                  <a href='/studentlife'>Upcoming Events</a>
+                  <a href='/form'>Apply</a>
               </motion.button>
             </div>
           </motion.section>

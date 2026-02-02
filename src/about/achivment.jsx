@@ -1,5 +1,5 @@
 
-import { FaChevronDown, FaChevronLeft, FaChevronRight, } from 'react-icons/fa';
+import {  FaChevronLeft, FaChevronRight, } from 'react-icons/fa';
 import { useState } from 'react';
 import BackgroundImageForSchool from '../assets/Student.jpg'
 import Images from '../assets/StudentImage.jpg'
