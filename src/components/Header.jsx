@@ -320,7 +320,7 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
           </motion.div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-[24px] font-semibold ml-20">
+        <nav className="hidden md:flex items-center gap-4 font-semibold ml-20">
           {navItems.map((item, index) => (
             <div key={index} className="relative">
               {item.path ? (
