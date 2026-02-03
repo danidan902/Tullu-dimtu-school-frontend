@@ -221,9 +221,13 @@ function EmailVerification() {
               transition={{ delay: 0.2 }}
             >
            
-        <img src={bg} 
-        className='w-full h-full rounded-full md:p-16'
-        />
+         <div className="mb-6">
+    <img 
+      src={bg}
+      alt="School Logo"
+      className="w-52 h-52 rounded-full p-3 "
+    />
+  </div>
              
               {error && (
                 <motion.div
