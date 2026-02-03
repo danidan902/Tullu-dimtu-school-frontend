@@ -104,7 +104,7 @@ const TeacherUploadForm = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/teachers/upload", {
+      const response = await fetch("https://tullu-dimtu-school-backend-1.onrender.com/api/teachers/upload", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
