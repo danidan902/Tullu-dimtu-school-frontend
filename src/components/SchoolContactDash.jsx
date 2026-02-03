@@ -13,7 +13,7 @@ const ContactDashboard = () => {
   const navigate = useNavigate();
 
   // API Base URL
-  const API_BASE = 'http://localhost:5000/api';
+  const API_BASE = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
   useEffect(() => {
     fetchContacts();
