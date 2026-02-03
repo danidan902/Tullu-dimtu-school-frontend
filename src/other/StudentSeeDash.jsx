@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
@@ -209,10 +208,6 @@ function EmailVerification() {
       </Helmet>
       
       <div className="min-h-screen grid grid-cols-1 md:grid-cols-1">
-       
-
-          
-
         <motion.div
           className="flex items-center justify-center bg-white px-4 py-8 md:px-6 md:py-0"
           initial={{ opacity: 0, y: 30 }}
@@ -226,13 +221,9 @@ function EmailVerification() {
               transition={{ delay: 0.2 }}
             >
            
-            <div className="mb-6">
-            <img 
-              src={bg}
-              alt="School Logo"
-              className="w-52 h-52 rounded-full p-3 justify-center items-center md:ml-24 ml-16"
-            />
-          </div>
+        <img src={bg} 
+        className='w-full h-full rounded-full md:p-16'
+        />
              
               {error && (
                 <motion.div
@@ -274,7 +265,7 @@ function EmailVerification() {
                     disabled={loading || !email}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-semibold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg mb-16 font-semibold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {loading ? (
                       <span className="flex items-center justify-center">

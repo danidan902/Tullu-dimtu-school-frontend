@@ -30,8 +30,8 @@ import card5 from "../assets/cro.png";
 import card6 from "../assets/tech.jpg";
 
 
-import animMobile1 from '../assets/studentlife.jpg';
-import animMobile3 from '../assets/mob6.jpg';
+import animMobile1 from '../assets/mekdes.jpg';
+import animMobile3 from '../assets/local.jpg';
 import animMobile4 from '../assets/crop.png';
 
 import campus1 from '../assets/life4.jpg';

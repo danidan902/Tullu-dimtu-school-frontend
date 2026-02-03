@@ -29,95 +29,15 @@ const ContactForm = () => {
   const { openSignIn } = useClerk();
   const navigate = useNavigate();
   
-  const [formData, setFormData] = useState(() => {
-    const savedData = localStorage.getItem('contactFormData');
-    return savedData ? JSON.parse(savedData) : {
-      email: '',
-      password: ''
-    };
-  });
-  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [message, setMessage] = useState({ text: '', type: '' });
 
-  
-  useEffect(() => {
-    if (isSignedIn && user) {
-      const userEmail = user.primaryEmailAddress?.emailAddress || '';
-      setFormData(prev => ({
-        email: userEmail || prev.email,
-        password: prev.password
-      }));
-    }
-  }, [isSignedIn, user]);
-
-  
-  useEffect(() => {
-    if (formData.email || formData.password) {
-      localStorage.setItem('contactFormData', JSON.stringify(formData));
-    }
-  }, [formData]);
-
- 
-  useEffect(() => {
-    if (isSubmitted) {
-      localStorage.removeItem('contactFormData');
-    }
-  }, [isSubmitted]);
-
-  
-  useEffect(() => {
-    const autoSubmitAfterAuth = async () => {
-      const savedData = localStorage.getItem('contactFormData');
-      
-      if (isSignedIn && savedData) {
-        const parsedData = JSON.parse(savedData);
-        
-        if (parsedData.email && parsedData.password) {
-          console.log('🔄 Auto-submitting saved form data after authentication...');
-          await submitToBackend(parsedData);
-        }
-      }
-    };
-
-    autoSubmitAfterAuth();
-  }, [isSignedIn]);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-    if (message.text) setMessage({ text: '', type: '' });
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.email.trim() || !formData.password.trim()) {
-      setMessage({ text: 'Please fill in both email and password', type: 'error' });
-      return;
-    }
-
- 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setMessage({ text: 'Please enter a valid email address', type: 'error' });
-      return;
-    }
-
-   
-    if (formData.password.length < 6) {
-      setMessage({ text: 'Password must be at least 6 characters long', type: 'error' });
-      return;
-    }
-
     if (!isSignedIn) {
       try {
-        localStorage.setItem('contactFormData', JSON.stringify(formData));
-        
         await openSignIn({
           redirectUrl: window.location.href,
         });
@@ -127,21 +47,28 @@ const ContactForm = () => {
       return;
     }
 
-    await submitToBackend(formData);
+    await submitToBackend();
   };
 
-  const submitToBackend = async (dataToSubmit = formData) => {
+  const submitToBackend = async () => {
     setIsSubmitting(true);
     setMessage({ text: '', type: '' });
 
     try {
+      const userData = {
+        email: user?.primaryEmailAddress?.emailAddress,
+        clerkUserId: user?.id,
+        firstName: user?.firstName,
+        lastName: user?.lastName
+      };
+
       console.log('🔵 SUBMITTING TO BACKEND:', {
         url: 'http://localhost:5000/api/users/submit',
-        data: dataToSubmit,
+        data: userData,
         timestamp: new Date().toISOString()
       });
       
-      const response = await axios.post('http://localhost:5000/api/users/submit', dataToSubmit, {
+      const response = await axios.post('http://localhost:5000/api/users/submit', userData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -160,19 +87,12 @@ const ContactForm = () => {
         setIsSubmitted(true);
         setMessage({ text: 'Data submitted successfully!', type: 'success' });
         
-        
         setTimeout(() => {
           navigate('/some');
         }, 1500);
         
-    
         setTimeout(() => {
           setIsSubmitted(false);
-          setFormData({
-            email: user?.primaryEmailAddress?.emailAddress || '',
-            password: ''
-          });
-          localStorage.removeItem('contactFormData');
         }, 3000);
       } else {
         console.log('🟡 UNEXPECTED RESPONSE:', response.data);
@@ -191,7 +111,6 @@ const ContactForm = () => {
       setIsSubmitting(false);
       
       if (err.response) {
-    
         if (err.response.status === 400 && err.response.data.error?.includes('Email already exists')) {
           setMessage({ text: 'This email is already registered. Please use a different email address.', type: 'error' });
         } else {
@@ -206,11 +125,7 @@ const ContactForm = () => {
   };
 
   const clearForm = () => {
-    setFormData({
-      email: user?.primaryEmailAddress?.emailAddress || '',
-      password: ''
-    });
-    localStorage.removeItem('contactFormData');
+    setIsSubmitted(false);
     setMessage({ text: '', type: '' });
   };
 
@@ -392,7 +307,7 @@ const ContactForm = () => {
                             </svg>
                             Signing In...
                           </span>
-                        ) : 'SignIn'}
+                        ) : 'Sign In to Continue'}
                       </button>
                     ) : (
                       <button
@@ -408,7 +323,7 @@ const ContactForm = () => {
                             </svg>
                             Securing Data...
                           </span>
-                        ) : 'Submit to Database'}
+                        ) : 'Submit Your Information'}
                       </button>
                     )}
                   </div>
