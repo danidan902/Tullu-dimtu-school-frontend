@@ -225,7 +225,7 @@ function EmailVerification() {
     <img 
       src={bg}
       alt="School Logo"
-      className="w-52 h-52 rounded-full p-3 "
+      className="w-52 h-52 rounded-full p-4 md:ml-24 ml-16 "
     />
   </div>
              
