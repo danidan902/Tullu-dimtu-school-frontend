@@ -32,8 +32,7 @@ const ContactForm = () => {
   const [formData, setFormData] = useState(() => {
     const savedData = localStorage.getItem('contactFormData');
     return savedData ? JSON.parse(savedData) : {
-      email: '',
-      password: ''
+      email: ''
     };
   });
   
@@ -46,15 +45,14 @@ const ContactForm = () => {
     if (isSignedIn && user) {
       const userEmail = user.primaryEmailAddress?.emailAddress || '';
       setFormData(prev => ({
-        email: userEmail || prev.email,
-        password: prev.password
+        email: userEmail || prev.email
       }));
     }
   }, [isSignedIn, user]);
 
   
   useEffect(() => {
-    if (formData.email || formData.password) {
+    if (formData.email) {
       localStorage.setItem('contactFormData', JSON.stringify(formData));
     }
   }, [formData]);
@@ -74,7 +72,7 @@ const ContactForm = () => {
       if (isSignedIn && savedData) {
         const parsedData = JSON.parse(savedData);
         
-        if (parsedData.email && parsedData.password) {
+        if (parsedData.email) {
           console.log('🔄 Auto-submitting saved form data after authentication...');
           await submitToBackend(parsedData);
         }
@@ -96,8 +94,8 @@ const ContactForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!formData.email.trim() || !formData.password.trim()) {
-      setMessage({ text: 'Please fill in both email and password', type: 'error' });
+    if (!formData.email.trim()) {
+      setMessage({ text: 'Please enter your email address', type: 'error' });
       return;
     }
 
@@ -105,12 +103,6 @@ const ContactForm = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       setMessage({ text: 'Please enter a valid email address', type: 'error' });
-      return;
-    }
-
-   
-    if (formData.password.length < 6) {
-      setMessage({ text: 'Password must be at least 6 characters long', type: 'error' });
       return;
     }
 
@@ -141,7 +133,16 @@ const ContactForm = () => {
         timestamp: new Date().toISOString()
       });
       
-      const response = await axios.post('http://localhost:5000/api/users/submit', dataToSubmit, {
+      // For Clerk authentication, you might want to get the Clerk session token
+      // and send it with the request instead of password
+      const userData = {
+        email: dataToSubmit.email,
+        clerkUserId: user?.id,
+        firstName: user?.firstName,
+        lastName: user?.lastName
+      };
+      
+      const response = await axios.post('http://localhost:5000/api/users/submit', userData, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -169,8 +170,7 @@ const ContactForm = () => {
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({
-            email: user?.primaryEmailAddress?.emailAddress || '',
-            password: ''
+            email: user?.primaryEmailAddress?.emailAddress || ''
           });
           localStorage.removeItem('contactFormData');
         }, 3000);
@@ -207,8 +207,7 @@ const ContactForm = () => {
 
   const clearForm = () => {
     setFormData({
-      email: user?.primaryEmailAddress?.emailAddress || '',
-      password: ''
+      email: user?.primaryEmailAddress?.emailAddress || ''
     });
     localStorage.removeItem('contactFormData');
     setMessage({ text: '', type: '' });
@@ -392,7 +391,7 @@ const ContactForm = () => {
                             </svg>
                             Signing In...
                           </span>
-                        ) : 'SignIn'}
+                        ) : 'Sign In to Continue'}
                       </button>
                     ) : (
                       <button
@@ -408,7 +407,7 @@ const ContactForm = () => {
                             </svg>
                             Securing Data...
                           </span>
-                        ) : 'Submit to Database'}
+                        ) : 'Submit Your Information'}
                       </button>
                     )}
                   </div>
