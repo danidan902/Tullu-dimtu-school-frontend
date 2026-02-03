@@ -16,7 +16,7 @@ function Email() {
   const navigate = useNavigate()
 
   // Mock API URL - replace with your actual backend URL
-  const API_URL = 'http://localhost:5000/api';
+  const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
   // Handle registration
   const handleRegister = async (e) => {
