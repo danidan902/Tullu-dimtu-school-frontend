@@ -12,52 +12,52 @@ const NewsPage = () => {
   // Sample news data
   const sampleNews = [
     {
-      id: 1,
-      title: "Annual Science Fair 2024",
-      content: "We're excited to announce our Annual Science Fair will be held on December 15th. Students from grades 9-12 will showcase their innovative projects. Parents and community members are welcome to attend.",
-      category: "Academic",
-      date: "2024-12-01",
-      author: "Dr. Sarah Johnson"
+      id: ,
+      title: "",
+      content: "",
+      category: "",
+      date: "",
+      author: ""
     },
     {
-      id: 2,
-      title: "Basketball Team Wins Regional Championship",
-      content: "Our school's basketball team has won the regional championship for the third consecutive year! The final score was 78-72 against Lincoln High. Congratulations to all players and Coach Miller.",
-      category: "Sports",
-      date: "2024-11-28",
-      author: "Dr. Sarah Johnson"
+      id: ,
+      title: "",
+      content: "",
+      category: "",
+      date: "",
+      author: ""
     },
     {
       id: 3,
-      title: "Winter Break Schedule",
-      content: "Winter break will begin on December 22nd and classes will resume on January 8th. Please ensure all assignments are submitted before the break. Wishing everyone happy holidays!",
-      category: "Announcement",
-      date: "2024-11-25",
-      author: "Dr. Sarah Johnson"
+      title: "",
+      content: "",
+      category: "",
+      date: "",
+      author: ""
     },
     {
-      id: 4,
-      title: "Parent-Teacher Conference Dates",
-      content: "The next round of parent-teacher conferences will be held from December 10th to 12th. Please schedule your appointments through the school portal. Your participation is crucial for student success.",
-      category: "Event",
-      date: "2024-11-20",
-      author: "Dr. Sarah Johnson"
+      id: ,
+      title: "",
+      content: "",
+      category: "",
+      date: "",
+      author: ""
     },
     {
-      id: 5,
-      title: "New Library Resources Available",
-      content: "We have added over 500 new books to our school library, including the latest STEM resources and award-winning literature. Students can check out up to 5 books at a time.",
-      category: "Academic",
-      date: "2024-11-18",
-      author: "Dr. Sarah Johnson"
+      id: ,
+      title: "",
+      content: "",
+      category: "",
+      date: "",
+      author: ""
     },
     {
-      id: 6,
-      title: "School Cafeteria Menu Update",
-      content: "Starting next week, our cafeteria will introduce new healthy meal options including vegetarian and gluten-free choices. We're committed to providing nutritious meals for all students.",
-      category: "Announcement",
-      date: "2024-11-15",
-      author: "Dr. Sarah Johnson"
+      id: ,
+      title: "",
+      content: "",
+      category: "",
+      date: "",
+      author: ""
     }
   ];
 
