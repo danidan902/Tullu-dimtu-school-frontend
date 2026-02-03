@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion";
@@ -209,10 +208,6 @@ function EmailVerification() {
       </Helmet>
       
       <div className="min-h-screen grid grid-cols-1 md:grid-cols-1">
-       
-
-          
-
         <motion.div
           className="flex items-center justify-center bg-white px-4 py-8 md:px-6 md:py-0"
           initial={{ opacity: 0, y: 30 }}
@@ -225,10 +220,11 @@ function EmailVerification() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-           
-        <img src={bg} 
-        className='w-full h-full rounded-full p-24'
-        />
+              {step === 'email' && (
+                <img src={bg} 
+                  className='w-full h-full rounded-full p-24'
+                />
+              )}
              
               {error && (
                 <motion.div
