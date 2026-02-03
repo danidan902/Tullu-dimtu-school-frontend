@@ -6,7 +6,7 @@ import TelebirrQR from '../assets/TelebirrQR.jpg';
 import logo from '../assets/tullulogo.png';
 import imageCompression from 'browser-image-compression';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = process.env.REACT_APP_API_URL || 'https://tullu-dimtu-school-backend-1.onrender.com';
 
 // Create axios instance with default config
 const api = axios.create({
