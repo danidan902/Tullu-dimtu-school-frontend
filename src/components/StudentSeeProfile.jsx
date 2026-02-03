@@ -805,7 +805,7 @@ import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { ChevronLeft } from 'lucide-react';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com';
 
 const StudentSeeProfile = () => {
   const [admissions, setAdmissions] = useState([]);
