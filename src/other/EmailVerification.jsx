@@ -483,7 +483,7 @@ function Email() {
     <img 
       src={bg}
       alt="School Logo"
-      className="w-52 h-52 rounded-full p-3 "
+      className="w-52 h-52 rounded-full p-3 md:ml-8"
     />
   </div>
 
