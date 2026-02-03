@@ -29,7 +29,7 @@ const CounselingPage = () => {
       e.preventDefault();
       try {
         
-        const res = await axios.post("http://localhost:5000/api/concerns", formData);
+        const res = await axios.post("https://tullu-dimtu-school-backend-1.onrender.com/api/concerns", formData);
 
         console.log("✅ Concern submitted:", res.data);
   
