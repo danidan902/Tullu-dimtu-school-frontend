@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import bg from  '../assets/tullulogo.png'
 
 function Email() {
   const [currentForm, setCurrentForm] = useState('login'); // 'login', 'register', 'verify'
@@ -185,23 +186,25 @@ function Email() {
   // Render login form
   const renderLoginForm = () => (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+      <div className="  overflow-hidden">
         <div className="px-8 pt-8 pb-6">
          
           <form onSubmit={handleLogin} className="space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
-                placeholder="Enter your email"
-                required
-              />
-            </div>
+           <div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Email Address
+  </label>
+
+  <input
+    type="email"
+    value={email}
+    onChange={(e) => setEmail(e.target.value)}
+    className="w-full px-4 py-3 border bg-transparent border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+    placeholder="Enter your email"
+    required
+  />
+</div>
+
             
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -211,26 +214,18 @@ function Email() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                className="w-full px-4 py-3 border bg-transparent border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                 placeholder="Enter your password"
                 required
               />
             </div>
             
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input type="checkbox" className="h-4 w-4 text-blue-600 rounded" />
-                <span className="ml-2 text-sm text-gray-600">Remember me</span>
-              </label>
-              <a href="#" className="text-sm text-blue-600 hover:text-blue-800 transition duration-200">
-                Forgot password?
-              </a>
-            </div>
+            
             
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-semibold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
@@ -265,7 +260,7 @@ function Email() {
   // Render registration form
   const renderRegisterForm = () => (
     <div className="w-full max-w-md">
-      <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+      <div className=" overflow-hidden">
         <div className="px-8 pt-8 pb-6">
          
           <form onSubmit={handleRegister} className="space-y-5">
@@ -277,7 +272,7 @@ function Email() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                className="w-full px-4 py-3 border bg-transparent border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                 placeholder="Enter your email"
                 required
               />
@@ -291,7 +286,7 @@ function Email() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                className="w-full px-4 py-3 border bg-transparent border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                 placeholder="Create a password (min. 6 characters)"
                 required
               />
@@ -305,7 +300,7 @@ function Email() {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+                className="w-full px-4 py-3 border bg-transparent border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
                 placeholder="Confirm your password"
                 required
               />
@@ -314,7 +309,7 @@ function Email() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white py-3 px-4 rounded-lg font-medium hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-semibold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
@@ -348,8 +343,8 @@ function Email() {
 
   // Render verification form
   const renderVerificationForm = () => (
-    <div className="w-full max-w-md">
-      <div className="bg-white rounded-xl shadow-2xl overflow-hidden">
+    <div className="w-full max-w-md bg-white rounded-xl shadow-xl">
+      <div className=" overflow-hidden">
         <div className="px-8 pt-8 pb-6">
           <div className="text-center mb-6">
             <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4">
@@ -369,34 +364,55 @@ function Email() {
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Verification Code
               </label>
-              <div className="flex justify-center space-x-3">
-                {[...Array(6)].map((_, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    maxLength="1"
-                    className="w-12 h-12 text-2xl text-center border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
-                    value={verificationCode[index] || ''}
-                    onChange={(e) => {
-                      const newCode = verificationCode.split('');
-                      newCode[index] = e.target.value;
-                      setVerificationCode(newCode.join('').slice(0, 6));
-                      
-                      // Auto-focus next input
-                      if (e.target.value && index < 5) {
-                        document.querySelectorAll('input[type="text"]')[index + 1].focus();
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      // Handle backspace
-                      if (e.key === 'Backspace' && !verificationCode[index] && index > 0) {
-                        document.querySelectorAll('input[type="text"]')[index - 1].focus();
-                      }
-                    }}
-                    required
-                  />
-                ))}
-              </div>
+             <div className="flex justify-center space-x-2 sm:space-x-3">
+  {[...Array(6)].map((_, index) => (
+    <input
+      key={index}
+      type="text"
+      maxLength="1"
+      className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 text-xl sm:text-2xl text-center border-2 border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition duration-200"
+      value={verificationCode[index] || ''}
+      onChange={(e) => {
+        const newCode = verificationCode.split('');
+        newCode[index] = e.target.value;
+        setVerificationCode(newCode.join('').slice(0, 6));
+        
+        // Auto-focus next input
+        if (e.target.value && index < 5) {
+          const inputs = document.querySelectorAll('input[type="text"]');
+          if (inputs[index + 1]) {
+            inputs[index + 1].focus();
+          }
+        }
+      }}
+      onKeyDown={(e) => {
+        // Handle backspace
+        if (e.key === 'Backspace' && !verificationCode[index] && index > 0) {
+          const inputs = document.querySelectorAll('input[type="text"]');
+          if (inputs[index - 1]) {
+            inputs[index - 1].focus();
+          }
+        }
+      }}
+      onPaste={(e) => {
+        // Handle paste
+        const pastedData = e.clipboardData.getData('text').slice(0, 6);
+        if (/^\d+$/.test(pastedData)) {
+          setVerificationCode(pastedData);
+          e.preventDefault();
+          
+          // Focus the last input
+          const inputs = document.querySelectorAll('input[type="text"]');
+          const focusIndex = Math.min(pastedData.length, 5);
+          if (inputs[focusIndex]) {
+            inputs[focusIndex].focus();
+          }
+        }
+      }}
+      required
+    />
+  ))}
+</div>
               <p className="text-sm text-gray-500 text-center mt-3">
                 Enter the 6-digit code sent to your email
               </p>
@@ -406,7 +422,7 @@ function Email() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-purple-600 to-purple-700 text-white py-3 px-4 rounded-lg font-medium hover:from-purple-700 hover:to-purple-800 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-semibold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
                   <span className="flex items-center justify-center">
@@ -423,7 +439,7 @@ function Email() {
                 type="button"
                 onClick={handleResendCode}
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white py-3 px-4 rounded-lg font-medium hover:from-gray-700 hover:to-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-lg font-semibold transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Resend Code
               </button>
@@ -462,8 +478,14 @@ function Email() {
    
    
    
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex flex-col items-center justify-center p-4">
-         
+    <div className="min-h-screen flex flex-col items-center justify-start pt-10 px-4">
+          <div className="mb-6">
+    <img 
+      src={bg}
+      alt="School Logo"
+      className="w-52 h-52 rounded-full p-3 "
+    />
+  </div>
 
       {/* Message Display */}
       {message.text && (

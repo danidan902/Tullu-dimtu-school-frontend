@@ -75,8 +75,6 @@ import EmailStudent from './other/StudentSeeDash';
 
 
 
-
-// Teacher Data Management
 const useTeacherData = () => {
   const [chatUserName, setChatUserName] = useState("")
   const [teachers, setTeachers] = useState(() => {
