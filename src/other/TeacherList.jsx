@@ -31,7 +31,7 @@ useEffect(() => {
   const fetchTeachers = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get('http://localhost:5000/api/teachers');
+      const response = await axios.get('https://tullu-dimtu-school-backend-1.onrender.com/api/teachers');
       setTeachers(response.data); // ✅ Axios stores JSON in response.data
     } catch (error) {
       console.error('Error fetching teachers:', error);
