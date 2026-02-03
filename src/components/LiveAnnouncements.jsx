@@ -29,7 +29,7 @@ const LiveAnnouncements = () => {
   const fetchUnreadCount = async (userId) => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/announcements/unread-count/${userId}`
+        `https://tullu-dimtu-school-backend-1.onrender.com/api/announcements/unread-count/${userId}`
       );
       setNotificationCount(res.data.unreadCount);
     } catch (err) {
@@ -38,7 +38,7 @@ const LiveAnnouncements = () => {
   };
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:5000", {
+    socketRef.current = io("https://tullu-dimtu-school-backend-1.onrender.com", {
       transports: ["websocket", "polling"],
       reconnection: true,
       query: { userId: userIdRef.current },
@@ -86,7 +86,7 @@ const LiveAnnouncements = () => {
     if (socketRef.current)
       socketRef.current.emit("mark-as-read", { userId: userIdRef.current, announcementId: id });
     try {
-      await axios.post(`http://localhost:5000/api/announcements/${id}/read`, {
+      await axios.post(`https://tullu-dimtu-school-backend-1.onrender.com/api/announcements/${id}/read`, {
         userId: userIdRef.current,
       });
     } catch (error) {
@@ -112,7 +112,7 @@ const LiveAnnouncements = () => {
 
     setIsDeleting(true);
     try {
-      await axios.delete(`http://localhost:5000/api/announcements/${announcementToDelete.id}`);
+      await axios.delete(`https://tullu-dimtu-school-backend-1.onrender.com/api/announcements/${announcementToDelete.id}`);
       
       // Emit socket event for real-time deletion
       if (socketRef.current) {
