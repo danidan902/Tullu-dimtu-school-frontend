@@ -12,7 +12,7 @@ const NewsPage = () => {
   // Sample news data
   const sampleNews = [
     {
-      id: ,
+      id: 1,
       title: "",
       content: "",
       category: "",
@@ -20,7 +20,7 @@ const NewsPage = () => {
       author: ""
     },
     {
-      id: ,
+      id: 2,
       title: "",
       content: "",
       category: "",
@@ -36,7 +36,7 @@ const NewsPage = () => {
       author: ""
     },
     {
-      id: ,
+      id: 4,
       title: "",
       content: "",
       category: "",
@@ -44,7 +44,7 @@ const NewsPage = () => {
       author: ""
     },
     {
-      id: ,
+      id: 5,
       title: "",
       content: "",
       category: "",
@@ -52,7 +52,7 @@ const NewsPage = () => {
       author: ""
     },
     {
-      id: ,
+      id: 6,
       title: "",
       content: "",
       category: "",
