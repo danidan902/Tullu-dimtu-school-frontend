@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { CalendarDays, MapPin, Clock, User, Phone, Mail, Users, CheckCircle } from 'lucide-react';
 import bg from '../assets/visitor.png';
 // API base URL - change this to your backend URL
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
 const SchoolVisit = () => {
   const [formData, setFormData] = useState({
