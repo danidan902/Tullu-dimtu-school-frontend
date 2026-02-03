@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {  Eye, Download, ChevronLeft } from 'lucide-react';
 
-const API_URL = 'http://localhost:5000/api/registrations';
+const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api/registrations';
 
 const Dashboard = () => {
   const [registrations, setRegistrations] = useState([]);
