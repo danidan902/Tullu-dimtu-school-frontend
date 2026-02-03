@@ -124,7 +124,7 @@ const DirectorPage = () => {
       if (newsItem.category === 'Urgent') priority = 'high';
       if (newsItem.category === 'Academic') priority = 'medium';
 
-      const response = await axios.post('http://localhost:5000/api/announcements', {
+      const response = await axios.post('https://tullu-dimtu-school-backend-1.onrender.com/api/announcements', {
         title: newsItem.title,
         message: newsItem.content,
         priority: priority,
@@ -152,12 +152,12 @@ const DirectorPage = () => {
     try {
       console.log('🗑️ Attempting to delete from live announcements:', newsItem.title);
       
-      const searchResponse = await axios.get(`http://localhost:5000/api/announcements?newsId=${newsItem.id}`);
+      const searchResponse = await axios.get(`https://tullu-dimtu-school-backend-1.onrender.com/api/announcements?newsId=${newsItem.id}`);
       
       if (searchResponse.data && searchResponse.data.length > 0) {
         const deletePromises = searchResponse.data.map(async (announcement) => {
           try {
-            await axios.delete(`http://localhost:5000/api/announcements/${announcement._id}`);
+            await axios.delete(`https://tullu-dimtu-school-backend-1.onrender.com/api/announcements/${announcement._id}`);
             console.log(`✅ Deleted announcement: ${announcement.title}`);
             return { success: true, announcementId: announcement._id };
           } catch (deleteError) {
