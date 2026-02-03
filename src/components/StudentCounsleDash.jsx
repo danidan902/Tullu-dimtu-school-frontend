@@ -15,7 +15,7 @@ const ConcernsDashboard = () => {
   const [viewMode, setViewMode] = useState('table'); // 'table' or 'card'
   const navigate = useNavigate();
 
-  const API_BASE = 'http://localhost:5000/api/concerns';
+  const API_BASE = 'https://tullu-dimtu-school-backend-1.onrender.com/api/concerns';
 
   useEffect(() => {
     fetchConcerns();
