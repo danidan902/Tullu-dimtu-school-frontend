@@ -16,7 +16,7 @@ const PhoneVerification = () => {
     setLoading(true);
     setError("");
     try {
-      await axios.post("http://localhost:5000/api/send-verification", {
+      await axios.post("https://tullu-dimtu-school-backend-1.onrender.com/api/send-verification", {
         phone: "+251" + phone, // Send full E.164 format
       });
       setStep(2);
@@ -32,7 +32,7 @@ const PhoneVerification = () => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://localhost:5000/api/check-verification", {
+      const res = await axios.post("https://tullu-dimtu-school-backend-1.onrender.com/api/check-verification", {
         phone: "+251" + phone,
         code,
       });
