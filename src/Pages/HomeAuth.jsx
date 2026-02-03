@@ -63,12 +63,12 @@ const ContactForm = () => {
       };
 
       console.log('🔵 SUBMITTING TO BACKEND:', {
-        url: 'http://localhost:5000/api/users/submit',
+        url: 'https://tullu-dimtu-school-backend-1.onrender.com/api/users/submit',
         data: userData,
         timestamp: new Date().toISOString()
       });
       
-      const response = await axios.post('http://localhost:5000/api/users/submit', userData, {
+      const response = await axios.post('https://tullu-dimtu-school-backend-1.onrender.com/api/users/submit', userData, {
         headers: {
           'Content-Type': 'application/json',
         },
