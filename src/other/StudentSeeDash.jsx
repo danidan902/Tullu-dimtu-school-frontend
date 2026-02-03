@@ -8,7 +8,7 @@ import axios from 'axios';
 
 // Configure axios base URL
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://tullu-dimtu-school-backend-1.onrender.com/api',
   headers: {
     'Content-Type': 'application/json'
   }
