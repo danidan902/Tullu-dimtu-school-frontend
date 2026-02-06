@@ -19,7 +19,7 @@ const Upload = () => {
   const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
   // -------------------------
-  // Aggressive Compression Functions
+  // Aggressive Compression Function
   // -------------------------
   
   const compressImageToMax = async (file) => {
