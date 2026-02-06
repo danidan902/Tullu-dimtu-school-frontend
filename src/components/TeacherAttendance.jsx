@@ -16,7 +16,7 @@ const Upload = () => {
   const navigate = useNavigate();
 
   // Use relative path or environment variable
-  const API_URL = process.env.REACT_APP_API_URL || 'https://tullu-dimtu-school-backend-1.onrender.com/api';
+  const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
   // -------------------------
   // Simplified Image Compression Function
