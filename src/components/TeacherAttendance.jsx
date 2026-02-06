@@ -4,7 +4,6 @@ import Bg from '../assets/bulding.jpg';
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import JSZip from 'jszip';
 
 const Upload = () => {
   const [files, setFiles] = useState([]);
@@ -16,19 +15,20 @@ const Upload = () => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
-  const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
+  // Use relative path or environment variable
+  const API_URL = process.env.REACT_APP_API_URL || 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
   // -------------------------
-  // Aggressive Compression Function
+  // Simplified Image Compression Function
   // -------------------------
-  
-  const compressImageToMax = async (file) => {
-    return new Promise((resolve, reject) => {
-      if (!file.type.startsWith('image/')) {
+  const compressImage = async (file) => {
+    return new Promise((resolve) => {
+      // Only compress image files
+      if (!file.type.startsWith('image/') || file.size < 102400) { // Skip small files < 100KB
         resolve(file);
         return;
       }
-      
+
       const reader = new FileReader();
       reader.readAsDataURL(file);
       
@@ -40,190 +40,154 @@ const Upload = () => {
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           
-          // MAX compression settings - ultra aggressive
-          const maxWidth = 800;
-          const maxHeight = 800;
+          // Set maximum dimensions
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
           
-          // Calculate new dimensions while maintaining aspect ratio
           let width = img.width;
           let height = img.height;
           
-          if (width > maxWidth || height > maxHeight) {
-            const ratio = Math.min(maxWidth / width, maxHeight / height);
+          // Resize if image is larger than max dimensions
+          if (width > MAX_WIDTH || height > MAX_HEIGHT) {
+            const ratio = Math.min(MAX_WIDTH / width, MAX_HEIGHT / height);
             width = Math.floor(width * ratio);
             height = Math.floor(height * ratio);
-          }
-          
-          // For very large images, make even smaller
-          if (file.size > 5 * 1024 * 1024) { // If original > 5MB
-            width = Math.max(400, width);
-            height = Math.max(400, height);
           }
           
           canvas.width = width;
           canvas.height = height;
           
+          // Fill canvas with white background for transparent images
+          ctx.fillStyle = '#FFFFFF';
+          ctx.fillRect(0, 0, width, height);
+          
+          // Draw image
           ctx.drawImage(img, 0, 0, width, height);
           
-          // Use low quality for maximum compression
+          // Convert to blob with reasonable quality
           canvas.toBlob(
             (blob) => {
               if (!blob) {
-                resolve(file);
+                resolve(file); // Fallback to original
                 return;
               }
               
-              const compressedFile = new File([blob], file.name, {
-                type: 'image/jpeg',
-                lastModified: Date.now(),
-              });
-              
-              resolve(compressedFile);
+              // Only use compressed version if it's actually smaller
+              if (blob.size < file.size * 0.9) { // At least 10% smaller
+                const compressedFile = new File([blob], file.name, {
+                  type: 'image/jpeg',
+                  lastModified: Date.now(),
+                });
+                resolve(compressedFile);
+              } else {
+                resolve(file);
+              }
             },
             'image/jpeg',
-            0.3 // Low quality for high compression
+            0.7 // Reasonable quality
           );
         };
         
         img.onerror = () => {
+          console.warn('Image loading error, using original file');
           resolve(file);
         };
       };
       
       reader.onerror = () => {
+        console.warn('File reading error, using original file');
         resolve(file);
       };
     });
   };
 
-  const compressWithZip = async (file) => {
-    return new Promise((resolve) => {
-      const zip = new JSZip();
-      
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const arrayBuffer = e.target.result;
-        
-        zip.file(file.name, arrayBuffer, {
-          compression: "DEFLATE",
-          compressionOptions: {
-            level: 9
-          }
-        });
-        
-        const content = await zip.generateAsync({
-          type: "blob",
-          compression: "DEFLATE",
-          compressionOptions: {
-            level: 9
-          }
-        });
-        
-        const compressedFile = new File([content], file.name + '.zip', {
-          type: 'application/zip',
-          lastModified: Date.now(),
-        });
-        
-        resolve(compressedFile);
-      };
-      
-      reader.readAsArrayBuffer(file);
-    });
-  };
-
-  const compressFile = async (file) => {
-    try {
-      let compressedFile = file;
-      
-      if (file.type.startsWith('image/')) {
-        compressedFile = await compressImageToMax(file);
-      }
-      
-      // Always apply zip compression for extra reduction
-      const zipFile = await compressWithZip(compressedFile);
-      return {
-        file: zipFile,
-        originalSize: file.size,
-        compressionRatio: ((file.size - zipFile.size) / file.size * 100).toFixed(1)
-      };
-      
-    } catch (err) {
-      console.error('Compression error:', err);
-      return {
-        file: file,
-        originalSize: file.size,
-        compressionRatio: 0
-      };
-    }
-  };
-
+  // -------------------------
+  // File Processing
+  // -------------------------
   const handleFileSelect = async (selectedFiles) => {
     if (!selectedFiles || selectedFiles.length === 0) return;
     
+    // Clear previous messages
     setError('');
     setSuccess('');
+    
+    // Validate file count
+    if (selectedFiles.length > 20) {
+      setError('Maximum 20 files allowed at once');
+      return;
+    }
+    
+    const filesArray = Array.from(selectedFiles);
+    let newFiles = [];
+    
     setUploading(true);
     
-    const filesArray = [];
-    const totalFiles = Array.from(selectedFiles);
-    
-    for (let i = 0; i < totalFiles.length; i++) {
-      const file = totalFiles[i];
-      
-      try {
-        setFiles(prev => [...prev, {
-          file,
+    try {
+      for (const file of filesArray) {
+        // Validate file size (max 50MB per file)
+        if (file.size > 50 * 1024 * 1024) {
+          setError(`File "${file.name}" exceeds 50MB limit`);
+          continue;
+        }
+        
+        // Create file object
+        const fileObj = {
           id: Date.now() + Math.random(),
           name: file.name,
           size: file.size,
           originalSize: file.size,
           type: file.type,
-          status: 'compressing'
-        }]);
+          status: 'processing',
+          compressed: false
+        };
         
-        const compressionResult = await compressFile(file);
+        newFiles.push(fileObj);
+        setFiles(prev => [...prev, fileObj]);
         
-        setFiles(prev => {
-          const newFiles = [...prev];
-          const fileIndex = newFiles.findIndex(f => f.name === file.name && f.status === 'compressing');
-          
-          if (fileIndex !== -1) {
-            newFiles[fileIndex] = {
-              ...compressionResult,
-              id: Date.now() + Math.random(),
-              name: compressionResult.file.name,
-              size: compressionResult.file.size,
-              type: compressionResult.file.type,
-              status: 'pending',
-              compressed: compressionResult.originalSize !== compressionResult.file.size
-            };
-          }
-          
-          return newFiles;
-        });
+        // Process image compression
+        const processedFile = await compressImage(file);
         
-      } catch (err) {
-        console.error('Error processing file:', err);
-        setFiles(prev => [...prev.filter(f => !(f.name === file.name && f.status === 'compressing'))]);
+        // Update file object with processed file
+        setFiles(prev => prev.map(f => 
+          f.id === fileObj.id 
+            ? { 
+                ...f, 
+                file: processedFile,
+                size: processedFile.size,
+                status: 'pending',
+                compressed: processedFile.size < file.size
+              } 
+            : f
+        ));
       }
+    } catch (err) {
+      console.error('Error processing files:', err);
+      setError('Error processing files. Please try again.');
+    } finally {
+      setUploading(false);
     }
-    
-    setUploading(false);
   };
 
   const handleFileInputChange = (e) => handleFileSelect(e.target.files);
-  const handleDragOver = (e) => { e.preventDefault(); setIsDragging(true); };
-  const handleDragLeave = (e) => { e.preventDefault(); setIsDragging(false); };
-  const handleDrop = (e) => { e.preventDefault(); setIsDragging(false); handleFileSelect(e.dataTransfer.files); };
+  
+  const handleDragOver = (e) => { 
+    e.preventDefault(); 
+    setIsDragging(true); 
+  };
+  
+  const handleDragLeave = (e) => { 
+    e.preventDefault(); 
+    setIsDragging(false); 
+  };
+  
+  const handleDrop = (e) => { 
+    e.preventDefault(); 
+    setIsDragging(false); 
+    handleFileSelect(e.dataTransfer.files); 
+  };
   
   const removeFile = (id) => {
-    setFiles(prev => {
-      const fileToRemove = prev.find(f => f.id === id);
-      if (fileToRemove?.preview) {
-        URL.revokeObjectURL(fileToRemove.preview);
-      }
-      return prev.filter(f => f.id !== id);
-    });
+    setFiles(prev => prev.filter(f => f.id !== id));
   };
 
   const formatFileSize = (bytes) => {
@@ -246,7 +210,7 @@ const Upload = () => {
 
   const getCompressionStats = () => {
     const originalTotal = files.reduce((sum, f) => sum + (f.originalSize || f.size), 0);
-    const compressedTotal = files.reduce((sum, f) => sum + f.size, 0);
+    const compressedTotal = files.reduce((sum, f) => sum + (f.size || 0), 0);
     const saved = originalTotal - compressedTotal;
     const percentage = originalTotal > 0 ? (saved / originalTotal * 100).toFixed(1) : 0;
     
@@ -262,43 +226,85 @@ const Upload = () => {
   // Upload to backend
   // -------------------------
   const handleFileUpload = async () => {
-    const pendingFiles = files.filter(f => f.status === 'pending');
-    if (pendingFiles.length === 0) return setError('No files to upload');
+    const pendingFiles = files.filter(f => f.status === 'pending' && f.file);
+    
+    if (pendingFiles.length === 0) {
+      setError('No files ready to upload');
+      return;
+    }
 
+    // Create FormData
     const formData = new FormData();
-    pendingFiles.forEach(f => formData.append('files', f.file));
+    pendingFiles.forEach(f => {
+      if (f.file) {
+        formData.append('files', f.file);
+      }
+    });
 
     try {
       setUploading(true);
+      setError('');
+      setSuccess('');
       
+      // Update file status to uploading
       setFiles(prev => prev.map(f => 
         f.status === 'pending' ? { ...f, status: 'uploading' } : f
       ));
 
+      // Make API call
       const res = await axios.post(`${API_URL}/upload`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-        onUploadProgress: (e) => setUploadProgress((e.loaded / e.total) * 100)
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.total) {
+            const progress = (progressEvent.loaded / progressEvent.total) * 100;
+            setUploadProgress(progress);
+          }
+        },
+        timeout: 300000, // 5 minute timeout for large files
       });
 
+      // Update file status to uploaded
       setFiles(prev => prev.map(f => 
         f.status === 'uploading' ? { ...f, status: 'uploaded' } : f
       ));
 
-      setSuccess(`Uploaded ${res.data.uploadedFiles?.length || pendingFiles.length} file(s) successfully`);
-      setUploadProgress(100);
-
+      // Show success message
+      const uploadedCount = res.data.uploadedFiles?.length || pendingFiles.length;
+      setSuccess(`Successfully uploaded ${uploadedCount} file(s)`);
+      
+      // Reset after delay
       setTimeout(() => {
         setFiles([]);
         setUploadProgress(0);
-      }, 2000);
+      }, 3000);
 
     } catch (err) {
-      console.error('Upload failed:', err);
-      setError(err.response?.data?.message || 'Upload failed. Please try again.');
+      console.error('Upload error:', err);
       
+      // Set appropriate error message
+      let errorMessage = 'Upload failed. Please try again.';
+      
+      if (err.response) {
+        // Server responded with error
+        errorMessage = err.response.data?.message || `Server error: ${err.response.status}`;
+      } else if (err.request) {
+        // No response received
+        errorMessage = 'No response from server. Check your connection.';
+      } else if (err.code === 'ECONNABORTED') {
+        errorMessage = 'Request timed out. Please try smaller files.';
+      } else if (err.message.includes('Network Error')) {
+        errorMessage = 'Network error. Please check your connection.';
+      }
+      
+      setError(errorMessage);
+      
+      // Update file status to error
       setFiles(prev => prev.map(f => 
         f.status === 'uploading' ? { ...f, status: 'error' } : f
       ));
+      
     } finally {
       setUploading(false);
     }
@@ -309,16 +315,19 @@ const Upload = () => {
     setUploadProgress(0);
     setFiles([]);
     setError('Upload cancelled');
+    setSuccess('');
   };
 
-  // -------------------------
-  // JSX
-  // -------------------------
+  // Calculate statistics
   const stats = getCompressionStats();
+  const pendingFilesCount = files.filter(f => f.status === 'pending').length;
   
   return (
     <>
-      <Helmet><title>Tullu Dimtu Secondary School - Upload</title></Helmet>
+      <Helmet>
+        <title>Tullu Dimtu Secondary School - Upload</title>
+      </Helmet>
+      
       <div
         className="min-h-screen py-12 px-4 bg-cover bg-center bg-fixed"
         style={{
@@ -326,29 +335,41 @@ const Upload = () => {
         }}
       >
         <div className="max-w-4xl mx-auto">
+          {/* Home Button */}
           <div className="fixed top-4 left-4 z-10">
-            <button onClick={() => navigate('/')} className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            <button 
+              onClick={() => navigate('/')} 
+              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
               <Home className="w-5 h-5" />
-              <span>Back to Home Page</span>
+              <span>Back to Home</span>
             </button>
           </div>
 
-          <div className="bg-white/10 rounded-2xl shadow-2xl p-8 mt-24 border border-white/20 backdrop-blur-sm">
-            <div className="text-center mb-10">
+          {/* Main Upload Container */}
+          <div className="bg-white/10 rounded-2xl shadow-2xl p-6 md:p-8 mt-20 md:mt-24 border border-white/20 backdrop-blur-sm">
+            {/* Header */}
+            <div className="text-center mb-8">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4 shadow-lg">
                 <FileUp className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">Teacher Attendance Upload</h1>
+              <h1 className="text-3xl md:text-4xl font-bold text-white mb-2 drop-shadow-lg">
+                Teacher Attendance Upload
+              </h1>
               <p className="text-white/70 mb-2">
-                Files are automatically compressed for optimal upload
+                Images are automatically compressed for faster upload
+              </p>
+              <p className="text-white/50 text-sm">
+                Maximum 20 files, 50MB each
               </p>
             </div>
 
             {/* Compression Stats */}
             {files.length > 0 && stats.saved > 0 && (
               <div className="mb-6 p-4 bg-green-500/10 rounded-lg border border-green-500/20">
-                <div className="flex items-center justify-between text-green-300">
+                <div className="flex flex-col md:flex-row md:items-center justify-between text-green-300 gap-2">
                   <div className="flex items-center gap-2">
+                    <CheckCircle className="w-4 h-4" />
                     <span>Size reduced by {formatFileSize(stats.saved)} ({stats.percentage}%)</span>
                   </div>
                   <span className="text-sm">
@@ -360,84 +381,120 @@ const Upload = () => {
 
             {/* Upload Area */}
             <div
-              className={`border-3 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ${isDragging ? 'border-green-400 bg-green-500/10' : 'border-white/30 bg-white/5'} hover:bg-white/10 cursor-pointer mb-8`}
-              onClick={() => fileInputRef.current.click()}
+              className={`border-3 border-dashed rounded-2xl p-8 md:p-12 text-center transition-all duration-300 ${
+                isDragging 
+                  ? 'border-green-400 bg-green-500/10 scale-[1.02]' 
+                  : 'border-white/30 bg-white/5 hover:bg-white/10'
+              } cursor-pointer mb-8`}
+              onClick={() => fileInputRef.current?.click()}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
               <UploadIcon className="w-12 h-12 text-white mx-auto mb-3" />
-              <p className="text-white/80">Drag & drop files or click to browse</p>
-              <p className="text-white/60 text-sm mt-2">All files will be compressed automatically</p>
+              <p className="text-white/80 text-lg mb-2">Drag & drop files or click to browse</p>
+              <p className="text-white/60 text-sm">Images are compressed automatically</p>
               <input 
                 ref={fileInputRef} 
                 type="file" 
                 multiple 
                 onChange={handleFileInputChange} 
                 className="hidden" 
-                accept="*/*"
+                accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.zip"
               />
             </div>
 
-            {/* File list */}
+            {/* File List */}
             {files.length > 0 && (
               <div className="mb-8">
-                {files.map(file => (
-                  <div key={file.id} className={`p-3 rounded mb-2 ${file.status === 'compressing' ? 'bg-blue-500/10' : 
-                    file.status === 'uploading' ? 'bg-yellow-500/10' : 
-                    file.status === 'uploaded' ? 'bg-green-500/10' : 
-                    file.status === 'error' ? 'bg-red-500/10' : 'bg-white/5'}`}>
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl">{getFileIcon(file)}</span>
-                        <div>
-                          <div className="text-white">{file.name}</div>
-                          <div className="text-white/60 text-sm flex items-center gap-2">
-                            <span>{formatFileSize(file.size)}</span>
-                            {file.compressed && file.originalSize && (
-                              <>
-                                <span className="text-green-400">↓</span>
-                                <span className="line-through">{formatFileSize(file.originalSize)}</span>
-                              </>
-                            )}
-                            <span className="text-white/40">
-                              {file.status === 'compressing' ? 'Compressing...' : 
-                               file.status === 'uploading' ? 'Uploading...' : 
-                               file.status === 'uploaded' ? 'Uploaded' : 
-                               file.status === 'error' ? 'Error' : 'Ready'}
-                            </span>
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="text-white font-medium">Selected Files ({files.length})</h3>
+                  <button 
+                    onClick={() => setFiles([])} 
+                    className="text-red-400 hover:text-red-300 text-sm"
+                    disabled={uploading}
+                  >
+                    Clear All
+                  </button>
+                </div>
+                
+                <div className="space-y-2 max-h-64 overflow-y-auto pr-2">
+                  {files.map(file => (
+                    <div 
+                      key={file.id} 
+                      className={`p-3 rounded-lg transition-colors ${
+                        file.status === 'processing' ? 'bg-blue-500/10 border border-blue-500/20' : 
+                        file.status === 'uploading' ? 'bg-yellow-500/10 border border-yellow-500/20' : 
+                        file.status === 'uploaded' ? 'bg-green-500/10 border border-green-500/20' : 
+                        file.status === 'error' ? 'bg-red-500/10 border border-red-500/20' : 
+                        'bg-white/5 border border-white/10'
+                      }`}
+                    >
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <span className="text-xl flex-shrink-0">{getFileIcon(file)}</span>
+                          <div className="min-w-0">
+                            <div className="text-white truncate">{file.name}</div>
+                            <div className="text-white/60 text-sm flex items-center gap-2 flex-wrap">
+                              <span>{formatFileSize(file.size || 0)}</span>
+                              {file.compressed && file.originalSize && (
+                                <>
+                                  <span className="text-green-400 text-xs">↓</span>
+                                  <span className="line-through text-xs">{formatFileSize(file.originalSize)}</span>
+                                </>
+                              )}
+                              <span className={`text-xs px-2 py-0.5 rounded ${
+                                file.status === 'processing' ? 'bg-blue-500/20 text-blue-300' :
+                                file.status === 'uploading' ? 'bg-yellow-500/20 text-yellow-300' :
+                                file.status === 'uploaded' ? 'bg-green-500/20 text-green-300' :
+                                file.status === 'error' ? 'bg-red-500/20 text-red-300' :
+                                'bg-white/10 text-white/70'
+                              }`}>
+                                {file.status === 'processing' ? 'Processing...' : 
+                                 file.status === 'uploading' ? 'Uploading...' : 
+                                 file.status === 'uploaded' ? 'Uploaded ✓' : 
+                                 file.status === 'error' ? 'Error' : 'Ready'}
+                              </span>
+                            </div>
                           </div>
                         </div>
+                        <button 
+                          onClick={() => removeFile(file.id)} 
+                          className="text-red-400 hover:text-red-300 flex-shrink-0 ml-2"
+                          disabled={file.status === 'uploading' || file.status === 'processing'}
+                          title="Remove file"
+                        >
+                          <X className="w-5 h-5" />
+                        </button>
                       </div>
-                      <button 
-                        onClick={() => removeFile(file.id)} 
-                        className="text-red-400 hover:text-red-300"
-                        disabled={file.status === 'uploading'}
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
                     </div>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {/* Progress */}
-            {uploading && (
-              <div className="mb-4">
-                <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-                  <div className="h-full bg-green-500 transition-all" style={{ width: `${uploadProgress}%` }}></div>
+                  ))}
                 </div>
-                <p className="text-white mt-1">{Math.round(uploadProgress)}%</p>
               </div>
             )}
 
-            {/* Buttons */}
-            <div className="flex gap-4">
+            {/* Progress Bar */}
+            {uploading && (
+              <div className="mb-6">
+                <div className="h-2 bg-white/10 rounded-full overflow-hidden mb-2">
+                  <div 
+                    className="h-full bg-gradient-to-r from-blue-500 to-green-500 transition-all duration-300 ease-out" 
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+                <div className="flex justify-between text-sm text-white/70">
+                  <span>Uploading...</span>
+                  <span>{Math.round(uploadProgress)}%</span>
+                </div>
+              </div>
+            )}
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4">
               <button 
                 onClick={handleFileUpload} 
-                disabled={uploading || files.filter(f => f.status === 'pending').length === 0} 
-                className="flex-1 py-3 bg-green-500 hover:bg-green-600 disabled:bg-green-800 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                disabled={uploading || pendingFilesCount === 0} 
+                className="flex-1 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-all duration-300 flex items-center justify-center gap-2 shadow-lg hover:shadow-xl"
               >
                 {uploading ? (
                   <>
@@ -447,38 +504,64 @@ const Upload = () => {
                 ) : (
                   <>
                     <UploadIcon className="w-5 h-5" />
-                    Upload {files.filter(f => f.status === 'pending').length} files
+                    Upload {pendingFilesCount} file{pendingFilesCount !== 1 ? 's' : ''}
                   </>
                 )}
               </button>
-              {uploading && (
+              
+              {(uploading || files.length > 0) && (
                 <button 
                   onClick={handleCancelUpload} 
-                  className="py-3 px-6 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
+                  className="py-3 px-6 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl"
                 >
-                  Cancel
+                  {uploading ? 'Cancel Upload' : 'Clear All'}
                 </button>
               )}
             </div>
 
-            {/* Messages */}
+            {/* Error Message */}
             {error && (
-              <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
-                <div className="flex items-center gap-2 text-red-300">
-                  <AlertCircle className="w-5 h-5" />
-                  <span>{error}</span>
+              <div className="mt-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg animate-fadeIn">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-red-300 font-medium mb-1">Upload Error</p>
+                    <p className="text-red-400/80 text-sm">{error}</p>
+                    {error.includes('connection') && (
+                      <p className="text-red-400/60 text-xs mt-2">
+                        Please check your internet connection and try again.
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             )}
             
+            {/* Success Message */}
             {success && (
-              <div className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <div className="flex items-center gap-2 text-green-300">
-                  <CheckCircle className="w-5 h-5" />
-                  <span>{success}</span>
+              <div className="mt-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg animate-fadeIn">
+                <div className="flex items-center gap-3">
+                  <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0" />
+                  <div>
+                    <p className="text-green-300 font-medium">Success!</p>
+                    <p className="text-green-400/80 text-sm">{success}</p>
+                  </div>
                 </div>
               </div>
             )}
+
+            {/* Info Box */}
+            <div className="mt-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              <div className="flex items-start gap-3">
+                <div className="text-blue-400">
+                  <AlertCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <p className="text-blue-300 text-sm font-medium mb-1">Upload Tips</p>
+               
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
