@@ -19,7 +19,7 @@ function EmailVerification() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [isLogin, setIsLogin] = useState(true); // toggle login/signup
+  const [isLogin, setIsLogin] = useState(true); // toggle login/signu
 
 
 
