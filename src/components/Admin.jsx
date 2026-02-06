@@ -1,11 +1,11 @@
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from "react-helmet-async";
+import axios from 'axios';
 import {
   FileText, Download, Trash2, Upload, FolderOpen,
   Search, Filter, 
-  AlertCircle,  Copy,
+  AlertCircle, Copy,
   Grid, List, 
   Star, StarOff, RefreshCw, Maximize2,
   Database, Clock, File, Image, Video, Music,
@@ -40,37 +40,37 @@ const AdminPage = () => {
   });
   const navigate = useNavigate();
 
-  // Cloudinary Configuration
-  const cloudName = 'duz0kwsrd';
+  const API_BASE_URL = "https://tullu-dimtu-school-backend-1.onrender.com/api/upload";
 
   useEffect(() => {
-    loadFilesFromLocalStorage();
-    checkRecentUploads();
+    fetchFilesFromMongoDB();
   }, []);
 
-  const checkRecentUploads = () => {
-    try {
-      const lastUpload = localStorage.getItem('lastUpload');
-      if (lastUpload) {
-        const uploadData = JSON.parse(lastUpload);
-        setNotifications(prev => [{
-          id: Date.now(),
-          message: `Last upload: ${uploadData.message}`,
-          time: 'Recently',
-          type: 'success'
-        }, ...prev.slice(0, 9)]);
-      }
-    } catch (error) {
-      console.error('Error checking recent uploads:', error);
-    }
-  };
-
-  const loadFilesFromLocalStorage = () => {
+  const fetchFilesFromMongoDB = async () => {
     setIsLoading(true);
     try {
-      const storedFiles = JSON.parse(localStorage.getItem('cloudinaryFiles') || '[]');
+      const response = await axios.get(API_BASE_URL);
       
-      const sortedFiles = storedFiles.sort((a, b) => 
+      if (!response.data || !Array.isArray(response.data)) {
+        throw new Error('Invalid response from MongoDB API');
+      }
+      
+      // Transform MongoDB data to our file format
+      const mongoFiles = response.data.map(file => ({
+        id: file._id,
+        name: file.name || file.filename,
+        url: file.url || file.path,
+        format: file.format || getFileFormat(file.name),
+        size: file.size || 0,
+        uploadedAt: file.uploadedAt || file.createdAt || new Date().toISOString(),
+        type: getFileTypeFromName(file.name),
+        favorite: file.favorite || false,
+        tags: file.tags || [],
+        mongoData: file
+      }));
+      
+      // Sort by upload date (newest first)
+      const sortedFiles = mongoFiles.sort((a, b) => 
         new Date(b.uploadedAt) - new Date(a.uploadedAt)
       );
       
@@ -79,16 +79,20 @@ const AdminPage = () => {
       
       setNotifications(prev => [{
         id: Date.now(),
-        message: `Loaded ${sortedFiles.length} files from local storage`,
+        message: `Loaded ${sortedFiles.length} files from MongoDB`,
         time: 'Just now',
-        type: 'info'
+        type: 'success'
       }, ...prev.slice(0, 9)]);
       
     } catch (error) {
-      console.error('Error loading files from localStorage:', error);
+      console.error('Error fetching from MongoDB:', error);
+      
+      setFiles([]);
+      setFilteredFiles([]);
+      
       setNotifications(prev => [{
         id: Date.now(),
-        message: 'Failed to load files. Please upload some files first.',
+        message: `Failed to fetch from MongoDB. Error: ${error.message}`,
         time: 'Just now',
         type: 'error'
       }, ...prev.slice(0, 9)]);
@@ -97,11 +101,27 @@ const AdminPage = () => {
     }
   };
 
+  const getFileFormat = (filename) => {
+    if (!filename) return '';
+    const parts = filename.split('.');
+    return parts.length > 1 ? parts.pop().toLowerCase() : '';
+  };
+
+  const getFileTypeFromName = (filename) => {
+    const format = getFileFormat(filename);
+    
+    if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'].includes(format)) return 'image';
+    if (['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv'].includes(format)) return 'document';
+    if (['mp4', 'mov', 'avi', 'mkv', 'webm', 'wmv', 'flv'].includes(format)) return 'video';
+    if (['mp3', 'wav', 'ogg', 'm4a', 'flac', 'aac'].includes(format)) return 'audio';
+    return 'other';
+  };
+
   const refreshFiles = () => {
-    loadFilesFromLocalStorage();
+    fetchFilesFromMongoDB();
     setNotifications(prev => [{
       id: Date.now(),
-      message: 'Refreshing file list...',
+      message: 'Refreshing files from MongoDB...',
       time: 'Just now',
       type: 'info'
     }, ...prev.slice(0, 9)]);
@@ -115,37 +135,56 @@ const AdminPage = () => {
     calculateStats();
   }, [files]);
 
-  const IMAGE_EXT = /\.(jpg|jpeg|png|gif|webp|bmp)$/i;
-  const DOC_EXT = /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt)$/i;
+  const IMAGE_EXT = /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i;
+  const DOC_EXT = /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|txt|csv)$/i;
   const PDF_EXT = /\.pdf$/i;
+  const VIDEO_EXT = /\.(mp4|mov|avi|mkv|webm|wmv|flv)$/i;
+  const AUDIO_EXT = /\.(mp3|wav|ogg|m4a|flac|aac)$/i;
 
   const isImage = (file) => {
     const name = (file.name || "").toLowerCase();
-    const url = (file.url || "").toLowerCase();
     const format = (file.format || "").toLowerCase();
+    const type = file.type;
+    
     return IMAGE_EXT.test(name) || 
-           IMAGE_EXT.test(url) || 
-           ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp'].includes(format) ||
-           file.type === 'image';
+           ['jpg', 'jpeg', 'png', 'gif', 'webp', 'bmp', 'svg'].includes(format) ||
+           type === 'image';
   };
 
   const isDocument = (file) => {
     const name = (file.name || "").toLowerCase();
-    const url = (file.url || "").toLowerCase();
     const format = (file.format || "").toLowerCase();
+    const type = file.type;
+    
     return DOC_EXT.test(name) || 
-           DOC_EXT.test(url) || 
-           ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt'].includes(format) ||
-           file.type === 'raw';
+           ['pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt', 'csv'].includes(format) ||
+           type === 'document';
   };
 
   const isPDF = (file) => {
     const name = (file.name || "").toLowerCase();
-    const url = (file.url || "").toLowerCase();
     const format = (file.format || "").toLowerCase();
-    return PDF_EXT.test(name) || 
-           PDF_EXT.test(url) || 
-           format === 'pdf';
+    return PDF_EXT.test(name) || format === 'pdf';
+  };
+
+  const isVideo = (file) => {
+    const name = (file.name || "").toLowerCase();
+    const format = (file.format || "").toLowerCase();
+    const type = file.type;
+    
+    return VIDEO_EXT.test(name) || 
+           ['mp4', 'mov', 'avi', 'mkv', 'webm'].includes(format) ||
+           type === 'video';
+  };
+
+  const isAudio = (file) => {
+    const name = (file.name || "").toLowerCase();
+    const format = (file.format || "").toLowerCase();
+    const type = file.type;
+    
+    return AUDIO_EXT.test(name) || 
+           ['mp3', 'wav', 'ogg', 'm4a', 'flac'].includes(format) ||
+           type === 'audio';
   };
 
   const calculateStats = () => {
@@ -153,6 +192,8 @@ const AdminPage = () => {
 
     let images = 0;
     let documents = 0;
+    let videos = 0;
+    let audio = 0;
     let totalSize = 0;
 
     files.forEach(file => {
@@ -160,11 +201,12 @@ const AdminPage = () => {
 
       if (isImage(file)) {
         images++;
-        return;
-      }
-
-      if (isDocument(file)) {
+      } else if (isDocument(file)) {
         documents++;
+      } else if (isVideo(file)) {
+        videos++;
+      } else if (isAudio(file)) {
+        audio++;
       }
     });
 
@@ -173,20 +215,26 @@ const AdminPage = () => {
       totalSize,
       images,
       documents,
-      others: files.length - images - documents
+      videos,
+      audio,
+      others: files.length - images - documents - videos - audio
     });
   };
 
   const filterAndSortFiles = () => {
     let result = [...files];
 
+    // Filter by search term
     if (searchTerm) {
+      const term = searchTerm.toLowerCase();
       result = result.filter(file =>
-        file.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (file.format && file.format.toLowerCase().includes(searchTerm.toLowerCase()))
+        file.name.toLowerCase().includes(term) ||
+        (file.format && file.format.toLowerCase().includes(term)) ||
+        (file.tags && file.tags.some(tag => tag.toLowerCase().includes(term)))
       );
     }
 
+    // Filter by category
     if (selectedCategory !== 'all') {
       result = result.filter(file => {
         switch (selectedCategory) {
@@ -194,18 +242,17 @@ const AdminPage = () => {
             return isImage(file);
           case 'document':
             return isDocument(file);
-          case 'audio':
-            return /\.(mp3|wav|ogg|m4a|flac)$/i.test(file.name || '') || 
-                   ['mp3', 'wav', 'ogg', 'm4a', 'flac'].includes(file.format?.toLowerCase());
           case 'video':
-            return /\.(mp4|mov|avi|mkv|webm|flv|wmv)$/i.test(file.name || '') || 
-                   ['mp4', 'mov', 'avi', 'mkv', 'webm'].includes(file.format?.toLowerCase());
+            return isVideo(file);
+          case 'audio':
+            return isAudio(file);
           default:
             return true;
         }
       });
     }
 
+    // Sort files
     result.sort((a, b) => {
       let comparison = 0;
       switch (sortBy) {
@@ -282,12 +329,12 @@ const AdminPage = () => {
     if (isDocument(file)) {
       const format = (file.format || '').toLowerCase();
       if (['doc', 'docx'].includes(format)) return <FileText className="w-5 h-5 text-blue-600" />;
-      if (['xls', 'xlsx'].includes(format)) return <FileText className="w-5 h-5 text-green-600" />;
+      if (['xls', 'xlsx', 'csv'].includes(format)) return <FileText className="w-5 h-5 text-green-600" />;
       if (['ppt', 'pptx'].includes(format)) return <FileText className="w-5 h-5 text-orange-600" />;
       return <FileText className="w-5 h-5 text-gray-500" />;
     }
-    if (/\.(mp4|mov|avi|mkv)$/i.test(file.name || '')) return <Video className="w-5 h-5 text-purple-500" />;
-    if (/\.(mp3|wav|ogg)$/i.test(file.name || '')) return <Music className="w-5 h-5 text-pink-500" />;
+    if (isVideo(file)) return <Video className="w-5 h-5 text-purple-500" />;
+    if (isAudio(file)) return <Music className="w-5 h-5 text-pink-500" />;
     return <File className="w-5 h-5 text-gray-500" />;
   };
 
@@ -301,43 +348,126 @@ const AdminPage = () => {
     });
   };
 
-  const handleDeleteConfirmed = () => {
-    const { type, fileId, count } = deleteConfirmation;
 
-    if (type === 'single' && fileId) {
-      const updatedFiles = files.filter(file => file.id !== fileId);
-      setFiles(updatedFiles);
-      localStorage.setItem('cloudinaryFiles', JSON.stringify(updatedFiles));
-      setSelectedFiles(selectedFiles.filter(id => id !== fileId));
 
-      const deletedFile = files.find(f => f.id === fileId);
-      setNotifications(prev => [{
-        id: Date.now(),
-        message: `Deleted file: ${deletedFile?.name || 'Unknown'}`,
-        time: 'Just now',
-        type: 'info'
-      }, ...prev.slice(0, 9)]);
-    } else if (type === 'multiple') {
-      const updatedFiles = files.filter(file => !selectedFiles.includes(file.id));
-      setFiles(updatedFiles);
-      localStorage.setItem('cloudinaryFiles', JSON.stringify(updatedFiles));
-      setSelectedFiles([]);
 
-      setNotifications(prev => [{
-        id: Date.now(),
-        message: `Deleted ${selectedFiles.length} files`,
-        time: 'Just now',
-        type: 'info'
-      }, ...prev.slice(0, 9)]);
+
+
+
+
+  // DELETE METHOD for single file
+  const deleteFileFromMongoDB = async (fileId) => {
+    try {
+      const response = await axios.delete(`${API_BASE_URL}/${fileId}`);
+      
+      if (response.status === 200 || response.status === 204) {
+        return { success: true, data: response.data };
+      } else {
+        throw new Error(`Failed to delete file: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Error deleting from MongoDB:', error);
+      throw error;
     }
+  };
 
-    setDeleteConfirmation({
-      show: false,
-      type: 'single',
-      fileId: null,
-      fileName: null,
-      count: 0
-    });
+
+
+  // BULK DELETE METHOD for multiple files
+  const deleteMultipleFilesFromMongoDB = async (fileIds) => {
+    try {
+      // If your backend supports bulk delete, use this endpoint
+      // Otherwise, delete one by one
+      const deletePromises = fileIds.map(id => 
+        axios.delete(`${API_BASE_URL}/${id}`)
+      );
+      
+      const results = await Promise.all(deletePromises);
+      return { success: true, results };
+    } catch (error) {
+      console.error('Error deleting multiple files:', error);
+      throw error;
+    }
+  };
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+  const handleDeleteConfirmed = async () => {
+    const { type, fileId } = deleteConfirmation;
+
+    try {
+      setIsLoading(true);
+
+      if (type === 'single' && fileId) {
+        // Find the file to delete
+        const fileToDelete = files.find(f => f.id === fileId);
+        
+        if (fileToDelete) {
+          // Delete from MongoDB using DELETE method
+          await deleteFileFromMongoDB(fileId);
+          
+          // Update local state
+          const updatedFiles = files.filter(file => file.id !== fileId);
+          setFiles(updatedFiles);
+          setSelectedFiles(selectedFiles.filter(id => id !== fileId));
+
+          setNotifications(prev => [{
+            id: Date.now(),
+            message: `Successfully deleted file: ${fileToDelete.name}`,
+            time: 'Just now',
+            type: 'success'
+          }, ...prev.slice(0, 9)]);
+        }
+      } else if (type === 'multiple') {
+        // Delete multiple files from MongoDB
+        const filesToDelete = files.filter(file => selectedFiles.includes(file.id));
+        
+        // Use bulk delete or individual delete
+        await deleteMultipleFilesFromMongoDB(selectedFiles);
+        
+        // Update local state
+        const updatedFiles = files.filter(file => !selectedFiles.includes(file.id));
+        setFiles(updatedFiles);
+        setSelectedFiles([]);
+
+        setNotifications(prev => [{
+          id: Date.now(),
+          message: `Successfully deleted ${selectedFiles.length} files`,
+          time: 'Just now',
+          type: 'success'
+        }, ...prev.slice(0, 9)]);
+      }
+    } catch (error) {
+      console.error('Error deleting files:', error);
+      setNotifications(prev => [{
+        id: Date.now(),
+        message: `Failed to delete files: ${error.message}`,
+        time: 'Just now',
+        type: 'error'
+      }, ...prev.slice(0, 9)]);
+    } finally {
+      setIsLoading(false);
+      setDeleteConfirmation({
+        show: false,
+        type: 'single',
+        fileId: null,
+        fileName: null,
+        count: 0
+      });
+    }
   };
 
   const handleDeleteCancel = () => {
@@ -361,21 +491,17 @@ const AdminPage = () => {
       return;
     }
 
-    let downloadUrl = file.url;
-    if (downloadUrl.includes("cloudinary")) {
-      downloadUrl = downloadUrl.replace("/upload/", "/upload/fl_attachment/");
-    }
-
     const link = document.createElement('a');
-    link.href = downloadUrl;
+    link.href = file.url;
     link.download = file.name || 'download';
+    link.target = '_blank';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
 
     setNotifications(prev => [{
       id: Date.now(),
-      message: `Downloaded: ${file.name}`,
+      message: `Downloading: ${file.name}`,
       time: 'Just now',
       type: 'success'
     }, ...prev.slice(0, 9)]);
@@ -439,19 +565,49 @@ const AdminPage = () => {
     }, ...prev.slice(0, 9)]);
   };
 
-  const handleFavorite = (id) => {
-    const updatedFiles = files.map(file =>
-      file.id === id ? { ...file, favorite: !file.favorite } : file
-    );
-    setFiles(updatedFiles);
-    localStorage.setItem('cloudinaryFiles', JSON.stringify(updatedFiles));
+  const handleFavorite = async (id) => {
+    try {
+      const fileToUpdate = files.find(f => f.id === id);
+      if (!fileToUpdate) return;
+
+      const updatedFavoriteStatus = !fileToUpdate.favorite;
+      
+      // Update in MongoDB using PATCH method
+      const response = await axios.patch(`${API_BASE_URL}/${id}`, {
+        favorite: updatedFavoriteStatus
+      });
+      
+      if (response.status === 200) {
+        const updatedFiles = files.map(file =>
+          file.id === id ? { ...file, favorite: updatedFavoriteStatus } : file
+        );
+        setFiles(updatedFiles);
+        
+        setNotifications(prev => [{
+          id: Date.now(),
+          message: updatedFavoriteStatus ? 'Added to favorites' : 'Removed from favorites',
+          time: 'Just now',
+          type: 'success'
+        }, ...prev.slice(0, 9)]);
+      }
+    } catch (error) {
+      console.error('Error updating favorite status:', error);
+      setNotifications(prev => [{
+        id: Date.now(),
+        message: 'Failed to update favorite status',
+        time: 'Just now',
+        type: 'error'
+      }, ...prev.slice(0, 9)]);
+    }
   };
 
   const categories = [
     { id: 'all', name: 'All Files', icon: <FolderOpen className="w-4 h-4" />, count: files.length },
     { id: 'image', name: 'Images', icon: <Image className="w-4 h-4" />, count: stats.images },
     { id: 'document', name: 'Documents', icon: <FileText className="w-4 h-4" />, count: stats.documents },
-    { id: 'video', name: 'Others', icon: <File className="w-4 h-4" />, count: stats.others },
+    { id: 'video', name: 'Videos', icon: <Video className="w-4 h-4" />, count: stats.videos || 0 },
+    { id: 'audio', name: 'Audio', icon: <Music className="w-4 h-4" />, count: stats.audio || 0 },
+    { id: 'other', name: 'Others', icon: <File className="w-4 h-4" />, count: stats.others },
   ];
 
   return (
@@ -475,8 +631,8 @@ const AdminPage = () => {
             
             <p className="text-gray-600 text-center mb-6">
               {deleteConfirmation.type === 'single' 
-                ? `"${deleteConfirmation.fileName}" will be permanently deleted. This action cannot be undone.`
-                : `${deleteConfirmation.count} files will be permanently deleted. This action cannot be undone.`
+                ? `"${deleteConfirmation.fileName}" will be permanently deleted from the database. This action cannot be undone.`
+                : `${deleteConfirmation.count} files will be permanently deleted from the database. This action cannot be undone.`
               }
             </p>
             
@@ -490,9 +646,10 @@ const AdminPage = () => {
               <button
                 onClick={handleDeleteConfirmed}
                 className="flex-1 py-3 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center"
+                disabled={isLoading}
               >
                 <Trash2 className="w-4 h-4 mr-2" />
-                Yes, Delete
+                {isLoading ? 'Deleting...' : 'Yes, Delete'}
               </button>
             </div>
           </div>
@@ -500,41 +657,42 @@ const AdminPage = () => {
       )}
 
       <div className="min-h-screen bg-gray-50">
-      <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
-              <button
-                onClick={() => navigate('/admin-control')}
-                className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
-                aria-label="Go back"
-              >
-                <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
-              </button>
-            </div>
+        <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
+          <button
+            onClick={() => navigate('/admin-control')}
+            className="bg-white p-2 rounded-full shadow-lg hover:bg-gray-50 transition-colors"
+            aria-label="Go back"
+          >
+            <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
+          </button>
+        </div>
 
         <div className="p-4 md:p-6 pt-20">
           <div className="border-b border-gray-200 pb-6">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 ml-16">Manage student attendance and mark List</h1>
-           
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 ml-16">File Management Dashboard</h1>
+            <p className="text-gray-600 mt-2 ml-16">Manage files uploaded to database</p>
           </div>
 
           <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <div className="flex items-start">
               <Database className="w-5 h-5 text-blue-600 mt-0.5 mr-3" />
               <div>
-                {/* <p className="text-blue-800 font-medium">Files are stored locally</p>
+                <p className="text-blue-800 font-medium">Connected to MongoDB Database</p>
                 <p className="text-blue-700 text-sm mt-1">
-                  Uploaded files are saved to your browser's local storage. 
-                  All files uploaded from the Upload page will appear here automatically.
-                </p> */}
+                  Files are fetched directly from your MongoDB database. 
+                  All operations (GET, DELETE, PATCH) are performed on the server.
+                </p>
                 <div className="flex flex-col sm:flex-row sm:items-center mt-2 space-y-2 sm:space-y-0 sm:space-x-4">
                   <button
                     onClick={refreshFiles}
-                    className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm w-full sm:w-auto"
+                    disabled={isLoading}
+                    className="flex items-center justify-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 text-sm w-full sm:w-auto"
                   >
-                    <RefreshCw className="w-4 h-4" />
-                    <span>Refresh Files</span>
+                    <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+                    <span>{isLoading ? 'Loading...' : 'Refresh Files'}</span>
                   </button>
                   <span className="text-blue-600 text-sm text-center sm:text-left">
-                    {files.length} file{files.length !== 1 ? 's' : ''} loaded
+                    {files.length} file{files.length !== 1 ? 's' : ''} loaded from database
                   </span>
                 </div>
               </div>
@@ -654,9 +812,6 @@ const AdminPage = () => {
                     ))}
                   </div>
                 </div>
-
-                <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-gray-200">
-                </div>
               </div>
             </div>
 
@@ -669,7 +824,7 @@ const AdminPage = () => {
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
                           type="text"
-                          placeholder="Search files by name or type..."
+                          placeholder="Search files by name, type, or tags..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
                           className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm md:text-base"
@@ -757,7 +912,7 @@ const AdminPage = () => {
                   {isLoading ? (
                     <div className="text-center py-12">
                       <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-                      <p className="mt-4 text-gray-600">Loading files...</p>
+                      <p className="mt-4 text-gray-600">Loading files from database...</p>
                     </div>
                   ) : filteredFiles.length === 0 ? (
                     <div className="text-center py-12">
@@ -768,7 +923,7 @@ const AdminPage = () => {
                       <p className="text-gray-500 mb-6 text-sm md:text-base">
                         {searchTerm || selectedCategory !== 'all'
                           ? 'Try changing your search or filter criteria'
-                          : 'No files uploaded yet. Upload files from the Upload page.'
+                          : 'No files found in your database. Upload files to get started.'
                         }
                       </p>
                       <button
@@ -824,6 +979,7 @@ const AdminPage = () => {
                                 src={file.url}
                                 alt={file.name}
                                 className="max-h-full max-w-full object-contain p-4"
+                                loading="lazy"
                                 onError={(e) => {
                                   e.target.style.display = 'none';
                                   e.target.parentElement.innerHTML = `

@@ -13,6 +13,8 @@ import lib1 from '../assets/lib1.jpg'
 import { Link } from "react-router-dom";
 import schoolHeroImage from '../assets/gal31.jpg';
 import Bg from '../assets/tech1.jpg';
+import bg from '../assets/lab.png';
+import loc from '../assets/local.jpg'
 import { 
   FaGraduationCap, 
   FaBook, 
@@ -209,37 +211,43 @@ function Home() {
   }, []);
 
   // Animated counter effect
-  useEffect(() => {
-    const duration = 2000;
+useEffect(() => {
+    const duration = 5000;
     const steps = 60;
     const interval = duration / steps;
+
     const targetValues = {
-      students: 2400,
-      staff: 120,
-      passRate: 90.7,
-      years: 29,
+      students: 2013,
+      staff: 97,
+      passRate: 85.9,
+      years: 10,
     };
 
-    const countersInterval = setInterval(() => {
-      setCounters(prev => {
-        const newCounters = { ...prev };
-        Object.keys(targetValues).forEach(key => {
-          const target = targetValues[key];
-          const current = prev[key];
-          const increment = (target - current) / (steps / 2);
-          
-          if (key === 'passRate') {
-            newCounters[key] = Math.min(current + increment, target);
-          } else {
-            newCounters[key] = Math.min(Math.round(current + increment), target);
-          }
-        });
-        return newCounters;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+
+      const progress = step / steps;
+
+      setCounters({
+        students: Math.round(targetValues.students * progress),
+        staff: Math.round(targetValues.staff * progress),
+        passRate: Number(
+          (targetValues.passRate * progress).toFixed(1)
+        ),
+        years: Math.round(targetValues.years * progress),
       });
+
+      if (step >= steps) {
+        setCounters(targetValues);
+        clearInterval(timer);
+      }
     }, interval);
 
-    return () => clearInterval(countersInterval);
+    return () => clearInterval(timer);
   }, []);
+
 
   // Scroll to top function
   const scrollToTop = () => {
@@ -292,11 +300,11 @@ function Home() {
   const programCards = [
     {
       id: 1,
-      image: card1,
+      image: bg,
       title: "STEM Program",
       shortDescription: "STEM Program empowers students to explore Science, Technology,  and Mathematics through hands-on projects and experiments...",
       fullDescription: "Our STEM program integrates cutting-edge technology with hands-on learning. Students work in modern laboratories equipped with printers, robotics kits, and computing systems. The curriculum follows international standards and includes project-based learning, research opportunities, and partnerships with tech companies.",
-      color: "from-indigo-500 to-blue-500",
+      // color: "from-indigo-500 to-blue-500",
       stats: {
         labs: "3 Modern Labs",
         success: "70% University Placement",
@@ -313,11 +321,11 @@ function Home() {
     },
     {
       id: 5,
-      image: card5,
+      image: loc,
       title: "National competitive",
       shortDescription: "Our school encourages students to take part in national competitions in academics.These activities help students build confidence and skill...",
       fullDescription: "Our national Programme prepares students for global citizenship with a rigorous, internationally recognized curriculum. The program emphasizes critical thinking, research skills, and intercultural understanding. Students consistently achieve above-world-average scores and gain admission to top universities worldwide.",
-      color: "from-indigo-500 to-blue-500",
+      // color: "from-indigo-500 to-blue-500",
       stats: {
     competitions: "10+ National Comp-",
     awards: "15+ Student Achiev-",
@@ -339,7 +347,7 @@ function Home() {
       title: "Technology & Innovation",
       shortDescription: "School emphasizes Technology & Innovation, giving students the tools and guidance to explore modern digital solutions and innovative projects, students develop creativity, problem-solving, and technical skills...",
       fullDescription: "Our Technology & Innovation program prepares students for the digital future with courses in coding, cybersecurity, data science, and IoT. Students work on real-world projects, participate in hackathons, and intern with tech companies. The program includes state-of-the-art computer labs and maker spaces.",
-      color: "from-indigo-500 to-blue-500",
+      // color: "from-indigo-500 to-blue-500",
       stats: {
         labs: "6 Tech Labs",
         certifications: "Advanced Tech",
@@ -782,7 +790,7 @@ function Home() {
                           decoding="async"
                           fetchpriority="low"
                         />
-                        <div className={`absolute inset-0 bg-gradient-to-t ${card.color} opacity-30 pointer-events-none`}></div>
+                        {/* <div className={`absolute inset-0 bg-gradient-to-t ${card.color} opacity-30 pointer-events-none`}></div> */}
                       </div>
                       
                       <div className="p-6 bg-white">
@@ -979,7 +987,7 @@ function Home() {
                   fetchpriority="low"
                 />
                 <div className="absolute -bottom-4 -right-4 bg-yellow-500 text-blue-900 p-4 rounded-lg shadow-lg">
-                  <span className="block text-2xl font-bold">20+</span>
+                  <span className="block text-2xl font-bold">10+</span>
                   <span className="block text-xs">Years of Excellence</span>
                 </div>
               </div>
@@ -990,7 +998,7 @@ function Home() {
                   Nurturing <span className="text-yellow-500">Future Leaders</span>
                 </h2>
                 <p className="text-gray-600 mb-6">
-                  Established in 2000, Tullu Dimtu Secondary School has consistently ranked among the top educational institutions in the region.
+                  Established in 2009, Tullu Dimtu Secondary School has consistently ranked among the top educational institutions in the region.
                 </p>
                 <div className="space-y-3 mb-8">
                   {[
@@ -1038,9 +1046,9 @@ function Home() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {[
                   {
-                    quote: "Tullu Dimtu provided the perfect environment for my academic and personal growth. The teachers go above and beyond.",
-                    author: "Sarah Johnson",
-                    role: "Alumna, Tullu Dimtu School"
+                    quote: "Tullu Dimtu School provided the perfect environment for my academic and personal growth. The teachers go above and beyond.",
+                    author: "Nuhamin Taye",
+                    role: "Student, Tullu Dimtu School"
                   },
                   {
                     quote: "As a parent, I appreciate the school's commitment to both academic excellence and character building.",

@@ -5,6 +5,7 @@ import {
   RefreshCw,  Volume2, VolumeX, MessageSquareText
 
 } from "lucide-react";
+import logo from '../assets/tullulogo.png'
 
 // Add CSS animations directly
 const styles = `
@@ -203,10 +204,10 @@ const ChatBot = () => {
     setInput("");
     setIsLoading(true);
 
-    // Simulate API delay
+   
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    // Smart responses based on user input
+
     const inputLower = userInput.toLowerCase();
     let botResponse = "";
  
@@ -253,8 +254,8 @@ const ChatBot = () => {
     botResponse = "The academic calendar, including holidays and special events, is available on our website. Key events: Sports Day (March), Cultural Festival (May), Parents Day (October). ";
 } else if (inputLower.includes("bus") || inputLower.includes("transport") || inputLower.includes("pickup")) {
     botResponse = "School bus service covers major areas of Addis Ababa. Routes and fees are available at the transportation office. Safety-certified drivers and attendants provided. Contact ";
-} else if (inputLower.includes("library") || inputLower.includes("lab") || inputLower.includes("facilit")) {
-    botResponse = "Our facilities include:\n• Modern science laboratories\n• Computer lab with high-speed internet\n• Well-stocked library\n• Sports field and gymnasium\n• Art and music rooms \n\nStudents have access during and after school hours.";
+// } else if (inputLower.includes("library") || inputLower.includes("lab") || inputLower.includes("facilit")) {
+    // botResponse = "Our facilities include:\n• Modern science laboratories\n• Computer lab with high-speed internet\n• Well-stocked library\n• Sports field and gymnasium\n• Art and music rooms \n\nStudents have access during and after school hours.";
 } else if (inputLower.includes("parent") || inputLower.includes("pta") || inputLower.includes("meeting")) {
     botResponse = "Parent-Teacher meetings are held quarterly. The PTA meets monthly. You can join our parents' WhatsApp group for updates. Contact the PTA coordinator at ";
 } else if (inputLower.includes("lunch") || inputLower.includes("food") || inputLower.includes("cafeteria")) {
@@ -285,7 +286,26 @@ const ChatBot = () => {
     botResponse = "Science is fascinating! I can explain scientific concepts, help with experiments, or provide study resources. Which branch of science interests you?";
 } else if (inputLower.includes('help') || inputLower.includes('support')) {
     botResponse = "I'm here to help! I can assist with:\n• Course information\n• Study resources\n• Homework help\n• Educational concepts\n• School procedures\nWhat do you need assistance with?";
-}  else {
+
+} else if (
+  inputLower.includes('digital') ||
+  inputLower.includes('login digital') ||
+  inputLower.includes('library')
+) {
+  botResponse = "📚 Digital Library Access Guide:\n\n" +
+    "You can use the Digital Library to read books, download study materials, and research online.\n\n" +
+    "How to access:\n" +
+    "1️⃣ Go to the School Website\n" +
+    "2️⃣ Click on 'Digital Library'\n" +
+    "3️⃣ Log in using your student email and password\n" +
+    "4️⃣ Browse or search for books and materials\n\n" +
+    "If you have problems logging in, please contact the school IT office or ask for support here. +251 114627 280";
+}
+
+
+
+
+else {
       const generalResponses = [
         "That's an interesting question! I'd be happy to help you with educational information about that topic.",
         "As your educational assistant, I can provide information on various school-related topics. Could you be more specific?",
@@ -393,7 +413,7 @@ const ChatBot = () => {
     };
   }, []);
 
-  // Theme styles
+ 
   const themeStyles = {
     cyberpunk: {
       primary: "from-cyan-500 to-blue-600",
@@ -434,11 +454,11 @@ const ChatBot = () => {
 
   return (
     <>
-      {/* Add global styles */}
+      
       <style>{styles}</style>
       
       <div className={`fixed z-50 font-sans ${isFullscreen ? 'inset-0' : 'bottom-4 right-4 sm:bottom-6 sm:right-6'}`}>
-        {/* Background particles */}
+      
         {!isFullscreen && isOpen && (
           <div className="absolute inset-0 pointer-events-none">
             {particles.map(particle => (
@@ -460,7 +480,7 @@ const ChatBot = () => {
           </div>
         )}
 
-        {/* Chat toggle button */}
+       
         {!isOpen && !isFullscreen && (
           <div className="relative group">
             <div className="absolute -inset-1 bg-[#04595E] hover:[#04395E]  rounded-full"></div>
@@ -470,13 +490,13 @@ const ChatBot = () => {
               aria-label="Open chat"
             >
               <MessageSquareText size={24} className="sm:size-7 text-white" />
-              {/* <Sparkles size={12} className="absolute -top-1 -right-1 text-yellow-300 animate-spin" /> */}
+                
              
             </button>
           </div>
         )}
 
-        {/* Main chat window */}
+       
         {(isOpen || isFullscreen) && (
           <div
             ref={chatWindowRef}
@@ -490,12 +510,12 @@ const ChatBot = () => {
               backgroundImage: 'linear-gradient(to bottom right, var(--tw-gradient-from), var(--tw-gradient-to))'
             }}
           >
-            {/* Header */}
+           
             <div className={`relative bg-gradient-to-r ${currentTheme.primary} px-4 py-3 sm:px-5 sm:py-4 flex items-center justify-between border-b ${currentTheme.border}`}>
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
-                    <Bot size={20} className="text-white" />
+                    <img src={logo} className=""/>
                   </div>
                   <div className="absolute -top-1 -right-1">
                     <Zap size={12} className="text-yellow-300 animate-pulse" />
@@ -544,7 +564,7 @@ const ChatBot = () => {
               </div>
             </div>
 
-            {/* Messages container */}
+          
             <div className="flex-1 overflow-y-auto p-4 space-y-4 relative">
               {messages.map((msg) => (
                 <div

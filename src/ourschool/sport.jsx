@@ -5,7 +5,7 @@ import { GiSoccerBall, GiTennisBall } from 'react-icons/gi';
 import { MdSportsHandball } from 'react-icons/md';
 import { IoMdStopwatch } from 'react-icons/io';
 import teamPhoto from '../assets/bascket1.jpg';
-import matchAction from '../assets/loca.jpg';
+import matchAction from '../assets/stadium.jpg';
 import trophy from '../assets/hand1.jpg';
 import Trophy1 from '../assets/bascket2.jpg';
 import Prinsipal1 from '../assets/tennis.jpg';

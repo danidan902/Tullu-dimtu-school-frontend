@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import logo from '../assets/tullulogo.png'
+import axios from 'axios'
 
-// const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com';
 
 const AdminSignIn = () => {
   const [credentials, setCredentials] = useState({
@@ -18,24 +19,7 @@ const AdminSignIn = () => {
   const navigate = useNavigate();
 
  
-  const adminUsers = [
-    {
-      email: 'admin@tulludimtu.edu',
-      password: 'admin123',
-      name: 'School Administrator',
-      role: 'super-admin'
-    },
-    {
-      email: 'admissions@tulludimtu.edu',
-      password: 'admissions2024',
-      name: 'Admissions Officer',
-      role: 'admissions-admin'
-    },
-    {
-      email: 'dand93575@gmail.com',
-      password: 'dani1234'
-    }
-  ];
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -47,73 +31,74 @@ const AdminSignIn = () => {
     if (error) setError('');
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (locked) {
-      setError('Account temporarily locked. Please try again in 15 minutes.');
-      return;
-    }
 
-    if (!credentials.email || !credentials.password) {
-      setError('Please enter both email and password');
-      return;
-    }
 
-    setIsLoading(true);
-    setError('');
 
-    try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      // Check credentials against admin users
-      const admin = adminUsers.find(
-        user => user.email === credentials.email && user.password === credentials.password
-      );
+  if (locked) {
+    setError('Account temporarily locked. Please try again in 15 minutes.');
+    return;
+  }
 
-      if (admin) {
-        // Reset failed attempts on successful login
+  if (!credentials.email || !credentials.password) {
+    setError('Please enter both email and password');
+    return;
+  }
+
+  setIsLoading(true);
+  setError('');
+
+  try {
+    const response = await axios.post(`${API_URL}/api/admin/login`, credentials);
+
+    // Successful login
+    const { token, admin } = response.data;
+
+    // Reset failed attempts
+    setFailedAttempts(0);
+
+    // Store in localStorage
+    const sessionData = {
+      ...admin,
+      token,
+      expiresAt: Date.now() + 24 * 60 * 60 * 1000,
+      lastLogin: new Date().toISOString()
+    };
+    localStorage.setItem('adminSession', JSON.stringify(sessionData));
+
+    setTimeout(() => {
+      navigate('/admin-control');
+    }, 1500);
+
+  } catch (err) {
+    const attempts = failedAttempts + 1;
+    setFailedAttempts(attempts);
+
+    if (attempts >= 3) {
+      setLocked(true);
+      setTimeout(() => {
+        setLocked(false);
         setFailedAttempts(0);
-        
-        // Create session data
-        const sessionData = {
-          ...admin,
-          token: `admin-token-${Date.now()}`,
-          expiresAt: Date.now() + 24 * 60 * 60 * 1000, // 24 hours
-          lastLogin: new Date().toISOString()
-        };
-
-        // Store in localStorage
-        localStorage.setItem('adminSession', JSON.stringify(sessionData));
-        
-        // Show success animation
-        setTimeout(() => {
-          navigate('/admin-control');
-        }, 1500);
-        
-      } else {
-        const attempts = failedAttempts + 1;
-        setFailedAttempts(attempts);
-        
-        if (attempts >= 3) {
-          setLocked(true);
-          setTimeout(() => {
-            setLocked(false);
-            setFailedAttempts(0);
-          }, 15 * 60 * 1000); // 15 minutes lock
-          setError('Too many failed attempts. Account locked for 15 minutes.');
-        } else {
-          setError(`Invalid credentials. ${3 - attempts} attempts remaining.`);
-        }
-      }
-    } catch (err) {
-      setError('Login failed. Please check your connection.');
-      console.error('Login error:', err);
-    } finally {
-      setIsLoading(false);
+      }, 15 * 60 * 1000);
+      setError('Too many failed attempts. Account locked for 15 minutes.');
+    } else {
+      setError(
+        err.response?.data?.message
+          ? `${err.response.data.message}. ${3 - attempts} attempts remaining.`
+          : `Login failed. ${3 - attempts} attempts remaining.`
+      );
     }
-  };
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 overflow-hidden relative">

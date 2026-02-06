@@ -28,7 +28,7 @@ const ContactPage = () => {
     setIsSubmitting(true);
 
     try {
-      const res = await axios.post('https://localhost:5000/api/contact', formData);
+      const res = await axios.post('https://tullu-dimtu-school-backend-1.onrender.com/api/contact', formData);
       toast.success(res.data.message);
       setFormData({ name: '', email: '', message: '' });
       setSubmitSuccess(true);
@@ -61,7 +61,7 @@ const ContactPage = () => {
       </Helmet>
 
       {/* Hero Header */}
-      <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-20">
+      <div className="relative bg-[#04395E] via-[#04395E]/120 to-transparent text-white py-20">
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative container mx-auto px-4 text-center">
           <motion.h1 
@@ -152,11 +152,11 @@ const ContactPage = () => {
                 <h3 className="text-2xl font-bold text-gray-800 mb-3">Call Us</h3>
                 <p className="text-gray-600 mb-2 text-lg">
                   <span className="font-semibold">Main Office:</span><br />
-                  +251 921 225 889
+                  +251 114627 280
                 </p>
                 <p className="text-gray-600 text-lg">
                   <span className="font-semibold">Admissions:</span><br />
-                  +251 921 225 889
+                  +251 114627 206
                 </p>
                 <div className="w-full h-40 bg-gradient-to-r from-green-50 to-teal-50 rounded-xl flex items-center justify-center mt-4">
                   <div className="text-center">
@@ -203,7 +203,7 @@ const ContactPage = () => {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="bg-white rounded-3xl shadow-2xl overflow-hidden"
             >
-              <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 text-white">
+              <div className="bg-[#04395E] via-[#04395E]/120 to-transparent p-8 text-white">
                 <h2 className="text-3xl font-bold mb-2">Send Us a Message</h2>
                 <p className="opacity-90">We typically respond within 24 hours</p>
               </div>
@@ -388,7 +388,7 @@ const ContactPage = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-3xl p-8 text-white shadow-2xl"
+            className="mt-16 bg-[#04395E] via-[#04395E]/120 to-transparent rounded-3xl p-8 text-white shadow-2xl"
           >
             <div className="flex flex-col md:flex-row items-center justify-between">
               <div className="mb-6 md:mb-0 md:mr-8">
@@ -399,7 +399,7 @@ const ContactPage = () => {
                 <FiPhone className="text-3xl mr-4" />
                 <div>
                   <p className="text-sm opacity-90">Emergency Contact</p>
-                  <p className="text-2xl font-bold">+251 921 225 889</p>
+                  <p className="text-2xl font-bold">+251 114627 280</p>
                 </div>
               </div>
             </div>

@@ -250,6 +250,7 @@ transition={{
 }}
 className="fixed top-0 left-0 right-0 z-50 text-gray-800"
 
+
     >
       {/* Animated gradient background effect on scroll */}
       <motion.div
@@ -320,7 +321,7 @@ className="fixed top-0 left-0 right-0 z-50 text-gray-800"
           </motion.div>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-4 font-semibold ml-20">
+        <nav className="hidden md:flex items-center gap-4 font-semibold ml-auto">
           {navItems.map((item, index) => (
             <div key={index} className="relative">
               {item.path ? (

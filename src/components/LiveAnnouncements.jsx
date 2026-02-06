@@ -522,13 +522,13 @@ const LiveAnnouncements = () => {
                       handleDeleteClick(ann);
                     }}
                     className="delete-btn absolute -top-2 -right-2 w-8 h-8 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-200 shadow-lg hover:shadow-xl z-10"
-                    title="Delete announcement"
+                    title="Delete announcement" 
                   >
-                    <Trash2 className="w-4 h-4" />   this name of this name  of this name of this name of this name of this name of this name of this nmae of this name of this name of thia name of thia name of this name of this name of this name of this name of this name of this name of this name of this n
+                    <Trash2 className="w-4 h-4" />   
                   </button>
                   
                    <a href="/school-news">  
-                   <p>this name of local ho</p>
+                  
                     
               
                      <div className="flex justify-between items-start mb-3">

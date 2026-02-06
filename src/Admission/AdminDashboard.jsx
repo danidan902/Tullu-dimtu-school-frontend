@@ -2175,488 +2175,503 @@ const AdminDashboardPage = () => {
       </div>
 
       {/* Enhanced Admission Detail Modal */}
-      {selectedAdmission && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[95vh] overflow-hidden">
-            {/* Modal Header with Quick Actions */}
-            <div className="px-6 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <div className="relative mr-4">
-                    <div className="h-16 w-16 rounded-full overflow-hidden border-4 border-white relative group">
-                      {getStudentPhotoUrl(selectedAdmission) ? (
-                        <img 
-                          src={getStudentPhotoUrl(selectedAdmission)} 
-                          alt={`${selectedAdmission.firstName} ${selectedAdmission.lastName}`}
-                          className="h-full w-full object-cover"
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.style.display = 'none';
-                            e.target.parentElement.innerHTML = `
-                              <div class="h-full w-full bg-gradient-to-br from-white to-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-2xl">
-                                ${getInitials(selectedAdmission.firstName, selectedAdmission.lastName)}
-                              </div>
-                            `;
-                          }}
-                        />
-                      ) : (
-                        <div className="h-full w-full bg-gradient-to-br from-white to-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-2xl">
-                          {getInitials(selectedAdmission.firstName, selectedAdmission.lastName)}
+      
+      
+      
+      
+      
+      
+      
+
+
+
+
+
+      
+      
+      
+     {selectedAdmission && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-start justify-center p-2 sm:p-4 z-50">
+    <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[95vh] overflow-hidden my-4 sm:my-auto">
+      {/* Modal Header with Quick Actions */}
+      <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div className="flex items-start w-full">
+            <div className="relative mr-3">
+              <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 sm:border-4 border-white relative group">
+                {getStudentPhotoUrl(selectedAdmission) ? (
+                  <img 
+                    src={getStudentPhotoUrl(selectedAdmission)} 
+                    alt={`${selectedAdmission.firstName} ${selectedAdmission.lastName}`}
+                    className="h-full w-full object-cover"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.style.display = 'none';
+                      e.target.parentElement.innerHTML = `
+                        <div class="h-full w-full bg-gradient-to-br from-white to-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg sm:text-2xl">
+                          ${getInitials(selectedAdmission.firstName, selectedAdmission.lastName)}
                         </div>
-                      )}
-                      <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
-                           onClick={() => handlePhotoSelect(selectedAdmission._id)}>
-                        <FaCamera className="w-6 h-6 text-white" />
-                      </div>
-                    </div>
-                    <div className="absolute -bottom-1 -right-1 bg-indigo-100 rounded-full p-1 border-2 border-white">
-                      <FaCamera className="w-4 h-4 text-indigo-600" />
-                    </div>
-                  </div>
-                  <div>  
-                    <h3 className="text-2xl font-bold">
-                      {selectedAdmission.firstName} {selectedAdmission.lastName} 
-                      <span className={`ml-3 text-sm px-2 py-1 rounded ${
-                        selectedAdmission.gender === 'Male' 
-                          ? 'bg-blue-200 text-blue-800' 
-                          : selectedAdmission.gender === 'Female' 
-                          ? 'bg-pink-200 text-pink-800'
-                          : 'bg-gray-200 text-gray-800'
-                      }`}>
-                        {selectedAdmission.gender === 'Male' && <FaMale className="inline mr-1" />}
-                        {selectedAdmission.gender === 'Female' && <FaFemale className="inline mr-1" />}
-                        {selectedAdmission.gender}
-                      </span>
-                    </h3>
-                    <div className="flex items-center space-x-4 mt-1">
-                      <span className="text-sm bg-white bg-opacity-20 px-3 py-1 rounded-full">
-                        ID: {selectedAdmission.studentId || selectedAdmission.admissionId || 'N/A'}
-                      </span>
-                      <span className={`px-3 py-1 text-sm font-semibold rounded-full ${getStatusColor(selectedAdmission.status).replace('border ', '')}`}>
-                        {selectedAdmission.status?.toUpperCase()}
-                      </span>
-        
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center space-x-2">
-                   <button
-                        onClick={() => printStudentInfo(selectedAdmission._id)}
-                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center text-sm"
-                      >
-                        <FaPrint className="mr-1" />
-                        Print Info
-                      </button>
-                  <button
-                    onClick={() => setSelectedAdmission(null)}
-                    className="text-white hover:text-gray-200 p-2 rounded-full hover:bg-white hover:bg-opacity-20"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-6 overflow-y-auto max-h-[70vh]">
-
-              <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h5 className="font-medium text-blue-900 flex items-center">
-                      <FaCamera className="mr-2" />
-                      Student Profile 
-                    </h5>
-                    <p className="text-sm text-blue-600 mt-1">
-                      Student Admission profile
-                    </p>
-                  </div>
-                </div>
-                {uploadingPhoto && photoPreview && (
-                  <div className="mt-4 flex items-center space-x-4">
-                    <div className="relative">
-                      <img 
-                        src={photoPreview} 
-                        alt="Preview" 
-                        className="w-20 h-20 rounded-full object-cover border-2 border-blue-300"
-                      />
-                      <div className="absolute inset-0 bg-blue-100 bg-opacity-50 rounded-full flex items-center justify-center">
-                        <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
-                      </div>
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-blue-800">Uploading photo...</p>
-                      <p className="text-xs text-blue-600">Please wait while we process your photo</p>
-                    </div>
+                      `;
+                    }}
+                  />
+                ) : (
+                  <div className="h-full w-full bg-gradient-to-br from-white to-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-lg sm:text-2xl">
+                    {getInitials(selectedAdmission.firstName, selectedAdmission.lastName)}
                   </div>
                 )}
-              </div>
-
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Personal Information with Quick Edit */}
-                <div className="lg:col-span-2">
-                  <div className="bg-gray-50 rounded-xl p-6">
-                    <div className="flex items-center justify-between mb-4 border-b pb-2">
-                      <div className="flex items-center">
-                        <div className="p-2 bg-indigo-100 rounded-lg mr-3">
-                          <FaUserCircle className="w-5 h-5 text-indigo-600" />
-                        </div>
-                        <h4 className="text-lg font-semibold text-gray-900">
-                          Student Information <span className='text-red-400 text-sm'>*</span>
-                        </h4>
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Full Name <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.firstName} {selectedAdmission.lastName} {selectedAdmission.grandParentName}
-                        </p>
-                      </div>
-
-                      <div>
-                        <label className='block text-sm font-medium text-gray-500'>Student Age <span className='text-red-400 text-sm'>*</span></label>
-                        <p className='mt-1 text-lg font-semibold text-gray-900'>
-                          {selectedAdmission.age ? `${selectedAdmission.age} years` : 'N/A'}
-                        </p>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Gender & Date of Birth <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900 flex items-center">
-                          <span className={`mr-2 px-2 py-1 text-sm rounded ${
-                            selectedAdmission.gender === 'Male' 
-                              ? 'bg-blue-100 text-blue-800' 
-                              : selectedAdmission.gender === 'Female' 
-                              ? 'bg-pink-100 text-pink-800'
-                              : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {selectedAdmission.gender === 'Male' && <FaMale className="inline mr-1" />}
-                            {selectedAdmission.gender === 'Female' && <FaFemale className="inline mr-1" />}
-                            {selectedAdmission.gender}
-                          </span>
-                          • {selectedAdmission.dob ? new Date(selectedAdmission.dob).toLocaleDateString() : 'N/A'}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Nationality <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.nationality || 'N/A'}
-                        </p>
-                      </div>
-
-                                           
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">FAN <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.fayida || 'Not specified'}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Academic Information */}
-                  <div className="bg-gray-50 rounded-xl p-6 mt-6">
-                    <div className="flex items-center mb-4 border-b pb-2">
-                      <div className="p-2 bg-blue-100 rounded-lg mr-3">
-                        <FaSchool className="w-5 h-5 text-blue-600" />
-                      </div>
-                      <h4 className="text-lg font-semibold text-gray-900">
-                        Academic Information <span className='text-red-400 text-sm'>*</span>
-                      </h4>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Field <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.field || 'N/A'}
-                        </p>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Program <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.program || 'N/A'}
-                        </p>
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Apply For Grade <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.applyingGrade}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Last Grade Completed <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.lastGrade}
-                        </p>
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Grade Average <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.gradeAverage ? `${selectedAdmission.gradeAverage}%` : 'N/A'}
-                        </p>
-                      </div>
-                      
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-500">Last School Attended <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 text-lg font-semibold text-gray-900">
-                          {selectedAdmission.lastSchool}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center cursor-pointer"
+                     onClick={() => handlePhotoSelect(selectedAdmission._id)}>
+                  <FaCamera className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
                 </div>
-                
-                {/* Parent Information */}
-                <div>
-                  <div className="bg-indigo-50 rounded-xl p-6">
-                    <div className="flex items-center mb-4 border-b pb-2">
-                      <div className="p-2 bg-indigo-100 rounded-lg mr-3">
-                        <FaUserCircle className="w-5 h-5 text-indigo-600" />
-                      </div>
-                      <h4 className="text-lg font-semibold text-gray-900">
-                        Parent/Guardian Information <span className='text-red-400 text-sm'>*</span>
-                      </h4>
-                    </div>
-                    
-                    <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Full Name <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 font-semibold text-gray-900">
-                          {selectedAdmission.parentName}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Relationship <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 font-semibold text-gray-900">
-                          {selectedAdmission.relationship}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Phone Number <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 font-semibold text-gray-900">
-                          {selectedAdmission.parentPhone}
-                        </p>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Email Address <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 font-semibold text-gray-900 break-all">
-                          {selectedAdmission.parentEmail}
-                        </p>
-                      </div>
-                      
-                      {selectedAdmission.parentOccupation && (
-                        <div>
-                          <label className="block text-sm font-medium text-gray-500">Occupation <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 font-semibold text-gray-900">
-                          {selectedAdmission.parentOccupation}
-                        </p>
-                      </div>
-                      )}
-                      
-                      <div>
-                        <label className="block text-sm font-medium text-gray-500">Home Address <span className='text-red-400 text-sm'>*</span></label>
-                        <p className="mt-1 font-semibold text-gray-900">
-                          {selectedAdmission.address}
-                        </p>
-                      </div>
-                    </div>
+              </div>
+              <div className="absolute -bottom-1 -right-1 bg-indigo-100 rounded-full p-1 border-2 border-white">
+                <FaCamera className="w-3 h-3 sm:w-4 sm:h-4 text-indigo-600" />
+              </div>
+            </div>
+            <div className="flex-1 min-w-0">  
+              <h3 className="text-lg sm:text-2xl font-bold truncate">
+                {selectedAdmission.firstName} {selectedAdmission.lastName} 
+                <span className={`ml-2 sm:ml-3 text-xs sm:text-sm px-1.5 py-0.5 sm:px-2 sm:py-1 rounded ${
+                  selectedAdmission.gender === 'Male' 
+                    ? 'bg-blue-200 text-blue-800' 
+                    : selectedAdmission.gender === 'Female' 
+                    ? 'bg-pink-200 text-pink-800'
+                    : 'bg-gray-200 text-gray-800'
+                }`}>
+                  {selectedAdmission.gender === 'Male' && <FaMale className="inline mr-0.5 sm:mr-1" />}
+                  {selectedAdmission.gender === 'Female' && <FaFemale className="inline mr-0.5 sm:mr-1" />}
+                  {selectedAdmission.gender}
+                </span>
+              </h3>
+              <div className="flex flex-wrap items-center gap-2 mt-1">
+                <span className="text-xs sm:text-sm bg-white bg-opacity-20 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full">
+                  ID: {selectedAdmission.studentId || selectedAdmission.admissionId || 'N/A'}
+                </span>
+                <span className={`px-2 py-0.5 sm:px-3 sm:py-1 text-xs sm:text-sm font-semibold rounded-full ${getStatusColor(selectedAdmission.status).replace('border ', '')}`}>
+                  {selectedAdmission.status?.toUpperCase()}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-end w-full sm:w-auto space-x-2">
+            <button
+              onClick={() => printStudentInfo(selectedAdmission._id)}
+              className="px-3 py-1.5 sm:px-4 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center text-xs sm:text-sm"
+            >
+              <FaPrint className="mr-1 w-3 h-3 sm:w-4 sm:h-4" />
+              Print Info
+            </button>
+            <button
+              onClick={() => setSelectedAdmission(null)}
+              className="text-white hover:text-gray-200 p-1.5 sm:p-2 rounded-full hover:bg-white hover:bg-opacity-20"
+            >
+              <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal Content */}
+      <div className="p-4 sm:p-6 overflow-y-auto max-h-[calc(95vh-120px)] sm:max-h-[70vh]">
+
+        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-blue-50 rounded-lg border border-blue-200">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+            <div>
+              <h5 className="font-medium text-blue-900 flex items-center text-sm sm:text-base">
+                <FaCamera className="mr-2 w-3 h-3 sm:w-4 sm:h-4" />
+                Student Profile 
+              </h5>
+              <p className="text-xs sm:text-sm text-blue-600 mt-0.5">
+                Student Admission profile
+              </p>
+            </div>
+          </div>
+          {uploadingPhoto && photoPreview && (
+            <div className="mt-3 flex items-center space-x-3">
+              <div className="relative">
+                <img 
+                  src={photoPreview} 
+                  alt="Preview" 
+                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-blue-300"
+                />
+                <div className="absolute inset-0 bg-blue-100 bg-opacity-50 rounded-full flex items-center justify-center">
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-medium text-blue-800">Uploading photo...</p>
+                <p className="text-xs text-blue-600">Please wait while we process your photo</p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="grid grid-cols-1 gap-4 sm:gap-6">
+          {/* Personal Information with Quick Edit */}
+          <div>
+            <div className="bg-gray-50 rounded-xl p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-3 sm:mb-4 border-b pb-2">
+                <div className="flex items-center">
+                  <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg mr-2 sm:mr-3">
+                    <FaUserCircle className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
                   </div>
+                  <h4 className="text-base sm:text-lg font-semibold text-gray-900">
+                    Student Information <span className='text-red-400 text-xs sm:text-sm'>*</span>
+                  </h4>
                 </div>
               </div>
               
-              {/* Enhanced Student Documents Section */}
-              <div className="mt-8">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <h4 className="text-xl font-bold text-gray-900 flex items-center">
-                      <FaFolderOpen className="mr-2 text-indigo-600" />
-                      Student Documents <span className='text-red-400 text-sm'>*</span>
-                    </h4>
-                    <p className="text-sm text-gray-500 mt-1">
-                      All documents stored in one place for easy access and management
-                    </p>
-                  </div>
-                  <div className="flex space-x-3">
-                    <button
-                      onClick={() => fetchStudentDocuments(selectedAdmission._id)}
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center"
-                    >
-                      <FaFolderOpen className="mr-2" />
-                      Refresh Documents
-                    </button>
-                    <button
-                      onClick={() => printStudentInfo(selectedAdmission._id)}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
-                    >
-                      <FaPrint className="mr-2" />
-                      Print Summary
-                    </button>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Full Name <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900 truncate">
+                    {selectedAdmission.firstName} {selectedAdmission.lastName} {selectedAdmission.grandParentName}
+                  </p>
+                </div>
+
+                <div>
+                  <label className='block text-xs sm:text-sm font-medium text-gray-500'>Student Age <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className='mt-1 text-sm sm:text-lg font-semibold text-gray-900'>
+                    {selectedAdmission.age ? `${selectedAdmission.age} years` : 'N/A'}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Gender & Date of Birth <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <div className="mt-1 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                    <span className={`inline-flex w-fit px-2 py-1 text-xs sm:text-sm rounded ${
+                      selectedAdmission.gender === 'Male' 
+                        ? 'bg-blue-100 text-blue-800' 
+                        : selectedAdmission.gender === 'Female' 
+                        ? 'bg-pink-100 text-pink-800'
+                        : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {selectedAdmission.gender === 'Male' && <FaMale className="inline mr-1" />}
+                      {selectedAdmission.gender === 'Female' && <FaFemale className="inline mr-1" />}
+                      {selectedAdmission.gender}
+                    </span>
+                    <span className="text-sm sm:text-lg font-semibold text-gray-900">
+                      • {selectedAdmission.dob ? new Date(selectedAdmission.dob).toLocaleDateString() : 'N/A'}
+                    </span>
                   </div>
                 </div>
                 
-                {documentsLoading ? (
-                  <div className="text-center py-8">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto"></div>
-                    <p className="mt-2 text-gray-600">Loading documents...</p>
-                  </div>
-                ) : studentDocuments.length > 0 ? (
-                  <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                    <div className="px-6 py-4 bg-gray-50 border-b">
-                      <div className="flex justify-between items-center">
-                        <div>
-                          <span className="font-medium text-gray-700">
-                            {selectedAdmission.firstName}'s Documents
-                          </span>
-                          <span className="ml-2 text-sm text-gray-500">
-                            ({studentDocuments.length} files stored)
-                          </span>
-                        </div>
-                        <div className="flex space-x-2">
-                          <button
-                            onClick={() =>
-                              downloadAllDocuments(
-                                selectedAdmission._id,
-                                `${selectedAdmission.firstName}_${selectedAdmission.lastName}`
-                              )
-                            }
-                            className="px-3 py-1 bg-indigo-600 text-white text-sm rounded hover:bg-indigo-700 flex items-center"
-                          >
-                            <FaDownload className="mr-1" />
-                            {isLoading ? (
-                              <div className="flex items-center gap-2">
-                                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                                Preparing...
-                              </div>
-                            ) : (
-                              "Download All"
-                            )}
-                          </button>  
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div className="divide-y divide-gray-100">
-                      {studentDocuments.map((doc, index) => (
-                        <div key={index} className="px-6 py-4 hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center">
-                              <div className="text-2xl mr-4">
-                                {getFileIcon(doc.filename)}
-                              </div>
-                              <div>
-                                <div className="font-medium text-gray-900">
-                                  {doc.type.replace(/([A-Z])/g, ' $1').trim()}
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                  {doc.filename} • {(doc.size / 1024).toFixed(1)} KB
-                                </div>
-                                <div className="text-xs text-gray-400 mt-1">
-                                  Uploaded: {formatDate(doc.uploadedAt)}
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex space-x-2">
-                              <button
-                                onClick={() => openDocument(doc)}
-                                className="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 flex items-center text-sm"
-                              >
-                                <FaEye className="mr-1" />
-                                View
-                              </button>
-                              <a
-                                href={getFileUrl(doc.url)}
-                                download={doc.filename}
-                                className="px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 flex items-center text-sm"
-                              >
-                                <FaDownload className="mr-1" />
-                                Download
-                              </a>
-                              <button
-                                onClick={() => printStudentInfo(selectedAdmission._id)}
-                                className="px-3 py-1 bg-purple-100 text-purple-700 rounded hover:bg-purple-200 flex items-center text-sm"
-                              >
-                                <FaPrint className="mr-1" />
-                                Print
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
-                    <FaFolderOpen className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                    <h5 className="text-lg font-medium text-gray-700">No Documents Available Yet</h5>
-                    <p className="text-gray-500 mt-2">Upload documents to keep all student information in one place</p>
-                    <div className="mt-6 flex justify-center space-x-4">
-                      <button
-                        onClick={() => setShowDocumentUpload(true)}
-                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-                      >
-                        <FaUpload className="inline mr-2" />
-                        Upload Documents
-                      </button>
-                      <button
-                        onClick={() => fetchStudentDocuments(selectedAdmission._id)}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700"
-                      >
-                        Check for Documents
-                      </button>
-                    </div>
-                  </div>
-                )}
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Nationality <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900">
+                    {selectedAdmission.nationality || 'N/A'}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">FAN <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900 truncate">
+                    {selectedAdmission.fayida || 'Not specified'}
+                  </p>
+                </div>
               </div>
             </div>
-
-            {/* Modal Footer with Enhanced Actions */}
-            <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-              <div className="flex justify-between items-center">
-                <div className="text-sm text-gray-500">
-                  Applied: {formatDate(selectedAdmission.createdAt)}
-                  {selectedAdmission.updatedAt && (
-                    <span className="ml-3">Last updated: {formatDate(selectedAdmission.updatedAt)}</span>
-                  )}
+            
+            {/* Academic Information */}
+            <div className="bg-gray-50 rounded-xl p-4 sm:p-6 mt-4 sm:mt-6">
+              <div className="flex items-center mb-3 sm:mb-4 border-b pb-2">
+                <div className="p-1.5 sm:p-2 bg-blue-100 rounded-lg mr-2 sm:mr-3">
+                  <FaSchool className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
                 </div>
-                <div className="flex space-x-3">
-                  <button
-                    onClick={() => {
-                      updateStatus(selectedAdmission._id, 'accepted');
-                    }}
-                    className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                  >
-                    Accept Application
-                  </button>
-                  <button
-                    onClick={() => printStudentInfo(selectedAdmission._id)}
-                    className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center"
-                  >
-                    <FaPrint className="mr-2" />
-                    Print Full Report
-                  </button>
-                  <button
-                    onClick={() => setSelectedAdmission(null)}
-                    className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-                  >
-                    Close
-                  </button>
+                <h4 className="text-base sm:text-lg font-semibold text-gray-900">
+                  Academic Information <span className='text-red-400 text-xs sm:text-sm'>*</span>
+                </h4>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Field <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900">
+                    {selectedAdmission.field || 'N/A'}
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Program <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900">
+                    {selectedAdmission.program || 'N/A'}
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Apply For Grade <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900">
+                    {selectedAdmission.applyingGrade}
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Last Grade Completed <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900">
+                    {selectedAdmission.lastGrade}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Grade Average <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900">
+                    {selectedAdmission.gradeAverage ? `${selectedAdmission.gradeAverage}%` : 'N/A'}
+                  </p>
+                </div>
+                
+                <div className="sm:col-span-2">
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Last School Attended <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-lg font-semibold text-gray-900">
+                    {selectedAdmission.lastSchool}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Parent Information */}
+          <div>
+            <div className="bg-indigo-50 rounded-xl p-4 sm:p-6">
+              <div className="flex items-center mb-3 sm:mb-4 border-b pb-2">
+                <div className="p-1.5 sm:p-2 bg-indigo-100 rounded-lg mr-2 sm:mr-3">
+                  <FaUserCircle className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-600" />
+                </div>
+                <h4 className="text-base sm:text-lg font-semibold text-gray-900">
+                  Parent/Guardian Information <span className='text-red-400 text-xs sm:text-sm'>*</span>
+                </h4>
+              </div>
+              
+              <div className="space-y-3 sm:space-y-4">
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Full Name <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-base font-semibold text-gray-900 truncate">
+                    {selectedAdmission.parentName}
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Relationship <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-base font-semibold text-gray-900">
+                    {selectedAdmission.relationship}
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Phone Number <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-base font-semibold text-gray-900">
+                    {selectedAdmission.parentPhone}
+                  </p>
+                </div>
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Email Address <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-base font-semibold text-gray-900 break-all">
+                    {selectedAdmission.parentEmail}
+                  </p>
+                </div>
+                
+                {selectedAdmission.parentOccupation && (
+                  <div>
+                    <label className="block text-xs sm:text-sm font-medium text-gray-500">Occupation <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-base font-semibold text-gray-900">
+                    {selectedAdmission.parentOccupation}
+                  </p>
+                </div>
+                )}
+                
+                <div>
+                  <label className="block text-xs sm:text-sm font-medium text-gray-500">Home Address <span className='text-red-400 text-xs sm:text-sm'>*</span></label>
+                  <p className="mt-1 text-sm sm:text-base font-semibold text-gray-900">
+                    {selectedAdmission.address}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )}
+        
+        {/* Enhanced Student Documents Section */}
+        <div className="mt-6 sm:mt-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3">
+            <div>
+              <h4 className="text-lg sm:text-xl font-bold text-gray-900 flex items-center">
+                <FaFolderOpen className="mr-2 text-indigo-600 w-4 h-4 sm:w-5 sm:h-5" />
+                Student Documents <span className='text-red-400 text-xs sm:text-sm'>*</span>
+              </h4>
+              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 sm:mt-1">
+                All documents stored in one place for easy access and management
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+              <button
+                onClick={() => fetchStudentDocuments(selectedAdmission._id)}
+                className="px-3 py-1.5 sm:px-4 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors flex items-center text-xs sm:text-sm"
+              >
+                <FaFolderOpen className="mr-1.5 w-3 h-3 sm:w-4 sm:h-4" />
+                Refresh Documents
+              </button>
+              <button
+                onClick={() => printStudentInfo(selectedAdmission._id)}
+                className="px-3 py-1.5 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center text-xs sm:text-sm"
+              >
+                <FaPrint className="mr-1.5 w-3 h-3 sm:w-4 sm:h-4" />
+                Print Summary
+              </button>
+            </div>
+          </div>
+          
+          {documentsLoading ? (
+            <div className="text-center py-6 sm:py-8">
+              <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-indigo-600 mx-auto"></div>
+              <p className="mt-2 text-xs sm:text-sm text-gray-600">Loading documents...</p>
+            </div>
+          ) : studentDocuments.length > 0 ? (
+            <div className="bg-white border border-gray-200 rounded-xl overflow-hidden">
+              <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gray-50 border-b">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                  <div className="min-w-0">
+                    <span className="font-medium text-gray-700 text-sm sm:text-base">
+                      {selectedAdmission.firstName}'s Documents
+                    </span>
+                    <span className="ml-2 text-xs sm:text-sm text-gray-500">
+                      ({studentDocuments.length} files stored)
+                    </span>
+                  </div>
+                  <div className="flex space-x-1.5 sm:space-x-2">
+                    <button
+                      onClick={() =>
+                        downloadAllDocuments(
+                          selectedAdmission._id,
+                          `${selectedAdmission.firstName}_${selectedAdmission.lastName}`
+                        )
+                      }
+                      className="px-2.5 py-1 sm:px-3 sm:py-1 bg-indigo-600 text-white text-xs sm:text-sm rounded hover:bg-indigo-700 flex items-center"
+                    >
+                      <FaDownload className="mr-1 w-3 h-3 sm:w-4 sm:h-4" />
+                      {isLoading ? (
+                        <div className="flex items-center gap-1.5">
+                          <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          Preparing...
+                        </div>
+                      ) : (
+                        "Download All"
+                      )}
+                    </button>  
+                  </div>
+                </div>
+              </div>
+              
+              <div className="divide-y divide-gray-100">
+                {studentDocuments.map((doc, index) => (
+                  <div key={index} className="px-4 py-3 sm:px-6 sm:py-4 hover:bg-gray-50 transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div className="flex items-start sm:items-center min-w-0">
+                        <div className="text-xl sm:text-2xl mr-3 sm:mr-4">
+                          {getFileIcon(doc.filename)}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-medium text-gray-900 text-sm sm:text-base truncate">
+                            {doc.type.replace(/([A-Z])/g, ' $1').trim()}
+                          </div>
+                          <div className="text-xs sm:text-sm text-gray-500 truncate">
+                            {doc.filename} • {(doc.size / 1024).toFixed(1)} KB
+                          </div>
+                          <div className="text-xs text-gray-400 mt-0.5 sm:mt-1">
+                            Uploaded: {formatDate(doc.uploadedAt)}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-end">
+                        <button
+                          onClick={() => openDocument(doc)}
+                          className="px-2.5 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200 flex items-center text-xs sm:text-sm"
+                        >
+                          <FaEye className="mr-1 w-3 h-3 sm:w-4 sm:h-4" />
+                          View
+                        </button>
+                        <a
+                          href={getFileUrl(doc.url)}
+                          download={doc.filename}
+                          className="px-2.5 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 flex items-center text-xs sm:text-sm"
+                        >
+                          <FaDownload className="mr-1 w-3 h-3 sm:w-4 sm:h-4" />
+                          Download
+                        </a>
+                        <button
+                          onClick={() => printStudentInfo(selectedAdmission._id)}
+                          className="px-2.5 py-1 bg-purple-100 text-purple-700 rounded hover:bg-purple-200 flex items-center text-xs sm:text-sm"
+                        >
+                          <FaPrint className="mr-1 w-3 h-3 sm:w-4 sm:h-4" />
+                          Print
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-8 sm:py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+              <FaFolderOpen className="w-12 h-12 sm:w-16 sm:h-16 text-gray-400 mx-auto mb-3 sm:mb-4" />
+              <h5 className="text-base sm:text-lg font-medium text-gray-700">No Documents Available Yet</h5>
+              <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">Upload documents to keep all student information in one place</p>
+              <div className="mt-4 sm:mt-6 flex flex-wrap justify-center gap-2 sm:gap-4">
+                <button
+                  onClick={() => setShowDocumentUpload(true)}
+                  className="px-3 py-1.5 sm:px-4 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-xs sm:text-sm"
+                >
+                  <FaUpload className="inline mr-1.5 w-3 h-3 sm:w-4 sm:h-4" />
+                  Upload Documents
+                </button>
+                <button
+                  onClick={() => fetchStudentDocuments(selectedAdmission._id)}
+                  className="px-3 py-1.5 sm:px-4 sm:py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-xs sm:text-sm"
+                >
+                  Check for Documents
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Modal Footer with Enhanced Actions */}
+      <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gray-50 border-t border-gray-200">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div className="text-xs sm:text-sm text-gray-500">
+            Applied: {formatDate(selectedAdmission.createdAt)}
+            {selectedAdmission.updatedAt && (
+              <span className="block sm:inline sm:ml-3 mt-0.5 sm:mt-0">Last updated: {formatDate(selectedAdmission.updatedAt)}</span>
+            )}
+          </div>
+          <div className="flex flex-wrap gap-2 sm:gap-3 w-full sm:w-auto">
+            <button
+              onClick={() => {
+                updateStatus(selectedAdmission._id, 'accepted');
+              }}
+              className="px-4 py-1.5 sm:px-6 sm:py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm sm:text-base flex-1 sm:flex-none text-center"
+            >
+              Accept Application
+            </button>
+            <button
+              onClick={() => printStudentInfo(selectedAdmission._id)}
+              className="px-4 py-1.5 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center text-sm sm:text-base flex-1 sm:flex-none"
+            >
+              <FaPrint className="mr-1.5 w-3 h-3 sm:w-4 sm:h-4" />
+              Print Full Report
+            </button>
+            <button
+              onClick={() => setSelectedAdmission(null)}
+              className="px-4 py-1.5 sm:px-6 sm:py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm sm:text-base flex-1 sm:flex-none text-center"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 };

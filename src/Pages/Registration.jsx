@@ -45,7 +45,7 @@ const RegistrationForm = () => {
 
     setIsSubmitting(true);
     try {
-      const response = await axios.post("https://localhost:5000/api/users", {
+      const response = await axios.post("https://tullu-dimtu-school-backend-1.onrender.com/api/users", {
         fullname: formData.fullName,
         email: formData.emailOrPhone,
         studentId: formData.studentId,

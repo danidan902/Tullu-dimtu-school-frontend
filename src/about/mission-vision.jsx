@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBullseye, FaEye, FaLightbulb, FaHandsHelping, FaGraduationCap, FaUsers } from 'react-icons/fa';
 import ScrollReveal from '../components/ScrollReveal';
-import schoolBgImage from '../assets/mis1.jpg';
+import schoolBgImage from '../assets/news2.png';
 import Footer from '../components/Footer';
 import { Helmet } from "react-helmet-async";
 
@@ -57,12 +57,30 @@ const VisionMission = () => {
   
   {/* Background Image */}
   <div
-    className="absolute inset-0 bg-cover bg-center bg-fixed"
-    style={{ backgroundImage: `url(${schoolBgImage})` }}
-  >
-    {/* Enhanced Overlay with Strong Bottom Gradient */}
-     <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/55 to-black/85"></div>
-  </div>
+  className="
+    absolute inset-0
+    bg-cover bg-center
+    bg-no-repeat
+    bg-fixed
+    px-4 py-6
+    sm:px-6 sm:py-10
+    md:px-12 md:py-16
+  "
+  style={{ backgroundImage: `url(${schoolBgImage})` }}
+>
+  {/* Mobile Optimized Overlay */}
+  <div
+    className="
+      absolute inset-0
+      bg-gradient-to-b
+      from-black/60
+      via-black/65
+      to-black/90
+      bg-fixed
+    "
+  ></div>
+</div>
+
 
   {/* Content */}
   <div className="relative z-10 h-full flex items-center justify-center">

@@ -11,7 +11,7 @@ const GlassCards = () => {
     {
       id: 1,
       title: "Student Registration Portal",
-      description: "Admin can access Teacher upload attendance records, enter marks, manage class schedules, and communicate with students and parents efficiently.",
+      description: "The Student Registration Portal allows administrators to securely access and manage student records, registrations, and academic data..",
       stats: "Attendance & Marks",
       buttons: [
         {

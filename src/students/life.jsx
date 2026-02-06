@@ -4,7 +4,7 @@ import { GiBookshelf, GiTeacher, GiSoccerBall } from 'react-icons/gi';
 import { MdScience, MdTheaterComedy } from 'react-icons/md';
 import { IoIosArrowForward } from 'react-icons/io';
 import studentLifeHero from '../assets/studentlife.jpg';
-import clubMeeting from '../assets/inovation.jpg';
+import clubMeeting from '../assets/.jpg';
 import sportsDay from '../assets/sport.jpg';
 import culturalEvent from '../assets/culture.jpg';
 import Footer from '../components/Footer';
@@ -107,13 +107,13 @@ const StudentLife = () => {
         },
         {
           name: "Science & Innovation Fair",
-          date: "May 22, 2024",
+          date: "May 22, 2026",
           description: "Showcase of student research projects and inventions",
           image: clubMeeting
         },
         {
           name: "Sports Championship",
-          date: "July 8-12, 2024",
+          date: "July 7-12, 2026",
           description: "Inter-school competitions in football, athletics, and volleyball",
           image: sportsDay
         }
@@ -311,11 +311,11 @@ const StudentLife = () => {
               className="grid md:grid-cols-5 gap-6 text-center"
             >
               {[
-                { icon: <GiBookshelf className="text-2xl text-green-800" />, title: "Morning Classes", time: "7:30 AM - 12:00 PM", bg: "bg-green-100" },
-                { icon: <FaMusic className="text-2xl text-yellow-600" />, title: "Lunch & Activities", time: "12:00 PM - 1:30 PM", bg: "bg-yellow-100" },
-                { icon: <MdScience className="text-2xl text-blue-600" />, title: "Afternoon Classes", time: "1:30 PM - 3:00 PM", bg: "bg-blue-100" },
-                { icon: <MdTheaterComedy className="text-2xl text-purple-600" />, title: "Clubs & Sports", time: "3:30 PM - 5:00 PM", bg: "bg-purple-100" },
-                { icon: <GiSoccerBall className="text-2xl text-red-600" />, title: "Evening Study", time: "5:30 PM - 7:00 PM", bg: "bg-red-100" }
+                { icon: <GiBookshelf className="text-2xl text-green-800" />, title: "Morning Classes", time: "2:30 AM - 6:30 Am", bg: "bg-green-100" },
+                { icon: <FaMusic className="text-2xl text-yellow-600" />, title: "Lunch & Activities", time: "6:30 PM - 7:30 PM", bg: "bg-yellow-100" },
+                { icon: <MdScience className="text-2xl text-blue-600" />, title: "Afternoon Classes", time: "7:30 PM - 9:00 PM", bg: "bg-blue-100" },
+                { icon: <MdTheaterComedy className="text-2xl text-purple-600" />, title: "Clubs & Sports", time: "9:30 PM - 11:00 PM", bg: "bg-purple-100" },
+                { icon: <GiSoccerBall className="text-2xl text-red-600" />, title: "Evening Study", time: "11:30 PM - 2:00 PM", bg: "bg-red-100" }
               ].map((item, index) => (
                 <motion.div 
                   key={index}

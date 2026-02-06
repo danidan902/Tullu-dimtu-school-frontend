@@ -48,6 +48,8 @@ import anim18 from '../assets/chem.png';
 import schoolBgImage from '../assets/tul8.jpg';
 import dir1 from '../assets/dir1.png'
 import loc from '../assets/local.jpg'
+import loc2 from '../assets/gala.jpg'
+import anim40 from '../assets/pres.png'
 const Gallery = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -110,6 +112,26 @@ const Gallery = () => {
       date: "2024-02-10",
       tags: ["technology", "computers", "learning"],
       color: "from-cyan-500 to-blue-500"
+    },
+    {
+      id: 8,
+      title: "Student Life At School",
+      category: "academics",
+      description: "Students learning computer skills",
+      image: loc2,
+      date: "2024-02-10",
+      tags: ["technology", "computers", "learning"],
+      color: "from-cyan-500 to-blue-500"
+    },
+       {
+      id: 7,
+      title: "Student At School",
+      category: "events",
+      description: "Students honoring their teachers",
+      image: anim40,
+      date: "2023-09-05",
+      tags: ["teachers", "celebration", "appreciation"],
+      color: "from-pink-500 to-rose-500"
     },
     {
       id: 8,
@@ -182,6 +204,7 @@ const Gallery = () => {
       tags: ["technology", "computers", "learning"],
       color: "from-cyan-500 to-blue-500"
     },
+    
     {
       id: 2,
       title: "Science Exhibition",
@@ -202,16 +225,16 @@ const Gallery = () => {
       tags: ["science", "projects", "innovation"],
       color: "from-purple-500 to-pink-500"
     },
-    {
-      id: 3,
-      title: "Cultural Festival",
-      category: "cultural",
-      description: "Traditional dance performances by students",
-      image: pot,
-      date: "2023-12-10",
-      tags: ["dance", "culture", "performance"],
-      color: "from-orange-500 to-red-500"
-    },
+    // {
+    //   id: 3,
+    //   title: "Cultural Festival",
+    //   category: "cultural",
+    //   description: "Traditional dance performances by students",
+    //   image: pot,
+    //   date: "2023-12-10",
+    //   tags: ["dance", "culture", "performance"],
+    //   color: "from-orange-500 to-red-500"
+    // },
     {
       id: 7,
       title: "Teacher's Day Celebration",
@@ -242,16 +265,16 @@ const Gallery = () => {
       tags: ["teachers", "celebration", "appreciation"],
       color: "from-pink-500 to-rose-500"
     },
-    {
-      id: 7,
-      title: "Teacher's Day Celebration",
-      category: "events",
-      description: "Students honoring their teachers",
-      image: anim11,
-      date: "2023-09-05",
-      tags: ["teachers", "celebration", "appreciation"],
-      color: "from-pink-500 to-rose-500"
-    },
+    // {
+    //   id: 7,
+    //   title: "Teacher's Day Celebration",
+    //   category: "events",
+    //   description: "Students honoring their teachers",
+    //   image: anim11,
+    //   date: "2023-09-05",
+    //   tags: ["teachers", "celebration", "appreciation"],
+    //   color: "from-pink-500 to-rose-500"
+    // },
     {
       id: 7,
       title: "Teacher's Day Celebration",
@@ -352,6 +375,7 @@ const Gallery = () => {
       tags: ["teachers", "celebration", "appreciation"],
       color: "from-pink-500 to-rose-500"
     },
+   
      {
       id: 7,
       title: "Teacher's Day Celebration",
@@ -620,7 +644,7 @@ const Gallery = () => {
         <div className="relative overflow-hidden">
           <div
             className="absolute inset-0 bg-cover bg-center bg-fixed"
-            style={{ backgroundImage: `url(${schoolBgImage})` }}
+            style={{ backgroundImage: `url(${anim1})` }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent z-10"></div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent z-10"></div>
@@ -628,32 +652,15 @@ const Gallery = () => {
           
           <div className="container mx-auto px-4 py-20 relative">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 mt-24 bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-purple-400">
                 Visual Journey
               </h1>
-              <p className="text-xl text-gray-300 mb-8 font-light">
+              <p className="text-xl text-white mb-52 font-light">
                 Moments that define our legacy, captured in time
               </p>
               
               {/* Search Bar */}
-              <div className="relative max-w-2xl mx-auto mb-12">
-                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={22} />
-                <input
-                  type="text"
-                  placeholder="Search moments..."
-                  className="w-full pl-12 pr-4 py-4 rounded-xl bg-white/5 backdrop-blur-lg border border-white/10 focus:outline-none focus:border-cyan-500/50 transition-all"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                {searchTerm && (
-                  <button
-                    onClick={() => setSearchTerm('')}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
-                  >
-                    <X size={20} />
-                  </button>
-                )}
-              </div>
+             
             </div>
           </div>
         </div>
@@ -706,9 +713,9 @@ const Gallery = () => {
         {/* Gallery Grid */}
         <div className="container mx-auto px-4 pb-20">
           <div className="flex justify-between items-center mb-8">
-            <div className="text-3xl font-light text-gray-300">
+            {/* <div className="text-3xl font-light text-gray-300">
               {filteredImages.length} Moments
-            </div>
+            </div> */}
             <div className="text-sm text-gray-400">
               {selectedCategory === 'all' ? 'All Collections' : 
                categories.find(c => c.id === selectedCategory)?.name}

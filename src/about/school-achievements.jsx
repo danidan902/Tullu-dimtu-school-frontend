@@ -14,7 +14,7 @@ const SchoolAchievements = () => {
   
   const achievements = [
     {
-      year: "2024",
+      year: "2017",
       title: "Top Performing School Students",
       description: "Our graduates achieved highest promotion rates from our region to prestigious universities",
       image: BackgroundImageForSchool,
@@ -22,7 +22,7 @@ const SchoolAchievements = () => {
       color: "from-blue-600 to-indigo-600"
     },
     {
-      year: "2023",
+      year: "2015",
       title: "STEM Innovation Award",
       description: "Recognized for pioneering science and technology programs that inspire young innovators",
       image: SchoolAchivment,
@@ -30,7 +30,7 @@ const SchoolAchievements = () => {
       color: "from-emerald-600 to-green-600"
     },
     {
-      year: "2022",
+      year: "2016",
       title: "Regional Academic Excellence",
       description: "Ranked #1 in comprehensive academic performance across all regional assessments",
       image: SchoolsStudent,
@@ -38,7 +38,7 @@ const SchoolAchievements = () => {
       color: "from-amber-600 to-orange-600"
     },
     {
-      year: "2021",
+      year: "2013",
       title: "Community Service Honors",
       description: "Awarded for outstanding student-led initiatives that positively impact our community",
       image: Images,
@@ -73,15 +73,29 @@ const SchoolAchievements = () => {
      </Helmet>
 
       {/* Hero Section */}
-      <div className="relative   pt-20 pb-80">
-        <div className="absolute inset-0 ">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url(${BackgroundImageForSchool})`,
-            // backgroundSize: '60px 60px'
-          }}></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-transparent z-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-blue-500/80 via-blue-500/40 to-transparent" />
-        </div>
+      <div className="relative pt-16 pb-32 md:pt-24 md:pb-64 lg:pt-32 lg:pb-80">
+
+  {/* Background Layer */}
+  <div className="absolute inset-0 overflow-hidden">
+
+    {/* Image */}
+    <div
+      className="absolute inset-0 bg-center bg-cover scale-105"
+      style={{
+        backgroundImage: `url(${BackgroundImageForSchool})`,
+      }}
+    ></div>
+
+    {/* Dark Overlay (Mobile Friendly) */}
+    <div className="absolute inset-0 bg-black/60 md:bg-black/50 z-10"></div>
+
+    {/* Blue Gradient */}
+    <div className="absolute inset-0 bg-gradient-to-t from-blue-600/70 via-blue-500/30 to-transparent z-20" />
+
+  </div>
+
+
+
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div 
@@ -239,25 +253,25 @@ const SchoolAchievements = () => {
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {[
                 { 
-                  value: "25+", 
+                  value: "10+", 
                   label: "Years of Excellence",
                   icon: <FaStar className="text-2xl text-amber-500" />,
                   gradient: "from-amber-50 to-yellow-50"
                 },
                 { 
-                  value: "1500+", 
-                  label: "Successful Graduates",
+                  value: "2,013+", 
+                  label: "Successful Accepts",
                   icon: <FaGraduationCap className="text-2xl text-blue-500" />,
                   gradient: "from-blue-50 to-cyan-50"
                 },
                 { 
-                  value: "50+", 
+                  value: "97+", 
                   label: "Qualified Teachers",
                   icon: <FaUsers className="text-2xl text-emerald-500" />,
                   gradient: "from-emerald-50 to-green-50"
                 },
                 { 
-                  value: "98%", 
+                  value: "85%", 
                   label: "Satisfaction Rate",
                   icon: <FaMedal className="text-2xl text-purple-500" />,
                   gradient: "from-purple-50 to-pink-50"
@@ -298,9 +312,9 @@ const SchoolAchievements = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {[
-              { year: "2020", title: "Best School Infrastructure", category: "Facilities" },
-              { year: "2019", title: "Environmental Leadership", category: "Sustainability" },
-              { year: "2018", title: "Sports Excellence", category: "Athletics" }
+              { year: "2018", title: "Best School Infrastructure", category: "Facilities" },
+              { year: "2017", title: "Environmental Leadership", category: "Sustainability" },
+              { year: "2016", title: "Sports Excellence", category: "Athletics" }
             ].map((award, index) => (
               <motion.div
                 key={index}

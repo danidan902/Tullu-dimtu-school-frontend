@@ -19,7 +19,7 @@ import dir1 from '../assets/dir1.png'
 import visitor from '../assets/visitor.png'
 
 const timelineDetails = {
-  "1995": {
+  "2009": {
     title: "Foundation & Early Years",
     subtitle: "The Beginning of an Educational Legacy",
     images: [
@@ -51,7 +51,7 @@ const timelineDetails = {
 
 
   
-  "2002": {
+  "2010": {
     title: "First Graduating Class & National Recognition",
     subtitle: "Setting New Standards of Excellence",
     images: [schoolHeroImage],
@@ -78,7 +78,7 @@ const timelineDetails = {
     quote: "The beautiful thing about learning is that no one can take it away from you.",
     author: "B.B. King"
   },
-  "2010": {
+  "2015": {
     title: "National Recognition & Expansion",
     subtitle: "Becoming a National Leader in Education",
     images: [
@@ -107,7 +107,7 @@ const timelineDetails = {
     quote: "Education is the most powerful weapon which you can use to change the world.",
     author: "Nelson Mandela"
   },
-  "2020": {
+  "2017": {
     title: "Modernization & Digital Transformation",
     subtitle: "Embracing 21st Century Learning",
       images:[
@@ -155,7 +155,7 @@ const timelineDetails = {
       }
     ],
     achievements: [
-      "1,200+ current students",
+      "2013+ current students",
       "85 faculty members",
       "15+ community partnerships",
       "Multiple innovation awards"
@@ -349,23 +349,23 @@ const OurHistory = () => {
 
   const timeline = [
     {
-      year: "1995",
+      year: "2009",
       title: "Foundation",
-      description: "Tullu Dimtu Secondary School was established with a vision to provide quality education in the region.",
+      description: "Our school was established in 2009 with a strong commitment to providing quality education for the community. At the beginning, the school started with only 51 students, including 24 male students and 27 female students in the elementary class.",
       icon: <FaSchool className="text-2xl" />,
       color: "bg-blue-500",
-      stats: "120 Students, 8 Teachers"
+      stats: "51 Students, 8 Teachers"
     },
     {
-      year: "2002",
-      title: "First Graduating Class",
-      description: "Our first batch of students graduated with outstanding academic results, setting a high standard.",
+      year: "2010",
+      title: "First Secondary School",
+      description: "In 2010, the school expanded its academic program and began offering secondary school education, marking an important milestone in its development.",
       icon: <FaUsers className="text-2xl" />,
       color: "bg-emerald-500",
       stats: "95% Pass Rate"
     },
     {
-      year: "2010",
+      year: "2011",
       title: "National Recognition",
       description: "Recognized as one of the top performing schools in the national examinations.",
       icon: <FaAward className="text-2xl" />,
@@ -373,7 +373,7 @@ const OurHistory = () => {
       stats: "Top 10 Nationally"
     },
     {
-      year: "2020",
+      year: "2015",
       title: "Modern Facilities",
       description: "Completed construction of new science labs and computer centers to enhance STEM education.",
       icon: <FaSchool className="text-2xl" />,
@@ -386,7 +386,7 @@ const OurHistory = () => {
       description: "Maintaining our tradition of academic excellence while innovating for the future of education.",
       icon: <FaCalendarAlt className="text-2xl" />,
       color: "bg-rose-500",
-      stats: "1,200+ Students"
+      stats: "2,013+ Students"
     }
   ];
 
@@ -397,7 +397,7 @@ const OurHistory = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const animateCounter = (setter, target, duration = 2000) => {
+      const animateCounter = (setter, target, duration = 4000) => {
         let start = 0;
         const increment = target / (duration / 16);
         const timer = setInterval(() => {
@@ -411,9 +411,9 @@ const OurHistory = () => {
         }, 16);
       };
 
-      animateCounter(setStudentCount, 1200);
-      animateCounter(setTeacherCount, 85);
-      animateCounter(setYearCount, 25);
+      animateCounter(setStudentCount, 2013);
+      animateCounter(setTeacherCount, 97);
+      animateCounter(setYearCount, 10);
     }, 500);
 
     return () => clearTimeout(timer);
@@ -501,7 +501,7 @@ const OurHistory = () => {
           >
             <div className="inline-flex  mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
               <FaStar className="text-yellow-300 mr-2" />
-              <span className="text-white/90 font-medium">Since 2000</span>
+              <span className="text-white/90 font-medium">Since 2009</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-6 leading-tight  mt-20">
@@ -606,13 +606,12 @@ const OurHistory = () => {
               
               <div className="space-y-6">
                 <p className="text-lg text-gray-700 leading-relaxed">
-                  Founded in  with just  students and 8 passionate teachers, Tullu Dimtu Secondary School 
-                  began as a small community initiative. What started as a modest dream has blossomed into one of 
-                  the most respected educational institutions in the country.
+                  Founded in 2009 with just 51 students (24 male and 27 female) and 8 passionate teachers, Tullu Dimtu Secondary School began as a small community initiative. In 2010, the school expanded its academic program and started offering secondary school education, marking an important milestone in its growth. What started as a modest dream has blossomed into one of the most respected educational institutions in the country. 
+                  Through dedication, hard work, and a commitment to quality education, the school has continued to nurture talented students who contribute positively to society.
                 </p>
                 <p className="text-lg text-gray-700 leading-relaxed">
                   Through decades of dedication, innovation, and community support, we've transformed into a 
-                  beacon of academic excellence, now serving over 1,200 students with a faculty of 85 highly 
+                  beacon of academic excellence, now serving over 2,013 students with a faculty of 85 highly 
                   qualified educators who are committed to shaping tomorrow's leaders.
                 </p>
               </div>

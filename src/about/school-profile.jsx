@@ -38,7 +38,7 @@ const SchoolProfile = () => {
       icon: <FaBook className="text-4xl text-blue-700" />,
       title: "Academic Programs",
       shortDesc: "Our institution offers a diverse range of academic programs designed to cater to the varied interests and career goals of our students. From foundational courses to advanced specialized studies, each program is structured to provide both theoretical knowledge and practical skills...",
-      fullDesc: "Our comprehensive curriculum from grades 7-12 includes advanced STEM programs with dedicated science and computer labs. We offer specialized tracks in Mathematics, Physics, Chemistry, Biology, and Other Social Science, with Advanced Placement (AP) courses available for high-achieving students. Our curriculum is regularly updated to meet national standards while incorporating  best practices in education.",
+      fullDesc: "Our comprehensive curriculum from grades 9-12 includes advanced STEM programs with dedicated science and computer labs. We offer specialized tracks in Mathematics, Physics, Chemistry, Biology, and Other Social Science, with Advanced Placement (AP) courses available for high-achieving students. Our curriculum is regularly updated to meet national standards while incorporating  best practices in education.",
       highlight: "Advanced Placement courses available",
       stats: ["12+ AP Courses", "1:15 Teacher Ratio", "95% Exam Pass Rate"],
       image: labImage
@@ -56,7 +56,7 @@ const SchoolProfile = () => {
       icon: <FaUsers className="text-4xl text-blue-700" />,
       title: "Extracurriculars",
       shortDesc: "Our Extracurricular Programs provide students with opportunities to explore their interests, develop new skills, and build lasting friendships beyond the classroom. From sports and arts to clubs and community service, these activities encourage teamwork, leadership, and creativity...",
-      fullDesc: "With over 30 clubs and extracurricular activities, students can explore their interests beyond academics. Our offerings include sports teams (football, basketball, volleyball, track and field), arts clubs (music, drama, visual arts), academic clubs (debate, science club, mathematics Olympiad), and community service organizations. We have championship-winning sports teams and award-winning arts programs that compete at regional and national levels.",
+      fullDesc: "With over 10 clubs and extracurricular activities, students can explore their interests beyond academics. Our offerings include sports teams (football, basketball, volleyball, track and field), arts clubs (music, drama, visual arts), academic clubs (debate, science club, mathematics Olympiad), and community service organizations. We have championship-winning sports teams and award-winning arts programs that compete at regional and national levels.",
       highlight: "Championship sports teams",
       stats: ["15 Sports Teams", "25+ Annual Events", "500+ Community Hours"],
       image: studentsImage1
@@ -64,10 +64,10 @@ const SchoolProfile = () => {
   ];
 
   const schoolStats = [
-    { icon: <FaUsers className="text-2xl" />, value: "1,200+", label: "Students", description: "Active enrolled students" },
-    { icon: <FaChalkboardTeacher className="text-2xl" />, value: "85+", label: "Faculty", description: "Certified educators" },
-    { icon: <FaGraduationCap className="text-2xl" />, value: "20+", label: "Years", description: "Of educational excellence" },
-    { icon: <FaAward className="text-2xl" />, value: "70%", label: "Pass Rate", description: "National exam success" }
+    { icon: <FaUsers className="text-2xl" />, value: "2,013+", label: "Students", description: "Active enrolled students" },
+    { icon: <FaChalkboardTeacher className="text-2xl" />, value: "97+", label: "Faculty", description: "Certified educators" },
+    { icon: <FaGraduationCap className="text-2xl" />, value: "10+", label: "Years", description: "Of educational excellence" },
+    { icon: <FaAward className="text-2xl" />, value: "85%", label: "Pass Rate", description: "National exam success" }
   ];
 
   const toggleExpand = (index) => {
@@ -82,7 +82,7 @@ const SchoolProfile = () => {
     <>
       <Helmet>
         <title>School Profile | Tullu Dimtu Secondary School</title>
-        <meta name="description" content="Discover Tullu Dimtu Secondary School - Excellence in education since 1998. Explore our academic programs, campus facilities, and student achievements." />
+        <meta name="description" content="Discover Tullu Dimtu Secondary School - Excellence in education since 2009. Explore our academic programs, campus facilities, and student achievements." />
       </Helmet>
 
       
@@ -170,7 +170,7 @@ const SchoolProfile = () => {
                     <FaSchool className="text-white text-4xl" />
                   </div>
                   <div className="absolute top-6 left-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg">
-                    <p className="text-blue-900 font-bold">Since 1995</p>
+                    <p className="text-blue-900 font-bold">Since 2009</p>
                   </div>
                 </div>
               </motion.div>
@@ -186,13 +186,13 @@ const SchoolProfile = () => {
                   Our <span className="text-yellow-500">Educational Legacy</span>
                 </h2>
                 <p className="text-gray-700 leading-relaxed text-lg mb-6">
-                  Established in 1995, Tullu Dimtu Secondary School has grown from humble beginnings to become 
+                  Established in 2009, Tullu Dimtu Secondary School has grown from humble beginnings to become 
                   one of the region's most respected educational institutions. Our commitment to academic 
                   excellence and holistic development has produced generations of successful alumni who 
                   contribute meaningfully to society.
                 </p>
                 <p className="text-gray-700 leading-relaxed text-lg mb-8">
-                  Located on a spacious 10-acre campus in Addis Ababa, our school combines modern facilities 
+                  Located on  our school combines modern facilities 
                   with a nurturing environment that encourages students to explore their potential, develop 
                   critical thinking skills, and cultivate lifelong learning habits.
                 </p>

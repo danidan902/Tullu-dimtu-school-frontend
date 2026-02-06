@@ -1,9 +1,10 @@
-
 import React, { useState, useRef } from 'react';
-import { Upload as UploadIcon, AlertCircle, CheckCircle, X, FileUp, Loader2, FileText, Home } from 'lucide-react';
+import { Upload as UploadIcon, AlertCircle, CheckCircle, X, FileUp, Loader2, Home } from 'lucide-react';
 import Bg from '../assets/bulding.jpg';
 import { Helmet } from "react-helmet-async";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import JSZip from 'jszip';
 
 const Upload = () => {
   const [files, setFiles] = useState([]);
@@ -15,58 +16,214 @@ const Upload = () => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
-  // Cloudinary Configuration
-  const cloudName = 'duz0kwsrd';
-  const uploadPreset = 'teachers-material';
-  const folderPath = 'teacher-attendance';
+  const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
-  const handleCancelUpload = () => {
-    setUploading(false);
-    setUploadProgress(0);
-    setError('Upload cancelled');
-    setFiles([]);
+  // -------------------------
+  // Aggressive Compression Functions
+  // -------------------------
+  
+  const compressImageToMax = async (file) => {
+    return new Promise((resolve, reject) => {
+      if (!file.type.startsWith('image/')) {
+        resolve(file);
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target.result;
+        
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          // MAX compression settings - ultra aggressive
+          const maxWidth = 800;
+          const maxHeight = 800;
+          
+          // Calculate new dimensions while maintaining aspect ratio
+          let width = img.width;
+          let height = img.height;
+          
+          if (width > maxWidth || height > maxHeight) {
+            const ratio = Math.min(maxWidth / width, maxHeight / height);
+            width = Math.floor(width * ratio);
+            height = Math.floor(height * ratio);
+          }
+          
+          // For very large images, make even smaller
+          if (file.size > 5 * 1024 * 1024) { // If original > 5MB
+            width = Math.max(400, width);
+            height = Math.max(400, height);
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          // Use low quality for maximum compression
+          canvas.toBlob(
+            (blob) => {
+              if (!blob) {
+                resolve(file);
+                return;
+              }
+              
+              const compressedFile = new File([blob], file.name, {
+                type: 'image/jpeg',
+                lastModified: Date.now(),
+              });
+              
+              resolve(compressedFile);
+            },
+            'image/jpeg',
+            0.3 // Low quality for high compression
+          );
+        };
+        
+        img.onerror = () => {
+          resolve(file);
+        };
+      };
+      
+      reader.onerror = () => {
+        resolve(file);
+      };
+    });
   };
 
-  const handleFileSelect = (selectedFiles) => {
-    if (selectedFiles.length === 0) return;
+  const compressWithZip = async (file) => {
+    return new Promise((resolve) => {
+      const zip = new JSZip();
+      
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const arrayBuffer = e.target.result;
+        
+        zip.file(file.name, arrayBuffer, {
+          compression: "DEFLATE",
+          compressionOptions: {
+            level: 9
+          }
+        });
+        
+        const content = await zip.generateAsync({
+          type: "blob",
+          compression: "DEFLATE",
+          compressionOptions: {
+            level: 9
+          }
+        });
+        
+        const compressedFile = new File([content], file.name + '.zip', {
+          type: 'application/zip',
+          lastModified: Date.now(),
+        });
+        
+        resolve(compressedFile);
+      };
+      
+      reader.readAsArrayBuffer(file);
+    });
+  };
 
-    const filesArray = Array.from(selectedFiles).map(file => ({
-      file,
-      id: Date.now() + Math.random(),
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      preview: URL.createObjectURL(file),
-      status: 'pending'
-    }));
+  const compressFile = async (file) => {
+    try {
+      let compressedFile = file;
+      
+      if (file.type.startsWith('image/')) {
+        compressedFile = await compressImageToMax(file);
+      }
+      
+      // Always apply zip compression for extra reduction
+      const zipFile = await compressWithZip(compressedFile);
+      return {
+        file: zipFile,
+        originalSize: file.size,
+        compressionRatio: ((file.size - zipFile.size) / file.size * 100).toFixed(1)
+      };
+      
+    } catch (err) {
+      console.error('Compression error:', err);
+      return {
+        file: file,
+        originalSize: file.size,
+        compressionRatio: 0
+      };
+    }
+  };
 
-    setFiles(filesArray);
+  const handleFileSelect = async (selectedFiles) => {
+    if (!selectedFiles || selectedFiles.length === 0) return;
+    
     setError('');
     setSuccess('');
+    setUploading(true);
+    
+    const filesArray = [];
+    const totalFiles = Array.from(selectedFiles);
+    
+    for (let i = 0; i < totalFiles.length; i++) {
+      const file = totalFiles[i];
+      
+      try {
+        setFiles(prev => [...prev, {
+          file,
+          id: Date.now() + Math.random(),
+          name: file.name,
+          size: file.size,
+          originalSize: file.size,
+          type: file.type,
+          status: 'compressing'
+        }]);
+        
+        const compressionResult = await compressFile(file);
+        
+        setFiles(prev => {
+          const newFiles = [...prev];
+          const fileIndex = newFiles.findIndex(f => f.name === file.name && f.status === 'compressing');
+          
+          if (fileIndex !== -1) {
+            newFiles[fileIndex] = {
+              ...compressionResult,
+              id: Date.now() + Math.random(),
+              name: compressionResult.file.name,
+              size: compressionResult.file.size,
+              type: compressionResult.file.type,
+              status: 'pending',
+              compressed: compressionResult.originalSize !== compressionResult.file.size
+            };
+          }
+          
+          return newFiles;
+        });
+        
+      } catch (err) {
+        console.error('Error processing file:', err);
+        setFiles(prev => [...prev.filter(f => !(f.name === file.name && f.status === 'compressing'))]);
+      }
+    }
+    
+    setUploading(false);
   };
 
-  const handleFileInputChange = (e) => {
-    handleFileSelect(e.target.files);
-  };
-
-  const handleDragOver = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-    handleFileSelect(e.dataTransfer.files);
-  };
-
+  const handleFileInputChange = (e) => handleFileSelect(e.target.files);
+  const handleDragOver = (e) => { e.preventDefault(); setIsDragging(true); };
+  const handleDragLeave = (e) => { e.preventDefault(); setIsDragging(false); };
+  const handleDrop = (e) => { e.preventDefault(); setIsDragging(false); handleFileSelect(e.dataTransfer.files); };
+  
   const removeFile = (id) => {
-    setFiles(prev => prev.filter(file => file.id !== id));
+    setFiles(prev => {
+      const fileToRemove = prev.find(f => f.id === id);
+      if (fileToRemove?.preview) {
+        URL.revokeObjectURL(fileToRemove.preview);
+      }
+      return prev.filter(f => f.id !== id);
+    });
   };
 
   const formatFileSize = (bytes) => {
@@ -77,196 +234,100 @@ const Upload = () => {
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const getFileIcon = (type) => {
+  const getFileIcon = (file) => {
+    const type = file.type || '';
     if (type.includes('image')) return '🖼️';
     if (type.includes('pdf')) return '📄';
     if (type.includes('word')) return '📝';
     if (type.includes('excel') || type.includes('spreadsheet')) return '📊';
-    if (type.includes('video')) return '🎬';
-    if (type.includes('audio')) return '🎵';
+    if (type.includes('zip')) return '🗜️';
     return '📎';
   };
 
-  const uploadToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', uploadPreset);
-    formData.append('timestamp', Date.now().toString());
+  const getCompressionStats = () => {
+    const originalTotal = files.reduce((sum, f) => sum + (f.originalSize || f.size), 0);
+    const compressedTotal = files.reduce((sum, f) => sum + f.size, 0);
+    const saved = originalTotal - compressedTotal;
+    const percentage = originalTotal > 0 ? (saved / originalTotal * 100).toFixed(1) : 0;
     
-    // Add folder information
-    if (folderPath) {
-      formData.append('folder', folderPath);
-    }
-
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error(`Upload failed: ${response.statusText}`);
-    }
-
-    return await response.json();
+    return {
+      originalTotal,
+      compressedTotal,
+      saved,
+      percentage
+    };
   };
 
-  const saveFileToLocalStorage = (fileInfo) => {
-    try {
-      // Get existing files from localStorage
-      const existingFiles = JSON.parse(localStorage.getItem('cloudinaryFiles') || '[]');
-      
-      // Check if file already exists
-      const fileExists = existingFiles.some(f => f.publicId === fileInfo.publicId);
-      
-      if (!fileExists) {
-        // Add new file to the beginning
-        existingFiles.unshift(fileInfo);
-        
-        // Keep only last 100 files
-        const updatedFiles = existingFiles.slice(0, 100);
-        
-        // Save back to localStorage
-        localStorage.setItem('cloudinaryFiles', JSON.stringify(updatedFiles));
-        
-        console.log('File saved to localStorage:', fileInfo.name);
-      }
-    } catch (error) {
-      console.error('Error saving to localStorage:', error);
-    }
-  };
-
+  // -------------------------
+  // Upload to backend
+  // -------------------------
   const handleFileUpload = async () => {
-    if (files.length === 0) {
-      setError('No files selected');
-      return;
-    }
+    const pendingFiles = files.filter(f => f.status === 'pending');
+    if (pendingFiles.length === 0) return setError('No files to upload');
 
-    if (!cloudName || !uploadPreset) {
-      setError('Please configure Cloudinary settings.');
-      return;
-    }
-
-    setUploading(true);
-    setError('');
-    setSuccess('');
-    setUploadProgress(0);
+    const formData = new FormData();
+    pendingFiles.forEach(f => formData.append('files', f.file));
 
     try {
-      const uploadedFiles = [];
-      let completedCount = 0;
+      setUploading(true);
+      
+      setFiles(prev => prev.map(f => 
+        f.status === 'pending' ? { ...f, status: 'uploading' } : f
+      ));
 
-      for (const fileObj of files) {
-        try {
-          setFiles(prev => prev.map(f => 
-            f.id === fileObj.id ? { ...f, status: 'uploading' } : f
-          ));
+      const res = await axios.post(`${API_URL}/upload`, formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        onUploadProgress: (e) => setUploadProgress((e.loaded / e.total) * 100)
+      });
 
-          // Simulate progress
-          const progressInterval = setInterval(() => {
-            setUploadProgress(prev => {
-              if (prev >= 90) {
-                clearInterval(progressInterval);
-                return prev;
-              }
-              return prev + (10 / files.length);
-            });
-          }, 300);
+      setFiles(prev => prev.map(f => 
+        f.status === 'uploading' ? { ...f, status: 'uploaded' } : f
+      ));
 
-          // Upload to Cloudinary
-          const cloudinaryResponse = await uploadToCloudinary(fileObj.file);
-          
-          clearInterval(progressInterval);
-          completedCount++;
-          setUploadProgress((completedCount / files.length) * 100);
-
-          setFiles(prev => prev.map(f => 
-            f.id === fileObj.id ? { ...f, status: 'uploaded' } : f
-          ));
-
-          // Create file info object
-          const fileInfo = {
-            id: cloudinaryResponse.public_id || `file-${Date.now()}`,
-            publicId: cloudinaryResponse.public_id,
-            name: fileObj.name,
-            size: fileObj.size,
-            type: cloudinaryResponse.resource_type,
-            format: cloudinaryResponse.format,
-            url: cloudinaryResponse.secure_url,
-            uploadedAt: new Date().toISOString(),
-            width: cloudinaryResponse.width,
-            height: cloudinaryResponse.height,
-            folder: folderPath
-          };
-
-          uploadedFiles.push(fileInfo);
-          
-          // Save to localStorage
-          saveFileToLocalStorage(fileInfo);
-
-        } catch (err) {
-          console.error(`Failed to upload ${fileObj.name}:`, err);
-          setFiles(prev => prev.map(f => 
-            f.id === fileObj.id ? { ...f, status: 'error' } : f
-          ));
-        }
-      }
-
+      setSuccess(`Uploaded ${res.data.uploadedFiles?.length || pendingFiles.length} file(s) successfully`);
       setUploadProgress(100);
 
-      if (uploadedFiles.length > 0) {
-        const successMsg = `Successfully uploaded ${uploadedFiles.length} file(s) to Cloudinary`;
-        setSuccess(successMsg);
-        
-        // Save success notification
-        localStorage.setItem('lastUpload', JSON.stringify({
-          message: successMsg,
-          count: uploadedFiles.length,
-          timestamp: new Date().toISOString()
-        }));
-        
-        // Clear files after successful upload
+      setTimeout(() => {
         setFiles([]);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-
-        // Reset progress after 2 seconds
-        setTimeout(() => setUploadProgress(0), 2000);
-      } else {
-        setError('Failed to upload any files. Please try again.');
-      }
+        setUploadProgress(0);
+      }, 2000);
 
     } catch (err) {
-      console.error('Upload error:', err);
-      setError(`Upload failed: ${err.message}`);
-      setUploadProgress(0);
+      console.error('Upload failed:', err);
+      setError(err.response?.data?.message || 'Upload failed. Please try again.');
+      
+      setFiles(prev => prev.map(f => 
+        f.status === 'uploading' ? { ...f, status: 'error' } : f
+      ));
     } finally {
       setUploading(false);
     }
   };
 
-  // Rest of your JSX remains the same...
+  const handleCancelUpload = () => {
+    setUploading(false);
+    setUploadProgress(0);
+    setFiles([]);
+    setError('Upload cancelled');
+  };
+
+  // -------------------------
+  // JSX
+  // -------------------------
+  const stats = getCompressionStats();
+  
   return (
     <>
-      <Helmet>
-        <title>Tullu Dimtu Secondary School - Upload</title>
-      </Helmet>
-
-      <div 
+      <Helmet><title>Tullu Dimtu Secondary School - Upload</title></Helmet>
+      <div
         className="min-h-screen py-12 px-4 bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url(${Bg})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed'
+          backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url(${Bg})`
         }}
       >
         <div className="max-w-4xl mx-auto">
           <div className="fixed top-4 left-4 z-10">
-            <button
-              onClick={() => navigate('/')}
-              className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
-            >
+            <button onClick={() => navigate('/')} className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
               <Home className="w-5 h-5" />
               <span>Back to Home Page</span>
             </button>
@@ -277,187 +338,144 @@ const Upload = () => {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-4 shadow-lg">
                 <FileUp className="w-8 h-8 text-white" />
               </div>
-              <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">
-                Teacher Attendance Upload
-              </h1>
-              <p className="text-white/80 text-lg">Upload directly to Cloudinary folder: {folderPath}</p>
+              <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">Teacher Attendance Upload</h1>
+              <p className="text-white/70 mb-2">
+                Files are automatically compressed for optimal upload
+              </p>
             </div>
+
+            {/* Compression Stats */}
+            {files.length > 0 && stats.saved > 0 && (
+              <div className="mb-6 p-4 bg-green-500/10 rounded-lg border border-green-500/20">
+                <div className="flex items-center justify-between text-green-300">
+                  <div className="flex items-center gap-2">
+                    <span>Size reduced by {formatFileSize(stats.saved)} ({stats.percentage}%)</span>
+                  </div>
+                  <span className="text-sm">
+                    {formatFileSize(stats.compressedTotal)} / {formatFileSize(stats.originalTotal)}
+                  </span>
+                </div>
+              </div>
+            )}
 
             {/* Upload Area */}
             <div
-              className={`border-3 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ${
-                isDragging 
-                  ? 'border-green-400 bg-green-500/10 scale-[1.02]' 
-                  : 'border-white/30 bg-white/5'
-              } hover:bg-white/10 hover:border-white/40 cursor-pointer mb-8`}
+              className={`border-3 border-dashed rounded-2xl p-12 text-center transition-all duration-300 ${isDragging ? 'border-green-400 bg-green-500/10' : 'border-white/30 bg-white/5'} hover:bg-white/10 cursor-pointer mb-8`}
               onClick={() => fileInputRef.current.click()}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
               onDrop={handleDrop}
             >
-              <div className="max-w-md mx-auto">
-                <div className="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-500/80 to-purple-600/80 rounded-full flex items-center justify-center shadow-xl">
-                  <UploadIcon className="w-12 h-12 text-white" />
-                </div>
-                
-                <h3 className="text-xl font-semibold text-white mb-3">
-                  {isDragging ? 'Drop files here' : 'Drag & drop files'}
-                </h3>
-                
-                <p className="text-white/80 mb-2">or click to browse files</p>
-                <p className="text-white/60 text-sm">Files will be saved in Cloudinary folder: {folderPath}</p>
-
-                <button
-                  className="mt-6 px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl font-medium hover:shadow-lg hover:scale-[1.02] transition-all duration-200 shadow-md"
-                  disabled={uploading}
-                >
-                  {uploading ? (
-                    <span className="flex items-center justify-center">
-                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                      Uploading...
-                    </span>
-                  ) : (
-                    'Choose Files'
-                  )}
-                </button>
-              </div>
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                onChange={handleFileInputChange}
-                className="hidden"
-                accept="*"
+              <UploadIcon className="w-12 h-12 text-white mx-auto mb-3" />
+              <p className="text-white/80">Drag & drop files or click to browse</p>
+              <p className="text-white/60 text-sm mt-2">All files will be compressed automatically</p>
+              <input 
+                ref={fileInputRef} 
+                type="file" 
+                multiple 
+                onChange={handleFileInputChange} 
+                className="hidden" 
+                accept="*/*"
               />
             </div>
 
-            {/* File List Preview */}
+            {/* File list */}
             {files.length > 0 && (
               <div className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-semibold text-white flex items-center">
-                    <FileText className="w-5 h-5 mr-2" />
-                    Selected Files ({files.length})
-                  </h3>
-                  <button
-                    onClick={() => setFiles([])}
-                    className="text-white/70 hover:text-white text-sm flex items-center"
-                  >
-                    <X className="w-4 h-4 mr-1" />
-                    Clear all
-                  </button>
-                </div>
-                
-                <div className="space-y-3 max-h-80 overflow-y-auto pr-2">
-                  {files.map((file) => (
-                    <div 
-                      key={file.id}
-                      className={`flex items-center justify-between p-4 rounded-xl border transition-colors group ${
-                        file.status === 'uploading' 
-                          ? 'bg-blue-500/10 border-blue-500/30' 
-                          : file.status === 'uploaded'
-                          ? 'bg-green-500/10 border-green-500/30'
-                          : file.status === 'error'
-                          ? 'bg-red-500/10 border-red-500/30'
-                          : 'bg-white/5 border-white/10 hover:bg-white/10'
-                      }`}
-                    >
-                      <div className="flex items-center flex-1 min-w-0">
-                        <span className="text-2xl mr-3">{getFileIcon(file.type)}</span>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-white font-medium truncate">{file.name}</p>
-                          <p className="text-white/60 text-sm">{formatFileSize(file.size)}</p>
-                          {file.status === 'uploading' && (
-                            <p className="text-blue-300 text-xs mt-1">Uploading to Cloudinary...</p>
-                          )}
-                          {file.status === 'uploaded' && (
-                            <p className="text-green-300 text-xs mt-1">Uploaded successfully</p>
-                          )}
-                          {file.status === 'error' && (
-                            <p className="text-red-300 text-xs mt-1">Upload failed</p>
-                          )}
+                {files.map(file => (
+                  <div key={file.id} className={`p-3 rounded mb-2 ${file.status === 'compressing' ? 'bg-blue-500/10' : 
+                    file.status === 'uploading' ? 'bg-yellow-500/10' : 
+                    file.status === 'uploaded' ? 'bg-green-500/10' : 
+                    file.status === 'error' ? 'bg-red-500/10' : 'bg-white/5'}`}>
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xl">{getFileIcon(file)}</span>
+                        <div>
+                          <div className="text-white">{file.name}</div>
+                          <div className="text-white/60 text-sm flex items-center gap-2">
+                            <span>{formatFileSize(file.size)}</span>
+                            {file.compressed && file.originalSize && (
+                              <>
+                                <span className="text-green-400">↓</span>
+                                <span className="line-through">{formatFileSize(file.originalSize)}</span>
+                              </>
+                            )}
+                            <span className="text-white/40">
+                              {file.status === 'compressing' ? 'Compressing...' : 
+                               file.status === 'uploading' ? 'Uploading...' : 
+                               file.status === 'uploaded' ? 'Uploaded' : 
+                               file.status === 'error' ? 'Error' : 'Ready'}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                      {file.status !== 'uploading' && (
-                        <button
-                          onClick={() => removeFile(file.id)}
-                          className="p-2 text-white/50 hover:text-red-400 hover:bg-red-500/20 rounded-full transition-colors"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      )}
+                      <button 
+                        onClick={() => removeFile(file.id)} 
+                        className="text-red-400 hover:text-red-300"
+                        disabled={file.status === 'uploading'}
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
             )}
 
-            {/* Upload Progress */}
+            {/* Progress */}
             {uploading && (
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-white font-medium">Uploading to Cloudinary...</span>
-                  <span className="text-white/80">{Math.round(uploadProgress)}%</span>
-                </div>
+              <div className="mb-4">
                 <div className="h-3 bg-white/10 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-green-500 to-emerald-400 transition-all duration-300 rounded-full"
-                    style={{ width: `${uploadProgress}%` }}
-                  />
+                  <div className="h-full bg-green-500 transition-all" style={{ width: `${uploadProgress}%` }}></div>
                 </div>
+                <p className="text-white mt-1">{Math.round(uploadProgress)}%</p>
               </div>
             )}
 
-            {/* Action Buttons */}
-            {(files.length > 0 || uploading) && (
-              <div className="flex gap-4 mb-8">
-                <button
-                  onClick={handleFileUpload}
-                  disabled={uploading || files.length === 0}
-                  className="flex-1 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-md flex items-center justify-center"
-                >
-                  {uploading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 mr-3 animate-spin" />
-                      Uploading to Cloudinary...
-                    </>
-                  ) : (
-                    <>
-                      <UploadIcon className="w-5 h-5 mr-3" />
-                      Upload {files.length} file{files.length !== 1 ? 's' : ''} to Cloudinary
-                    </>
-                  )}
-                </button>
-                
-                {uploading && (
-                  <button
-                    onClick={handleCancelUpload}
-                    className="px-8 py-4 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-xl font-semibold hover:shadow-lg hover:scale-[1.02] transition-all duration-200 shadow-md flex items-center justify-center"
-                  >
-                    <X className="w-5 h-5 mr-3" />
-                    Cancel Upload
-                  </button>
+            {/* Buttons */}
+            <div className="flex gap-4">
+              <button 
+                onClick={handleFileUpload} 
+                disabled={uploading || files.filter(f => f.status === 'pending').length === 0} 
+                className="flex-1 py-3 bg-green-500 hover:bg-green-600 disabled:bg-green-800 disabled:cursor-not-allowed text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+              >
+                {uploading ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    Uploading...
+                  </>
+                ) : (
+                  <>
+                    <UploadIcon className="w-5 h-5" />
+                    Upload {files.filter(f => f.status === 'pending').length} files
+                  </>
                 )}
-              </div>
-            )}
+              </button>
+              {uploading && (
+                <button 
+                  onClick={handleCancelUpload} 
+                  className="py-3 px-6 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
+                >
+                  Cancel
+                </button>
+              )}
+            </div>
 
-            {/* Error Message */}
+            {/* Messages */}
             {error && (
-              <div className="mb-8 p-4 backdrop-blur-sm bg-red-500/10 border border-red-500/30 rounded-xl">
-                <div className="flex items-center">
-                  <AlertCircle className="w-5 h-5 text-red-300 mr-3 flex-shrink-0" />
-                  <span className="text-red-100">{error}</span>
+              <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                <div className="flex items-center gap-2 text-red-300">
+                  <AlertCircle className="w-5 h-5" />
+                  <span>{error}</span>
                 </div>
               </div>
             )}
             
-            {/* Success Message */}
             {success && (
-              <div className="mb-8 p-4 backdrop-blur-sm bg-green-500/10 border border-green-500/30 rounded-xl">
-                <div className="flex items-center">
-                  <CheckCircle className="w-5 h-5 text-green-300 mr-3 flex-shrink-0" />
-                  <span className="text-green-100">{success}</span>
+              <div className="mt-4 p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                <div className="flex items-center gap-2 text-green-300">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>{success}</span>
                 </div>
               </div>
             )}

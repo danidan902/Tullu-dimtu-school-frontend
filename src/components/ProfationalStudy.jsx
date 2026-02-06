@@ -1895,9 +1895,7 @@ case 'liberay':
         <div className="absolute inset-0 z-0">
           <div 
             className="w-full h-full bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: `url(${anim16})`,
-            }}
+            
           />
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-emerald-500/10 dark:from-gray-900/90 dark:via-gray-900/85 dark:to-gray-900/90" />
           <div className="absolute inset-0 bg-gradient-to-t from-white/30 via-transparent to-white/20 dark:from-gray-900/50 dark:via-transparent dark:to-gray-900/70" />
@@ -1908,16 +1906,16 @@ case 'liberay':
           {/* Header Section */}
           <div className='p-6 md:p-10'>
             <div className='max-w-4xl'>
-              <span className='inline-block px-4 py-2 rounded-full bg-blue-500/10 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 text-sm font-semibold mb-4 border border-blue-200/30 dark:border-blue-500/20'>
+              <span className='inline-block px-4 py-2 rounded-full text-white text-blue-600 dark:text-blue-400 text-sm font-semibold mb-4 border border-blue-200/30 '>
                 📚 Tulu Dimtu Secondary School
               </span>
               
-              <h1 className='text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-4 md:mb-6 leading-tight'>
+              <h1 className='text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight'>
                 Your Gateway to
-                <span className='block text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 dark:from-blue-400 dark:to-purple-400'> Academic Excellence</span>
+                <span className='block text-transparent bg-clip-text text-white'> Academic Excellence</span>
               </h1>
               
-              <p className='text-base md:text-lg lg:text-xl text-gray-700 dark:text-gray-300 mb-6 md:mb-8 leading-relaxed'>
+              <p className='text-base md:text-lg lg:text-xl text-white mb-6 md:mb-8 leading-relaxed'>
                 Access a comprehensive collection of premium educational resources designed to elevate your learning journey and just you can access any material related with coding. Improve your educational status
               </p>
               
@@ -2844,8 +2842,8 @@ case 'liberay':
    case 'studyportal':
      return(
      <div className='mb-8'>
-  <h2 className='text-3xl font-bold text-gray-800 dark:text-white mb-8 text-center'>Start <span className='text-gradient-to-br from-[#1e1b4b] via-[#312e81] to-[#581c87]'>Study </span></h2>
-     <p className="max-w-3xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-300">
+  <h2 className='text-3xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-8 text-center'>Start Study </h2>
+     <p className="max-w-3xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-600 dark:text-gray-400">
   Choose your grade and start studying. Learn with{" "}
   <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent font-semibold">
     clear lessons
@@ -3015,7 +3013,7 @@ case 'liberay':
             {/* Resource Categories */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">Categories</h2>
+                <h2 className="text-lg lg:text-xl font-semibold text-blue-500">Categories</h2>
                 <button 
                   onClick={() => {
                     setActiveCategory(null);
@@ -3045,7 +3043,7 @@ case 'liberay':
             {/* Recent Resources */}
             <div className="mb-8">
               <div className="flex justify-between items-center mb-4">
-                <h2 className="text-lg lg:text-xl font-semibold text-gray-800 dark:text-white">
+                <h2 className="text-lg lg:text-xl font-semibold text-blue-500">
                   {activeCategory ? `${categories.find(c => c.key === activeCategory)?.label}` : 'Recent Resources'}
                   {selectedSubject !== 'all' && ` • ${selectedSubject}`}
                 </h2>

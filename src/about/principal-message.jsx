@@ -1,4 +1,4 @@
-import schoolBgImage from '../assets/bul.jpg';
+import schoolBgImage from '../assets/pres.png';
 import { Helmet } from "react-helmet-async";
 import Footer from '../components/Footer';
 import schoolEvent from '../assets/saq.jpg';
@@ -54,7 +54,7 @@ const PrincipalMessage = () => {
         />
         <div className="mt-4 text-center p-4">
           <p className="text-xl font-semibold text-gray-800">
-            Mrs. Anjali Sharma
+            Mrs. Saqata
           </p>
           <p className="text-gray-600">
             Principal, Tulu Dimtu School
@@ -150,7 +150,7 @@ const PrincipalMessage = () => {
                     With warm regards,
                   </p>
                   <p className="text-lg text-gray-700">
-                    Mrs. Anjali Sharma<br />
+                    Mrs. Saqata<br />
                     Principal, Tulu Dimtu School
                   </p>
                 </div>
@@ -166,17 +166,15 @@ const PrincipalMessage = () => {
                 />
                 <div className="mt-4 text-center">
                   <p className="text-xl font-semibold text-gray-800">
-                    Mrs. Anjali Sharma
+                    Mrs. Saqata
                   </p>
                   <p className="text-gray-600">
                     Principal, Tulu Dimtu School
                   </p>
                   <div className="mt-4 space-y-2">
-                    <p className="text-gray-700">
-                      M.Sc., M.Ed., Ph.D.
-                    </p>
+                   
                     <p className="text-gray-600 text-sm">
-                      25+ Years in Education
+                      9+ Years in Education
                     </p>
                     <p className="text-gray-600 text-sm">
                       Email: principal@tuludimtu.edu

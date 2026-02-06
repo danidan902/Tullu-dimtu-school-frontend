@@ -16,6 +16,7 @@
     "browser-image-compression": "^2.0.2",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.23.12",
+    "jszip": "^3.10.1",
     "lucide-react": "^0.534.0",
     "monaco-editor": "^0.55.1",
     "pannellum": "^2.5.6",
@@ -35,12 +36,12 @@
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },
- "scripts": {
-  "start": "react-scripts start",
-  "build": "CI=false react-scripts build",
-  "test": "react-scripts test",
-  "eject": "react-scripts eject"
-},
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "CI=false react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

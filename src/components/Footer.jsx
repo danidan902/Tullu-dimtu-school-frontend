@@ -74,7 +74,7 @@ function Footer() {
               </div>
             </div>
             <p className="text-gray-200 leading-relaxed text-sm font-light">
-              Excellence in Education Since 1995. Shaping future leaders through innovative teaching and holistic development.
+              Excellence in Education Since 2009. Shaping future leaders through innovative teaching and holistic development.
             </p>
             <div className="flex space-x-2 pt-1">
               {[FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaYoutube].map((Icon, idx) => (
@@ -123,10 +123,10 @@ function Footer() {
             </h4>
             <ul className="space-y-3.5">
               {[
-                { icon: FaMapMarkerAlt, text: "123 Education Street\nAddis Ababa, Ethiopia\nP.O. Box 1234" },
-                { icon: FaPhone, text: "+251 123 456 789" },
+                { icon: FaMapMarkerAlt, text: "Sheger\nTullu Dimtu, Ethiopia\n" },
+                { icon: FaPhone, text: "+251 114627 280" },
                 { icon: FaEnvelope, text: "info@tulludimtu.edu.et" },
-                { icon: FaClock, text: "Mon-Fri: 8:00 AM - 5:00 PM\nSat: 9:00 AM - 1:00 PM" },
+                { icon: FaClock, text: "Mon-Fri: 8:00 AM - 5:00 PM\nSat: 8:00 AM - 4:00 PM" },
               ].map((item, idx) => (
                 <li key={idx} className="flex items-start">
                   <div className="p-1.5 bg-white/10 rounded-lg mr-3 mt-0.5">

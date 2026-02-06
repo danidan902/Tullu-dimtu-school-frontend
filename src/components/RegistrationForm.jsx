@@ -1,7 +1,7 @@
 import  { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const API_URL = 'vhttps://tullu-dimtu-school-backend-1.onrender.com/api/registrations';
+const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api/registrations';
 
 const Registration = () => {
   // State for form fields
