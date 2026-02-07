@@ -70,7 +70,7 @@ const handleSubmit = async (e) => {
     localStorage.setItem('adminSession', JSON.stringify(sessionData));
 
     setTimeout(() => {
-      navigate('/director-news');
+      navigate('/other/teacher-profile');
     }, 1500);
 
   } catch (err) {
