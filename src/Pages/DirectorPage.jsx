@@ -36,8 +36,8 @@ const DirectorPage = () => {
   const fileInputRef = useRef(null);
 
   // BACKEND API CONFIGURATION
-  const BACKEND_URL = 'http://localhost:5000/api';
-  const LIVE_ANNOUNCEMENTS_URL = 'http://localhost:5000/api/announcements';
+  const BACKEND_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
+  const LIVE_ANNOUNCEMENTS_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api/announcements';
 
   // Simple image optimization for mobile
   const compressImageForMobile = (file) => {
