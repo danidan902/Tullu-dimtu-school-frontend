@@ -31,20 +31,22 @@ const DirectorPage = () => {
     recentCount: 0
   });
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState(0);
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   // BACKEND API CONFIGURATION
-  const BACKEND_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
-  const LIVE_ANNOUNCEMENTS_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api/announcements';
+  const BACKEND_URL = 'http://localhost:5000/api';
+  const LIVE_ANNOUNCEMENTS_URL = 'http://localhost:5000/api/announcements';
 
-  // Optimize image for mobile
-  const optimizeImageForMobile = (file) => {
+  // Simple image optimization for mobile
+  const compressImageForMobile = (file) => {
     return new Promise((resolve, reject) => {
-      // Skip optimization for small files or non-mobile
-      if (file.size < 500000 || !/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+      // Check if it's a mobile device
+      const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+      
+      // If it's not mobile or file is small, return as is
+      if (!isMobile || file.size < 1000000) {
         resolve(file);
         return;
       }
@@ -55,17 +57,21 @@ const DirectorPage = () => {
         img.onload = () => {
           const canvas = document.createElement('canvas');
           
-          // Calculate new dimensions (max 1200px on longest side for mobile)
+          // Calculate new dimensions - smaller for mobile
           let width = img.width;
           let height = img.height;
-          const MAX_SIZE = 1200;
+          const MAX_SIZE = 800; // Smaller size for mobile
           
-          if (width > height && width > MAX_SIZE) {
-            height = (height * MAX_SIZE) / width;
-            width = MAX_SIZE;
-          } else if (height > MAX_SIZE) {
-            width = (width * MAX_SIZE) / height;
-            height = MAX_SIZE;
+          if (width > height) {
+            if (width > MAX_SIZE) {
+              height *= MAX_SIZE / width;
+              width = MAX_SIZE;
+            }
+          } else {
+            if (height > MAX_SIZE) {
+              width *= MAX_SIZE / height;
+              height = MAX_SIZE;
+            }
           }
           
           canvas.width = width;
@@ -77,18 +83,18 @@ const DirectorPage = () => {
           canvas.toBlob(
             (blob) => {
               if (blob) {
-                const optimizedFile = new File([blob], file.name, {
+                const compressedFile = new File([blob], file.name, {
                   type: 'image/jpeg',
                   lastModified: Date.now(),
                 });
-                console.log(`Image optimized: ${file.size} -> ${blob.size} bytes`);
-                resolve(optimizedFile);
+                console.log(`Image compressed: ${file.size} -> ${blob.size} bytes`);
+                resolve(compressedFile);
               } else {
                 resolve(file);
               }
             },
             'image/jpeg',
-            0.8 // 80% quality for mobile
+            0.7 // 70% quality for mobile
           );
         };
         img.onerror = () => {
@@ -101,24 +107,6 @@ const DirectorPage = () => {
         console.warn('Failed to read image file');
         resolve(file);
       };
-      reader.readAsDataURL(file);
-    });
-  };
-
-  // Function to convert image to base64 for storage
-  const convertImageToBase64 = async (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // Check if base64 string is too large (for mobile)
-        const base64String = reader.result;
-        if (base64String.length > 10485760 && /Mobi|Android|iPhone/i.test(navigator.userAgent)) { // 10MB limit for mobile
-          reject(new Error('Image is too large for mobile upload. Please use a smaller image or upload from desktop.'));
-          return;
-        }
-        resolve(reader.result);
-      };
-      reader.onerror = error => reject(error);
       reader.readAsDataURL(file);
     });
   };
@@ -140,7 +128,9 @@ const DirectorPage = () => {
 
     async saveNews(newsData) {
       try {
-        const response = await axios.post(`${BACKEND_URL}/posts`, newsData);
+        const response = await axios.post(`${BACKEND_URL}/posts`, newsData, {
+          timeout: 30000, // 30 seconds for mobile
+        });
         return response.data;
       } catch (error) {
         console.error('Error saving news to backend:', error);
@@ -150,7 +140,9 @@ const DirectorPage = () => {
 
     async updateNews(id, newsData) {
       try {
-        const response = await axios.put(`${BACKEND_URL}/posts/${id}`, newsData);
+        const response = await axios.put(`${BACKEND_URL}/posts/${id}`, newsData, {
+          timeout: 30000,
+        });
         return response.data;
       } catch (error) {
         console.error('Error updating news in backend:', error);
@@ -160,7 +152,9 @@ const DirectorPage = () => {
 
     async deleteNews(id) {
       try {
-        const response = await axios.delete(`${BACKEND_URL}/posts/${id}`);
+        const response = await axios.delete(`${BACKEND_URL}/posts/${id}`, {
+          timeout: 10000,
+        });
         return response.data;
       } catch (error) {
         console.error('Error deleting news from backend:', error);
@@ -170,20 +164,12 @@ const DirectorPage = () => {
 
     async bulkDelete(ids) {
       try {
-        const response = await axios.post(`${BACKEND_URL}/posts/bulk/delete`, { ids });
+        const response = await axios.post(`${BACKEND_URL}/posts/bulk/delete`, { ids }, {
+          timeout: 30000,
+        });
         return response.data;
       } catch (error) {
         console.error('Error bulk deleting from backend:', error);
-        throw error;
-      }
-    },
-
-    async getStats() {
-      try {
-        const response = await axios.get(`${BACKEND_URL}/posts/stats/overview`);
-        return response.data;
-      } catch (error) {
-        console.error('Error getting stats from backend:', error);
         throw error;
       }
     }
@@ -191,10 +177,16 @@ const DirectorPage = () => {
 
   useEffect(() => {
     const loadNewsFromBackend = async () => {
-      const newsData = await backendAPI.fetchNews();
-      if (newsData.length > 0) {
-        setNews(newsData);
-        updateStats(newsData);
+      try {
+        const newsData = await backendAPI.fetchNews();
+        if (newsData.length > 0) {
+          setNews(newsData);
+          updateStats(newsData);
+        }
+      } catch (error) {
+        console.error('Failed to load news:', error);
+        setNotification('Failed to load news. Please refresh the page.');
+        setTimeout(() => setNotification(''), 5000);
       }
     };
 
@@ -226,9 +218,8 @@ const DirectorPage = () => {
         return;
       }
 
-      // Check file size (more strict for mobile)
       const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
-      const maxSize = isMobile ? 3 * 1024 * 1024 : 5 * 1024 * 1024; // 3MB for mobile, 5MB for desktop
+      const maxSize = isMobile ? 3 * 1024 * 1024 : 5 * 1024 * 1024;
       
       if (file.size > maxSize) {
         setNotification(`Image size should be less than ${isMobile ? '3MB' : '5MB'}`);
@@ -263,7 +254,17 @@ const DirectorPage = () => {
     }
   };
 
-  // FIXED: Function to publish to Live Announcements
+  // Function to convert image to base64 for storage
+  const convertImageToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Function to publish to Live Announcements
   const publishToLiveAnnouncements = async (newsItem) => {
     try {
       console.log('📤 Publishing to live announcements:', newsItem.title);
@@ -272,7 +273,6 @@ const DirectorPage = () => {
       if (newsItem.category === 'Urgent') priority = 'high';
       if (newsItem.category === 'Academic') priority = 'medium';
 
-      // Prepare the data structure
       const announcementData = {
         title: newsItem.title || '',
         message: newsItem.content || '',
@@ -285,19 +285,16 @@ const DirectorPage = () => {
         imageUrl: newsItem.imageUrl || ''
       };
 
-      console.log('📤 Sending to live announcements:', announcementData);
-
       const response = await axios.post(LIVE_ANNOUNCEMENTS_URL, announcementData, {
-        timeout: isMobile ? 15000 : 10000, // 15s timeout for mobile
+        timeout: 15000,
         headers: {
           'Content-Type': 'application/json',
         }
       });
 
-      console.log('✅ Live announcement published successfully:', response.data);
+      console.log('✅ Live announcement published successfully');
       return { 
         success: true, 
-        data: response.data,
         message: 'Sent to live announcements successfully!' 
       };
     } catch (error) {
@@ -306,67 +303,13 @@ const DirectorPage = () => {
       let errorMessage = 'Failed to send to live announcements';
       if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
       } else if (error.message) {
         errorMessage = error.message;
       }
       
       return { 
         success: false, 
-        error: errorMessage,
-        retry: true
-      };
-    }
-  };
-
-  // FIXED: Function to delete from Live Announcements
-  const deleteFromLiveAnnouncements = async (newsItem) => {
-    try {
-      console.log('🗑️ Attempting to delete from live announcements:', newsItem.title);
-      
-      const searchResponse = await axios.get(`${LIVE_ANNOUNCEMENTS_URL}?newsId=${newsItem.id}`, {
-        timeout: 5000
-      });
-      
-      if (searchResponse.data && searchResponse.data.length > 0) {
-        const deletePromises = searchResponse.data.map(async (announcement) => {
-          try {
-            await axios.delete(`${LIVE_ANNOUNCEMENTS_URL}/${announcement._id}`, {
-              timeout: 5000
-            });
-            return { success: true, announcementId: announcement._id };
-          } catch (deleteError) {
-            console.error(`❌ Failed to delete announcement ${announcement._id}:`, deleteError);
-            return { 
-              success: false, 
-              error: deleteError.message,
-              announcementId: announcement._id 
-            };
-          }
-        });
-        
-        const results = await Promise.all(deletePromises);
-        const successCount = results.filter(r => r.success).length;
-        const failCount = results.filter(r => !r.success).length;
-        
-        return { 
-          success: successCount > 0,
-          message: `Deleted ${successCount} announcement(s) from live feed${failCount > 0 ? `, ${failCount} failed` : ''}`,
-          results
-        };
-      } else {
-        console.log('ℹ️ No matching announcements found in live feed');
-        return { 
-          success: true, 
-          message: 'No matching announcements found in live feed' 
-        };
-      }
-    } catch (error) {
-      console.error('❌ Error searching/deleting from live announcements:', error);
-      return { 
-        success: false, 
-        error: error.response?.data?.error || error.message || 'Failed to delete from live announcements'
+        error: errorMessage
       };
     }
   };
@@ -409,9 +352,12 @@ const DirectorPage = () => {
     }));
   };
 
-  // FIXED: Main submit handler with better mobile support
+  // Main submit handler - Fixed for mobile
   const handleSubmit = async (e) => {
     e.preventDefault();
+    e.stopPropagation();
+    
+    console.log('Submit button clicked');
     
     // Validation
     if (!formData.title.trim()) {
@@ -436,138 +382,112 @@ const DirectorPage = () => {
     
     // Start loading
     setIsUploading(true);
-    setUploadProgress(10);
+    setNotification(isMobile ? 'Processing for mobile...' : 'Processing...');
 
     let imageUrl = '';
-    let processedImage = formData.image;
     
-    // Process image if exists
-    if (formData.image) {
-      try {
-        setUploadProgress(20);
-        // Optimize image for mobile
-        processedImage = await optimizeImageForMobile(formData.image);
-        setUploadProgress(40);
-        
-        // Convert to base64
-        imageUrl = await convertImageToBase64(processedImage);
-        setUploadProgress(60);
-      } catch (error) {
-        console.error('Error processing image:', error);
-        setNotification(isMobile ? 'Image processing failed. Try a smaller image or upload from desktop.' : 'Failed to process image');
-        setTimeout(() => setNotification(''), 5000);
-        setIsUploading(false);
-        setUploadProgress(0);
-        return;
-      }
-    }
-
-    // Prepare news item
-    const newNewsItem = {
-      id: editingId || Date.now(),
-      title: formData.title.trim(),
-      content: formData.content.trim(),
-      category: formData.category,
-      author: formData.author,
-      date: new Date().toISOString().split('T')[0],
-      timestamp: Date.now(),
-      status: 'published',
-      imageUrl: imageUrl
-    };
-
-    let updatedNews = [...news];
-    let notificationMessage = '';
-    let liveAnnouncementSuccess = false;
-
     try {
-      setUploadProgress(80);
+      // Process image if exists
+      if (formData.image) {
+        try {
+          // Compress image for mobile
+          let processedImage = await compressImageForMobile(formData.image);
+          
+          // Convert to base64
+          imageUrl = await convertImageToBase64(processedImage);
+        } catch (imageError) {
+          console.error('Image processing error:', imageError);
+          // Continue without image if processing fails
+          setNotification('Image processing failed, continuing without image');
+        }
+      }
+
+      // Prepare news item
+      const newNewsItem = {
+        id: editingId || Date.now(),
+        title: formData.title.trim(),
+        content: formData.content.trim(),
+        category: formData.category,
+        author: formData.author,
+        date: new Date().toISOString().split('T')[0],
+        timestamp: Date.now(),
+        status: 'published',
+        imageUrl: imageUrl
+      };
+
+      console.log('Saving news item:', newNewsItem);
+
+      let updatedNews = [...news];
       
-      // First, save/update in local backend
       if (editingId) {
         // Update existing news
         await backendAPI.updateNews(editingId, newNewsItem);
         updatedNews = news.map(item => 
           item.id === editingId ? newNewsItem : item
         );
-        notificationMessage = 'News updated successfully!';
-        
-        // Delete old announcement and send new one
-        const oldNewsItem = news.find(item => item.id === editingId);
-        if (oldNewsItem) {
-          await deleteFromLiveAnnouncements(oldNewsItem);
-        }
-        
-        // Send to live announcements
-        const liveResult = await publishToLiveAnnouncements(newNewsItem);
-        if (liveResult.success) {
-          liveAnnouncementSuccess = true;
-          notificationMessage += ' Sent to live announcements!';
-        }
+        setNotification('News updated successfully!');
       } else {
-        // Create new news - Save to backend first
+        // Create new news
         await backendAPI.saveNews(newNewsItem);
         updatedNews = [newNewsItem, ...news];
-        
-        // Then send to live announcements
-        const liveResult = await publishToLiveAnnouncements(newNewsItem);
-        if (liveResult.success) {
-          liveAnnouncementSuccess = true;
-          notificationMessage = '✅ News published! Sent to live announcements successfully.';
-        } else {
-          notificationMessage = '⚠️ News saved locally, but failed to send to live announcements.';
-        }
+        setNotification('News published successfully!');
       }
 
-      setUploadProgress(100);
-      
+      // Try to send to live announcements (but don't fail if this doesn't work)
+      try {
+        const liveResult = await publishToLiveAnnouncements(newNewsItem);
+        if (liveResult.success) {
+          setNotification(prev => prev + ' Sent to live announcements!');
+        }
+      } catch (liveError) {
+        console.warn('Live announcement failed but news was saved:', liveError);
+      }
+
       // Update local state
       setNews(updatedNews);
       updateStats(updatedNews);
-      
-      // Show appropriate notification
-      if (liveAnnouncementSuccess) {
-        setNotification(notificationMessage);
-      } else {
-        setNotification(notificationMessage);
-      }
 
     } catch (error) {
-      console.error('Error in handleSubmit:', error);
-      setNotification(isMobile ? 'Upload failed. Check your connection and try again.' : '❌ Failed to save news. Please try again.');
+      console.error('Error saving news:', error);
+      setNotification(
+        isMobile 
+          ? 'Upload failed. Please check your connection and try again.'
+          : 'Failed to save news. Please try again.'
+      );
     } finally {
-      // Small delay to show completion
+      // Reset form
+      setFormData({
+        title: '',
+        content: '',
+        category: 'Announcement',
+        author: '',
+        image: null,
+        imagePreview: ''
+      });
+      setEditingId(null);
+      setSelectedNews([]);
+      
+      // Clean up
+      if (formData.imagePreview) {
+        URL.revokeObjectURL(formData.imagePreview);
+      }
+      
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+      
+      // Stop loading after a delay
       setTimeout(() => {
-        // Reset form
-        setFormData({
-          title: '',
-          content: '',
-          category: 'Announcement',
-          author: '',
-          image: null,
-          imagePreview: ''
-        });
-        setEditingId(null);
-        setSelectedNews([]);
-        
-        // Clean up
-        if (formData.imagePreview) {
-          URL.revokeObjectURL(formData.imagePreview);
-        }
-        
-        if (fileInputRef.current) {
-          fileInputRef.current.value = '';
-        }
-        
         setIsUploading(false);
-        setUploadProgress(0);
-        
-        // Auto-hide notification
-        setTimeout(() => setNotification(''), 5000);
-      }, 500);
+      }, 1000);
+      
+      // Auto-hide notification
+      setTimeout(() => setNotification(''), 5000);
     }
   };
 
   const handleEdit = (newsItem) => {
+    console.log('Editing news item:', newsItem);
     setFormData({
       title: newsItem.title,
       content: newsItem.content,
@@ -577,41 +497,25 @@ const DirectorPage = () => {
       imagePreview: newsItem.imageUrl || ''
     });
     setEditingId(newsItem.id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Scroll to form
+    setTimeout(() => {
+      document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this news item? This will also remove it from live announcements.')) {
-      const newsItem = news.find(item => item.id === id);
-      
+    if (window.confirm('Are you sure you want to delete this news item?')) {
       try {
-        // First delete from live announcements
-        const liveDeleteResult = await deleteFromLiveAnnouncements(newsItem);
-        
-        // Then delete from backend
         await backendAPI.deleteNews(id);
-        
-        // Update local state
         const updatedNews = news.filter(item => item.id !== id);
         setNews(updatedNews);
         updateStats(updatedNews);
-        
-        // Update selected news
         setSelectedNews(selectedNews.filter(itemId => itemId !== id));
-        
-        // Show notification
-        let notificationMessage = 'News deleted successfully!';
-        if (liveDeleteResult.success) {
-          notificationMessage += ' ' + liveDeleteResult.message;
-        } else if (liveDeleteResult.error) {
-          notificationMessage += ` (Live announcements: ${liveDeleteResult.error})`;
-        }
-        
-        setNotification(notificationMessage);
+        setNotification('News deleted successfully!');
         setTimeout(() => setNotification(''), 4000);
       } catch (error) {
         console.error('Error deleting news:', error);
-        setNotification('❌ Failed to delete news. Please try again.');
+        setNotification('Failed to delete news. Please try again.');
         setTimeout(() => setNotification(''), 4000);
       }
     }
@@ -628,46 +532,18 @@ const DirectorPage = () => {
   };
 
   const confirmBulkDelete = async () => {
-    const itemsToDelete = news.filter(item => selectedNews.includes(item.id));
-    
     try {
-      let liveDeleteResults = [];
-      
-      // Delete from live announcements first
-      for (const item of itemsToDelete) {
-        const result = await deleteFromLiveAnnouncements(item);
-        liveDeleteResults.push(result);
-      }
-      
-      // Then delete from backend
       await backendAPI.bulkDelete(selectedNews);
-      
-      // Update local state
       const updatedNews = news.filter(item => !selectedNews.includes(item.id));
       setNews(updatedNews);
       updateStats(updatedNews);
-      
       setSelectedNews([]);
       setShowDeleteModal(false);
-      
-      // Calculate success/fail counts
-      const successCount = liveDeleteResults.filter(r => r.success).length;
-      const failCount = liveDeleteResults.filter(r => !r.success).length;
-      
-      // Show notification
-      let notificationMessage = `${selectedNews.length} news items deleted successfully!`;
-      if (successCount > 0) {
-        notificationMessage += ` ${successCount} removed from live announcements.`;
-      }
-      if (failCount > 0) {
-        notificationMessage += ` ${failCount} failed to remove from live announcements.`;
-      }
-      
-      setNotification(notificationMessage);
+      setNotification(`${selectedNews.length} news items deleted successfully!`);
       setTimeout(() => setNotification(''), 5000);
     } catch (error) {
       console.error('Error in bulk delete:', error);
-      setNotification('❌ Failed to delete news items. Please try again.');
+      setNotification('Failed to delete news items. Please try again.');
       setShowDeleteModal(false);
       setTimeout(() => setNotification(''), 4000);
     }
@@ -696,117 +572,58 @@ const DirectorPage = () => {
       return;
     }
 
-    let message = '';
-    
-    switch (action) {
-      case 'archive':
-        for (const id of selectedNews) {
-          const item = news.find(item => item.id === id);
-          if (item) {
-            await backendAPI.updateNews(id, { ...item, status: 'archived' });
+    try {
+      let message = '';
+      
+      switch (action) {
+        case 'publish':
+          for (const id of selectedNews) {
+            const item = news.find(item => item.id === id);
+            if (item) {
+              await backendAPI.updateNews(id, { ...item, status: 'published' });
+            }
           }
-        }
-        setNews(prev => prev.map(item =>
-          selectedNews.includes(item.id) ? { ...item, status: 'archived' } : item
-        ));
-        message = 'News items archived';
-        break;
-        
-      case 'publish':
-        for (const id of selectedNews) {
-          const item = news.find(item => item.id === id);
-          if (item) {
-            await backendAPI.updateNews(id, { ...item, status: 'published' });
+          setNews(prev => prev.map(item =>
+            selectedNews.includes(item.id) ? { ...item, status: 'published' } : item
+          ));
+          message = 'News items published';
+          break;
+          
+        case 'live':
+          const selectedItems = filteredNews.filter(newsItem => selectedNews.includes(newsItem.id));
+          let successCount = 0;
+          
+          for (const item of selectedItems) {
+            const result = await publishToLiveAnnouncements(item);
+            if (result.success) {
+              successCount++;
+            }
           }
-        }
-        setNews(prev => prev.map(item =>
-          selectedNews.includes(item.id) ? { ...item, status: 'published' } : item
-        ));
-        message = 'News items published';
-        break;
-        
-      case 'draft':
-        for (const id of selectedNews) {
-          const item = news.find(item => item.id === id);
-          if (item) {
-            await backendAPI.updateNews(id, { ...item, status: 'draft' });
-          }
-        }
-        setNews(prev => prev.map(item =>
-          selectedNews.includes(item.id) ? { ...item, status: 'draft' } : item
-        ));
-        message = 'News items moved to draft';
-        break;
-        
-      case 'live':
-        const selectedItems = filteredNews.filter(newsItem => selectedNews.includes(newsItem.id));
-        let liveSuccessCount = 0;
-        let liveFailCount = 0;
-        
-        for (const item of selectedItems) {
-          const result = await publishToLiveAnnouncements(item);
-          if (result.success) {
-            liveSuccessCount++;
-          } else {
-            liveFailCount++;
-          }
-        }
-        
-        message = `Sent to live: ${liveSuccessCount} success, ${liveFailCount} failed`;
-        break;
-        
-      case 'remove-from-live':
-        const itemsToRemove = filteredNews.filter(newsItem => selectedNews.includes(newsItem.id));
-        let removeSuccessCount = 0;
-        let removeFailCount = 0;
-        
-        for (const item of itemsToRemove) {
-          const result = await deleteFromLiveAnnouncements(item);
-          if (result.success) {
-            removeSuccessCount++;
-          } else {
-            removeFailCount++;
-          }
-        }
-        
-        message = `Removed from live: ${removeSuccessCount} success, ${removeFailCount} failed`;
-        break;
-        
-      default:
-        return;
-    }
+          
+          message = `Sent ${successCount} items to live announcements`;
+          break;
+          
+        default:
+          return;
+      }
 
-    if (['archive', 'publish', 'draft'].includes(action)) {
       updateStats(news);
+      setNotification(`${message} successfully!`);
+      setBulkAction('');
+      setTimeout(() => setNotification(''), 4000);
+    } catch (error) {
+      console.error('Error in bulk action:', error);
+      setNotification('Action failed. Please try again.');
+      setTimeout(() => setNotification(''), 4000);
     }
-    
-    setNotification(`${message} successfully!`);
-    setBulkAction('');
-    setTimeout(() => setNotification(''), 4000);
-  };
-
-  const resendToLiveAnnouncements = async (newsItem) => {
-    const result = await publishToLiveAnnouncements(newsItem);
-    if (result.success) {
-      setNotification(`✅ "${newsItem.title}" sent to live announcements!`);
-    } else {
-      setNotification(`⚠️ Failed to send "${newsItem.title}" to live announcements: ${result.error}`);
-    }
-    setTimeout(() => setNotification(''), 4000);
-  };
-
-  const removeFromLiveAnnouncements = async (newsItem) => {
-    const result = await deleteFromLiveAnnouncements(newsItem);
-    if (result.success) {
-      setNotification(`✅ "${newsItem.title}" removed from live announcements!`);
-    } else {
-      setNotification(`⚠️ Failed to remove "${newsItem.title}" from live announcements: ${result.error}`);
-    }
-    setTimeout(() => setNotification(''), 4000);
   };
 
   const handleAddAuthor = () => {
-    if (!newAuthor.trim()) return;
+    if (!newAuthor.trim()) {
+      setNotification('Please enter an author name');
+      setTimeout(() => setNotification(''), 3000);
+      return;
+    }
     
     const updatedAuthors = [...authors, newAuthor.trim()];
     setAuthors(updatedAuthors);
@@ -849,57 +666,27 @@ const DirectorPage = () => {
       </Helmet>
    
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
-        {/* Loading Overlay for Desktop and Mobile */}
+        {/* Loading Overlay */}
         {isUploading && (
           <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100] p-4">
             <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
               <div className="flex flex-col items-center">
-                {/* Desktop Loading Spinner */}
-                <div className="hidden md:block mb-6">
-                  <div className="relative mb-4">
-                    <div className="w-20 h-20 border-4 border-blue-200 rounded-full"></div>
-                    <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                      <i className="fas fa-paper-plane text-2xl text-blue-600"></i>
-                    </div>
-                  </div>
-                  <p className="text-center text-gray-600 mb-2">{uploadProgress}% Complete</p>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div 
-                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                      style={{ width: `${uploadProgress}%` }}
-                    ></div>
+                <div className="mb-6">
+                  <div className="relative">
+                    <div className="w-16 h-16 border-4 border-blue-200 rounded-full"></div>
+                    <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
                   </div>
                 </div>
                 
-                {/* Mobile Loading Animation */}
-                <div className="md:hidden mb-6">
-                  <div className="flex space-x-2 mb-4">
-                    <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
-                    <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
-                  <p className="text-center text-gray-600 mb-2">Uploading... {uploadProgress}%</p>
-                </div>
-                
-                <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-                  {isMobile ? 'Uploading News' : 'Publishing News'}
+                <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">
+                  {isMobile ? 'Uploading...' : 'Publishing News'}
                 </h3>
                 
-                <p className="text-gray-600 text-center mb-6">
+                <p className="text-gray-600 text-center">
                   {isMobile 
-                    ? 'Optimizing and uploading your news. This may take a moment...' 
-                    : 'Saving to database and sending to live announcements...'}
+                    ? 'Processing your news item...' 
+                    : 'Saving to database...'}
                 </p>
-                
-                <div className="text-sm text-gray-500 text-center">
-                  <p className="flex items-center justify-center">
-                    <i className="fas fa-info-circle mr-2"></i>
-                    {isMobile 
-                      ? 'Mobile uploads are optimized for better performance'
-                      : 'Please keep this window open until complete'}
-                  </p>
-                </div>
               </div>
             </div>
           </div>
@@ -927,11 +714,6 @@ const DirectorPage = () => {
             <p className="text-xl opacity-90 max-w-2xl mx-auto">
               Welcome back, Dr. Johnson. Publish and manage school news announcements here.
             </p>
-            {isMobile && (
-              <p className="text-sm opacity-75 mt-2">
-                Mobile mode: Images are automatically optimized
-              </p>
-            )}
           </div>
         </div>
 
@@ -941,19 +723,20 @@ const DirectorPage = () => {
           {/* Notification */}
           {notification && (
             <div className={`px-6 py-4 rounded-lg mb-8 flex justify-between items-center ${
-              notification.includes('✅') 
+              notification.includes('successfully') || notification.includes('✅') 
                 ? 'bg-green-100 border border-green-400 text-green-700'
-                : notification.includes('❌')
+                : notification.includes('Failed') || notification.includes('❌')
                 ? 'bg-red-100 border border-red-400 text-red-700'
-                : notification.includes('⚠️')
-                ? 'bg-yellow-100 border border-yellow-400 text-yellow-700'
                 : 'bg-blue-100 border border-blue-400 text-blue-700'
             }`}>
               <span className="flex items-center">
                 {notification}
               </span>
-              <button onClick={() => setNotification('')} className="ml-4">
-                <i className="fas fa-times"></i>
+              <button 
+                onClick={() => setNotification('')} 
+                className="ml-4 text-gray-500 hover:text-gray-700"
+              >
+                ✕
               </button>
             </div>
           )}
@@ -1006,7 +789,7 @@ const DirectorPage = () => {
                       className="px-4 py-3 bg-blue-200 hover:bg-gray-300 rounded-lg transition duration-300 disabled:opacity-50"
                       disabled={isUploading}
                     >
-                      Edit Author
+                      Edit
                     </button>
                   </div>
                 </div>
@@ -1020,12 +803,12 @@ const DirectorPage = () => {
                       <button
                         key={category}
                         type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, category }))}
                         className={`px-4 py-3 rounded-lg font-medium transition duration-300 ${
                           formData.category === category 
                           ? 'bg-blue-800 text-white' 
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
-                        onClick={() => setFormData(prev => ({ ...prev, category }))}
+                        } ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
                         disabled={isUploading}
                       >
                         {category}
@@ -1039,14 +822,6 @@ const DirectorPage = () => {
                   <label className="block text-gray-700 font-semibold mb-2">
                     News Image (Optional)
                   </label>
-                  {isMobile && (
-                    <div className="mb-3 p-3 bg-blue-50 rounded-lg">
-                      <p className="text-sm text-blue-700 flex items-center">
-                        <i className="fas fa-mobile-alt mr-2"></i>
-                        Mobile: Images are automatically optimized (max 3MB)
-                      </p>
-                    </div>
-                  )}
                   <div className="space-y-4">
                     {formData.imagePreview ? (
                       <div className="relative">
@@ -1058,21 +833,21 @@ const DirectorPage = () => {
                         <button
                           type="button"
                           onClick={removeImage}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 disabled:opacity-50"
+                          className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 disabled:opacity-50"
                           disabled={isUploading}
                         >
-                          <i className="fas fa-times text-sm"></i>
+                          ✕
                         </button>
                       </div>
                     ) : (
                       <div 
-                        className={`border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 transition-colors ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`border-2 border-dashed border-gray-300 rounded-lg p-8 text-center ${isUploading ? 'opacity-50' : 'cursor-pointer hover:border-blue-400'}`}
                         onClick={() => !isUploading && fileInputRef.current?.click()}
                       >
                         <i className="fas fa-image text-4xl text-gray-400 mb-4"></i>
                         <p className="text-gray-600">Click to upload an image</p>
                         <p className="text-gray-400 text-sm mt-2">
-                          {isMobile ? 'JPG, PNG, GIF (Max 3MB)' : 'Supports JPG, PNG, GIF (Max 5MB)'}
+                          {isMobile ? 'Max 3MB (automatically optimized)' : 'Max 5MB'}
                         </p>
                       </div>
                     )}
@@ -1088,7 +863,7 @@ const DirectorPage = () => {
                       <button
                         type="button"
                         onClick={() => !isUploading && fileInputRef.current?.click()}
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50"
                         disabled={isUploading}
                       >
                         {formData.imagePreview ? 'Change Image' : 'Browse...'}
@@ -1126,8 +901,8 @@ const DirectorPage = () => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
                     disabled={isUploading}
+                    className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {isUploading ? (
                       <>
@@ -1159,57 +934,11 @@ const DirectorPage = () => {
                       className="flex-1 bg-blue-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center disabled:opacity-50"
                       disabled={isUploading}
                     >
-                      <i className="fas fa-times mr-2"></i>
                       Cancel Edit
                     </button>
                   )}
                 </div>
               </form>
-
-              {/* Form Tips */}
-              <div className="mt-10 p-6 bg-blue-50 rounded-lg">
-                <h4 className="font-bold text-lg text-gray-800 mb-3 flex items-center">
-                  <i className="fas fa-lightbulb text-blue-600 mr-2"></i>
-                  {isMobile ? 'Mobile Upload Tips' : 'Publishing Tips'}
-                </h4>
-                <ul className="text-gray-600 space-y-2">
-                  {isMobile ? (
-                    <>
-                      <li className="flex items-start">
-                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                        Images are automatically optimized for mobile
-                      </li>
-                      <li className="flex items-start">
-                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                        Use WiFi for faster uploads with images
-                      </li>
-                      <li className="flex items-start">
-                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                        Keep the app open until upload completes
-                      </li>
-                    </>
-                  ) : (
-                    <>
-                      <li className="flex items-start">
-                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                        News is automatically sent to live announcements
-                      </li>
-                      <li className="flex items-start">
-                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                        "Urgent" category appears as high priority in live feed
-                      </li>
-                      <li className="flex items-start">
-                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                        Images make announcements more engaging
-                      </li>
-                      <li className="flex items-start">
-                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                        Deleting news also removes it from live announcements
-                      </li>
-                    </>
-                  )}
-                </ul>
-              </div>
             </div>
 
             {/* Right Column - Recent News & Stats */}
@@ -1237,26 +966,6 @@ const DirectorPage = () => {
                       {Object.keys(stats.byCategory || {}).length}
                     </p>
                     <p className="text-gray-600 text-sm">Categories</p>
-                  </div>
-                </div>
-
-                <div>
-                  <h4 className="font-bold text-lg text-gray-800 mb-4">Category Distribution</h4>
-                  <div className="space-y-3">
-                    {Object.entries(stats.byCategory || {}).map(([category, count]) => (
-                      <div key={category} className="flex items-center justify-between">
-                        <span className="text-gray-700">{category}</span>
-                        <div className="flex items-center">
-                          <div className="w-32 bg-gray-200 rounded-full h-2 mr-2">
-                            <div 
-                              className="bg-blue-600 h-2 rounded-full"
-                              style={{ width: `${(count / stats.total) * 100}%` }}
-                            ></div>
-                          </div>
-                          <span className="text-sm text-gray-600">{count}</span>
-                        </div>
-                      </div>
-                    ))}
                   </div>
                 </div>
               </div>
@@ -1314,10 +1023,7 @@ const DirectorPage = () => {
                 >
                   <option value="">Bulk Actions</option>
                   <option value="publish">Publish Selected</option>
-                  <option value="archive">Archive Selected</option>
-                  <option value="draft">Move to Draft</option>
                   <option value="live">Send to Live Announcements</option>
-                  <option value="remove-from-live">Remove from Live Announcements</option>
                 </select>
                 
                 <button
@@ -1383,53 +1089,22 @@ const DirectorPage = () => {
                           }`}>
                             {item.status}
                           </span>
-                          {item.imageUrl && (
-                            <span className="ml-2 px-2 py-1 bg-purple-100 text-purple-800 text-xs font-semibold rounded">
-                              <i className="fas fa-image mr-1"></i> Has Image
-                            </span>
-                          )}
                         </td>
                         <td className="p-4">
                           <div className="flex space-x-3">
                             <button
                               onClick={() => handleEdit(item)}
                               className="text-blue-600 hover:text-blue-800 disabled:opacity-50"
-                              title="Edit"
                               disabled={isUploading}
                             >
-                              <i className="fas fa-edit"></i>
-                            </button>
-                            <button
-                              onClick={() => resendToLiveAnnouncements(item)}
-                              className="text-green-600 hover:text-green-800 disabled:opacity-50"
-                              title="Send to Live Announcements"
-                              disabled={isUploading}
-                            >
-                              <i className="fas fa-broadcast-tower"></i>
-                            </button>
-                            <button
-                              onClick={() => removeFromLiveAnnouncements(item)}
-                              className="text-orange-600 hover:text-orange-800 disabled:opacity-50"
-                              title="Remove from Live Announcements"
-                              disabled={isUploading}
-                            >
-                              <i className="fas fa-minus-circle"></i>
+                              Edit
                             </button>
                             <button
                               onClick={() => handleDelete(item.id)}
                               className="text-red-500 hover:text-red-700 disabled:opacity-50"
-                              title="Delete"
                               disabled={isUploading}
                             >
-                              <i className="fas fa-trash"></i>
-                            </button>
-                            <button
-                              onClick={() => window.open('/', '_blank')}
-                              className="text-purple-600 hover:text-purple-800 disabled:opacity-50"
-                              title="View"
-                              disabled={isUploading}
-                            >
-                              <i className="fas fa-eye"></i>
+                              Delete
                             </button>
                           </div>
                         </td>
@@ -1459,7 +1134,7 @@ const DirectorPage = () => {
               <h3 className="text-2xl font-bold text-gray-800 mb-4">Confirm Delete</h3>
               <p className="text-gray-600 mb-6">
                 Are you sure you want to delete {selectedNews.length} selected news item(s)?
-                This will also remove them from live announcements. This action cannot be undone.
+                This action cannot be undone.
               </p>
               <div className="flex justify-end gap-4">
                 <button
@@ -1515,14 +1190,10 @@ const DirectorPage = () => {
                         <span className="text-gray-700">{author}</span>
                         {author !== 'Dr. Sarah Johnson' && (
                           <button
-                            onClick={() => {
-                              if (window.confirm(`Delete "${author}"?`)) {
-                                handleRemoveAuthor(author);
-                              }
-                            }}
+                            onClick={() => handleRemoveAuthor(author)}
                             className="text-red-500 hover:text-red-700 transition"
                           >
-                            ❌
+                            Remove
                           </button>
                         )}
                       </li>
