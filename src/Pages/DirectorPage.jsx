@@ -30,18 +30,101 @@ const DirectorPage = () => {
     byAuthor: {},
     recentCount: 0
   });
-  const [isUploading, setIsUploading] = useState(false); // Loading state
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
 
   // BACKEND API CONFIGURATION
-  const BACKEND_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api'; // Change to your backend URL
+  const BACKEND_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
   const LIVE_ANNOUNCEMENTS_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api/announcements';
+
+  // Optimize image for mobile
+  const optimizeImageForMobile = (file) => {
+    return new Promise((resolve, reject) => {
+      // Skip optimization for small files or non-mobile
+      if (file.size < 500000 || !/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+        resolve(file);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          
+          // Calculate new dimensions (max 1200px on longest side for mobile)
+          let width = img.width;
+          let height = img.height;
+          const MAX_SIZE = 1200;
+          
+          if (width > height && width > MAX_SIZE) {
+            height = (height * MAX_SIZE) / width;
+            width = MAX_SIZE;
+          } else if (height > MAX_SIZE) {
+            width = (width * MAX_SIZE) / height;
+            height = MAX_SIZE;
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const optimizedFile = new File([blob], file.name, {
+                  type: 'image/jpeg',
+                  lastModified: Date.now(),
+                });
+                console.log(`Image optimized: ${file.size} -> ${blob.size} bytes`);
+                resolve(optimizedFile);
+              } else {
+                resolve(file);
+              }
+            },
+            'image/jpeg',
+            0.8 // 80% quality for mobile
+          );
+        };
+        img.onerror = () => {
+          console.warn('Image optimization failed, using original');
+          resolve(file);
+        };
+        img.src = e.target.result;
+      };
+      reader.onerror = () => {
+        console.warn('Failed to read image file');
+        resolve(file);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Function to convert image to base64 for storage
+  const convertImageToBase64 = async (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        // Check if base64 string is too large (for mobile)
+        const base64String = reader.result;
+        if (base64String.length > 10485760 && /Mobi|Android|iPhone/i.test(navigator.userAgent)) { // 10MB limit for mobile
+          reject(new Error('Image is too large for mobile upload. Please use a smaller image or upload from desktop.'));
+          return;
+        }
+        resolve(reader.result);
+      };
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
 
   // Backend API Functions
   const backendAPI = {
-    // Fetch all news from backend
     async fetchNews() {
       try {
         const response = await axios.get(`${BACKEND_URL}/posts`);
@@ -55,7 +138,6 @@ const DirectorPage = () => {
       }
     },
 
-    // Save news to backend
     async saveNews(newsData) {
       try {
         const response = await axios.post(`${BACKEND_URL}/posts`, newsData);
@@ -66,7 +148,6 @@ const DirectorPage = () => {
       }
     },
 
-    // Update news in backend
     async updateNews(id, newsData) {
       try {
         const response = await axios.put(`${BACKEND_URL}/posts/${id}`, newsData);
@@ -77,7 +158,6 @@ const DirectorPage = () => {
       }
     },
 
-    // Delete news from backend
     async deleteNews(id) {
       try {
         const response = await axios.delete(`${BACKEND_URL}/posts/${id}`);
@@ -88,7 +168,6 @@ const DirectorPage = () => {
       }
     },
 
-    // Bulk delete from backend
     async bulkDelete(ids) {
       try {
         const response = await axios.post(`${BACKEND_URL}/posts/bulk/delete`, { ids });
@@ -99,7 +178,6 @@ const DirectorPage = () => {
       }
     },
 
-    // Get stats from backend
     async getStats() {
       try {
         const response = await axios.get(`${BACKEND_URL}/posts/stats/overview`);
@@ -112,7 +190,6 @@ const DirectorPage = () => {
   };
 
   useEffect(() => {
-    // Load news from backend
     const loadNewsFromBackend = async () => {
       const newsData = await backendAPI.fetchNews();
       if (newsData.length > 0) {
@@ -121,7 +198,6 @@ const DirectorPage = () => {
       }
     };
 
-    // Load authors (keeping localStorage for authors as it's separate from news)
     const savedAuthors = localStorage.getItem('newsAuthors');
     if (savedAuthors) {
       setAuthors(JSON.parse(savedAuthors));
@@ -150,8 +226,12 @@ const DirectorPage = () => {
         return;
       }
 
-      if (file.size > 5 * 1024 * 1024) {
-        setNotification('Image size should be less than 5MB');
+      // Check file size (more strict for mobile)
+      const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+      const maxSize = isMobile ? 3 * 1024 * 1024 : 5 * 1024 * 1024; // 3MB for mobile, 5MB for desktop
+      
+      if (file.size > maxSize) {
+        setNotification(`Image size should be less than ${isMobile ? '3MB' : '5MB'}`);
         setTimeout(() => setNotification(''), 3000);
         return;
       }
@@ -183,16 +263,6 @@ const DirectorPage = () => {
     }
   };
 
-  // Function to convert image to base64 for storage
-  const convertImageToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = error => reject(error);
-    });
-  };
-
   // FIXED: Function to publish to Live Announcements
   const publishToLiveAnnouncements = async (newsItem) => {
     try {
@@ -202,7 +272,7 @@ const DirectorPage = () => {
       if (newsItem.category === 'Urgent') priority = 'high';
       if (newsItem.category === 'Academic') priority = 'medium';
 
-      // Prepare the data structure that matches what live announcements backend expects
+      // Prepare the data structure
       const announcementData = {
         title: newsItem.title || '',
         message: newsItem.content || '',
@@ -218,7 +288,7 @@ const DirectorPage = () => {
       console.log('📤 Sending to live announcements:', announcementData);
 
       const response = await axios.post(LIVE_ANNOUNCEMENTS_URL, announcementData, {
-        timeout: 10000, // 10 second timeout
+        timeout: isMobile ? 15000 : 10000, // 15s timeout for mobile
         headers: {
           'Content-Type': 'application/json',
         }
@@ -232,13 +302,7 @@ const DirectorPage = () => {
       };
     } catch (error) {
       console.error('❌ Failed to publish live announcement:', error);
-      console.error('Error details:', {
-        status: error.response?.status,
-        data: error.response?.data,
-        message: error.message
-      });
       
-      // Return more detailed error message
       let errorMessage = 'Failed to send to live announcements';
       if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
@@ -251,7 +315,7 @@ const DirectorPage = () => {
       return { 
         success: false, 
         error: errorMessage,
-        retry: true // Indicate this can be retried
+        retry: true
       };
     }
   };
@@ -261,7 +325,6 @@ const DirectorPage = () => {
     try {
       console.log('🗑️ Attempting to delete from live announcements:', newsItem.title);
       
-      // Try to find by newsId
       const searchResponse = await axios.get(`${LIVE_ANNOUNCEMENTS_URL}?newsId=${newsItem.id}`, {
         timeout: 5000
       });
@@ -272,7 +335,6 @@ const DirectorPage = () => {
             await axios.delete(`${LIVE_ANNOUNCEMENTS_URL}/${announcement._id}`, {
               timeout: 5000
             });
-            console.log(`✅ Deleted announcement: ${announcement.title}`);
             return { success: true, announcementId: announcement._id };
           } catch (deleteError) {
             console.error(`❌ Failed to delete announcement ${announcement._id}:`, deleteError);
@@ -347,7 +409,7 @@ const DirectorPage = () => {
     }));
   };
 
-  // FIXED: Main submit handler with better error handling
+  // FIXED: Main submit handler with better mobile support
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -370,19 +432,32 @@ const DirectorPage = () => {
       return;
     }
 
+    const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    
     // Start loading
     setIsUploading(true);
+    setUploadProgress(10);
 
     let imageUrl = '';
-    // Convert image to base64 if exists
+    let processedImage = formData.image;
+    
+    // Process image if exists
     if (formData.image) {
       try {
-        imageUrl = await convertImageToBase64(formData.image);
+        setUploadProgress(20);
+        // Optimize image for mobile
+        processedImage = await optimizeImageForMobile(formData.image);
+        setUploadProgress(40);
+        
+        // Convert to base64
+        imageUrl = await convertImageToBase64(processedImage);
+        setUploadProgress(60);
       } catch (error) {
-        console.error('Error converting image:', error);
-        setNotification('Failed to process image');
-        setTimeout(() => setNotification(''), 3000);
+        console.error('Error processing image:', error);
+        setNotification(isMobile ? 'Image processing failed. Try a smaller image or upload from desktop.' : 'Failed to process image');
+        setTimeout(() => setNotification(''), 5000);
         setIsUploading(false);
+        setUploadProgress(0);
         return;
       }
     }
@@ -405,6 +480,8 @@ const DirectorPage = () => {
     let liveAnnouncementSuccess = false;
 
     try {
+      setUploadProgress(80);
+      
       // First, save/update in local backend
       if (editingId) {
         // Update existing news
@@ -441,6 +518,8 @@ const DirectorPage = () => {
         }
       }
 
+      setUploadProgress(100);
+      
       // Update local state
       setNews(updatedNews);
       updateStats(updatedNews);
@@ -449,41 +528,42 @@ const DirectorPage = () => {
       if (liveAnnouncementSuccess) {
         setNotification(notificationMessage);
       } else {
-        // Show warning but don't fail the operation
         setNotification(notificationMessage);
       }
 
     } catch (error) {
       console.error('Error in handleSubmit:', error);
-      setNotification('❌ Failed to save news. Please try again.');
+      setNotification(isMobile ? 'Upload failed. Check your connection and try again.' : '❌ Failed to save news. Please try again.');
     } finally {
-      // Reset form regardless of success
-      setFormData({
-        title: '',
-        content: '',
-        category: 'Announcement',
-        author: '',
-        image: null,
-        imagePreview: ''
-      });
-      setEditingId(null);
-      setSelectedNews([]);
-      
-      // Clean up image preview URL
-      if (formData.imagePreview) {
-        URL.revokeObjectURL(formData.imagePreview);
-      }
-      
-      // Reset file input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
-      
-      // Stop loading
-      setIsUploading(false);
-      
-      // Auto-hide notification
-      setTimeout(() => setNotification(''), 5000);
+      // Small delay to show completion
+      setTimeout(() => {
+        // Reset form
+        setFormData({
+          title: '',
+          content: '',
+          category: 'Announcement',
+          author: '',
+          image: null,
+          imagePreview: ''
+        });
+        setEditingId(null);
+        setSelectedNews([]);
+        
+        // Clean up
+        if (formData.imagePreview) {
+          URL.revokeObjectURL(formData.imagePreview);
+        }
+        
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
+        
+        setIsUploading(false);
+        setUploadProgress(0);
+        
+        // Auto-hide notification
+        setTimeout(() => setNotification(''), 5000);
+      }, 500);
     }
   };
 
@@ -620,14 +700,12 @@ const DirectorPage = () => {
     
     switch (action) {
       case 'archive':
-        // Update each item in backend
         for (const id of selectedNews) {
           const item = news.find(item => item.id === id);
           if (item) {
             await backendAPI.updateNews(id, { ...item, status: 'archived' });
           }
         }
-        // Update local state
         setNews(prev => prev.map(item =>
           selectedNews.includes(item.id) ? { ...item, status: 'archived' } : item
         ));
@@ -635,14 +713,12 @@ const DirectorPage = () => {
         break;
         
       case 'publish':
-        // Update each item in backend
         for (const id of selectedNews) {
           const item = news.find(item => item.id === id);
           if (item) {
             await backendAPI.updateNews(id, { ...item, status: 'published' });
           }
         }
-        // Update local state
         setNews(prev => prev.map(item =>
           selectedNews.includes(item.id) ? { ...item, status: 'published' } : item
         ));
@@ -650,14 +726,12 @@ const DirectorPage = () => {
         break;
         
       case 'draft':
-        // Update each item in backend
         for (const id of selectedNews) {
           const item = news.find(item => item.id === id);
           if (item) {
             await backendAPI.updateNews(id, { ...item, status: 'draft' });
           }
         }
-        // Update local state
         setNews(prev => prev.map(item =>
           selectedNews.includes(item.id) ? { ...item, status: 'draft' } : item
         ));
@@ -702,7 +776,6 @@ const DirectorPage = () => {
         return;
     }
 
-    // Refresh stats if status changed
     if (['archive', 'publish', 'draft'].includes(action)) {
       updateStats(news);
     }
@@ -767,6 +840,8 @@ const DirectorPage = () => {
     item.category?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+
   return (
     <>
       <Helmet>
@@ -781,44 +856,48 @@ const DirectorPage = () => {
               <div className="flex flex-col items-center">
                 {/* Desktop Loading Spinner */}
                 <div className="hidden md:block mb-6">
-                  <div className="relative">
+                  <div className="relative mb-4">
                     <div className="w-20 h-20 border-4 border-blue-200 rounded-full"></div>
                     <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                       <i className="fas fa-paper-plane text-2xl text-blue-600"></i>
                     </div>
                   </div>
+                  <p className="text-center text-gray-600 mb-2">{uploadProgress}% Complete</p>
+                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    ></div>
+                  </div>
                 </div>
                 
                 {/* Mobile Loading Animation */}
                 <div className="md:hidden mb-6">
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 mb-4">
                     <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
                     <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                     <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   </div>
+                  <p className="text-center text-gray-600 mb-2">Uploading... {uploadProgress}%</p>
                 </div>
                 
                 <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-                  {window.innerWidth < 768 ? 'Uploading...' : 'Publishing News'}
+                  {isMobile ? 'Uploading News' : 'Publishing News'}
                 </h3>
                 
                 <p className="text-gray-600 text-center mb-6">
-                  {window.innerWidth < 768 
-                    ? 'Please wait while we upload your news' 
+                  {isMobile 
+                    ? 'Optimizing and uploading your news. This may take a moment...' 
                     : 'Saving to database and sending to live announcements...'}
                 </p>
                 
-                {/* Progress bar for desktop */}
-                <div className="hidden md:block w-full bg-gray-200 rounded-full h-2 mb-4">
-                  <div className="bg-blue-600 h-2 rounded-full animate-pulse w-3/4"></div>
-                </div>
-                
-                {/* Loading message for mobile */}
-                <div className="md:hidden">
-                  <p className="text-sm text-gray-500 text-center">
-                    <i className="fas fa-sync-alt animate-spin mr-2"></i>
-                    Processing image and content...
+                <div className="text-sm text-gray-500 text-center">
+                  <p className="flex items-center justify-center">
+                    <i className="fas fa-info-circle mr-2"></i>
+                    {isMobile 
+                      ? 'Mobile uploads are optimized for better performance'
+                      : 'Please keep this window open until complete'}
                   </p>
                 </div>
               </div>
@@ -848,6 +927,11 @@ const DirectorPage = () => {
             <p className="text-xl opacity-90 max-w-2xl mx-auto">
               Welcome back, Dr. Johnson. Publish and manage school news announcements here.
             </p>
+            {isMobile && (
+              <p className="text-sm opacity-75 mt-2">
+                Mobile mode: Images are automatically optimized
+              </p>
+            )}
           </div>
         </div>
 
@@ -955,6 +1039,14 @@ const DirectorPage = () => {
                   <label className="block text-gray-700 font-semibold mb-2">
                     News Image (Optional)
                   </label>
+                  {isMobile && (
+                    <div className="mb-3 p-3 bg-blue-50 rounded-lg">
+                      <p className="text-sm text-blue-700 flex items-center">
+                        <i className="fas fa-mobile-alt mr-2"></i>
+                        Mobile: Images are automatically optimized (max 3MB)
+                      </p>
+                    </div>
+                  )}
                   <div className="space-y-4">
                     {formData.imagePreview ? (
                       <div className="relative">
@@ -979,7 +1071,9 @@ const DirectorPage = () => {
                       >
                         <i className="fas fa-image text-4xl text-gray-400 mb-4"></i>
                         <p className="text-gray-600">Click to upload an image</p>
-                        <p className="text-gray-400 text-sm mt-2">Supports JPG, PNG, GIF (Max 5MB)</p>
+                        <p className="text-gray-400 text-sm mt-2">
+                          {isMobile ? 'JPG, PNG, GIF (Max 3MB)' : 'Supports JPG, PNG, GIF (Max 5MB)'}
+                        </p>
                       </div>
                     )}
                     <input
@@ -1038,7 +1132,7 @@ const DirectorPage = () => {
                     {isUploading ? (
                       <>
                         <i className="fas fa-spinner fa-spin mr-2"></i>
-                        {window.innerWidth < 768 ? 'Uploading...' : 'Publishing...'}
+                        {isMobile ? 'Uploading...' : 'Publishing...'}
                       </>
                     ) : (
                       <>
@@ -1076,25 +1170,44 @@ const DirectorPage = () => {
               <div className="mt-10 p-6 bg-blue-50 rounded-lg">
                 <h4 className="font-bold text-lg text-gray-800 mb-3 flex items-center">
                   <i className="fas fa-lightbulb text-blue-600 mr-2"></i>
-                  Publishing Tips
+                  {isMobile ? 'Mobile Upload Tips' : 'Publishing Tips'}
                 </h4>
                 <ul className="text-gray-600 space-y-2">
-                  <li className="flex items-start">
-                    <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                    News is automatically sent to live announcements
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                    "Urgent" category appears as high priority in live feed
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                    Images make announcements more engaging
-                  </li>
-                  <li className="flex items-start">
-                    <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
-                    Deleting news also removes it from live announcements
-                  </li>
+                  {isMobile ? (
+                    <>
+                      <li className="flex items-start">
+                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        Images are automatically optimized for mobile
+                      </li>
+                      <li className="flex items-start">
+                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        Use WiFi for faster uploads with images
+                      </li>
+                      <li className="flex items-start">
+                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        Keep the app open until upload completes
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li className="flex items-start">
+                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        News is automatically sent to live announcements
+                      </li>
+                      <li className="flex items-start">
+                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        "Urgent" category appears as high priority in live feed
+                      </li>
+                      <li className="flex items-start">
+                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        Images make announcements more engaging
+                      </li>
+                      <li className="flex items-start">
+                        <i className="fas fa-check text-green-500 mt-1 mr-2"></i>
+                        Deleting news also removes it from live announcements
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
