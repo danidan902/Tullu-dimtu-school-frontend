@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from 'react';
 import Header from '../components/Header';
 import NewsCard from '../components/NewsCard';
@@ -30,7 +31,6 @@ const DirectorPage = () => {
     byAuthor: {},
     recentCount: 0
   });
-  const [isUploading, setIsUploading] = useState(false); // Loading state
 
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -370,9 +370,6 @@ const DirectorPage = () => {
       return;
     }
 
-    // Start loading
-    setIsUploading(true);
-
     let imageUrl = '';
     // Convert image to base64 if exists
     if (formData.image) {
@@ -382,7 +379,6 @@ const DirectorPage = () => {
         console.error('Error converting image:', error);
         setNotification('Failed to process image');
         setTimeout(() => setNotification(''), 3000);
-        setIsUploading(false);
         return;
       }
     }
@@ -478,9 +474,6 @@ const DirectorPage = () => {
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
       }
-      
-      // Stop loading
-      setIsUploading(false);
       
       // Auto-hide notification
       setTimeout(() => setNotification(''), 5000);
@@ -774,58 +767,6 @@ const DirectorPage = () => {
       </Helmet>
    
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50">
-        {/* Loading Overlay for Desktop and Mobile */}
-        {isUploading && (
-          <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[100] p-4">
-            <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full">
-              <div className="flex flex-col items-center">
-                {/* Desktop Loading Spinner */}
-                <div className="hidden md:block mb-6">
-                  <div className="relative">
-                    <div className="w-20 h-20 border-4 border-blue-200 rounded-full"></div>
-                    <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                      <i className="fas fa-paper-plane text-2xl text-blue-600"></i>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Mobile Loading Animation */}
-                <div className="md:hidden mb-6">
-                  <div className="flex space-x-2">
-                    <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce"></div>
-                    <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                    <div className="w-4 h-4 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-                  </div>
-                </div>
-                
-                <h3 className="text-2xl font-bold text-gray-800 mb-4 text-center">
-                  {window.innerWidth < 768 ? 'Uploading...' : 'Publishing News'}
-                </h3>
-                
-                <p className="text-gray-600 text-center mb-6">
-                  {window.innerWidth < 768 
-                    ? 'Please wait while we upload your news' 
-                    : 'Saving to database and sending to live announcements...'}
-                </p>
-                
-                {/* Progress bar for desktop */}
-                <div className="hidden md:block w-full bg-gray-200 rounded-full h-2 mb-4">
-                  <div className="bg-blue-600 h-2 rounded-full animate-pulse w-3/4"></div>
-                </div>
-                
-                {/* Loading message for mobile */}
-                <div className="md:hidden">
-                  <p className="text-sm text-gray-500 text-center">
-                    <i className="fas fa-sync-alt animate-spin mr-2"></i>
-                    Processing image and content...
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
         <div className="fixed left-2 sm:left-4 top-2 sm:top-4 z-20">
           <button
             onClick={() => navigate('/')}
@@ -894,7 +835,6 @@ const DirectorPage = () => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Enter news title..."
                     required
-                    disabled={isUploading}
                   />
                 </div>
 
@@ -909,7 +849,6 @@ const DirectorPage = () => {
                       onChange={handleInputChange}
                       className="flex-1 px-4 py-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
-                      disabled={isUploading}
                     >
                       <option value="">Select Author</option>
                       {authors.map(author => (
@@ -919,8 +858,7 @@ const DirectorPage = () => {
                     <button
                       type="button"
                       onClick={() => setShowAuthorModal(true)}
-                      className="px-4 py-3 bg-blue-200 hover:bg-gray-300 rounded-lg transition duration-300 disabled:opacity-50"
-                      disabled={isUploading}
+                      className="px-4 py-3 bg-blue-200 hover:bg-gray-300 rounded-lg transition duration-300"
                     >
                       Edit Author
                     </button>
@@ -940,9 +878,8 @@ const DirectorPage = () => {
                           formData.category === category 
                           ? 'bg-blue-800 text-white' 
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        }`}
                         onClick={() => setFormData(prev => ({ ...prev, category }))}
-                        disabled={isUploading}
                       >
                         {category}
                       </button>
@@ -966,16 +903,15 @@ const DirectorPage = () => {
                         <button
                           type="button"
                           onClick={removeImage}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600 disabled:opacity-50"
-                          disabled={isUploading}
+                          className="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full hover:bg-red-600"
                         >
                           <i className="fas fa-times text-sm"></i>
                         </button>
                       </div>
                     ) : (
                       <div 
-                        className={`border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 transition-colors ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
-                        onClick={() => !isUploading && fileInputRef.current?.click()}
+                        className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 transition-colors"
+                        onClick={() => fileInputRef.current?.click()}
                       >
                         <i className="fas fa-image text-4xl text-gray-400 mb-4"></i>
                         <p className="text-gray-600">Click to upload an image</p>
@@ -988,14 +924,12 @@ const DirectorPage = () => {
                       onChange={handleImageUpload}
                       accept="image/*"
                       className="hidden"
-                      disabled={isUploading}
                     />
                     <div className="flex justify-between items-center">
                       <button
                         type="button"
-                        onClick={() => !isUploading && fileInputRef.current?.click()}
-                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={isUploading}
+                        onClick={() => fileInputRef.current?.click()}
+                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
                       >
                         {formData.imagePreview ? 'Change Image' : 'Browse...'}
                       </button>
@@ -1003,8 +937,7 @@ const DirectorPage = () => {
                         <button
                           type="button"
                           onClick={removeImage}
-                          className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors disabled:opacity-50"
-                          disabled={isUploading}
+                          className="px-4 py-2 bg-red-100 text-red-600 rounded-lg hover:bg-red-200 transition-colors"
                         >
                           Remove Image
                         </button>
@@ -1022,30 +955,19 @@ const DirectorPage = () => {
                     value={formData.content}
                     onChange={handleInputChange}
                     rows="8"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Write the news content here..."
                     required
-                    disabled={isUploading}
                   />
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4">
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center disabled:opacity-70 disabled:cursor-not-allowed"
-                    disabled={isUploading}
+                    className="flex-1 bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center"
                   >
-                    {isUploading ? (
-                      <>
-                        <i className="fas fa-spinner fa-spin mr-2"></i>
-                        {window.innerWidth < 768 ? 'Uploading...' : 'Publishing...'}
-                      </>
-                    ) : (
-                      <>
-                        <i className="fas fa-paper-plane mr-2"></i>
-                        {editingId ? 'Update News' : 'Publish News'}
-                      </>
-                    )}
+                    <i className="fas fa-paper-plane mr-2"></i>
+                    {editingId ? 'Update News' : 'Publish News'}
                   </button>
                   
                   {editingId && (
@@ -1062,8 +984,7 @@ const DirectorPage = () => {
                         });
                         setEditingId(null);
                       }}
-                      className="flex-1 bg-blue-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center disabled:opacity-50"
-                      disabled={isUploading}
+                      className="flex-1 bg-blue-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-lg transition duration-300 flex items-center justify-center"
                     >
                       <i className="fas fa-times mr-2"></i>
                       Cancel Edit
@@ -1185,7 +1106,6 @@ const DirectorPage = () => {
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    disabled={isUploading}
                   />
                   <i className="fas fa-search absolute right-3 top-3 text-gray-400"></i>
                 </div>
@@ -1197,7 +1117,6 @@ const DirectorPage = () => {
                     if (e.target.value) handleBulkAction(e.target.value);
                   }}
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  disabled={isUploading}
                 >
                   <option value="">Bulk Actions</option>
                   <option value="publish">Publish Selected</option>
@@ -1209,8 +1128,7 @@ const DirectorPage = () => {
                 
                 <button
                   onClick={handleBulkDelete}
-                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition duration-300 flex items-center justify-center disabled:opacity-50"
-                  disabled={isUploading}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition duration-300 flex items-center justify-center"
                 >
                   <i className="fas fa-trash mr-2"></i>
                   Delete Selected
@@ -1229,7 +1147,6 @@ const DirectorPage = () => {
                           checked={selectedNews.length === filteredNews.length && filteredNews.length > 0}
                           onChange={handleSelectAll}
                           className="rounded"
-                          disabled={isUploading}
                         />
                       </th>
                       <th className="text-left p-4">Title</th>
@@ -1249,7 +1166,6 @@ const DirectorPage = () => {
                             checked={selectedNews.includes(item.id)}
                             onChange={() => handleSelectNews(item.id)}
                             className="rounded"
-                            disabled={isUploading}
                           />
                         </td>
                         <td className="p-4 font-medium">{item.title}</td>
@@ -1280,41 +1196,36 @@ const DirectorPage = () => {
                           <div className="flex space-x-3">
                             <button
                               onClick={() => handleEdit(item)}
-                              className="text-blue-600 hover:text-blue-800 disabled:opacity-50"
+                              className="text-blue-600 hover:text-blue-800"
                               title="Edit"
-                              disabled={isUploading}
                             >
                               <i className="fas fa-edit"></i>
                             </button>
                             <button
                               onClick={() => resendToLiveAnnouncements(item)}
-                              className="text-green-600 hover:text-green-800 disabled:opacity-50"
+                              className="text-green-600 hover:text-green-800"
                               title="Send to Live Announcements"
-                              disabled={isUploading}
                             >
                               <i className="fas fa-broadcast-tower"></i>
                             </button>
                             <button
                               onClick={() => removeFromLiveAnnouncements(item)}
-                              className="text-orange-600 hover:text-orange-800 disabled:opacity-50"
+                              className="text-orange-600 hover:text-orange-800"
                               title="Remove from Live Announcements"
-                              disabled={isUploading}
                             >
                               <i className="fas fa-minus-circle"></i>
                             </button>
                             <button
                               onClick={() => handleDelete(item.id)}
-                              className="text-red-500 hover:text-red-700 disabled:opacity-50"
+                              className="text-red-500 hover:text-red-700"
                               title="Delete"
-                              disabled={isUploading}
                             >
                               <i className="fas fa-trash"></i>
                             </button>
                             <button
                               onClick={() => window.open('/', '_blank')}
-                              className="text-purple-600 hover:text-purple-800 disabled:opacity-50"
+                              className="text-purple-600 hover:text-purple-800"
                               title="View"
-                              disabled={isUploading}
                             >
                               <i className="fas fa-eye"></i>
                             </button>
