@@ -625,7 +625,7 @@ counterInterval = setInterval(() => {
         formDataToSend,
         {
           headers: { 'Content-Type': 'multipart/form-data' },
-          timeout: 120000,
+          timeout: 300000,
           onUploadProgress: (progressEvent) => {
             if (progressEvent.lengthComputable) {
               const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
