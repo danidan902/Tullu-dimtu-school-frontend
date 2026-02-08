@@ -11,7 +11,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'https://tullu-dimtu-school-bac
 // Create axios instance with default config
 const api = axios.create({
   baseURL: API_URL,
-  timeout: 120000,
+  timeout: 300000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -541,13 +541,12 @@ const AdmissionForm = () => {
     setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED');
     
     // Start counter for final submission
-    let counter = 1;
-    const counterInterval = setInterval(() => {
-      setUploadCounter(counter);
-      counter++;
-      if (counter > 100) counter = 1; // Reset after 100
-    }, 100); // Update counter every 100ms
-    
+let counterInterval = null;
+
+counterInterval = setInterval(() => {
+  setUploadCounter(prev => (prev >= 100 ? 1 : prev + 1));
+}, 100);
+
     try {
       const formDataToSend = new FormData();
       
