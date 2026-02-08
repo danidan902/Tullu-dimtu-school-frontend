@@ -464,276 +464,342 @@ const AdmissionForm = () => {
     setCurrentStep(currentStep - 1);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  // Mobile detection for file size limits
+  const isMobile = window.innerWidth < 768;
+  const maxFileSizeMB = isMobile ? 1 : 5;
+  const maxFileSizeBytes = maxFileSizeMB * 1024 * 1024;
+  
+  // Validate all steps first
+  for (let step = 1; step <= 5; step++) {
+    const newErrors = {};
     
-    // Validate all steps first
-    for (let step = 1; step <= 5; step++) {
-      const newErrors = {};
+    if (step === 1) {
+      if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+      if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+      if (!formData.grandParentName.trim()) newErrors.grandParentName = 'Grandparent name is required';
+      if (!formData.gender) newErrors.gender = 'Gender is required';
+      if (!formData.dob) newErrors.dob = 'Date of birth is required';
+      if (!formData.age) newErrors.age = 'Age is required';
+      if (!formData.nationality) newErrors.nationality = 'Media Of Instruction is required';
+      if (!formData.program) newErrors.program = "Program is required";
+      if (!formData.fayida) newErrors.fayida = "FAN is required";
+      if (!formData.field) newErrors.field = "Field is required";
+      if (!formData.photo) newErrors.photo = 'Photo is required';
       
-      if (step === 1) {
-        if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-        if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-        if (!formData.grandParentName.trim()) newErrors.grandParentName = 'Grandparent name is required';
-        if (!formData.gender) newErrors.gender = 'Gender is required';
-        if (!formData.dob) newErrors.dob = 'Date of birth is required';
-        if (!formData.age) newErrors.age = 'Age is required';
-        if (!formData.nationality) newErrors.nationality = 'Media Of Instruction is required';
-        if (!formData.program) newErrors.program = "Program is required";
-        if (!formData.fayida) newErrors.fayida = "FAN is required";
-        if (!formData.field) newErrors.field = "Field is required";
-        if (!formData.photo) newErrors.photo = 'Photo is required';
-      }
-      
-      if (step === 2) {
-        if (!formData.applyingGrade) newErrors.applyingGrade = 'Grade is required';
-        if (!formData.lastSchool.trim()) newErrors.lastSchool = 'Last school is required';
-        if (!formData.lastGrade.trim()) newErrors.lastGrade = 'Last grade is required';
-        if (!formData.gradeAverage.trim()) newErrors.gradeAverage = 'Grade average is required';
-        if (!formData.condition) newErrors.condition = 'Registration condition is required';
-      }
-      
-      if (step === 3) {
-        if (!formData.parentName.trim()) newErrors.parentName = 'Parent name is required';
-        if (!formData.relationship) newErrors.relationship = 'Relationship is required';
-        if (!formData.parentPhone.trim()) newErrors.parentPhone = 'Phone number is required';
-        if (!formData.parentEmail.trim()) {
-          newErrors.parentEmail = 'Email is required';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.parentEmail)) {
-          newErrors.parentEmail = 'Email is invalid';
-        }
-        if (!formData.address.trim()) newErrors.address = 'Address is required';
-      }
-      
-      if (step === 4) {
-        if (!formData.birthCertificate) newErrors.birthCertificate = 'Birth certificate is required';
-        if (!formData.transcript) newErrors.transcript = 'Transcript is required';
-        if (!formData.faydaId) newErrors.faydaId = 'Student ID is required';
-        if (!formData.ParentPhoto) newErrors.ParentPhoto = 'Parent Photo is required';
-        if (!formData.clearance) newErrors.clearance = 'Clearance is required';
-      }
-      
-      if (step === 5) {
-        if (!formData.paymentReceipt) newErrors.paymentReceipt = 'Payment receipt is required';
-      }
-      
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        setSubmitError('⚠️ Please fill in all required fields correctly.');
-        // Go to the step with errors
-        setCurrentStep(step);
-        return;
+      // Check file size for photo on mobile
+      if (formData.photo && formData.photo.size && isMobile && formData.photo.size > maxFileSizeBytes) {
+        newErrors.photo = `Photo is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
       }
     }
     
-    if (apiHealth !== 'healthy') {
-      const healthCheck = await checkAPIHealth();
-      if (healthCheck !== 'healthy') {
-        setSubmitError('⚠️ Cannot connect to server. Please make sure backend is running on ' + API_URL);
-        return;
-      }
+    if (step === 2) {
+      if (!formData.applyingGrade) newErrors.applyingGrade = 'Grade is required';
+      if (!formData.lastSchool.trim()) newErrors.lastSchool = 'Last school is required';
+      if (!formData.lastGrade.trim()) newErrors.lastGrade = 'Last grade is required';
+      if (!formData.gradeAverage.trim()) newErrors.gradeAverage = 'Grade average is required';
+      if (!formData.condition) newErrors.condition = 'Registration condition is required';
     }
     
-    setIsSubmitting(true);
-    setSubmitError(null);
-    setUploadProgress(0);
-    setUploadStatus('Preparing files...');
-    setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED');
+    if (step === 3) {
+      if (!formData.parentName.trim()) newErrors.parentName = 'Parent name is required';
+      if (!formData.relationship) newErrors.relationship = 'Relationship is required';
+      if (!formData.parentPhone.trim()) newErrors.parentPhone = 'Phone number is required';
+      if (!formData.parentEmail.trim()) {
+        newErrors.parentEmail = 'Email is required';
+      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.parentEmail)) {
+        newErrors.parentEmail = 'Email is invalid';
+      }
+      if (!formData.address.trim()) newErrors.address = 'Address is required';
+    }
     
-    // Start counter for final submission
-let counterInterval = null;
-
-counterInterval = setInterval(() => {
-  setUploadCounter(prev => (prev >= 100 ? 1 : prev + 1));
-}, 100);
-
-    try {
-      const formDataToSend = new FormData();
+    if (step === 4) {
+      if (!formData.birthCertificate) newErrors.birthCertificate = 'Birth certificate is required';
+      if (!formData.transcript) newErrors.transcript = 'Transcript is required';
+      if (!formData.faydaId) newErrors.faydaId = 'Student ID is required';
+      if (!formData.ParentPhoto) newErrors.ParentPhoto = 'Parent Photo is required';
+      if (!formData.clearance) newErrors.clearance = 'Clearance is required';
       
-      const textFields = {
-        age: formData.age,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        grandParentName: formData.grandParentName,
-        gender: formData.gender.toLowerCase(),
-        dob: formData.dob,
-        nationality: formData.nationality,
-        religion: formData.religion || '',
-        applyingGrade: formData.applyingGrade,
-        lastSchool: formData.lastSchool,
-        lastGrade: formData.lastGrade,
-        gradeAverage: formData.gradeAverage || '',
-        parentName: formData.parentName,
-        relationship: formData.relationship,
-        parentPhone: formData.parentPhone,
-        parentEmail: formData.parentEmail.toLowerCase(),
-        parentOccupation: formData.parentOccupation || '',
-        address: formData.address,
-        condition: formData.condition,
-        program: formData.program,
-        fayida: formData.fayida,
-        field: formData.field,
-      };
-      
-      // Add text fields
-      Object.entries(textFields).forEach(([key, value]) => {
-        formDataToSend.append(key, value);
-      });
-      
-      const fileFields = [
-        'photo',
-        'birthCertificate', 
-        'transcript',
-        'transferCertificate',
-        'paymentReceipt',
-        'faydaId',
-        'ParentPhoto',
-        'clearance'
+      // Check file sizes for step 4 documents on mobile
+      const step4Files = [
+        { name: 'birthCertificate', file: formData.birthCertificate },
+        { name: 'transcript', file: formData.transcript },
+        { name: 'faydaId', file: formData.faydaId },
+        { name: 'ParentPhoto', file: formData.ParentPhoto },
+        { name: 'clearance', file: formData.clearance }
       ];
       
-      // Add compressed files
-      let fileCount = 0;
-      for (const field of fileFields) {
-        const file = formData[field];
-        if (file) {
-          // Send the file regardless of whether it's a File instance or not
-          // The server will handle validation
-          formDataToSend.append(field, file);
-          fileCount++;
+      step4Files.forEach(({ name, file }) => {
+        if (file && file.size && isMobile && file.size > maxFileSizeBytes) {
+          newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
         }
+      });
+    }
+    
+    if (step === 5) {
+      if (!formData.paymentReceipt) newErrors.paymentReceipt = 'Payment receipt is required';
+      
+      // Check file size for payment receipt on mobile
+      if (formData.paymentReceipt && formData.paymentReceipt.size && isMobile && 
+          formData.paymentReceipt.size > maxFileSizeBytes) {
+        newErrors.paymentReceipt = `Payment receipt is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
+      }
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setSubmitError(`⚠️ Please fill in all required fields correctly. ${isMobile ? `(Mobile limit: ${maxFileSizeMB}MB per file)` : ''}`);
+      // Go to the step with errors
+      setCurrentStep(step);
+      return;
+    }
+  }
+  
+  // Additional file type validation before submission
+  const fileFields = [
+    'photo',
+    'birthCertificate', 
+    'transcript',
+    'transferCertificate',
+    'paymentReceipt',
+    'faydaId',
+    'ParentPhoto',
+    'clearance'
+  ];
+  
+  for (const field of fileFields) {
+    const file = formData[field];
+    if (file && file instanceof File) {
+      const typeError = validateFileType(file, field);
+      if (typeError) {
+        setErrors(prev => ({ ...prev, [field]: typeError }));
+        setSubmitError(`⚠️ Invalid file type. Please check all files. ${isMobile ? `(Mobile limit: ${maxFileSizeMB}MB per file)` : ''}`);
+        // Find which step contains this field and navigate to it
+        if (field === 'photo') setCurrentStep(1);
+        else if (['birthCertificate', 'transcript', 'faydaId', 'ParentPhoto', 'clearance'].includes(field)) setCurrentStep(4);
+        else if (field === 'paymentReceipt') setCurrentStep(5);
+        return;
       }
       
-      setUploadStatus(`Uploading ${fileCount} files...`);
-      setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED - Uploading files...');
-      
-      const submissionId = `submission_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-      formDataToSend.append('submissionId', submissionId);
-      
-      // Log what we're sending (for debugging)
-      console.log('Sending form data:', {
-        textFields,
-        fileCount,
-        hasPhoto: !!formData.photo,
-        photoType: formData.photo ? formData.photo.type : 'No photo',
-        photoName: formData.photo ? formData.photo.name : 'No photo',
-        hasBirthCertificate: !!formData.birthCertificate,
-        hasTranscript: !!formData.transcript,
-      });
-      
-      const response = await api.post(
-        '/api/admissions/submit',
-        formDataToSend,
-        {
-          headers: { 'Content-Type': 'multipart/form-data' },
-          timeout: 300000,
-          onUploadProgress: (progressEvent) => {
-            if (progressEvent.lengthComputable) {
-              const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-              setUploadProgress(percentCompleted);
-              
-              if (percentCompleted < 100) {
-                setUploadStatus(`Uploading... ${percentCompleted}%`);
-                setServerMessage(`🎯 CREATE ADMISSION REQUEST RECEIVED - Uploading ${percentCompleted}%`);
-              } else {
-                setUploadStatus('Processing submission...');
-                setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED - Processing...');
-              }
+      // Final size check before submission
+      if (isMobile && file.size > maxFileSizeBytes) {
+        setErrors(prev => ({ ...prev, [field]: `File is too large! Maximum size is ${maxFileSizeMB}MB on mobile.` }));
+        setSubmitError(`⚠️ File size exceeds mobile limit. Maximum size is ${maxFileSizeMB}MB per file on mobile.`);
+        // Find which step contains this field and navigate to it
+        if (field === 'photo') setCurrentStep(1);
+        else if (['birthCertificate', 'transcript', 'faydaId', 'ParentPhoto', 'clearance'].includes(field)) setCurrentStep(4);
+        else if (field === 'paymentReceipt') setCurrentStep(5);
+        return;
+      }
+    }
+  }
+  
+  if (apiHealth !== 'healthy') {
+    const healthCheck = await checkAPIHealth();
+    if (healthCheck !== 'healthy') {
+      setSubmitError('⚠️ Cannot connect to server. Please make sure backend is running on ' + API_URL);
+      return;
+    }
+  }
+  
+  setIsSubmitting(true);
+  setSubmitError(null);
+  setUploadProgress(0);
+  setUploadStatus('Preparing files...');
+  setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED');
+  
+  // Start counter for final submission
+  let counter = 1;
+  const counterInterval = setInterval(() => {
+    setUploadCounter(counter);
+    counter++;
+    if (counter > 100) counter = 1; // Reset after 100
+  }, 100); // Update counter every 100ms
+  
+  try {
+    const formDataToSend = new FormData();
+    
+    const textFields = {
+      age: formData.age,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      grandParentName: formData.grandParentName,
+      gender: formData.gender.toLowerCase(),
+      dob: formData.dob,
+      nationality: formData.nationality,
+      religion: formData.religion || '',
+      applyingGrade: formData.applyingGrade,
+      lastSchool: formData.lastSchool,
+      lastGrade: formData.lastGrade,
+      gradeAverage: formData.gradeAverage || '',
+      parentName: formData.parentName,
+      relationship: formData.relationship,
+      parentPhone: formData.parentPhone,
+      parentEmail: formData.parentEmail.toLowerCase(),
+      parentOccupation: formData.parentOccupation || '',
+      address: formData.address,
+      condition: formData.condition,
+      program: formData.program,
+      fayida: formData.fayida,
+      field: formData.field,
+    };
+    
+    // Add text fields
+    Object.entries(textFields).forEach(([key, value]) => {
+      formDataToSend.append(key, value);
+    });
+    
+    // Add compressed files
+    let fileCount = 0;
+    for (const field of fileFields) {
+      const file = formData[field];
+      if (file) {
+        // Send the file regardless of whether it's a File instance or not
+        // The server will handle validation
+        formDataToSend.append(field, file);
+        fileCount++;
+      }
+    }
+    
+    setUploadStatus(`Uploading ${fileCount} files...`);
+    setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED - Uploading files...');
+    
+    const submissionId = `submission_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    formDataToSend.append('submissionId', submissionId);
+    formDataToSend.append('isMobile', isMobile.toString()); // Send mobile flag to server
+    
+    // Log what we're sending (for debugging)
+    console.log('Sending form data:', {
+      textFields,
+      fileCount,
+      isMobile,
+      maxFileSizeMB,
+      hasPhoto: !!formData.photo,
+      photoType: formData.photo ? formData.photo.type : 'No photo',
+      photoName: formData.photo ? formData.photo.name : 'No photo',
+      photoSize: formData.photo ? `${(formData.photo.size / 1024 / 1024).toFixed(2)}MB` : 'No photo',
+      hasBirthCertificate: !!formData.birthCertificate,
+      hasTranscript: !!formData.transcript,
+    });
+    
+    const response = await api.post(
+      '/api/admissions/submit',
+      formDataToSend,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+        timeout: 120000,
+        onUploadProgress: (progressEvent) => {
+          if (progressEvent.lengthComputable) {
+            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            setUploadProgress(percentCompleted);
+            
+            if (percentCompleted < 100) {
+              setUploadStatus(`Uploading... ${percentCompleted}%`);
+              setServerMessage(`🎯 CREATE ADMISSION REQUEST RECEIVED - Uploading ${percentCompleted}%`);
+            } else {
+              setUploadStatus('Processing submission...');
+              setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED - Processing...');
             }
           }
         }
-      );
-      
-      console.log('Server Response:', response.data);
-      
-      // Check if response indicates success
-      if (response.status === 200 || response.status === 201) {
-        clearInterval(counterInterval);
-        setUploadCounter(100);
-        
-        setSubmitSuccess(true);
-        
-        // Extract data from response
-        const responseData = response.data || {};
-        setApplicationData({
-          admissionId: responseData.admissionId || `ADM${Date.now().toString().slice(-6)}`,
-          studentId: responseData.studentId || `STU${Date.now().toString().slice(-6)}`,
-          fullName: `${formData.firstName} ${formData.lastName}`,
-          grade: formData.applyingGrade,
-          timestamp: new Date().toLocaleString(),
-          ...responseData
-        });
-        
-        setFormData(initialFormData);
-        setCurrentStep(1);
-        setErrors({});
-        setSubmitError(null);
-        setUploadProgress(0);
-        setUploadStatus('');
-        setServerMessage('✅ Admission request created successfully!');
-        // Clear file upload progress
-        setFileUploadProgress({});
-      } else {
-        throw new Error(response.data?.message || 'Submission failed');
       }
-      
-    } catch (error) {
-      console.error('Submission error:', error);
+    );
+    
+    console.log('Server Response:', response.data);
+    
+    // Check if response indicates success
+    if (response.status === 200 || response.status === 201) {
       clearInterval(counterInterval);
+      setUploadCounter(100);
       
-      let errorMessage = 'An unexpected error occurred. Please try again.';
-      let serverResponseMessage = '';
+      setSubmitSuccess(true);
       
-      if (error.code === 'ECONNABORTED') {
-        errorMessage = 'Request timeout. Please check your connection and try again.';
-      } else if (error.response) {
-        // Extract server error message
-        const serverError = error.response.data;
-        
-        if (typeof serverError === 'string') {
-          serverResponseMessage = serverError;
-        } else if (serverError && typeof serverError === 'object') {
-          serverResponseMessage = serverError.message || JSON.stringify(serverError);
-        }
-        
-        if (error.response.status === 413) {
-          errorMessage = 'File too large. Maximum size is 5MB per file.';
-        } else if (error.response.status === 415) {
-          errorMessage = 'Unsupported file type. Please upload JPG, PNG, GIF, WEBP, or PDF files.';
-        } else if (error.response.status === 400) {
-          if (serverResponseMessage.includes('photo') || 
-              serverResponseMessage.includes('Photo') ||
-              serverResponseMessage.includes('birth certificate') || 
-              serverResponseMessage.includes('transcript')) {
-            errorMessage = `⚠️ ${serverResponseMessage}`;
-          } else if (serverResponseMessage.includes('valid') || serverResponseMessage.includes('file')) {
-            errorMessage = `⚠️ ${serverResponseMessage}`;
-          } else {
-            errorMessage = '⚠️ Invalid data. Please check all fields and try again.';
-          }
-        } else if (error.response.status === 500) {
-          errorMessage = 'Internal server error. Please try again later.';
-        } else {
-          errorMessage = `Server error (${error.response.status}): ${serverResponseMessage || 'Please try again.'}`;
-        }
-      } else if (error.request) {
-        errorMessage = 'No response from server. Please check backend server and network connection.';
-      } else {
-        errorMessage = `Error: ${error.message}`;
-      }
+      // Extract data from response
+      const responseData = response.data || {};
+      setApplicationData({
+        admissionId: responseData.admissionId || `ADM${Date.now().toString().slice(-6)}`,
+        studentId: responseData.studentId || `STU${Date.now().toString().slice(-6)}`,
+        fullName: `${formData.firstName} ${formData.lastName}`,
+        grade: formData.applyingGrade,
+        timestamp: new Date().toLocaleString(),
+        ...responseData
+      });
       
-      setSubmitError(errorMessage);
+      setFormData(initialFormData);
+      setCurrentStep(1);
+      setErrors({});
+      setSubmitError(null);
       setUploadProgress(0);
       setUploadStatus('');
-      setUploadCounter(0);
-      
-      // Show server message if available
-      if (serverResponseMessage) {
-        setServerMessage(`Server: ${serverResponseMessage}`);
-      }
-    } finally {
-      setIsSubmitting(false);
+      setServerMessage('✅ Admission request created successfully!');
+      // Clear file upload progress
+      setFileUploadProgress({});
+    } else {
+      throw new Error(response.data?.message || 'Submission failed');
     }
-  };
+    
+  } catch (error) {
+    console.error('Submission error:', error);
+    clearInterval(counterInterval);
+    
+    let errorMessage = 'An unexpected error occurred. Please try again.';
+    let serverResponseMessage = '';
+    
+    if (error.code === 'ECONNABORTED') {
+      errorMessage = 'Request timeout. Please check your connection and try again.';
+    } else if (error.response) {
+      // Extract server error message
+      const serverError = error.response.data;
+      
+      if (typeof serverError === 'string') {
+        serverResponseMessage = serverError;
+      } else if (serverError && typeof serverError === 'object') {
+        serverResponseMessage = serverError.message || JSON.stringify(serverError);
+      }
+      
+      if (error.response.status === 413) {
+        errorMessage = isMobile 
+          ? `File too large. Maximum size is ${maxFileSizeMB}MB per file on mobile.` 
+          : 'File too large. Maximum size is 5MB per file.';
+      } else if (error.response.status === 415) {
+        errorMessage = 'Unsupported file type. Please upload JPG, PNG, GIF, WEBP, or PDF files.';
+      } else if (error.response.status === 400) {
+        if (serverResponseMessage.includes('photo') || 
+            serverResponseMessage.includes('Photo') ||
+            serverResponseMessage.includes('birth certificate') || 
+            serverResponseMessage.includes('transcript')) {
+          errorMessage = `⚠️ ${serverResponseMessage}`;
+        } else if (serverResponseMessage.includes('valid') || serverResponseMessage.includes('file')) {
+          errorMessage = `⚠️ ${serverResponseMessage}`;
+        } else {
+          errorMessage = '⚠️ Invalid data. Please check all fields and try again.';
+        }
+      } else if (error.response.status === 500) {
+        errorMessage = 'Internal server error. Please try again later.';
+      } else {
+        errorMessage = `Server error (${error.response.status}): ${serverResponseMessage || 'Please try again.'}`;
+      }
+    } else if (error.request) {
+      errorMessage = 'No response from server. Please check backend server and network connection.';
+    } else {
+      errorMessage = `Error: ${error.message}`;
+    }
+    
+    setSubmitError(errorMessage);
+    setUploadProgress(0);
+    setUploadStatus('');
+    setUploadCounter(0);
+    
+    // Show server message if available
+    if (serverResponseMessage) {
+      setServerMessage(`Server: ${serverResponseMessage}`);
+    }
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   const resetForm = () => {
     setFormData(initialFormData);
@@ -1193,9 +1259,10 @@ const Step1 = ({ formData, handleChange, errors, handleFileClick, fileUploadProg
         name="nationality"
         value={formData.nationality}
         onChange={handleChange}
-        options={['', 'Afaan Oromoo', 'Afaan Amharaa']} 
+        options={[ 'Afaan Oromoo', 'Afaan Amharaa']} 
         error={errors.nationality}
         required
+        placeholder='-Select'
       />
       {errors.nationality && <p className="mt-1 text-sm text-red-400">{errors.nationality}</p>}
     </div>
@@ -1322,8 +1389,11 @@ const Step2 = ({ formData, handleChange, errors, setFormData }) => (
       name="condition"
       value={formData.condition}
       onChange={handleChange}
-      options={['','New Student', 'Old Student']}
+      options={['New Student', 'Old Student']}
       error={errors.condition}
+      placeholder='-Select'
+      required
+      
     />
   </div>
 );
