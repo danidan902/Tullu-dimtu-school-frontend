@@ -95,7 +95,7 @@ export const notes = [
     title: "2018 Biology Entrance Exam Related Contents",
     grade: "Grade 12",
     subject: "Biology",
-    pdf: "/notes/2018BiologyEntranceExamrelatedcontents.pdf",
+    pdf: "/notes/2018 Biology Entrance Exam related contents.pdf",
   },
   {
     id: 9,
@@ -131,7 +131,7 @@ export const notes = [
     title: "2017 History Entrance Examination Questions",
     grade: "Grade 12",
     subject: "History",
-    pdf: "/notes/2017HistoryEntranceExaminationQuestions.pdf",
+    pdf: "/notes/2017 HistoryEntranceExaminationQuestions.pdf",
   },
   {
     id: 14,
