@@ -158,7 +158,7 @@ const uploadToCloudinary = async (file, isThumbnail, onProgress) => {
   }
 };
 
-// ========== MAIN APP COMPONENT ==========
+// ========== MAIN APP
 const API_BASE_URL = 'https://tullu-dimtu-school-backend-1.onrender.com/api';
 
 const TeacherUploadPlatform = () => {
