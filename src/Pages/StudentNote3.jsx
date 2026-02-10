@@ -365,97 +365,15 @@ export default function StudentNotes3() {
             {/* Related Notes */}
             <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 md:p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Notes</h3>
-                <div className="p-6 space-y-6">
-  <div>
-    <h2 className="text-2xl font-bold mb-3">Fluid Mechanics</h2>
-    <p className="text-gray-700 mb-2">
-      The study of fluids (liquids and gases) at rest and in motion, and their interactions with surfaces.
-    </p>
-    <p className="text-gray-600 text-sm">
-      Essential for engineering, meteorology, medicine, and understanding natural phenomena.
-    </p>
+            
+
+  
+
+
+
+ 
   </div>
 
-  <div className="space-y-4">
-    <div className="border-l-4 border-blue-500 pl-4 py-2 bg-blue-50">
-      <h3 className="font-semibold mb-2">Fundamental Equations:</h3>
-      <div className="space-y-3">
-        <div>
-          <p className="font-medium">Continuity Equation:</p>
-          <p className="text-sm text-gray-600 mb-1">Mass conservation for incompressible fluids</p>
-          <div className="bg-white p-2 rounded font-mono">A₁V₁ = A₂V₂</div>
-        </div>
-        
-        <div>
-          <p className="font-medium">Bernoulli's Equation:</p>
-          <p className="text-sm text-gray-600 mb-1">Energy conservation along a streamline</p>
-          <div className="bg-white p-2 rounded font-mono">P + ½ρv² + ρgh = constant</div>
-        </div>
-        
-        <div>
-          <p className="font-medium">Reynolds Number:</p>
-          <p className="text-sm text-gray-600 mb-1">Predicts flow regime (laminar/turbulent)</p>
-          <div className="bg-white p-2 rounded font-mono">Re = (ρVD)/μ</div>
-        </div>
-      </div>
-    </div>
-
-    <div>
-      <h3 className="font-semibold mb-2">Key Concepts:</h3>
-      <ul className="space-y-2">
-        <li className="flex items-start">
-          <span className="text-green-500 mr-2">•</span>
-          <span><span className="font-medium">Density (ρ):</span> Mass per unit volume (kg/m³)</span>
-        </li>
-        <li className="flex items-start">
-          <span className="text-green-500 mr-2">•</span>
-          <span><span className="font-medium">Viscosity (μ):</span> Resistance to flow (Pa·s)</span>
-        </li>
-        <li className="flex items-start">
-          <span className="text-green-500 mr-2">•</span>
-          <span><span className="font-medium">Pressure (P):</span> Force per unit area (N/m²)</span>
-        </li>
-        <li className="flex items-start">
-          <span className="text-green-500 mr-2">•</span>
-          <span><span className="font-medium">Laminar Flow:</span> Smooth, orderly flow (Re  2000)</span>
-        </li>
-        <li className="flex items-start">
-          <span className="text-green-500 mr-2">•</span>
-          <span><span className="font-medium">Turbulent Flow:</span> Chaotic, irregular flow (Re  4000)</span>
-        </li>
-      </ul>
-    </div>
-
-    <div className="bg-gray-50 p-4 rounded">
-      <h3 className="font-semibold mb-2">Applications:</h3>
-      <div className="grid grid-cols-2 gap-2 text-sm">
-        <div>
-          <p className="font-medium">Engineering:</p>
-          <p>Piping systems, pumps, turbines, aircraft design</p>
-        </div>
-        <div>
-          <p className="font-medium">Medicine:</p>
-          <p>Blood flow, respiratory systems, drug delivery</p>
-        </div>
-        <div>
-          <p className="font-medium">Environment:</p>
-          <p>River flows, ocean currents, weather patterns</p>
-        </div>
-        <div>
-          <p className="font-medium">Industry:</p>
-          <p>HVAC systems, chemical processing, automotive</p>
-        </div>
-      </div>
-    </div>
-
-    <div className="p-3 bg-yellow-50 border border-yellow-200 rounded">
-      <h4 className="font-semibold text-yellow-800 mb-1">Important Note:</h4>
-      <p className="text-sm text-yellow-700">
-        Navier-Stokes equations describe fluid motion completely, but remain unsolved mathematically for all cases (Millennium Prize Problem).
-      </p>
-    </div>
-  </div>
-</div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {notesGrade11
                   .filter(note => 
