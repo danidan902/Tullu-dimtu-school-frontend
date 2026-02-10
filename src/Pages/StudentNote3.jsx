@@ -40,7 +40,7 @@ export default function StudentNotes3() {
                                       <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8" />
                                     </button>
                                   </div>
-                <h1 className="text-xl font-bold text-gray-900 ml-16 md:ml-8">Grade 11</h1>
+                <h1 className="text-xl font-bold text-gray-900 ml-16 md:ml-16">Grade 11</h1>
               </div>
             </div>
 
@@ -372,7 +372,9 @@ export default function StudentNotes3() {
 
 
  
-  </div>
+
+
+
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {notesGrade11
