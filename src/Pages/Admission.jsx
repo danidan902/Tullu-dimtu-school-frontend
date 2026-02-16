@@ -23,15 +23,15 @@ const AdmissionPortal = () => {
     deadline: "August 30, 2024",
     examDate: "September 15, 2024",
     requirements: [
-      "Completed application form",
-      "Previous school reports (2 years)",
-      "Birth certificate copy",
-      "2 passport photos",
-      "Medical clearance certificate"
+      "Parent National ID",
+      "Student National ID",
+      "Certificate Front/Back",
+      "1 Student photo",
+      "Student Clearance"
     ],
     contact: {
       email: "admissions@tulludimtu.edu.et",
-      phone: "+251 921 225 887",
+      phone: "+251 114627 280",
       address: "Tullu Dimtu, Oromia, Ethiopia"
     }
   };
@@ -49,7 +49,7 @@ const AdmissionPortal = () => {
     },
     {
       title: "3. Entrance Exam",
-      description: "Written assessment for Grades 5-12",
+      description: "Written assessment for Grades 9-12",
       icon: ""
     },
     {
@@ -113,7 +113,7 @@ const AdmissionPortal = () => {
                   transition={{ delay: 0.7, duration: 0.6 }}
                   className={`text-xl sm:text-2xl mb-8 ${darkMode ? 'text-gray-300' : 'text-white'}`}
                 >
-                  Excellence in Education Since 2000
+                  Excellence in Education Since 2009
                 </motion.p>
                 
                 <motion.div
