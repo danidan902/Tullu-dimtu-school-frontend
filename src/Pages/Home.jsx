@@ -76,9 +76,9 @@ function Home() {
   ),
   subtitle: "A Legacy of Excellence Since 2009",
   description: "At Tullu Dimtu School, we are committed to excellence in education and the holistic development of every student. ",
-  titleStyle: "text-2xl md:text-3xl lg:text-5xl font-bold drop-shadow-lg",
+  titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold drop-shadow-lg",
   subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-semibold drop-shadow",
-  descStyle: "text-lg md:text-xl text-gray-200",
+  descStyle: "text-lg md:text-lg text-gray-200",
 },
   {
       mobileImage: animMobile3,
@@ -90,9 +90,9 @@ function Home() {
       ),
       subtitle: "Consistent Top Performers",
       description: "70%+ pass rate in national examinations",
-      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white tracking-wide drop-shadow-lg",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white tracking-wide drop-shadow-lg",
       subtitleStyle: "text-xl md:text-2xl text-yellow-300",
-      descStyle: "text-lg md:text-xl text-gray-200",
+      descStyle: "text-lg md:text-lg text-gray-200",
     },
 
     {
@@ -105,9 +105,9 @@ function Home() {
       ),
       subtitle: "Holistic Education Approach",
       description: "Developing minds, building character, shaping destinies",
-      titleStyle: "text-4xl md:text-6xl lg:text-6xl font-bold text-white italic drop-shadow-md",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white italic drop-shadow-md",
       subtitleStyle: "text-xl md:text-2xl text-yellow-300",
-      descStyle: "text-lg md:text-xl text-gray-200",
+      descStyle: "text-lg md:text-lg text-gray-200",
     },
     
     {
@@ -120,9 +120,9 @@ function Home() {
       ),
       subtitle: "State-of-the-Art Infrastructure",
       description: "Equipped for 21st century learning",
-      titleStyle: "text-4xl md:text-6xl lg:text-6xl font-bold text-white uppercase drop-shadow-md",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white uppercase drop-shadow-md",
       subtitleStyle: "text-xl md:text-2xl text-yellow-300  font-semibold",
-      descStyle: "text-lg md:text-xl text-gray-200",
+      descStyle: "text-lg md:text-lg text-gray-200",
     },
    
     {
@@ -135,9 +135,9 @@ function Home() {
       ),
       subtitle: "Join Us ",
       description: "School provides students with easy access to learning resources, assignments, and interactive study materials.",
-      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-xl",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
       subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
-      descStyle: "text-lg md:text-xl text-white",
+      descStyle: "text-lg md:text-lg text-white",
     },
     {
       mobileImage: schoolHeroImage,
@@ -149,9 +149,9 @@ function Home() {
       ),
       subtitle: "Tullu Dimtu Digital Library",
       description: "It provides a modern, convenient way to study, explore new topics, and conduct research from anywhere.",
-      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-xl",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
       subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
-      descStyle: "text-lg md:text-xl text-white",
+      descStyle: "text-lg md:text-lg text-white",
     },
      {
       mobileImage: anim5,
@@ -163,9 +163,9 @@ function Home() {
       ),
       subtitle: "Admissions Open 2025",
       description: "Limited seats available - Apply now!",
-      titleStyle: "text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-xl",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
       subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
-      descStyle: "text-lg md:text-xl text-white",
+      descStyle: "text-lg md:text-lg text-white",
     },
   ];
 
