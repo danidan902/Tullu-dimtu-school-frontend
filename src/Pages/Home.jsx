@@ -76,7 +76,7 @@ function Home() {
   ),
   subtitle: "A Legacy of Excellence Since 2009",
   description: "At Tullu Dimtu School, we are committed to excellence in education and the holistic development of every student. ",
-  titleStyle: "text-4xl md:text-5xl lg:text-6xl font-bold drop-shadow-lg",
+  titleStyle: "text-2xl md:text-3xl lg:text-5xl font-bold drop-shadow-lg",
   subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-semibold drop-shadow",
   descStyle: "text-lg md:text-xl text-gray-200",
 },
