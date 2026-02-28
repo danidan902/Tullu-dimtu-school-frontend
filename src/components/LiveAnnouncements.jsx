@@ -354,7 +354,7 @@ const LiveAnnouncements = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm md:ml-8">
           <div className="delete-confirm-modal bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full mx-4">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
@@ -407,14 +407,10 @@ const LiveAnnouncements = () => {
           setIsVisible(!isVisible);
           if (!isVisible) markAllAsRead();
         }}
-    className="fixed top-5 left-5 md:left-8 z-50
-w-11 h-11 rounded-full
-bg-neutral-900 hover:bg-neutral-800
-text-white
-flex items-center justify-center
-shadow-md hover:shadow-lg
-transition-all duration-200
-active:scale-95"
+   className="top-5 z-50 w-11 h-11 rounded-full bg-neutral-900 
+        hover:bg-neutral-800 text-white flex items-center 
+        justify-center shadow-md hover:shadow-lg transition-all 
+        duration-200 active:scale-95 md:ml-8 "
     
 
       >
