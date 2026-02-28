@@ -415,7 +415,7 @@ const LiveAnnouncements = () => {
 
       >
         <div className="relative">
-          <Bell className="w-6 h-6 stroke-[1.8] md:ml-8" />
+          <Bell className="w-6 h-6 stroke-[1.8] " />
           {notificationCount > 0 && (
             <span
               className="announcement-counter absolute -top-1 -right-1
