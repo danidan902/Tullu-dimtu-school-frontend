@@ -407,16 +407,14 @@ const LiveAnnouncements = () => {
           setIsVisible(!isVisible);
           if (!isVisible) markAllAsRead();
         }}
-        className="top-5  z-50
-    w-11 h-11 rounded-full
-    bg-neutral-900 hover:bg-neutral-800
-    text-white
-    flex items-center justify-center
-    shadow-md hover:shadow-lg
-    transition-all duration-200
-    active:scale-95
-    md:ml-8
-        "
+    className="fixed top-5 left-5 md:left-8 z-50
+w-11 h-11 rounded-full
+bg-neutral-900 hover:bg-neutral-800
+text-white
+flex items-center justify-center
+shadow-md hover:shadow-lg
+transition-all duration-200
+active:scale-95"
     
 
       >
