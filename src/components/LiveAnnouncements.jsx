@@ -415,6 +415,8 @@ const LiveAnnouncements = () => {
     shadow-md hover:shadow-lg
     transition-all duration-200
     active:scale-95"
+    ml-8
+    block
       >
         <div className="relative">
           <Bell className="w-6 h-6 stroke-[1.8] ml-8" />
