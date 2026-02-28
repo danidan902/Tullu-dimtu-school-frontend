@@ -414,12 +414,14 @@ const LiveAnnouncements = () => {
     flex items-center justify-center
     shadow-md hover:shadow-lg
     transition-all duration-200
-    active:scale-95"
-    ml-8
-    block
+    active:scale-95
+    md:ml-8
+        "
+    
+
       >
         <div className="relative">
-          <Bell className="w-6 h-6 stroke-[1.8] ml-8" />
+          <Bell className="w-6 h-6 stroke-[1.8] md:ml-8" />
           {notificationCount > 0 && (
             <span
               className="announcement-counter absolute -top-1 -right-1
