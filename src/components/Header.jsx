@@ -1261,12 +1261,12 @@ function Header() {
 
               {/* Mobile Sign In Button - Replaced Clerk SignInButton */}
               <div className="mt-4">
-                <Link to="/signIn" onClick={() => setOpen(false)}>
-                  <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-blue-600 text-base font-medium rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition-all duration-300">
-                    <Lock size={18} />
-                    Sign In
-                  </button>
-                </Link>
+                <a href="/profile-page">
+                    <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-blue-600 text-base font-medium rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition-all duration-300">
+                     <Lock size={18} />
+                     Sign In
+                   </button>
+                 </a>
               </div>
             </div>
           </motion.div>
