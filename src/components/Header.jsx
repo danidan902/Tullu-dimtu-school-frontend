@@ -1105,12 +1105,15 @@ function Header() {
             {/* Sign In Button - Replaced Clerk SignInButton */}
             <div className="relative group flex items-center space-x-3 ml-2 pl-3 border-l border-neutral-200">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-teal-500 rounded-lg blur opacity-0 group-hover:opacity-15 transition duration-500"></div>
-               <a href="/profile-page">
-                    <button className="w-full flex items-center justify-center gap-2 px-6 py-3 border border-blue-600 text-base font-medium rounded-lg text-white bg-blue-500 hover:bg-blue-600 transition-all duration-300">
-                     <Lock size={18} />
-                    Sign In
-               </button>
-                   </a>
+              
+                <a href="/profile-page">
+                  <button className="relative flex items-center gap-2 px-5 py-2.5 bg-white rounded-lg border border-neutral-200 text-sm font-medium text-neutral-700 hover:text-blue-700 hover:border-blue-300 transition-all duration-300 group-hover:shadow-md group-hover:shadow-blue/10">
+                  <Shield size={16} className="text-blue-600 group-hover:text-blue-700" />
+                  Sign In
+                  <ExternalLink size={12} className="opacity-60 group-hover:opacity-80" />
+                </button>
+                </a>
+              
             </div>
           </div>
         </nav>
