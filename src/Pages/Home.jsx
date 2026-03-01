@@ -417,6 +417,9 @@ useEffect(() => {
   return (
     <>
       <Helmet>
+         {window.location.hostname.includes("vercel.app") && (
+          <meta name="robots" content="noindex, nofollow" />
+        )}
         <title>Home</title>
        <meta
           name="description"
@@ -427,6 +430,7 @@ useEffect(() => {
           name="keywords"
           content="Tullu Dimtu Secondary School, secondary school in Ethiopia, student portal, online registration"
         />
+        
         
       </Helmet>
 
