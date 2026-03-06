@@ -200,10 +200,10 @@ const Registration = () => {
       {/* Main centered container */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center py-8 px-4">
         <div className="w-full max-w-6xl">
-          {/* Header */}
+            {/* this name of this name of this name of this name of this  */}
           <div className="text-center mb-10">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Program Registration System
+              School Academics Registeration
             </h1>
             <p className="text-blue-200 text-lg">
               Register for upcoming programs and events
