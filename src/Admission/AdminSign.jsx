@@ -5,7 +5,7 @@ import axios from 'axios';
 import logo from '../assets/tullulogo.png'
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://tullu-dimtu-school-backend-1.onrender.com';
-
+        
 const AdminSignInPage = () => {
   const [credentials, setCredentials] = useState({
     email: '',
@@ -19,7 +19,9 @@ const AdminSignInPage = () => {
   const navigate = useNavigate();
 
   // Admin users (in real app, this would be from backend)
-  const adminUsers = [
+
+  
+  const adminUsers = [  
     {
       email: 'admin@tulludimtu.edu',
       password: 'admin123',
