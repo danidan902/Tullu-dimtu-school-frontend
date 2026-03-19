@@ -268,7 +268,7 @@ const StudentLife = () => {
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="mt-4 p-4 bg-green-50 rounded-lg"
+                        className="mt-4 p-4 bg-[#04395E] via-[#04395E]/120 to-transparent rounded-lg"
                       >
                         <h4 className="font-bold mb-2">Event Details:</h4>
                         <ul className="list-disc pl-5 space-y-1">
@@ -280,7 +280,7 @@ const StudentLife = () => {
                         <motion.button 
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className="mt-3 w-full bg-green-800 text-white py-2 rounded-lg font-medium hover:bg-green-900 transition-colors"
+                          className="mt-3 w-full bg-[#04395E] via-[#04395E]/120 to-transparent text-white py-2 rounded-lg font-medium hover:bg-green-900 transition-colors"
                         >
                            <a href='/form' >Register to Participate</a>
                         </motion.button>
@@ -300,7 +300,7 @@ const StudentLife = () => {
             variants={scaleUp}
             className="bg-white rounded-xl shadow-md p-8 mb-16"
           >
-            <h2 className="text-3xl font-bold text-center text-green-900 mb-8">
+            <h2 className="text-3xl font-bold text-center text-blue-600 mb-8">
               A Day at <span className="text-yellow-600">Tullu Dimtu</span>
             </h2>
             <motion.div 
@@ -340,7 +340,7 @@ const StudentLife = () => {
               whileInView="visible"
               viewport={{ once: true }}
               variants={slideUp}
-              className="text-3xl font-bold text-center text-green-900 mb-8"
+              className="text-3xl font-bold text-center text-blue-600 mb-8"
             >
               Student <span className="text-yellow-600">Voices</span>
             </motion.h2>
@@ -372,7 +372,7 @@ const StudentLife = () => {
             whileInView="visible"
             viewport={{ once: true }}
             variants={scaleUp}
-            className="bg-gradient-to-r from-green-800 to-green-600 text-white rounded-xl p-8 md:p-12 text-center"
+            className="bg-[#04395E] via-[#04395E]/120 to-transparent text-white rounded-xl p-8 md:p-12 text-center"
           >
             <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Join Our Community?</h2>
             <p className="text-lg mb-6 max-w-2xl mx-auto">
@@ -382,14 +382,14 @@ const StudentLife = () => {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold rounded-lg transition-colors"
+                className="px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-blue-600 font-bold rounded-lg transition-colors"
               >
                 <a href='/studentlife'>Explore Clubs</a>
               </motion.button>
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 bg-white hover:bg-gray-100 text-green-800 font-bold rounded-lg transition-colors"
+                className="px-8 py-3 bg-white hover:bg-gray-100 text-blue-600 font-bold rounded-lg transition-colors"
               >
                   <a href='/form'>Apply</a>
               </motion.button>
