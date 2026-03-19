@@ -1095,7 +1095,7 @@ useEffect(() => {
                   Ready to Join Our Community?
                 </h2>
                 <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                  Applications for the 2025 academic year are now open. Limited spaces available.
+                  Applications for the 2026 academic year are now open. Limited spaces available.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <button className="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-blue-900 font-bold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
