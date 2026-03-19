@@ -105,7 +105,7 @@ const CambridgeAcademy = () => {
               whileTap={{ scale: 0.97 }}
             >
               <button className="w-full bg-teal-200 hover:bg-teal-300 text-teal-900 py-3 rounded-lg font-semibold transition-colors duration-300">
-                Admin Login
+                Teacher Login
               </button>
             </motion.a>
   
