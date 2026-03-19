@@ -1061,8 +1061,8 @@ useEffect(() => {
                   },
                   {
                     quote: "The innovative teaching methods and facilities here prepare students for real-world challenges.",
-                    author: "Dr. Alem Teklu",
-                    role: "Board Member"
+                    author: " Alem Teklu",
+                    role: "School Member"
                   }
                 ].map((testimonial, index) => (
                   <div 
