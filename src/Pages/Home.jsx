@@ -9,7 +9,7 @@ import anim2 from '../assets/local.jpg'
 import anim5 from '../assets/tul6.jpg'
 import anim6 from '../assets/stu1.jpg'
 import anim7 from '../assets/lab.png'
-import lib1 from '../assets/lab.jpg'
+import lib1 from '../assets/lab.png'
 import { Link } from "react-router-dom";
 import schoolHeroImage from '../assets/gal31.jpg';
 import Bg from '../assets/tech1.jpg';
