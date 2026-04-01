@@ -176,7 +176,7 @@ function Footer() {
                 &copy; {new Date().getFullYear()} Tullu Dimtu Secondary School. All rights reserved.
               </p>
               <p className="text-gray-400 text-xs mt-1 leading-relaxed">
-                Developed with ❤️ by Daniel Sheleme • Accredited by Ethiopian Ministry of Education
+                Developed with ❤️ by Daniel Sheleme • +2519 2122 5887 <a href="https://daniport.vercel.app/">https://daniport.vercel.app</a>
               </p>
             </div>
         
