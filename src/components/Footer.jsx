@@ -175,9 +175,19 @@ function Footer() {
               <p className="text-gray-300 text-xs">
                 &copy; {new Date().getFullYear()} Tullu Dimtu Secondary School. All rights reserved.
               </p>
-              <p className="text-gray-400 text-xs mt-1 leading-relaxed">
-                Developed with ❤️ by Daniel Sheleme • +2519 2122 5887 <a href="https://daniport.vercel.app/">https://daniport.vercel.app</a>
-              </p>
+             <p className="text-gray-400 text-xs mt-1 leading-relaxed">
+  Developed with ❤️ by Daniel Sheleme • Accredited by Ethiopian Ministry of Education
+  <br />
+  Developed with ❤️ by Daniel Sheleme • +2519 2122 5887 •{" "}
+  <a
+    href="https://daniport.vercel.app/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="text-blue-400 underline"
+  >
+    https://daniport.vercel.app
+  </a>
+</p>
             </div>
         
             <div className="flex flex-wrap justify-center md:justify-end gap-3 md:gap-5">
