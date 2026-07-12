@@ -32,8 +32,8 @@ import card5 from "../assets/cro.png";
 import card6 from "../assets/tech.jpg";
 
 
-import animMobile1 from '../assets/mekdes.jpg';
-import animMobile3 from '../assets/local.jpg';
+import animMobile1 from '../assets/system.jpg';
+import animMobile3 from '../assets/localname.jpg';
 import animMobile4 from '../assets/crop.png';
 
 import campus1 from '../assets/life4.jpg';
@@ -212,7 +212,7 @@ function Home() {
 
   // Animated counter effect
 useEffect(() => {
-    const duration = 5000;
+    const duration = 10000;
     const steps = 60;
     const interval = duration / steps;
 
@@ -464,31 +464,14 @@ useEffect(() => {
             ))}
           </div>
 
-          <div className="absolute bottom-0 left-0 w-full h-[80px] sm:h-[120px] md:h-[150px] z-30">
-  
-  {/* solid background overlap */}
-  <div className="absolute bottom-0 left-0 w-full h-[px] bg-white"></div>
-
-  {/* wave */}
-  <svg
-    className="absolute bottom-0 left-0 block w-full h-full scale-y-[-1]"
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 1200 120"
-    preserveAspectRatio="none"
-  >
-    <path
-      d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"
-      fill="white"
-    />
-  </svg>
-</div>
-
+       
+   
        
    {/* <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 via-blue-900/55 to-blue-900/10" />
   <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
   <div className="absolute inset-0 bg-gradient-to-tr from-indigo-400/10 via-transparent to-transparent" />  */}
 
-<div className="absolute inset-0 bg-gradient-to-r from-[#04395E] via-[#04395E]/70 to-transparent" />
+<div className="absolute inset-0 bg-gradient-to-r from-[#0f172a]  to-transparent" />
 {/* <div className="absolute inset-0 bg-gradient-to-t from-blue-900/90 via-blue-900/50 to-transparent" /> */}
 
           {/* Hero Content */}
@@ -756,6 +739,14 @@ useEffect(() => {
           </div>
         </section>
 
+
+
+
+
+
+
+
+
         {/* Programs Section with enhanced animations */}
         <section className="py-20 bg-gradient-to-br from-white to-blue-50">
           <div className="container mx-auto px-6">
@@ -772,13 +763,13 @@ useEffect(() => {
             </ScrollReveal>
 
             <ScrollReveal delay={0.2}>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {programCards.map((card, index) => (
                   <div 
                     key={card.id} 
-                    className="group cursor-pointer"
+                    className=" to-transparent group cursor-pointer"
                   >
-                    <div className={`relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-100 ${
+                    <div className={` relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-100 ${
                       expandedCards[card.id] ? 'h-auto' : 'h-full'
                     }`}>
                       <div className="h-48 overflow-hidden relative">
@@ -868,6 +859,12 @@ useEffect(() => {
             </ScrollReveal>
           </div>
         </section>
+
+
+
+
+
+
 
         {/* Campus Section */}
        <ScrollReveal delay={0.2}>
@@ -1085,7 +1082,7 @@ useEffect(() => {
           <ScrollReveal>
             <div className="container mx-auto px-6">
               <div 
-                className="bg-gradient-to-r from-[#04395E] via-[#04395E]/90 to-transparent rounded-2xl p-12 text-center shadow-xl"
+                className="bg-[#04395E] to-transparent rounded-2xl p-12 text-center shadow-xl"
               >
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                   Ready to Join Our Community?

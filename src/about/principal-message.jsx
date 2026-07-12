@@ -36,13 +36,6 @@ const PrincipalMessage = () => {
             </div>
           </div>
 
-          {/* Waveform Bottom Border */}
-    
-
-          
-          {/* Alternative Waveform Style (Uncomment to use) */}
-     
-
         </div>
       </div>
 

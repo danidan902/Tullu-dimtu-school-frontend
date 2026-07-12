@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import bg from '../assets/tullulogo.png';
 // API URL
 const API_URL =
-  process.env.REACT_APP_API_URL || "https://tullu-dimtu-school-backend-1.onrender.com/api/auth";
+  process.env.REACT_APP_API_URL || "http://localhost:5000/api/auth";
 
 function EmailVerification() {
   const navigate = useNavigate();
@@ -26,7 +26,7 @@ function EmailVerification() {
 
     setError("");
     setLoading(true);
-
+      // this name of this name 
     try {
       let res;
 

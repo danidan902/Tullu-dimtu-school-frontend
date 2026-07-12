@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
@@ -6,7 +5,7 @@ import TelebirrQR from '../assets/TelebirrQR.jpg';
 import logo from '../assets/tullulogo.png';
 import imageCompression from 'browser-image-compression';
 
-const API_URL = process.env.REACT_APP_API_URL || 'https://tullu-dimtu-school-backend-1.onrender.com';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 // Create axios instance with default config
 const api = axios.create({
@@ -17,6 +16,21 @@ const api = axios.create({
   },
 });
 
+// Add response interceptor for better error handling
+api.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response) {
+      console.error('API Error Response:', {
+        status: error.response.status,
+        data: error.response.data,
+        headers: error.response.headers
+      });
+    }
+    return Promise.reject(error);
+  }
+);
+
 const AdmissionForm = () => {
   const initialFormData = {
     age: '',
@@ -25,7 +39,7 @@ const AdmissionForm = () => {
     lastName: '',
     gender: '',
     dob: '',
-    nationality: 'Afaan Oromoo, Afan Amharaa',
+    nationality: '',
     religion: '',
     photo: null,
     applyingGrade: '',
@@ -48,7 +62,7 @@ const AdmissionForm = () => {
     condition: '',
     program: '',
     fayida: '',
-    field: ''
+    field: null // Initialize as null
   };
 
   const paymentMethods = [
@@ -94,11 +108,11 @@ const AdmissionForm = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState('');
   const [serverMessage, setServerMessage] = useState('');
-  // State for individual file upload progress
   const [fileUploadProgress, setFileUploadProgress] = useState({});
   const [isFileUploading, setIsFileUploading] = useState(false);
   const [uploadCounter, setUploadCounter] = useState(0);
-
+  const [emailError, setEmailError] = useState("");
+  
   const fileInputRefs = {
     photo: useRef(null),
     birthCertificate: useRef(null),
@@ -110,12 +124,6 @@ const AdmissionForm = () => {
     clearance: useRef(null)
   };
 
-  // const grades = ['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
-  // const relationships = ['Father', 'Mother', 'Guardian', 'Other'];
-  // const nationalities = ['Afaan Oromoo', 'Afaan Amharaa'];
-  // const conditions = ['New Student', 'Old Student'];
-
-  // Enhanced button styles
   const buttonClasses = {
     primary: 'px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-0.5',
     secondary: 'px-6 py-3 bg-gray-800/50 text-gray-200 font-semibold rounded-xl hover:bg-gray-700/50 border border-gray-700 hover:border-gray-600 transition-all duration-300',
@@ -125,7 +133,6 @@ const AdmissionForm = () => {
     ghost: 'px-6 py-3 text-gray-300 font-semibold rounded-xl hover:bg-white/5 transition-all duration-300',
   };
 
-  // Mouse position tracking
   useEffect(() => {
     const handleMouseMove = (e) => {
       setMousePosition({ x: e.clientX, y: e.clientY });
@@ -134,7 +141,6 @@ const AdmissionForm = () => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Animated background
   useEffect(() => {
     const canvas = document.getElementById('animated-bg');
     if (!canvas) return;
@@ -212,12 +218,11 @@ const AdmissionForm = () => {
     }
   };
 
-  // Function to compress image with progress tracking
   const compressImage = async (file, fieldName) => {
     if (!file.type.startsWith('image/')) return file;
 
     const options = {
-      maxSizeMB: 0.5, // Compress to max 0.5MB
+      maxSizeMB: 0.5,
       maxWidthOrHeight: 1024,
       useWebWorker: true,
       fileType: file.type,
@@ -225,24 +230,29 @@ const AdmissionForm = () => {
 
     try {
       const compressedFile = await imageCompression(file, options);
+      const preservedFile = new File([compressedFile], file.name, { 
+        type: compressedFile.type,
+        lastModified: compressedFile.lastModified
+      });
+      preservedFile.originalName = file.name;
       console.log(`Compressed ${file.name} from ${(file.size / 1024 / 1024).toFixed(2)}MB to ${(compressedFile.size / 1024 / 1024).toFixed(2)}MB`);
-      return compressedFile;
+      return preservedFile;
     } catch (error) {
       console.error('Image compression failed:', error);
-      return file;
+      const originalFile = new File([file], file.name, { type: file.type });
+      originalFile.originalName = file.name;
+      return originalFile;
     }
   };
 
-  // Function to check file size
   const checkFileSize = (file) => {
-    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
+    const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       return `File is too large! Maximum size is 5MB. Your file is ${(file.size / 1024 / 1024).toFixed(2)}MB.`;
     }
     return '';
   };
 
-  // Function to validate file type
   const validateFileType = (file, fieldName) => {
     const validImageTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
     const validPdfTypes = ['application/pdf'];
@@ -255,11 +265,9 @@ const AdmissionForm = () => {
     return '';
   };
 
-  // Simulate file processing/uploading for individual files
   const simulateFileProcessing = (fieldName, fileName, fileSize) => {
     setIsFileUploading(true);
     
-    // Initialize progress for this file
     setFileUploadProgress(prev => ({
       ...prev,
       [fieldName]: {
@@ -270,10 +278,8 @@ const AdmissionForm = () => {
       }
     }));
 
-    // Start counter from 1
     setUploadCounter(1);
 
-    // Simulate processing steps with counter
     const steps = [
       { progress: 10, status: 'reading', count: 1 },
       { progress: 30, status: 'validating', count: 2 },
@@ -294,11 +300,9 @@ const AdmissionForm = () => {
           }
         }));
 
-        // If this is the last step, mark as completed after a delay
         if (index === steps.length - 1) {
           setTimeout(() => {
             setIsFileUploading(false);
-            // Clear the progress for this file after 3 seconds
             setTimeout(() => {
               setFileUploadProgress(prev => {
                 const newProgress = { ...prev };
@@ -309,39 +313,71 @@ const AdmissionForm = () => {
             }, 3000);
           }, 1000);
         }
-      }, index * 500); // 500ms delay between steps
+      }, index * 500);
     });
   };
 
+  // FIXED: handleChange function
   const handleChange = async (e) => {
     const { name, value, files } = e.target;
     
+    if (name === "fayida") {
+      const onlyNums = value.replace(/\D/g, "").slice(0, 16);
+      setFormData((prev) => ({
+        ...prev,
+        [name]: onlyNums,
+      }));
+      return;
+    }
+
+    // FIX: When applyingGrade changes, handle field correctly
+    if (name === "applyingGrade") {
+      const isGrade11or12 = value === 'Grade 11' || value === 'Grade 12';
+      
+      if (!isGrade11or12) {
+        // For grades 9 & 10, set field to null
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+          field: null // null for grades 9 & 10
+        }));
+      } else {
+        // For grades 11 & 12, keep existing field or set to null
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+          field: prev.field || null // Keep existing or null
+        }));
+      }
+      return;
+    }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
     if (files && files[0]) {
       const file = files[0];
       
-      // Clear any previous errors for this field
       if (errors[name]) {
         setErrors(prev => ({ ...prev, [name]: '' }));
       }
       
-      // Check file type
       const typeError = validateFileType(file, name);
       if (typeError) {
         setErrors(prev => ({ ...prev, [name]: typeError }));
         return;
       }
       
-      // Check file size
       const sizeError = checkFileSize(file);
       if (sizeError) {
         setErrors(prev => ({ ...prev, [name]: sizeError }));
         return;
       }
       
-      // Start file upload progress simulation
       simulateFileProcessing(name, file.name, file.size);
       
-      // For image files, compress before setting state
       let processedFile = file;
       if (file.type.startsWith('image/')) {
         try {
@@ -354,8 +390,6 @@ const AdmissionForm = () => {
       }
       
       setFormData(prev => ({ ...prev, [name]: processedFile }));
-      
-      // Clear the error since file is now valid
       setErrors(prev => ({ ...prev, [name]: '' }));
     } else {
       const capitalizeFields = ['firstName', 'lastName', 'parentName', 'grandParentName'];
@@ -383,6 +417,7 @@ const AdmissionForm = () => {
     fileInputRefs[fieldName]?.current?.click();
   };
 
+  // FIXED: validateStep function
   const validateStep = (step) => {
     const newErrors = {};
     
@@ -396,13 +431,16 @@ const AdmissionForm = () => {
       if (!formData.nationality) newErrors.nationality = 'Media Of Instruction is required';
       if (!formData.program) newErrors.program = "Program is required";
       if (!formData.fayida) newErrors.fayida = "FAN is required";
-      if (!formData.field) newErrors.field = "Field is required";
- 
-      // Photo validation - only check if it exists
+      
+      // FIX: Field validation - ONLY for Grade 11 or 12
+      const isGrade11or12 = formData.applyingGrade === 'Grade 11' || formData.applyingGrade === 'Grade 12';
+      if (isGrade11or12 && !formData.field) {
+        newErrors.field = "Stream selection is required for Grade 11 and 12";
+      }
+      
       if (!formData.photo) {
         newErrors.photo = 'Photo is required';
       }
-      // Don't check if it's a File instance here - let the server handle validation
       
       if (formData.dob) {
         const dob = new Date(formData.dob);
@@ -436,7 +474,6 @@ const AdmissionForm = () => {
     }
     
     if (step === 4) {
-      // Check required files - only check if they exist
       if (!formData.birthCertificate) newErrors.birthCertificate = 'Birth certificate is required';
       if (!formData.transcript) newErrors.transcript = 'Transcript is required';
       if (!formData.faydaId) newErrors.faydaId = 'Student ID is required';
@@ -464,342 +501,356 @@ const AdmissionForm = () => {
     setCurrentStep(currentStep - 1);
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  
-  // Mobile detection for file size limits
-  const isMobile = window.innerWidth < 768;
-  const maxFileSizeMB = isMobile ? 1 : 5;
-  const maxFileSizeBytes = maxFileSizeMB * 1024 * 1024;
-  
-  // Validate all steps first
-  for (let step = 1; step <= 5; step++) {
-    const newErrors = {};
+  // FIXED: handleSubmit function
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-    if (step === 1) {
-      if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
-      if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
-      if (!formData.grandParentName.trim()) newErrors.grandParentName = 'Grandparent name is required';
-      if (!formData.gender) newErrors.gender = 'Gender is required';
-      if (!formData.dob) newErrors.dob = 'Date of birth is required';
-      if (!formData.age) newErrors.age = 'Age is required';
-      if (!formData.nationality) newErrors.nationality = 'Media Of Instruction is required';
-      if (!formData.program) newErrors.program = "Program is required";
-      if (!formData.fayida) newErrors.fayida = "FAN is required";
-      if (!formData.field) newErrors.field = "Field is required";
-      if (!formData.photo) newErrors.photo = 'Photo is required';
+    const isMobile = window.innerWidth < 768;
+    const maxFileSizeMB = isMobile ? 1 : 5;
+    const maxFileSizeBytes = maxFileSizeMB * 1024 * 1024;
+    
+    // Validate all steps first
+    for (let step = 1; step <= 5; step++) {
+      const newErrors = {};
       
-      // Check file size for photo on mobile
-      if (formData.photo && formData.photo.size && isMobile && formData.photo.size > maxFileSizeBytes) {
-        newErrors.photo = `Photo is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
-      }
-    }
-    
-    if (step === 2) {
-      if (!formData.applyingGrade) newErrors.applyingGrade = 'Grade is required';
-      if (!formData.lastSchool.trim()) newErrors.lastSchool = 'Last school is required';
-      if (!formData.lastGrade.trim()) newErrors.lastGrade = 'Last grade is required';
-      if (!formData.gradeAverage.trim()) newErrors.gradeAverage = 'Grade average is required';
-      if (!formData.condition) newErrors.condition = 'Registration condition is required';
-    }
-    
-    if (step === 3) {
-      if (!formData.parentName.trim()) newErrors.parentName = 'Parent name is required';
-      if (!formData.relationship) newErrors.relationship = 'Relationship is required';
-      if (!formData.parentPhone.trim()) newErrors.parentPhone = 'Phone number is required';
-      if (!formData.parentEmail.trim()) {
-        newErrors.parentEmail = 'Email is required';
-      } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.parentEmail)) {
-        newErrors.parentEmail = 'Email is invalid';
-      }
-      if (!formData.address.trim()) newErrors.address = 'Address is required';
-    }
-    
-    if (step === 4) {
-      if (!formData.birthCertificate) newErrors.birthCertificate = 'Birth certificate is required';
-      if (!formData.transcript) newErrors.transcript = 'Transcript is required';
-      if (!formData.faydaId) newErrors.faydaId = 'Student ID is required';
-      if (!formData.ParentPhoto) newErrors.ParentPhoto = 'Parent Photo is required';
-      if (!formData.clearance) newErrors.clearance = 'Clearance is required';
-      
-      // Check file sizes for step 4 documents on mobile
-      const step4Files = [
-        { name: 'birthCertificate', file: formData.birthCertificate },
-        { name: 'transcript', file: formData.transcript },
-        { name: 'faydaId', file: formData.faydaId },
-        { name: 'ParentPhoto', file: formData.ParentPhoto },
-        { name: 'clearance', file: formData.clearance }
-      ];
-      
-      step4Files.forEach(({ name, file }) => {
-        if (file && file.size && isMobile && file.size > maxFileSizeBytes) {
-          newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
+      if (step === 1) {
+        if (!formData.firstName.trim()) newErrors.firstName = 'First name is required';
+        if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required';
+        if (!formData.grandParentName.trim()) newErrors.grandParentName = 'Grandparent name is required';
+        if (!formData.gender) newErrors.gender = 'Gender is required';
+        if (!formData.dob) newErrors.dob = 'Date of birth is required';
+        if (!formData.age) newErrors.age = 'Age is required';
+        if (!formData.nationality) newErrors.nationality = 'Media Of Instruction is required';
+        if (!formData.program) newErrors.program = "Program is required";
+        if (!formData.fayida) newErrors.fayida = "FAN is required";
+        
+        // FIX: Field validation - ONLY for Grade 11 or 12
+        const isGrade11or12 = formData.applyingGrade === 'Grade 11' || formData.applyingGrade === 'Grade 12';
+        if (isGrade11or12 && !formData.field) {
+          newErrors.field = "Stream selection is required for Grade 11 and 12";
         }
-      });
-    }
-    
-    if (step === 5) {
-      if (!formData.paymentReceipt) newErrors.paymentReceipt = 'Payment receipt is required';
-      
-      // Check file size for payment receipt on mobile
-      if (formData.paymentReceipt && formData.paymentReceipt.size && isMobile && 
-          formData.paymentReceipt.size > maxFileSizeBytes) {
-        newErrors.paymentReceipt = `Payment receipt is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
-      }
-    }
-    
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
-      setSubmitError(`⚠️ Please fill in all required fields correctly. ${isMobile ? `(Mobile limit: ${maxFileSizeMB}MB per file)` : ''}`);
-      // Go to the step with errors
-      setCurrentStep(step);
-      return;
-    }
-  }
-  
-  // Additional file type validation before submission
-  const fileFields = [
-    'photo',
-    'birthCertificate', 
-    'transcript',
-    'transferCertificate',
-    'paymentReceipt',
-    'faydaId',
-    'ParentPhoto',
-    'clearance'
-  ];
-  
-  for (const field of fileFields) {
-    const file = formData[field];
-    if (file && file instanceof File) {
-      const typeError = validateFileType(file, field);
-      if (typeError) {
-        setErrors(prev => ({ ...prev, [field]: typeError }));
-        setSubmitError(`⚠️ Invalid file type. Please check all files. ${isMobile ? `(Mobile limit: ${maxFileSizeMB}MB per file)` : ''}`);
-        // Find which step contains this field and navigate to it
-        if (field === 'photo') setCurrentStep(1);
-        else if (['birthCertificate', 'transcript', 'faydaId', 'ParentPhoto', 'clearance'].includes(field)) setCurrentStep(4);
-        else if (field === 'paymentReceipt') setCurrentStep(5);
-        return;
+        
+        if (!formData.photo) newErrors.photo = 'Photo is required';
+        
+        if (formData.photo && formData.photo.size && isMobile && formData.photo.size > maxFileSizeBytes) {
+          newErrors.photo = `Photo is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
+        }
       }
       
-      // Final size check before submission
-      if (isMobile && file.size > maxFileSizeBytes) {
-        setErrors(prev => ({ ...prev, [field]: `File is too large! Maximum size is ${maxFileSizeMB}MB on mobile.` }));
-        setSubmitError(`⚠️ File size exceeds mobile limit. Maximum size is ${maxFileSizeMB}MB per file on mobile.`);
-        // Find which step contains this field and navigate to it
-        if (field === 'photo') setCurrentStep(1);
-        else if (['birthCertificate', 'transcript', 'faydaId', 'ParentPhoto', 'clearance'].includes(field)) setCurrentStep(4);
-        else if (field === 'paymentReceipt') setCurrentStep(5);
+      if (step === 2) {
+        if (!formData.applyingGrade) newErrors.applyingGrade = 'Grade is required';
+        if (!formData.lastSchool.trim()) newErrors.lastSchool = 'Last school is required';
+        if (!formData.lastGrade.trim()) newErrors.lastGrade = 'Last grade is required';
+        if (!formData.gradeAverage.trim()) newErrors.gradeAverage = 'Grade average is required';
+        if (!formData.condition) newErrors.condition = 'Registration condition is required';
+      }
+      
+      if (step === 3) {
+        if (!formData.parentName.trim()) newErrors.parentName = 'Parent name is required';
+        if (!formData.relationship) newErrors.relationship = 'Relationship is required';
+        if (!formData.parentPhone.trim()) newErrors.parentPhone = 'Phone number is required';
+        if (!formData.parentEmail.trim()) {
+          newErrors.parentEmail = 'Email is required';
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.parentEmail)) {
+          newErrors.parentEmail = 'Email is invalid';
+        }
+        if (!formData.address.trim()) newErrors.address = 'Address is required';
+      }
+      
+      if (step === 4) {
+        if (!formData.birthCertificate) newErrors.birthCertificate = 'Birth certificate is required';
+        if (!formData.transcript) newErrors.transcript = 'Transcript is required';
+        if (!formData.faydaId) newErrors.faydaId = 'Student ID is required';
+        if (!formData.ParentPhoto) newErrors.ParentPhoto = 'Parent Photo is required';
+        if (!formData.clearance) newErrors.clearance = 'Clearance is required';
+        
+        const step4Files = [
+          { name: 'birthCertificate', file: formData.birthCertificate },
+          { name: 'transcript', file: formData.transcript },
+          { name: 'faydaId', file: formData.faydaId },
+          { name: 'ParentPhoto', file: formData.ParentPhoto },
+          { name: 'clearance', file: formData.clearance }
+        ];
+        
+        step4Files.forEach(({ name, file }) => {
+          if (file && file.size && isMobile && file.size > maxFileSizeBytes) {
+            newErrors[name] = `${name.replace(/([A-Z])/g, ' $1')} is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
+          }
+        });
+      }
+      
+      if (step === 5) {
+        if (!formData.paymentReceipt) newErrors.paymentReceipt = 'Payment receipt is required';
+        
+        if (formData.paymentReceipt && formData.paymentReceipt.size && isMobile && 
+            formData.paymentReceipt.size > maxFileSizeBytes) {
+          newErrors.paymentReceipt = `Payment receipt is too large! Maximum size is ${maxFileSizeMB}MB on mobile.`;
+        }
+      }
+      
+      if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        setSubmitError(`⚠️ Please fill in all required fields correctly. ${isMobile ? `(Mobile limit: ${maxFileSizeMB}MB per file)` : ''}`);
+        setCurrentStep(step);
         return;
       }
     }
-  }
-  
-  if (apiHealth !== 'healthy') {
-    const healthCheck = await checkAPIHealth();
-    if (healthCheck !== 'healthy') {
-      setSubmitError('⚠️ Cannot connect to server. Please make sure backend is running on ' + API_URL);
-      return;
-    }
-  }
-  
-  setIsSubmitting(true);
-  setSubmitError(null);
-  setUploadProgress(0);
-  setUploadStatus('Preparing files...');
-  setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED');
-  
-  // Start counter for final submission
-  let counter = 1;
-  const counterInterval = setInterval(() => {
-    setUploadCounter(counter);
-    counter++;
-    if (counter > 100) counter = 1; // Reset after 100
-  }, 100); // Update counter every 100ms
-  
-  try {
-    const formDataToSend = new FormData();
     
-    const textFields = {
-      age: formData.age,
-      firstName: formData.firstName,
-      lastName: formData.lastName,
-      grandParentName: formData.grandParentName,
-      gender: formData.gender.toLowerCase(),
-      dob: formData.dob,
-      nationality: formData.nationality,
-      religion: formData.religion || '',
-      applyingGrade: formData.applyingGrade,
-      lastSchool: formData.lastSchool,
-      lastGrade: formData.lastGrade,
-      gradeAverage: formData.gradeAverage || '',
-      parentName: formData.parentName,
-      relationship: formData.relationship,
-      parentPhone: formData.parentPhone,
-      parentEmail: formData.parentEmail.toLowerCase(),
-      parentOccupation: formData.parentOccupation || '',
-      address: formData.address,
-      condition: formData.condition,
-      program: formData.program,
-      fayida: formData.fayida,
-      field: formData.field,
-    };
+    // Additional file type validation
+    const fileFields = [
+      'photo',
+      'birthCertificate', 
+      'transcript',
+      'transferCertificate',
+      'paymentReceipt',
+      'faydaId',
+      'ParentPhoto',
+      'clearance'
+    ];
     
-    // Add text fields
-    Object.entries(textFields).forEach(([key, value]) => {
-      formDataToSend.append(key, value);
-    });
-    
-    // Add compressed files
-    let fileCount = 0;
     for (const field of fileFields) {
       const file = formData[field];
-      if (file) {
-        // Send the file regardless of whether it's a File instance or not
-        // The server will handle validation
-        formDataToSend.append(field, file);
-        fileCount++;
+      if (file && file instanceof File) {
+        const typeError = validateFileType(file, field);
+        if (typeError) {
+          setErrors(prev => ({ ...prev, [field]: typeError }));
+          setSubmitError(`⚠️ Invalid file type. Please check all files. ${isMobile ? `(Mobile limit: ${maxFileSizeMB}MB per file)` : ''}`);
+          if (field === 'photo') setCurrentStep(1);
+          else if (['birthCertificate', 'transcript', 'faydaId', 'ParentPhoto', 'clearance'].includes(field)) setCurrentStep(4);
+          else if (field === 'paymentReceipt') setCurrentStep(5);
+          return;
+        }
+        
+        if (isMobile && file.size > maxFileSizeBytes) {
+          setErrors(prev => ({ ...prev, [field]: `File is too large! Maximum size is ${maxFileSizeMB}MB on mobile.` }));
+          setSubmitError(`⚠️ File size exceeds mobile limit. Maximum size is ${maxFileSizeMB}MB per file on mobile.`);
+          if (field === 'photo') setCurrentStep(1);
+          else if (['birthCertificate', 'transcript', 'faydaId', 'ParentPhoto', 'clearance'].includes(field)) setCurrentStep(4);
+          else if (field === 'paymentReceipt') setCurrentStep(5);
+          return;
+        }
       }
     }
     
-    setUploadStatus(`Uploading ${fileCount} files...`);
-    setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED - Uploading files...');
+    if (apiHealth !== 'healthy') {
+      await checkAPIHealth();
+      if (apiHealth !== 'healthy') {
+        setSubmitError('⚠️ Cannot connect to server. Please make sure backend is running on ' + API_URL);
+        return;
+      }
+    }
     
-    const submissionId = `submission_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    formDataToSend.append('submissionId', submissionId);
-    formDataToSend.append('isMobile', isMobile.toString()); // Send mobile flag to server
+    setIsSubmitting(true);
+    setSubmitError(null);
+    setEmailError("");
+    setUploadProgress(0);
+    setUploadStatus('Preparing files...');
+    setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED');
     
-    // Log what we're sending (for debugging)
-    console.log('Sending form data:', {
-      textFields,
-      fileCount,
-      isMobile,
-      maxFileSizeMB,
-      hasPhoto: !!formData.photo,
-      photoType: formData.photo ? formData.photo.type : 'No photo',
-      photoName: formData.photo ? formData.photo.name : 'No photo',
-      photoSize: formData.photo ? `${(formData.photo.size / 1024 / 1024).toFixed(2)}MB` : 'No photo',
-      hasBirthCertificate: !!formData.birthCertificate,
-      hasTranscript: !!formData.transcript,
-    });
+    let counter = 1;
+    const counterInterval = setInterval(() => {
+      setUploadCounter(counter);
+      counter++;
+      if (counter > 100) counter = 1;
+    }, 100);
     
-    const response = await api.post(
-      '/api/admissions/submit',
-      formDataToSend,
-      {
-        headers: { 'Content-Type': 'multipart/form-data' },
-        timeout: 120000,
-        onUploadProgress: (progressEvent) => {
-          if (progressEvent.lengthComputable) {
-            const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            setUploadProgress(percentCompleted);
-            
-            if (percentCompleted < 100) {
-              setUploadStatus(`Uploading... ${percentCompleted}%`);
-              setServerMessage(`🎯 CREATE ADMISSION REQUEST RECEIVED - Uploading ${percentCompleted}%`);
-            } else {
-              setUploadStatus('Processing submission...');
-              setServerMessage('🎯 CREATE ADMISSION REQUEST RECEIVED - Processing...');
+    try {
+      const formDataToSend = new FormData();
+      
+      // Add text fields
+      formDataToSend.append('firstName', formData.firstName);
+      formDataToSend.append('lastName', formData.lastName);
+      formDataToSend.append('grandParentName', formData.grandParentName);
+      formDataToSend.append('gender', formData.gender.toLowerCase());
+      formDataToSend.append('dob', formData.dob);
+      formDataToSend.append('age', formData.age);
+      formDataToSend.append('nationality', formData.nationality);
+      formDataToSend.append('religion', formData.religion || '');
+      formDataToSend.append('applyingGrade', formData.applyingGrade);
+      formDataToSend.append('lastSchool', formData.lastSchool);
+      formDataToSend.append('lastGrade', formData.lastGrade);
+      formDataToSend.append('gradeAverage', formData.gradeAverage || '');
+      formDataToSend.append('parentName', formData.parentName);
+      formDataToSend.append('relationship', formData.relationship);
+      formDataToSend.append('parentPhone', formData.parentPhone);
+      formDataToSend.append('parentEmail', formData.parentEmail.toLowerCase());
+      formDataToSend.append('parentOccupation', formData.parentOccupation || '');
+      formDataToSend.append('address', formData.address);
+      formDataToSend.append('condition', formData.condition);
+      formDataToSend.append('program', formData.program);
+      formDataToSend.append('fayida', formData.fayida);
+      
+      // CRITICAL FIX: For grades 9 & 10, field should be null
+      const isGrade11or12 = formData.applyingGrade === 'Grade 11' || formData.applyingGrade === 'Grade 12';
+      const fieldValue = isGrade11or12 ? formData.field : null; // null for grades 9 & 10
+      formDataToSend.append('field', fieldValue);
+      
+      // Log what's being sent for debugging
+      console.log('=== SUBMITTING FORM DATA ===');
+      console.log('Program:', formData.program);
+      console.log('Applying Grade:', formData.applyingGrade);
+      console.log('Field/Stream:', formData.field);
+      console.log('Is Grade 11 or 12:', isGrade11or12);
+      console.log('Field value being sent:', fieldValue);
+      
+      // Helper function to append files with original names
+      const appendFileWithName = (fieldName, file) => {
+        if (!file) return;
+        
+        let fileToSend = file;
+        if (file.originalName) {
+          fileToSend = new File([file], file.originalName, { type: file.type });
+        }
+        
+        formDataToSend.append(fieldName, fileToSend);
+      };
+      
+      // Append files
+      if (formData.photo) appendFileWithName('photo', formData.photo);
+      if (formData.birthCertificate) appendFileWithName('birthCertificate', formData.birthCertificate);
+      if (formData.transcript) appendFileWithName('transcript', formData.transcript);
+      if (formData.transferCertificate) appendFileWithName('transferCertificate', formData.transferCertificate);
+      if (formData.paymentReceipt) appendFileWithName('paymentReceipt', formData.paymentReceipt);
+      if (formData.faydaId) appendFileWithName('faydaId', formData.faydaId);
+      if (formData.ParentPhoto) appendFileWithName('ParentPhoto', formData.ParentPhoto);
+      if (formData.clearance) appendFileWithName('clearance', formData.clearance);
+      
+      formDataToSend.append('submissionId', `submission_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
+      formDataToSend.append('isMobile', isMobile.toString());
+      
+      // Log FormData for debugging
+      console.log('FormData entries:');
+      for (let pair of formDataToSend.entries()) {
+        if (pair[1] instanceof File) {
+          console.log(pair[0], 'File:', pair[1].name, `(${pair[1].size} bytes)`);
+        } else {
+          console.log(pair[0], pair[1]);
+        }
+      }
+      
+      const response = await api.post(
+        '/api/admissions/submit',
+        formDataToSend,
+        {
+          headers: { 
+            'Content-Type': 'multipart/form-data' 
+          },
+          timeout: 120000,
+          onUploadProgress: (progressEvent) => {
+            if (progressEvent.lengthComputable) {
+              const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+              setUploadProgress(percentCompleted);
+              
+              if (percentCompleted < 100) {
+                setUploadStatus(`Uploading... ${percentCompleted}%`);
+                setServerMessage(`Uploading ${percentCompleted}%`);
+              } else {
+                setUploadStatus('Processing submission...');
+                setServerMessage('Processing...');
+              }
             }
           }
         }
+      );
+
+      console.log('Server Response:', response.data);
+      
+      if (response.status === 200 || response.status === 201) {
+        clearInterval(counterInterval);
+        setUploadCounter(100);
+        setSubmitSuccess(true);
+        
+        const responseData = response.data || {};
+        setApplicationData({
+          admissionId: responseData.admissionId || `ADM${Date.now().toString().slice(-6)}`,
+          studentId: responseData.studentId || `STU${Date.now().toString().slice(-6)}`,
+          fullName: `${formData.firstName} ${formData.lastName}`,
+          grade: formData.applyingGrade,
+          timestamp: new Date().toLocaleString(),
+          ...responseData
+        });
+        setEmailError("");
+        setFormData(initialFormData);
+        setCurrentStep(1);
+        setErrors({});
+        setSubmitError(null);
+        setUploadProgress(0);
+        setUploadStatus('');
+        setServerMessage('✅ Admission request created successfully!');
+        setFileUploadProgress({});
+      } else {
+        throw new Error(response.data?.message || 'Submission failed');
       }
-    );
-    
-    console.log('Server Response:', response.data);
-    
-    // Check if response indicates success
-    if (response.status === 200 || response.status === 201) {
+      
+    } catch (error) {
+      console.error('Submission error:', error);
       clearInterval(counterInterval);
-      setUploadCounter(100);
       
-      setSubmitSuccess(true);
+      setEmailError("");
       
-      // Extract data from response
-      const responseData = response.data || {};
-      setApplicationData({
-        admissionId: responseData.admissionId || `ADM${Date.now().toString().slice(-6)}`,
-        studentId: responseData.studentId || `STU${Date.now().toString().slice(-6)}`,
-        fullName: `${formData.firstName} ${formData.lastName}`,
-        grade: formData.applyingGrade,
-        timestamp: new Date().toLocaleString(),
-        ...responseData
-      });
+      const errorResponse = error.response?.data;
+      const errorMessage = errorResponse?.message || error.message;
+      const statusCode = error.response?.status;
       
-      setFormData(initialFormData);
-      setCurrentStep(1);
-      setErrors({});
-      setSubmitError(null);
+      if (statusCode === 409 || (errorMessage && errorMessage.toLowerCase().includes('email already exists'))) {
+        setEmailError(errorMessage || "This email is already registered. Please use a different email address.");
+        setSubmitError(null);
+        setErrors(prev => ({
+          ...prev,
+          parentEmail: errorMessage || "Email already exists"
+        }));
+        setCurrentStep(3);
+      } else if (statusCode === 400) {
+        // Handle 400 Bad Request
+        let errorMsg = 'Invalid data format. Please check all fields.';
+        
+        if (errorResponse?.errors) {
+          // Field-specific errors
+          const fieldErrors = errorResponse.errors;
+          setErrors(prev => ({ ...prev, ...fieldErrors }));
+          
+          // Check if field error is the issue
+          if (fieldErrors.field) {
+            errorMsg = `Stream selection error: ${fieldErrors.field}`;
+            setCurrentStep(1);
+          } else if (fieldErrors.applyingGrade) {
+            errorMsg = `Grade selection error: ${fieldErrors.applyingGrade}`;
+            setCurrentStep(1);
+          } else {
+            errorMsg = 'Please fix the highlighted fields and try again.';
+          }
+        } else if (errorMessage) {
+          errorMsg = errorMessage;
+        }
+        
+        setSubmitError(`⚠️ ${errorMsg}`);
+      } else {
+        let finalErrorMessage = 'An unexpected error occurred. Please try again.';
+        
+        if (error.code === 'ECONNABORTED') {
+          finalErrorMessage = 'Request timeout. Please check your connection and try again.';
+        } else if (error.response) {
+          if (statusCode === 413) {
+            finalErrorMessage = `File too large. Maximum size is ${maxFileSizeMB}MB per file.`;
+          } else if (statusCode === 500) {
+            finalErrorMessage = 'Server error. Please try again later.';
+          } else {
+            finalErrorMessage = errorResponse?.message || `Error: ${statusCode}`;
+          }
+        } else if (error.request) {
+          finalErrorMessage = 'No response from server. Please check your connection.';
+        }
+        
+        setSubmitError(finalErrorMessage);
+      }
+      
       setUploadProgress(0);
       setUploadStatus('');
-      setServerMessage('✅ Admission request created successfully!');
-      // Clear file upload progress
-      setFileUploadProgress({});
-    } else {
-      throw new Error(response.data?.message || 'Submission failed');
+      setUploadCounter(0);
+    } finally {
+      setIsSubmitting(false);
     }
-    
-  } catch (error) {
-    console.error('Submission error:', error);
-    clearInterval(counterInterval);
-    
-    let errorMessage = 'An unexpected error occurred. Please try again.';
-    let serverResponseMessage = '';
-    
-    if (error.code === 'ECONNABORTED') {
-      errorMessage = 'Request timeout. Please check your connection and try again.';
-    } else if (error.response) {
-      // Extract server error message
-      const serverError = error.response.data;
-      
-      if (typeof serverError === 'string') {
-        serverResponseMessage = serverError;
-      } else if (serverError && typeof serverError === 'object') {
-        serverResponseMessage = serverError.message || JSON.stringify(serverError);
-      }
-      
-      if (error.response.status === 413) {
-        errorMessage = isMobile 
-          ? `File too large. Maximum size is ${maxFileSizeMB}MB per file on mobile.` 
-          : 'File too large. Maximum size is 5MB per file.';
-      } else if (error.response.status === 415) {
-        errorMessage = 'Unsupported file type. Please upload JPG, PNG, GIF, WEBP, or PDF files.';
-      } else if (error.response.status === 400) {
-        if (serverResponseMessage.includes('photo') || 
-            serverResponseMessage.includes('Photo') ||
-            serverResponseMessage.includes('birth certificate') || 
-            serverResponseMessage.includes('transcript')) {
-          errorMessage = `⚠️ ${serverResponseMessage}`;
-        } else if (serverResponseMessage.includes('valid') || serverResponseMessage.includes('file')) {
-          errorMessage = `⚠️ ${serverResponseMessage}`;
-        } else {
-          errorMessage = '⚠️ Invalid data. Please check all fields and try again.';
-        }
-      } else if (error.response.status === 500) {
-        errorMessage = 'Internal server error. Please try again later.';
-      } else {
-        errorMessage = `Server error (${error.response.status}): ${serverResponseMessage || 'Please try again.'}`;
-      }
-    } else if (error.request) {
-      errorMessage = 'No response from server. Please check backend server and network connection.';
-    } else {
-      errorMessage = `Error: ${error.message}`;
-    }
-    
-    setSubmitError(errorMessage);
-    setUploadProgress(0);
-    setUploadStatus('');
-    setUploadCounter(0);
-    
-    // Show server message if available
-    if (serverResponseMessage) {
-      setServerMessage(`Server: ${serverResponseMessage}`);
-    }
-  } finally {
-    setIsSubmitting(false);
-  }
-};
+  };
 
   const resetForm = () => {
     setFormData(initialFormData);
@@ -813,6 +864,7 @@ const handleSubmit = async (e) => {
     setServerMessage('');
     setFileUploadProgress({});
     setUploadCounter(0);
+    setEmailError("");
   };
 
   const testConnection = async () => {
@@ -829,21 +881,13 @@ const handleSubmit = async (e) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-purple-900 overflow-hidden relative">
-      {/* Animated Background Canvas */}
-      {/* <canvas id="animated-bg" className="absolute inset-0 z-0" /> */}
+      <canvas id="animated-bg" className="absolute inset-0 z-0" />
       
-      {/* Floating Elements */}
       <div className="absolute inset-0 overflow-hidden z-0">
-       
-       
       </div>
 
       <div className="relative z-10 min-h-screen py-6 md:py-12 px-3 sm:px-4 lg:px-8">
         <div className="max-w-6xl mx-auto">
-          {/* API Status Indicator */}
-        
-
-          {/* Header */}
           <motion.div 
             initial={{ opacity: 0, y: -50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -885,7 +929,6 @@ const handleSubmit = async (e) => {
               Begin your journey to excellence. Join Ethiopia's premier educational institution.
             </p>
             
-            {/* Progress Indicator */}
             <motion.div 
               className="mt-6 md:mt-8 flex justify-center space-x-2"
               initial={{ opacity: 0 }}
@@ -906,7 +949,6 @@ const handleSubmit = async (e) => {
             </motion.div>
           </motion.div>
 
-          {/* Main Form Container */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -971,7 +1013,6 @@ const handleSubmit = async (e) => {
                 </div>
               </div>
 
-              {/* Individual File Upload Progress Indicators */}
               {Object.keys(fileUploadProgress).length > 0 && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
@@ -1011,7 +1052,6 @@ const handleSubmit = async (e) => {
                 </motion.div>
               )}
 
-              {/* Overall Upload Progress Bar (shown during submission) */}
               {isSubmitting && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
@@ -1041,7 +1081,6 @@ const handleSubmit = async (e) => {
               )}
 
               <form onSubmit={handleSubmit}>
-                {/* Hidden file inputs */}
                 {Object.keys(fileInputRefs).map((field) => (
                   <input
                     key={field}
@@ -1073,6 +1112,7 @@ const handleSubmit = async (e) => {
                           handleFileClick={handleFileClick}
                           fileUploadProgress={fileUploadProgress}
                           uploadCounter={uploadCounter}
+                          setFormData={setFormData}
                         />
                       )}
                       
@@ -1081,7 +1121,12 @@ const handleSubmit = async (e) => {
                       )}
                       
                       {currentStep === 3 && (
-                        <Step3 formData={formData} handleChange={handleChange} errors={errors} />
+                        <Step3 
+                          formData={formData} 
+                          handleChange={handleChange} 
+                          errors={errors} 
+                          emailError={emailError}
+                        />
                       )}
                       
                       {currentStep === 4 && (
@@ -1106,13 +1151,13 @@ const handleSubmit = async (e) => {
                           testConnection={testConnection}
                           fileUploadProgress={fileUploadProgress}
                           uploadCounter={uploadCounter}
+                          emailError={emailError}
                         />
                       )}
                     </motion.div>
                   )}
                 </AnimatePresence>
 
-                {/* Navigation Buttons */}
                 {!submitSuccess && (
                   <div className="px-4 md:px-6 lg:px-8 py-4 md:py-6 border-t border-gray-700/50 bg-gray-900/30 flex flex-col sm:flex-row justify-between gap-4">
                     <motion.button
@@ -1169,156 +1214,253 @@ const handleSubmit = async (e) => {
 };
 
 // Step Components
-const Step1 = ({ formData, handleChange, errors, handleFileClick, fileUploadProgress, uploadCounter }) => (
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-    <div className="lg:col-span-2">
-      <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-        <span className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center mr-2">
-          👤
-        </span>
-        Student Information
-      </h4>
-    </div>
-    
-    <div className="space-y-4">
-      <InputField
-        label="First Name :"
-        name="firstName"
-        value={formData.firstName}
-        onChange={handleChange}
-        error={errors.firstName}
-        placeholder="Enter first name"
-      />
+const Step1 = ({ formData, handleChange, errors, handleFileClick, fileUploadProgress, uploadCounter, setFormData }) => {
+  const isGrade11or12 = formData.applyingGrade === 'Grade 11' || formData.applyingGrade === 'Grade 12';
 
-      <InputField
-        label="Last Name :"
-        name="lastName"
-        value={formData.lastName}
-        onChange={handleChange}
-        error={errors.lastName}
-        placeholder="Enter last name"
-      />
-      
-      <InputField
-        label="Grand Father Name :"
-        name="grandParentName"
-        value={formData.grandParentName}
-        onChange={handleChange}
-        error={errors.grandParentName}
-        placeholder="Enter grand father name"
-      />
-      
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Gender :
-        </label>
-        <div className="grid grid-cols-3 gap-2">
-          {['Male', 'Female', 'Other'].map(gender => (
-            <motion.button
-              key={gender}
-              type="button"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => handleChange({ target: { name: 'gender', value: gender.toLowerCase() } })}
-              className={`py-3 rounded-xl text-center transition-all font-medium ${formData.gender === gender.toLowerCase() 
-                ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-purple-500/30' 
-                : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700'}`}
-            >
-              {gender}
-            </motion.button>
-          ))}
-        </div>
-        {errors.gender && <p className="mt-1 text-sm text-red-400">{errors.gender}</p>}
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
+      <div className="lg:col-span-2">
+        <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
+          <span className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center mr-2">
+            👤
+          </span>
+          Student Information
+        </h4>
       </div>
-
-
-       <SelectField
-        label="Program:"
-        name="program"
-        value={formData.program}
-        onChange={handleChange}
-        options={[ 'Regular Program', 'Night Program']} 
-        error={errors.program}
-        required
-        placeholder='-Select-'
-      />
-        
-         <SelectField
-        label="Field :"
-        name="field"
-        value={formData.field}
-        onChange={handleChange}
-        options={[ 'Natural Science', 'Social Science', 'Other']} 
-        error={errors.field}
-        required
-        placeholder='-Select'
-      />
       
-      <SelectField
-        label="Media Of Instruction :"
-        name="nationality"
-        value={formData.nationality}
-        onChange={handleChange}
-        options={[ 'Afaan Oromoo', 'Afaan Amharaa']} 
-        error={errors.nationality}
-        required
-        placeholder='-Select'
-      />
-      {errors.nationality && <p className="mt-1 text-sm text-red-400">{errors.nationality}</p>}
-    </div>
-    
-    <div className="space-y-4">
-      <InputField
-        label="Date of Birth :"
-        type="date"
-        name="dob"
-        value={formData.dob}
-        onChange={handleChange}
-        error={errors.dob}
-      />
-      
-      <InputField
-        label="Age :"
-        type="number"
-        name="age"
-        value={formData.age}
-        onChange={handleChange}
-        error={errors.age}
-        placeholder="Enter age"
-      />
-    
-    <InputField
-        label="National ID (FAN/FCN Number):"
-        
-        name="fayida"
-        value={formData.fayida}
-        onChange={handleChange}
-        error={errors.fayida}
-        placeholder=""
-      />
-
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Student Photo :
-        </label>
-        <FileUploadField
-          fieldName="photo"
-          file={formData.photo}
-          error={errors.photo}
-          handleFileClick={handleFileClick}
-          accept="image/*"
-          fileUploadProgress={fileUploadProgress.photo}
-          uploadCounter={uploadCounter}
+      <div className="space-y-4">
+        <InputField
+          label="First Name :"
+          name="firstName"
+          value={formData.firstName}
+          onChange={handleChange}
+          error={errors.firstName}
+          placeholder="Enter first name"
         />
-        {formData.photo && !errors.photo && !fileUploadProgress.photo && (
-          <p className="mt-1 text-sm text-green-400">
-            ✓ Photo uploaded: {formData.photo.name} ({(formData.photo.size / 1024 / 1024).toFixed(2)} MB)
-          </p>
-        )}
+
+        <InputField
+          label="Last Name :"
+          name="lastName"
+          value={formData.lastName}
+          onChange={handleChange}
+          error={errors.lastName}
+          placeholder="Enter last name"
+        />
+        
+        <InputField
+          label="Grand Father Name :"
+          name="grandParentName"
+          value={formData.grandParentName}
+          onChange={handleChange}
+          error={errors.grandParentName}
+          placeholder="Enter grand father name"
+        />
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Gender :
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            {['Male', 'Female', 'Other'].map(gender => (
+              <motion.button
+                key={gender}
+                type="button"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => handleChange({ target: { name: 'gender', value: gender.toLowerCase() } })}
+                className={`py-3 rounded-xl text-center transition-all font-medium ${formData.gender === gender.toLowerCase() 
+                  ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-purple-500/30' 
+                  : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 border border-gray-700'}`}
+              >
+                {gender}
+              </motion.button>
+            ))}
+          </div>
+          {errors.gender && <p className="mt-1 text-sm text-red-400">{errors.gender}</p>}
+        </div>
+
+        <SelectField
+          label="Program:"
+          name="program"
+          value={formData.program}
+          onChange={handleChange}
+          options={['Regular Program', 'Night Program']} 
+          error={errors.program}
+          required
+          placeholder='-Select-'
+        />
+        
+        <SelectField
+          label="Media Of Instruction :"
+          name="nationality"
+          value={formData.nationality}
+          onChange={handleChange}
+          options={['Afaan Oromoo', 'Afaan Amharaa']} 
+          error={errors.nationality}
+          required
+          placeholder='-Select'
+        />
+      </div>
+      
+      <div className="space-y-4">
+        <InputField
+          label="Date of Birth :"
+          type="date"
+          name="dob"
+          value={formData.dob}
+          onChange={handleChange}
+          error={errors.dob}
+        />
+        
+        <InputField
+          label="Age :"
+          type="number"
+          name="age"
+          value={formData.age}
+          onChange={handleChange}
+          error={errors.age}
+          placeholder="Enter age"
+        />
+      
+        <InputField
+          label="National ID (FAN/FCN Number):"
+          name="fayida"
+          type="text"
+          maxLength={16}
+          inputMode="numeric"
+          value={formData.fayida}
+          onChange={handleChange}
+          error={errors.fayida}
+          placeholder="Enter FAN/FCN number"
+        />
+
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Student Photo :
+          </label>
+          <FileUploadField
+            fieldName="photo"
+            file={formData.photo}
+            error={errors.photo}
+            handleFileClick={handleFileClick}
+            accept="image/*"
+            fileUploadProgress={fileUploadProgress.photo}
+            uploadCounter={uploadCounter}
+          />
+          {formData.photo && !errors.photo && !fileUploadProgress.photo && (
+            <p className="mt-1 text-sm text-green-400">
+              ✓ Photo uploaded: {formData.photo.name} ({(formData.photo.size / 1024 / 1024).toFixed(2)} MB)
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Academic Stream Selection */}
+      <div className="lg:col-span-2 mt-2">
+        <div className="border-t border-gray-700/50 pt-6 mt-2">
+          <label className="block text-base font-semibold text-white mb-3 flex items-center">
+            <span className="w-6 h-6 rounded-full bg-purple-500/20 flex items-center justify-center mr-2 text-sm">
+              🎓
+            </span>
+            Academic Stream Selection
+          </label>
+          
+          {/* Grade Selection */}
+          <div className="mb-6">
+            <label className="block text-sm font-medium text-gray-300 mb-3">
+              Apply For Grade :
+            </label>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'].map(grade => (
+                <motion.button  
+                  key={grade}
+                  type="button"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => {
+                    const isGrade11or12New = grade === 'Grade 11' || grade === 'Grade 12';
+                    // FIX: For grades 9 & 10, set field to null
+                    setFormData(prev => ({ 
+                      ...prev, 
+                      applyingGrade: grade,
+                      field: isGrade11or12New ? prev.field : null // null for 9 & 10
+                    }));
+                  }}
+                  className={`py-4 rounded-xl text-center transition-all duration-200 font-medium ${formData.applyingGrade === grade 
+                    ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30' 
+                    : 'bg-gray-800/60 text-gray-300 hover:bg-gray-700/70 border border-gray-700'}`}
+                >
+                  {grade}
+                </motion.button>
+              ))}
+            </div>
+            {errors.applyingGrade && <p className="mt-2 text-sm text-red-400">{errors.applyingGrade}</p>}
+          </div>
+
+          {/* Stream Selection - ONLY for Grade 11 or 12 */}
+          {isGrade11or12 && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="mt-4 p-4 bg-gradient-to-r from-purple-900/30 to-indigo-900/30 rounded-xl border border-purple-500/30"
+            >
+              <label className="block text-sm font-medium text-purple-300 mb-2">
+                🌟 Select Your Stream (Required for Grade {formData.applyingGrade}) :
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setFormData(prev => ({ ...prev, field: 'Natural Science' }))}
+                  className={`py-4 rounded-xl text-center transition-all font-medium ${
+                    formData.field === 'Natural Science' 
+                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white shadow-lg shadow-green-500/30' 
+                      : 'bg-gray-800/60 text-gray-300 hover:bg-gray-700/70 border border-gray-700'
+                  }`}
+                >
+                  🌿 Natural Science
+                </motion.button>
+                <motion.button
+                  type="button"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => setFormData(prev => ({ ...prev, field: 'Social Science' }))}
+                  className={`py-4 rounded-xl text-center transition-all font-medium ${
+                    formData.field === 'Social Science' 
+                      ? 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg shadow-orange-500/30' 
+                      : 'bg-gray-800/60 text-gray-300 hover:bg-gray-700/70 border border-gray-700'
+                  }`}
+                >
+                  🏛️ Social Science
+                </motion.button>
+              </div>
+              {errors.field && <p className="mt-2 text-sm text-red-400">{errors.field}</p>}
+              <p className="mt-2 text-xs text-purple-300/70">
+                ⚠️ Required for registration. You cannot change this later.
+              </p>
+            </motion.div>
+          )}
+
+          {/* Message for Grades 9 & 10 */}
+          {!isGrade11or12 && formData.applyingGrade && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="mt-4 p-4 bg-yellow-900/30 rounded-xl border border-yellow-600/50 text-center"
+            >
+              <p className="text-yellow-300 text-sm">
+                ⚠️ Stream selection (Natural Science / Social Science) is not required for {formData.applyingGrade}. 
+                You will choose your stream when you reach Grade 11.
+              </p>
+            </motion.div>
+          )}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Step2 = ({ formData, handleChange, errors, setFormData }) => (
   <div className="space-y-6">
@@ -1330,29 +1472,6 @@ const Step2 = ({ formData, handleChange, errors, setFormData }) => (
     </h4>
     
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-3">
-          Apply For Grade :
-        </label>
-        <div className="grid grid-cols-2 gap-3">
-          {['Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'].map(grade => (
-            <motion.button  
-              key={grade}
-              type="button"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              onClick={() => setFormData(prev => ({ ...prev, applyingGrade: grade }))}
-              className={`py-4 rounded-xl text-center transition-all duration-200 font-medium ${formData.applyingGrade === grade 
-                ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30' 
-                : 'bg-gray-800/60 text-gray-300 hover:bg-gray-700/70 border border-gray-700'}`}
-            >
-              {grade}
-            </motion.button>
-          ))}
-        </div>
-        {errors.applyingGrade && <p className="mt-2 text-sm text-red-400">{errors.applyingGrade}</p>}
-      </div>
-      
       <InputField
         label="Last Grade Completed :"
         name="lastGrade"
@@ -1361,9 +1480,7 @@ const Step2 = ({ formData, handleChange, errors, setFormData }) => (
         error={errors.lastGrade}
         placeholder="e.g., Grade 10"
       />
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      
       <InputField
         label="Grade Average :"
         name="gradeAverage"
@@ -1373,7 +1490,9 @@ const Step2 = ({ formData, handleChange, errors, setFormData }) => (
         placeholder="e.g., 85.5%"
         icon="%"
       />
-      
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <InputField
         label="Last School Attended :"
         name="lastSchool"
@@ -1393,12 +1512,11 @@ const Step2 = ({ formData, handleChange, errors, setFormData }) => (
       error={errors.condition}
       placeholder='-Select'
       required
-      
     />
   </div>
 );
 
-const Step3 = ({ formData, handleChange, errors }) => (
+const Step3 = ({ formData, handleChange, errors, emailError }) => (
   <div className="space-y-6">
     <h4 className="text-lg font-semibold text-white mb-6 flex items-center">
       <span className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center mr-2">
@@ -1434,17 +1552,30 @@ const Step3 = ({ formData, handleChange, errors }) => (
         onChange={handleChange}
         error={errors.parentPhone}
         placeholder="09 ___ ___ ___"
+        type='number'
       />
       
-      <InputField
-        label="Email Address :"
-        type="email"
-        name="parentEmail"
-        value={formData.parentEmail}
-        onChange={handleChange}
-        error={errors.parentEmail}
-        placeholder="guardian@example.com"
-      />
+      <div>
+        <InputField
+          label="Student Email Address :"
+          type="email"
+          name="parentEmail"
+          value={formData.parentEmail}
+          onChange={handleChange}
+          error={errors.parentEmail}
+          placeholder="student@example.com"
+        />
+        {errors.parentEmail && (
+          <div className="mt-1 text-sm text-red-400">
+            {errors.parentEmail}
+          </div>
+        )}
+        {emailError && !errors.parentEmail && (
+          <div className="mt-2 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm">
+            ⚠️ {emailError}
+          </div>
+        )}
+      </div>
     </div>
     
     <div>
@@ -1499,7 +1630,7 @@ const Step4 = ({ formData, errors, handleFileClick, fileUploadProgress, uploadCo
   </div>
 );
 
-const Step5 = ({ formData, errors, handleFileClick, paymentMethods, activeMethod, setActiveMethod, submitError, testConnection, fileUploadProgress, uploadCounter }) => (
+const Step5 = ({ formData, errors, handleFileClick, paymentMethods, activeMethod, setActiveMethod, submitError, testConnection, fileUploadProgress, uploadCounter, emailError }) => (
   <div className="max-w-2xl mx-auto">
     <div className="text-center mb-8">
       <h4 className="text-2xl font-bold bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent mb-2">
@@ -1581,6 +1712,11 @@ const Step5 = ({ formData, errors, handleFileClick, paymentMethods, activeMethod
       />
     </div>
 
+    {submitError && (
+      <div className="mt-6 p-4 bg-red-500/20 border border-red-500/50 rounded-xl">
+        <p className="text-red-300 text-sm">{submitError}</p>
+      </div>
+    )}
   </div>
 );
 
@@ -1650,10 +1786,6 @@ const SuccessScreen = ({ applicationData, resetForm, formData }) => (
               </div>
             </div>
             <div className="space-y-4">
-              <div>
-                <p className="text-sm text-gray-400">Student ID</p>
-                <p className="font-mono text-lg md:text-xl font-bold text-purple-300">{applicationData.studentId}</p>
-              </div>
               <div>
                 <p className="text-sm text-gray-400">Grade</p>
                 <p className="text-base md:text-lg font-semibold text-white">{applicationData.grade}</p>
@@ -1819,14 +1951,14 @@ const FileUploadCard = ({ fieldName, label, icon, file, error, handleFileClick, 
               Step {uploadCounter} of 5 • {fileUploadProgress.progress}%
             </p>
           </div>
-        </div>
+        </div>  
       ) : file ? (
         <div className="text-green-400">
           <p className="font-medium truncate">{file.name}</p>
           <p className="text-sm text-gray-400 mt-1">
             {(file.size / 1024 / 1024).toFixed(2)} MB
-          </p>
-        </div>
+          </p>  
+        </div> 
       ) : (
         <div className="text-gray-400">
           <p className="font-medium">Upload Document</p>
@@ -1839,3 +1971,8 @@ const FileUploadCard = ({ fieldName, label, icon, file, error, handleFileClick, 
 );
 
 export default AdmissionForm;
+
+
+
+
+

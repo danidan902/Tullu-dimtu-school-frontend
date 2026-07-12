@@ -7,7 +7,7 @@ import axios from "axios";
 
 
 const api = axios.create({
-  baseURL: "https://tullu-dimtu-school-backend-1.onrender.com/api/auths", // your backend route
+  baseURL: "http://localhost:5000/api/auths", // your backend route
   headers: { "Content-Type": "application/json" },
 });
 

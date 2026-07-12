@@ -211,7 +211,6 @@ const ChatBot = () => {
     const inputLower = userInput.toLowerCase();
     let botResponse = "";
  
-
     if (inputLower.includes('hello') || inputLower.includes('hi') || inputLower.includes('hey')) {
       botResponse = "Hello there! 👋 I'm Tulu Dimtu SchoolBot. Ready to assist you with educational queries, course information, and learning resources!";
     } else if (inputLower.includes('course') || inputLower.includes('class') || inputLower.includes('subject')) {

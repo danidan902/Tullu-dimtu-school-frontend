@@ -89,12 +89,8 @@ const SchoolProfile = () => {
 
       {/* Hero Section */}
 
-      <div className="relative bg-gradient-to-r from-blue-800 to-blue-600 text-white py-12">
-  <div className="absolute inset-0 bg-black opacity-40"></div>
-  <div className="relative container mx-auto px-4 text-center">
-    
-  </div>
-</div>
+
+
      
        <div className="relative h-screen w-full overflow-hidden">
       
