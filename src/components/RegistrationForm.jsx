@@ -352,6 +352,7 @@ const Registration = () => {
                         ))}
                       </select>
                     </div>
+               
                   </div>
                   
                   {/* Submit Button */}

@@ -9,6 +9,7 @@ import {
   FaTrash, FaUpload, 
   FaMale, FaFemale, FaEdit, FaSave, FaTimesCircle, FaUserGraduate
 } from 'react-icons/fa';
+import {useNavigate} from 'react-router-dom';
  
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -49,12 +50,14 @@ const AdminDashboardPage = () => {
   const [showDocumentUpload, setShowDocumentUpload] = useState(false);
   const [newDocumentType, setNewDocumentType] = useState('');
   const [teachers, setTeachers] = useState([]);
+  const navigate = useNavigate();
   
   // Edit mode states
   const [isEditing, setIsEditing] = useState(false);
   const [editFormData, setEditFormData] = useState({});
   const [editLoading, setEditLoading] = useState(false);
 
+ 
   // Function to calculate gender statistics
   const calculateGenderStats = (admissionsData) => {
     const genderCounts = {
@@ -1739,6 +1742,34 @@ const AdminDashboardPage = () => {
         <div className="mb-8 bg-white rounded-xl shadow-lg p-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <div>
+
+<button
+  class="bg-white text-center w-48 rounded-2xl h-14 relative text-black text-xl font-semibold group"
+  type="button"
+  onClick={() => navigate('/')}
+>
+  <div
+    class="bg-blue-400 rounded-xl h-12 w-1/4 flex items-center justify-center absolute left-1 top-[4px] group-hover:w-[184px] z-10 duration-500"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1024 1024"
+      height="25px"
+      width="25px"
+    >
+      <path
+        d="M224 480h640a32 32 0 1 1 0 64H224a32 32 0 0 1 0-64z"
+        fill="#000000"
+      ></path>
+      <path
+        d="m237.248 512 265.408 265.344a32 32 0 0 1-45.312 45.312l-288-288a32 32 0 0 1 0-45.312l288-288a32 32 0 1 1 45.312 45.312L237.248 512z"
+        fill="#000000"
+      ></path>
+    </svg>
+  </div>
+  <p class="translate-x-2">Go Back</p>
+</button>
+
               <h1 className="text-3xl font-bold text-gray-900"><span className="text-indigo-600">Student Admissions</span> Management System</h1>
               <p className="text-gray-600 mt-2">Manage and review student applications and documents - Admin Mode Active</p>
             </div>
@@ -1962,11 +1993,11 @@ const AdminDashboardPage = () => {
       {selectedAdmission && (
         <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full flex items-start justify-center p-2 sm:p-4 z-50">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-6xl max-h-[95vh] overflow-hidden my-4 sm:my-auto">
-            <div className="px-4 py-3 sm:px-6 sm:py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white">
+            <div className="px-4 py-3 sm:px-6 sm:py-4 bg-[#04395E] via-[#04395E]/120 to-transparent text-white">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
                 <div className="flex items-start w-full">
                   <div className="relative mr-3">
-                    <div className="h-12 w-12 sm:h-16 sm:w-16 rounded-full overflow-hidden border-2 sm:border-4 border-white relative group cursor-pointer" onClick={() => handlePhotoSelect(selectedAdmission._id)}>
+                    <div className="h-12 w-12 sm:h-40 sm:w-40 overflow-hidden border-2 sm:border-4 border-white relative group cursor-pointer" onClick={() => handlePhotoSelect(selectedAdmission._id)}>
                       {getStudentPhotoUrl(selectedAdmission) ? (
                         <img src={getStudentPhotoUrl(selectedAdmission)} alt={`${selectedAdmission.firstName} ${selectedAdmission.lastName}`} className="h-full w-full object-cover" />
                       ) : (

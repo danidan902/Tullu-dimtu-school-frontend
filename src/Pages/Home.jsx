@@ -747,6 +747,8 @@ useEffect(() => {
 
 
 
+
+
         {/* Programs Section with enhanced animations */}
         <section className="py-20 bg-gradient-to-br from-white to-blue-50">
           <div className="container mx-auto px-6">
@@ -769,14 +771,14 @@ useEffect(() => {
                     key={card.id} 
                     className=" to-transparent group cursor-pointer"
                   >
-                    <div className={` relative overflow-hidden rounded-2xl shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-100 ${
+                    <div className={` relative overflow-hidden  shadow-xl hover:shadow-2xl transition-shadow duration-300 border border-gray-100 ${
                       expandedCards[card.id] ? 'h-auto' : 'h-full'
                     }`}>
                       <div className="h-48 overflow-hidden relative">
                         <img 
                           src={card.image} 
                           alt={card.title}
-                          className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105"
+                          className="w-full h-full object-cover transform transition-transform duration-300 group-hover:scale-105 p-2"
                           loading="lazy"
                           decoding="async"
                           fetchpriority="low"

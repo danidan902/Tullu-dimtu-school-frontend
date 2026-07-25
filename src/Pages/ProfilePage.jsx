@@ -83,15 +83,6 @@ const AdmissionPage = () => {
             initial="hidden"
             animate="visible"
           >
-            {/* <motion.img
-              src={logo}
-              alt="School Logo"
-              className="w-28 md:w-36 mb-8"
-              variants={itemVariants}
-            /> */}
-           
-           
-
 
        <motion.div
   className="flex flex-col items-center text-center"
