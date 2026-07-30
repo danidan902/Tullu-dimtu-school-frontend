@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import logo from '../assets/tullulogo.png'
 import axios from 'axios'
 
-const API_URL = 'http://localhost:5000'; // Update with your backend URL
+const API_URL = 'https://tullu-dimtu-school-backend-1.onrender.com'; // Update with your backend URL
 
 const AdminSignIn = () => {
   const [credentials, setCredentials] = useState({
