@@ -624,7 +624,7 @@ function Header() {
               <div className="flex items-center gap-3 ml-6 pl-6 border-l border-slate-700/50">
                
                 
-  <Link to="/profile-page">
+  <Link to="https://tuludimtuschoolerp.vercel.app/">
   <button
     className="
       group relative flex items-center gap-1 overflow-hidden
