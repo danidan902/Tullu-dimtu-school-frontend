@@ -1004,7 +1004,7 @@ function Header() {
             >
               {/* Sign In Button */}
               <motion.a 
-                href="/profile-page"
+                href="https://tuludimtuschoolerp.vercel.app"
                 onClick={() => setOpen(false)}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
