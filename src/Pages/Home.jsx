@@ -63,31 +63,31 @@ function Home() {
   mobileImage: animMobile1,
   desktopImage: anim,
   title: (
-    <div className="text-[#173B7A]">
+    <div className="text-white">
       Welcome to{" "}
-      <span className="text-[#D7A928]">
+      <span className="text-yellow-400">
         Tullu Dimtu
       </span>
     </div>
   ),
   subtitle: "A Legacy of Excellence Since 2009",
   description: "At Tullu Dimtu School, we are committed to excellence in education and the holistic development of every student. ",
-  titleStyle: "font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight",
-  subtitleStyle: "text-xl md:text-2xl text-[#C49A1A] font-semibold drop-shadow",
+  titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold drop-shadow-lg",
+  subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-semibold drop-shadow",
   descStyle: "text-lg md:text-lg text-gray-200",
 },
   {
       mobileImage: animMobile3,
       desktopImage: anim2,
       title: (
-        <div className="text-[#173B7A]">
-          Academic <span className="text-[#D7A928]">Excellence</span>
+        <div className="text-white">
+          Academic <span className="text-yellow-400">Excellence</span>
         </div>
       ),
       subtitle: "Consistent Top Performers",
       description: "70%+ pass rate in national examinations",
-      titleStyle: "font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight",
-      subtitleStyle: "text-xl md:text-2xl text-[#C49A1A]",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white tracking-wide drop-shadow-lg",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300",
       descStyle: "text-lg md:text-lg text-gray-200",
     },
 
@@ -95,14 +95,14 @@ function Home() {
       mobileImage: anim1,
       desktopImage: anim1,
       title: (
-        <div className="text-[#173B7A]">
-          Nurturing <span className="text-[#D7A928]">Future Leaders</span>
+        <div className="text-white">
+          Nurturing <span className="text-yellow-400">Future Leaders</span>
         </div>
       ),
       subtitle: "Holistic Education Approach",
       description: "Developing minds, building character, shaping destinies",
-      titleStyle: "font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight",
-      subtitleStyle: "text-xl md:text-2xl text-[#C49A1A]",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white italic drop-shadow-md",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300",
       descStyle: "text-lg md:text-lg text-gray-200",
     },
     
@@ -110,14 +110,14 @@ function Home() {
       mobileImage: animMobile4,
       desktopImage: Bg,
       title: (
-        <div className="text-[#173B7A]">
-         Modern <span className="text-[#D7A928]">Facilities</span>
+        <div className="text-white">
+         Modern <span className="text-yellow-400">Facilities</span>
         </div>
       ),
       subtitle: "State-of-the-Art Infrastructure",
       description: "Equipped for 21st century learning",
-      titleStyle: "font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight",
-      subtitleStyle: "text-xl md:text-2xl text-[#C49A1A]  font-semibold",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white uppercase drop-shadow-md",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300  font-semibold",
       descStyle: "text-lg md:text-lg text-gray-200",
     },
    
@@ -125,42 +125,42 @@ function Home() {
       mobileImage: anim6,
       desktopImage: anim6,
       title: (
-        <div className="text-[#173B7A]">
-          Our Study <span className="text-[#D7A928]">Portal</span>
+        <div className="text-white">
+          Our Study <span className="text-yellow-400">Portal</span>
         </div>
       ),
       subtitle: "Join Us ",
       description: "School provides students with easy access to learning resources, assignments, and interactive study materials.",
-      titleStyle: "font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight",
-      subtitleStyle: "text-xl md:text-2xl text-[#C49A1A] font-bold",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
       descStyle: "text-lg md:text-lg text-white",
     },
     {
       mobileImage: schoolHeroImage,
       desktopImage: anim7,
      title: (
-        <div className="text-[#173B7A]">
-          Our Digital <span className="text-[#D7A928]">Library</span>
+        <div className="text-white">
+          Our Digital <span className="text-yellow-400">Library</span>
         </div>
       ),
       subtitle: "Tullu Dimtu Digital Library",
       description: "It provides a modern, convenient way to study, explore new topics, and conduct research from anywhere.",
-      titleStyle: "font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight",
-      subtitleStyle: "text-xl md:text-2xl text-[#C49A1A] font-bold",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
       descStyle: "text-lg md:text-lg text-white",
     },
      {
       mobileImage: anim5,
       desktopImage: anim5,
      title: (
-        <div className="text-[#173B7A]">
-          Join Our <span className="text-[#D7A928]">Community</span>
+        <div className="text-white">
+          Join Our <span className="text-yellow-400">Community</span>
         </div>
       ),
       subtitle: "Admissions Open 2025",
       description: "Limited seats available - Apply now!",
-      titleStyle: "font-serif text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight",
-      subtitleStyle: "text-xl md:text-2xl text-[#C49A1A] font-bold",
+      titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
+      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
       descStyle: "text-lg md:text-lg text-white",
     },
   ];
@@ -395,144 +395,89 @@ function Home() {
         />
       </Helmet>
 
-      <div className="relative w-full font-sans antialiased bg-[#FCFCFD]">
-        {/* Hero Section - premium editorial layout; existing carousel images and controls preserved */}
-        <section className="relative isolate overflow-hidden bg-[#FCFCFD]">
-          <div className="pointer-events-none absolute -top-24 right-[-5rem] h-80 w-80 rounded-full bg-[#EAF2FF] blur-3xl opacity-80" />
-          <div className="pointer-events-none absolute bottom-0 left-[-5rem] h-64 w-64 rounded-full bg-[#FFF6D8] blur-3xl opacity-70" />
-
-          <div className="relative mx-auto grid min-h-[690px] max-w-7xl grid-cols-1 items-center gap-12 px-5 py-16 sm:px-8 md:py-20 lg:min-h-[calc(100vh-80px)] lg:grid-cols-[1.02fr_0.98fr] lg:gap-14 lg:px-10 xl:px-12">
-            {/* Left: headline and calls to action */}
-            <div className="relative z-10 order-2 max-w-2xl lg:order-1">
-              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-[#F1E5B8] bg-[#FFF9E7] px-4 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-[#173B7A] shadow-sm sm:text-xs">
-                <span className="h-2 w-2 rounded-full bg-[#E6BD3D] shadow-[0_0_0_4px_rgba(230,189,61,0.15)]" />
-                Enrollment 2026 Now Open
+      <div className="relative w-full font-sans antialiased bg-gray-50">
+        {/* Hero Section */}
+        <section className="relative w-full h-screen overflow-hidden">
+          <div className="absolute inset-0 ">
+            {carouselData.map((item, index) => (
+              <div
+                key={index}
+                className={`
+                  absolute inset-0
+                  transition-all duration-1000 ease-in-out
+                  ${index === currentBgIndex ? "opacity-100 scale-100" : "opacity-0 scale-105"}
+                `}
+              >
+                <div
+                  className="md:hidden absolute inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
+                  style={{ backgroundImage: `url(${item.mobileImage})` }}
+                />
+                <div
+                  className="hidden md:block absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
+                  style={{
+                    backgroundImage: `url(${item.desktopImage})`,
+                    transform: index === currentBgIndex ? 'scale(1)' : 'scale(1.05)'
+                  }}
+                />
               </div>
+            ))}
+          </div>
 
-              <div className={`transition-all duration-700 ${getTextAnimationClass(0)}`}>
-                <h1 className={`${carouselData[currentBgIndex].titleStyle} mb-5 leading-[0.98] text-[#173B7A]`}>
+          {/* Hero overlay - solid blue to transparent */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#04395E] to-transparent" />
+
+          {/* Hero Content */}
+          <div className="relative z-20 flex flex-col items-start justify-center h-full px-4 md:px-8 lg:px-16 text-left">
+            <div className="max-w-3xl">
+              <div className={`${getTextAnimationClass(0)}`}>
+                <h1 className={`${carouselData[currentBgIndex].titleStyle} leading-tight mb-4`}>
                   {carouselData[currentBgIndex].title}
                 </h1>
               </div>
 
-              <div className={`transition-all duration-700 delay-100 ${getTextAnimationClass(100)}`}>
-                <h2 className="mb-4 max-w-xl text-xl font-semibold leading-snug text-[#B58B17] sm:text-2xl">
+              <div className={`${getTextAnimationClass(100)}`}>
+                <h2 className={`${carouselData[currentBgIndex].subtitleStyle} mb-4`}>
                   {carouselData[currentBgIndex].subtitle}
                 </h2>
               </div>
 
-              <div className={`transition-all duration-700 delay-200 ${getTextAnimationClass(200)}`}>
-                <p className="mb-8 max-w-xl text-base leading-8 text-slate-600 sm:text-lg">
+              <div className={`${getTextAnimationClass(200)}`}>
+                <p className={`${carouselData[currentBgIndex].descStyle} mb-8 max-w-2xl`}>
                   {carouselData[currentBgIndex].description}
                 </p>
               </div>
-
-              <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <Link to="/admission" className="inline-flex">
-                  <button className="group inline-flex min-h-[54px] items-center justify-center gap-3 rounded-xl bg-[#173B7A] px-7 py-3.5 text-sm font-bold text-white shadow-lg shadow-[#173B7A]/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#102D60] hover:shadow-xl sm:px-8 sm:text-base">
-                    Start Application
-                    <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                  </button>
-                </Link>
-
-                <Link to="/schedule-visit" className="inline-flex">
-                  <button className="inline-flex min-h-[54px] items-center justify-center rounded-xl border border-[#173B7A]/25 bg-white/80 px-7 py-3.5 text-sm font-bold text-[#173B7A] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#173B7A] hover:bg-[#F3F7FF] sm:px-8 sm:text-base">
-                    Book a Tour
-                  </button>
-                </Link>
-              </div>
-
-              {/* Carousel pagination - connected to the same existing slide state */}
-              <div className="mt-12 flex items-center gap-3" aria-label="Choose homepage slide">
-                {carouselData.map((item, index) => (
-                  <button
-                    key={index}
-                    type="button"
-                    onClick={() => {
-                      setTextStage(0);
-                      setCurrentBgIndex(index);
-                      setTimeout(() => setTextStage(2), 350);
-                    }}
-                    aria-label={`Go to slide ${index + 1}`}
-                    aria-current={index === currentBgIndex ? "true" : undefined}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      index === currentBgIndex
-                        ? "w-24 bg-[#173B7A]"
-                        : "w-8 bg-slate-200 hover:bg-[#D7A928]"
-                    }`}
-                  />
-                ))}
-                <span className="ml-2 text-xs font-semibold tracking-widest text-slate-400">
-                  {String(currentBgIndex + 1).padStart(2, "0")} / {String(carouselData.length).padStart(2, "0")}
-                </span>
-              </div>
             </div>
 
-            {/* Right: reuse the original carousel's exact image assets */}
-            <div className="relative order-1 mx-auto w-full max-w-[620px] lg:order-2">
-              <div className="absolute -right-4 -top-5 h-28 w-28 rounded-3xl border border-[#DCE7F8] bg-white/70 shadow-sm sm:-right-6 sm:-top-7 sm:h-36 sm:w-36" />
-              <div className="absolute -bottom-5 -left-5 h-28 w-28 rounded-3xl bg-[#FFF1BF] sm:-bottom-7 sm:-left-7 sm:h-36 sm:w-36" />
+            <div className="grid grid-cols-2 gap-3 mt-4 sm:flex sm:flex-row sm:gap-4">
+              <Link to="/admission">
+                <button className="
+                  px-5 py-2.5 sm:px-8 sm:py-3
+                  bg-yellow-400 hover:bg-yellow-300
+                  text-[#04395E] font-bold
+                  rounded-lg
+                  transition-all duration-300
+                  w-full sm:w-auto
+                  text-sm sm:text-base
+                ">
+                  Start Application
+                </button>
+              </Link>
 
-              <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-white bg-slate-100 shadow-[0_28px_80px_-28px_rgba(23,59,122,0.35)] sm:aspect-[5/4] lg:aspect-[4/5] xl:aspect-[5/5.5]">
-                {carouselData.map((item, index) => (
-                  <div
-                    key={index}
-                    className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
-                      index === currentBgIndex ? "scale-100 opacity-100" : "scale-105 opacity-0"
-                    }`}
-                  >
-                    <picture>
-                      <source media="(max-width: 767px)" srcSet={item.mobileImage} />
-                      <img
-                        src={item.desktopImage}
-                        alt={`Tullu Dimtu School — ${index === 0 ? "students and school community" : item.subtitle}`}
-                        className="h-full w-full object-cover"
-                        loading={index === currentBgIndex ? "eager" : "lazy"}
-                        decoding="async"
-                      />
-                    </picture>
-                  </div>
-                ))}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1F43]/55 via-transparent to-transparent" />
-
-                <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between gap-4 sm:bottom-7 sm:left-7 sm:right-7">
-                  <div className="max-w-[75%] rounded-2xl border border-white/50 bg-white/90 p-4 shadow-xl backdrop-blur-md sm:p-5">
-                    <div className="mb-1 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.15em] text-[#B58B17] sm:text-xs">
-                      <FaAward className="text-base" />
-                      Tullu Dimtu School
-                    </div>
-                    <p className="text-sm font-bold leading-snug text-[#173B7A] sm:text-base">
-                      Learning today. Leading tomorrow.
-                    </p>
-                  </div>
-
-                  <div className="flex shrink-0 gap-2">
-                    <button
-                      type="button"
-                      onClick={prevSlide}
-                      aria-label="Previous slide"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/90 text-[#173B7A] shadow-lg backdrop-blur transition hover:bg-white"
-                    >
-                      <FaChevronUp className="-rotate-90" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={nextSlide}
-                      aria-label="Next slide"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-white/60 bg-white/90 text-[#173B7A] shadow-lg backdrop-blur transition hover:bg-white"
-                    >
-                      <FaChevronDown className="-rotate-90" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative mx-auto mt-5 flex w-fit items-center gap-3 rounded-full border border-slate-100 bg-white px-4 py-2.5 text-xs font-semibold text-slate-500 shadow-md sm:mt-6 sm:px-5 sm:text-sm">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FFF6D8] text-[#B58B17]">
-                  <FaGraduationCap className="text-base" />
-                </span>
-                <span>Building brighter futures through education</span>
-              </div>
+              <Link to="/schedule-visit">
+                <button className="
+                  px-5 py-2.5 sm:px-8 sm:py-3
+                  border-2 border-white
+                  text-white hover:bg-white/20
+                  font-semibold
+                  rounded-lg
+                  transition-all duration-300
+                  backdrop-blur-sm
+                  w-full sm:w-auto
+                  text-sm sm:text-base
+                ">
+                  Book a Tour
+                </button>
+              </Link>
             </div>
           </div>
         </section>
@@ -542,7 +487,7 @@ function Home() {
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#173B7A] mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#04395E] mb-4">
                   <span className="text-yellow-500">Tullu Dimtu</span> in Numbers
                 </h2>
                 <p className="text-gray-600 text-lg max-w-2xl mx-auto">
@@ -563,7 +508,7 @@ function Home() {
                     key={index} 
                     className="text-center p-6 rounded-xl bg-blue-50 hover:bg-blue-100 transition-all duration-300"
                   >
-                    <div className="text-3xl md:text-4xl font-bold text-[#173B7A] mb-2">
+                    <div className="text-3xl md:text-4xl font-bold text-[#04395E] mb-2">
                       {stat.number}{stat.suffix}
                     </div>
                     <div className="text-gray-700 font-medium">
@@ -581,7 +526,7 @@ function Home() {
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#173B7A] mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#04395E] mb-4">
                   Why Choose <span className="text-yellow-500">Tullu Dimtu?</span>
                 </h2>
                 <div className="w-24 h-1 bg-yellow-400 mx-auto"></div>
@@ -599,11 +544,11 @@ function Home() {
                       key={index} 
                       className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-500 transform hover:-translate-y-1 group relative overflow-hidden border border-gray-100"
                     >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#173B7A] to-yellow-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-                      <div className="text-[#173B7A] group-hover:text-yellow-500 transition-all duration-500 transform group-hover:scale-110">
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#04395E] to-yellow-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                      <div className="text-[#04395E] group-hover:text-yellow-500 transition-all duration-500 transform group-hover:scale-110">
                         {feature.icon}
                       </div>
-                      <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-[#173B7A] transition-colors duration-300">
+                      <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-[#04395E] transition-colors duration-300">
                         {feature.title}
                       </h3>
                       <p className="text-gray-600">
@@ -611,7 +556,7 @@ function Home() {
                       </p>
                       <button 
                         onClick={() => toggleExpand(index)}
-                        className="mt-4 text-[#173B7A] hover:text-yellow-600 font-semibold flex items-center transition-all duration-300 group"
+                        className="mt-4 text-[#04395E] hover:text-yellow-600 font-semibold flex items-center transition-all duration-300 group"
                       >
                         {isExpanded ? "Read Less" : "Read More"}
                         <svg 
@@ -647,9 +592,9 @@ function Home() {
                           fetchpriority="low"
                         />
 
-                        <div className="absolute inset-0 bg-gradient-to-tr from-[#173B7A]/85 via-[#173B7A]/55 to-[#173B7A]/25"></div>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-[#04395E]/85 via-[#04395E]/55 to-[#04395E]/25"></div>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#173B7A]/30 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#04395E]/30 to-transparent"></div>
 
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-50"></div>
                       </div>
@@ -673,7 +618,7 @@ function Home() {
 
                         <div className="flex flex-wrap gap-4">
                           <a href="/email-verification">
-                            <button className="px-8 py-3.5 bg-[#173B7A] hover:bg-[#173B7A]/90 text-white font-bold rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-3">
+                            <button className="px-8 py-3.5 bg-[#04395E] hover:bg-[#04395E]/90 text-white font-bold rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-3">
                               Explore Digital Library
                             </button>
                           </a>
@@ -683,7 +628,7 @@ function Home() {
 
                     {/* Overlapping Card */}
                     <div 
-                      className="relative md:absolute md:top-20 md:right-0 mt-10 md:mt-0 md:translate-x-4 lg:translate-x-10 w-full md:w-[380px] lg:w-[420px] p-6 md:p-8 rounded-2xl bg-gradient-to-br from-[#173B7A] via-[#033150] to-[#022a45] border border-white/10 backdrop-blur-md shadow-lg"
+                      className="relative md:absolute md:top-20 md:right-0 mt-10 md:mt-0 md:translate-x-4 lg:translate-x-10 w-full md:w-[380px] lg:w-[420px] p-6 md:p-8 rounded-2xl bg-gradient-to-br from-[#04395E] via-[#033150] to-[#022a45] border border-white/10 backdrop-blur-md shadow-lg"
                     >
                       <div className="relative z-10">
                         <div className="flex items-center mb-6">
@@ -717,13 +662,13 @@ function Home() {
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold text-[#173B7A] mb-4">
+                <h2 className="text-4xl md:text-5xl font-bold text-[#04395E] mb-4">
                   Our <span className="text-yellow-500">Academic Programs</span>
                 </h2>
                 <p className="text-gray-600 text-xl max-w-3xl mx-auto">
                   Comprehensive educational programs designed for 21st-century global leaders
                 </p>
-                <div className="w-32 h-1 bg-gradient-to-r from-[#173B7A] to-yellow-400 mx-auto mt-6 rounded-full"></div>
+                <div className="w-32 h-1 bg-gradient-to-r from-[#04395E] to-yellow-400 mx-auto mt-6 rounded-full"></div>
               </div>
             </ScrollReveal>
 
@@ -759,7 +704,7 @@ function Home() {
                             <div className="grid grid-cols-3 gap-4 text-center">
                               {Object.entries(card.stats).map(([key, value], index) => (
                                 <div key={index}>
-                                  <div className="text-lg font-bold text-[#173B7A]">{value}</div>
+                                  <div className="text-lg font-bold text-[#04395E]">{value}</div>
                                   <div className="text-xs text-gray-500 uppercase">{key}</div>
                                 </div>
                               ))}
@@ -776,7 +721,7 @@ function Home() {
                             <ul className="space-y-2">
                               {card.features.map((feature, index) => (
                                 <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-[#173B7A]"></div>
+                                  <div className="w-1.5 h-1.5 rounded-full bg-[#04395E]"></div>
                                   {feature}
                                 </li>
                               ))}
@@ -786,7 +731,7 @@ function Home() {
                         
                         <button
                           onClick={() => toggleCardExpansion(card.id)}
-                          className="w-full flex items-center justify-center gap-2 text-[#173B7A] font-semibold hover:text-yellow-600 transition-colors duration-200 py-3 rounded-lg hover:bg-blue-50"
+                          className="w-full flex items-center justify-center gap-2 text-[#04395E] font-semibold hover:text-yellow-600 transition-colors duration-200 py-3 rounded-lg hover:bg-blue-50"
                         >
                           {expandedCards[card.id] ? (
                             <>
@@ -804,7 +749,7 @@ function Home() {
                         {expandedCards[card.id] && (
                           <div>
                             <a href="/form">
-                              <button className="w-full mt-3 px-6 py-3 bg-[#173B7A] hover:bg-[#102D60] text-white font-semibold rounded-lg transition-all duration-200">
+                              <button className="w-full mt-3 px-6 py-3 bg-[#04395E] hover:bg-[#033150] text-white font-semibold rounded-lg transition-all duration-200">
                                 Apply to This Program
                               </button>
                             </a>
@@ -827,7 +772,7 @@ function Home() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="space-y-10">
               <div>
-                <h2 className="text-4xl lg:text-5xl font-bold text-[#173B7A] mb-6">
+                <h2 className="text-4xl lg:text-5xl font-bold text-[#04395E] mb-6">
                   Our <span className="text-yellow-500">Student Life </span>
                 </h2>
               </div>
@@ -849,7 +794,7 @@ function Home() {
                       key={idx} 
                       className="bg-white p-4 rounded-xl shadow-sm border border-gray-100"
                     >
-                      <div className="text-2xl font-bold text-[#173B7A] mb-1">{facility.count}</div>
+                      <div className="text-2xl font-bold text-[#04395E] mb-1">{facility.count}</div>
                       <div className="text-sm text-gray-600">{facility.name}</div>
                     </div>
                   ))}
@@ -863,7 +808,7 @@ function Home() {
               
               <div>
                <a href="./students/life">
-                 <button className="inline-flex items-center gap-3 bg-[#173B7A] hover:bg-[#102D60] text-white px-8 py-4 rounded-md font-semibold transition-all duration-300 hover:gap-4 group">
+                 <button className="inline-flex items-center gap-3 bg-[#04395E] hover:bg-[#033150] text-white px-8 py-4 rounded-md font-semibold transition-all duration-300 hover:gap-4 group">
                   Explore 
                   <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -928,14 +873,14 @@ function Home() {
                   decoding="async"
                   fetchpriority="low"
                 />
-                <div className="absolute -bottom-4 -right-4 bg-yellow-400 text-[#173B7A] p-4 rounded-lg">
+                <div className="absolute -bottom-4 -right-4 bg-yellow-400 text-[#04395E] p-4 rounded-lg">
                   <span className="block text-2xl font-bold">10+</span>
                   <span className="block text-xs">Years of Excellence</span>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-[#173B7A] mb-6">
+                <h2 className="text-3xl md:text-4xl font-bold text-[#04395E] mb-6">
                   Nurturing <span className="text-yellow-500">Future Leaders</span>
                 </h2>
                 <p className="text-gray-600 mb-6">
@@ -961,7 +906,7 @@ function Home() {
                   ))}
                 </div>
                 <Link to="/about/our-history">
-                  <button className="px-6 py-3 bg-[#173B7A] hover:bg-[#102D60] text-white font-semibold rounded-lg transition-all duration-300">
+                  <button className="px-6 py-3 bg-[#04395E] hover:bg-[#033150] text-white font-semibold rounded-lg transition-all duration-300">
                     Learn More About Us
                   </button>
                 </Link>
@@ -972,12 +917,12 @@ function Home() {
        </ScrollReveal>
 
         {/* Testimonials Section */}
-        <section className="py-20 bg-[#173B7A] text-white mb-12">
+        <section className="py-20 bg-[#04395E] text-white mb-12">
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  What Our <span className="text-[#C49A1A]">Community Says</span>
+                  What Our <span className="text-yellow-300">Community Says</span>
                 </h2>
                 <div className="w-24 h-1 bg-yellow-300 mx-auto"></div>
               </div>
@@ -1006,7 +951,7 @@ function Home() {
                     key={index} 
                     className="bg-white/10 p-8 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-all duration-300"
                   >
-                    <svg className="w-8 h-8 text-[#C49A1A] mb-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-8 h-8 text-yellow-300 mb-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"></path>
                     </svg>
                     <p className="italic mb-6 text-white/90">"{testimonial.quote}"</p>
@@ -1025,7 +970,7 @@ function Home() {
         <section className="py-20 bg-white">
           <ScrollReveal>
             <div className="container mx-auto px-6">
-              <div className="bg-[#173B7A] rounded-2xl p-12 text-center">
+              <div className="bg-[#04395E] rounded-2xl p-12 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                   Ready to Join Our Community?
                 </h2>
@@ -1033,7 +978,7 @@ function Home() {
                   Applications for the 2025 academic year are now open. Limited spaces available.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <button className="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-[#173B7A] font-bold rounded-lg transition-all duration-300 transform hover:scale-105">
+                  <button className="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-[#04395E] font-bold rounded-lg transition-all duration-300 transform hover:scale-105">
                     <a href='/admission'>Apply Now</a>
                   </button>
                   <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/20 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105">
@@ -1050,7 +995,7 @@ function Home() {
         {showScrollTop && (
           <button
   onClick={scrollToTop}
-  className="fixed bottom-8 right-32 z-50 w-12 h-12 bg-yellow-400 text-[#173B7A] rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+  className="fixed bottom-8 right-32 z-50 w-12 h-12 bg-yellow-400 text-[#04395E] rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
   aria-label="Scroll to top"
 >
   <FaChevronUp className="text-xl" />
