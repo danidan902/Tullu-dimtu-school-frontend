@@ -160,7 +160,7 @@ function Header() {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 10 }}
-      className="absolute top-full left-0 mt-1 bg-blue-800 shadow-2xl py-2 w-56 z-50 border border-blue-400/30"
+      className="absolute top-full left-0 mt-1 bg-[#04395E] shadow-2xl py-2 w-56 z-50 border border-blue-400/30"
     >
       {subItems.map(({ name, path }, idx) => (
         <motion.div
@@ -171,7 +171,7 @@ function Header() {
         >
           <Link
             to={path}
-            className="block px-4 py-2.5 text-[12px] font-medium text-white hover:text-blue-100 hover:bg-blue-600 transition-all duration-300 tracking-wide"
+            className="block px-4 py-2.5 text-[12px] font-medium text-white bg-[#04395E] hover:text-yellow-200 hover:bg-[#033150] transition-all duration-300 tracking-wide"
             onClick={() => setActiveDropdown(null)}
           >
             {name}
@@ -269,65 +269,6 @@ function Header() {
         .font-smooth { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
       `}</style>
 
-      {/* ===== SOLID BLUE NEWS BOARD / ANNOUNCEMENT BAR (SQUARE) ===== */}
-      <AnimatePresence>
-        {showAnnouncement && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="relative w-full bg-[#04395E] overflow-hidden"
-          >
-            <div className="relative flex animate-marquee whitespace-nowrap py-2 sm:py-2.5">
-              {[...Array(8)].map((_, index) => (
-                <span
-                  key={index}
-                  className="inline-flex items-center text-[11px] sm:text-xs md:text-[13px] font-semibold mx-4 sm:mx-6 font-smooth"
-                  style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
-                >
-                  <span className="flex items-center gap-2 sm:gap-3 text-yellow-300 tracking-wider">
-                    <span className="text-base sm:text-lg">🎓</span>
-                    <span className="bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200 bg-clip-text text-transparent animate-gradient-x font-extrabold tracking-[0.1em] uppercase">
-                      Welcome to Tullu Dimtu School
-                    </span>
-                  </span>
-                  
-                  <span className="mx-3 sm:mx-6 flex items-center gap-2 text-white tracking-wide">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-blue-200 rounded-full" />
-                    <span className="font-medium">Admissions Open 2019/2026</span>
-                  </span>
-                  
-                  <span className="mx-3 sm:mx-6 flex items-center gap-2 text-white tracking-wide">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-green-300 rounded-full" />
-                    <span className="font-medium">Join Our Academic Community Today</span>
-                  </span>
-                  
-                  <span className="mx-3 sm:mx-6 flex items-center gap-2 text-green-200 tracking-wide">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-yellow-300 rounded-full" />
-                    <span className="font-semibold">Apply Now For Early Enrollment</span>
-                  </span>
-                  
-                  <span className="mx-3 sm:mx-6 flex items-center gap-2 text-yellow-300 tracking-wider">
-                    {/* <span className="text-base sm:text-lg"></span> */}
-                    <span className="bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200 bg-clip-text text-transparent animate-gradient-x font-extrabold tracking-[0.1em] uppercase">
-                      Limited Seats Available
-                    </span>
-                  </span>
-                </span>
-              ))}
-            </div>
-
-            <button
-              onClick={() => setShowAnnouncement(false)}
-              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 hover:bg-white/20 rounded-full transition-all duration-300 z-10 group"
-              aria-label="Close announcement"
-            >
-              <X size={14} className="text-white group-hover:text-yellow-200 transition-colors sm:w-4 sm:h-4" />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       {/* ===== MAIN NAV — SOLID BLUE, FULL WIDTH, SQUARE ===== */}
       <motion.nav
         initial={{ y: 0 }}
@@ -342,28 +283,32 @@ function Header() {
         className={`relative w-full bg-[#04395E] ${hasScrolled ? '' : ''}`}
       >
         <div className="w-full px-3 sm:px-4 lg:px-6">
-          <div className="flex items-center justify-between h-[58px] sm:h-[64px] lg:h-[70px]">
-            {/* Logo */}
+          {/* Nav height bumped a little so the bigger logo fits nicely */}
+          <div className="flex items-center justify-between h-[64px] sm:h-[72px] lg:h-[80px]">
+            {/* ===== LOGO — LARGER & MORE VISIBLE ===== */}
             <div className="flex-shrink-0">
-              <Link to="/" className="relative flex items-center gap-2 sm:gap-3 group">
+              <Link to="/" className="relative flex items-center gap-2.5 sm:gap-3 lg:gap-4 group">
                 <div className="relative">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-lg flex items-center justify-center bg-white/10">
+                  {/* Bigger white container + ring for visibility */}
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 rounded-xl flex items-center justify-center bg-white ring-2 ring-white/40 shadow-lg shadow-black/20 group-hover:ring-yellow-300/70 transition-all duration-300">
                     <img 
                       src={logo} 
                       alt="Tullu Dimtu School" 
-                      className="w-8 h-8 sm:w-9 sm:h-9 lg:w-10 lg:h-10 rounded"
+                      className="w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 object-contain rounded-lg"
                     />
                   </div>
                 </div>
                 <div className="flex flex-col">
+                  {/* Bigger school name */}
                   <span 
-                    className="text-base sm:text-lg lg:text-xl font-black tracking-tight leading-none text-white"
+                    className="text-lg sm:text-xl lg:text-2xl xl:text-[26px] font-black tracking-tight leading-none text-white drop-shadow-sm"
                     style={{ fontFamily: "'Outfit', sans-serif" }}
                   >
                     Tullu Dimtu
                   </span>
+                  {/* Bigger subtitle */}
                   <span 
-                    className="text-[8px] sm:text-[9px] lg:text-[10px] font-semibold text-blue-200 tracking-[0.2em] uppercase mt-0.5"
+                    className="text-[9px] sm:text-[10px] lg:text-[11px] xl:text-[12px] font-bold text-yellow-300 tracking-[0.25em] uppercase mt-1"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     School
@@ -443,7 +388,7 @@ function Header() {
 
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Link to="/admission">
-                    <button className="group relative flex items-center gap-1 overflow-hidden rounded-lg px-4 xl:px-5 py-2 bg-white font-semibold text-[12px] xl:text-[13px] text-blue-700 transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:rounded-xl active:scale-95 shadow-md">
+                    <button className="group relative flex items-center gap-1 overflow-hidden rounded-lg px-4 xl:px-5 py-2 bg-white font-semibold text-[12px] xl:text-[13px] text-[#04395E] transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:rounded-xl active:scale-95 shadow-md">
                       <span className="relative z-10">
                         Apply Now
                       </span>
@@ -469,7 +414,7 @@ function Header() {
                       <div className="w-8 h-8 xl:w-9 xl:h-9 rounded-lg bg-white/20 flex items-center justify-center text-white">
                         <User size={16} strokeWidth={2} />
                       </div>
-                      <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 xl:w-2.5 xl:h-2.5 bg-green-400 rounded-full border-2 border-blue-700" />
+                      <div className="absolute -bottom-0.5 -right-0.5 w-2 h-2 xl:w-2.5 xl:h-2.5 bg-green-400 rounded-full border-2 border-[#04395E]" />
                     </motion.div>
                   </motion.div>
                 )}
@@ -528,12 +473,13 @@ function Header() {
             }}
             className="fixed right-0 top-0 bottom-0 w-[85vw] max-w-sm h-screen bg-[#04395E] z-40 lg:hidden overflow-y-auto shadow-2xl"
           >
-            <div className="sticky top-0 bg-blue-800 border-b border-blue-900/50 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between z-50">
-              <div className="flex items-center gap-2">
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/10 flex items-center justify-center">
-                  <img src={logo} alt="Tullu" className="w-5 h-5 sm:w-6 sm:h-6 rounded" />
+            <div className="sticky top-0 bg-[#033150] border-b border-blue-900/50 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between z-50">
+              <div className="flex items-center gap-2.5">
+                {/* Bigger logo in mobile drawer */}
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-white ring-2 ring-white/40 flex items-center justify-center">
+                  <img src={logo} alt="Tullu" className="w-7 h-7 sm:w-8 sm:h-8 object-contain rounded" />
                 </div>
-                <span className="text-xs sm:text-sm font-bold text-white">Menu</span>
+                <span className="text-sm sm:text-base font-bold text-white">Menu</span>
               </div>
               <motion.button
                 whileHover={{ scale: 1.1, rotate: 90 }}
@@ -653,7 +599,7 @@ function Header() {
                 <Link
                   to="/admission"
                   onClick={() => setOpen(false)}
-                  className="block w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-white rounded-xl text-center font-bold text-blue-700 shadow-lg transition-all duration-300 tracking-wide relative overflow-hidden group text-[13px] sm:text-[14px]"
+                  className="block w-full px-4 sm:px-5 py-3 sm:py-3.5 bg-white rounded-xl text-center font-bold text-[#04395E] shadow-lg transition-all duration-300 tracking-wide relative overflow-hidden group text-[13px] sm:text-[14px]"
                   style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-2">
