@@ -276,7 +276,7 @@ function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="relative w-full bg-blue-700 border-b border-blue-900/50 overflow-hidden"
+            className="relative w-full bg-[#04395E] overflow-hidden"
           >
             <div className="relative flex animate-marquee whitespace-nowrap py-2 sm:py-2.5">
               {[...Array(8)].map((_, index) => (
@@ -308,7 +308,7 @@ function Header() {
                   </span>
                   
                   <span className="mx-3 sm:mx-6 flex items-center gap-2 text-yellow-300 tracking-wider">
-                    <span className="text-base sm:text-lg">⚡</span>
+                    {/* <span className="text-base sm:text-lg"></span> */}
                     <span className="bg-gradient-to-r from-yellow-200 via-yellow-100 to-yellow-200 bg-clip-text text-transparent animate-gradient-x font-extrabold tracking-[0.1em] uppercase">
                       Limited Seats Available
                     </span>
@@ -339,7 +339,7 @@ function Header() {
           ease: "easeInOut",
           y: { type: "spring", stiffness: 300, damping: 30 },
         }}
-        className={`relative w-full bg-blue-700 ${hasScrolled ? 'shadow-lg shadow-blue-900/30' : ''}`}
+        className={`relative w-full bg-[#04395E] ${hasScrolled ? '' : ''}`}
       >
         <div className="w-full px-3 sm:px-4 lg:px-6">
           <div className="flex items-center justify-between h-[58px] sm:h-[64px] lg:h-[70px]">
@@ -526,7 +526,7 @@ function Header() {
               stiffness: 300,
               mass: 0.5
             }}
-            className="fixed right-0 top-0 bottom-0 w-[85vw] max-w-sm h-screen bg-blue-700 z-40 lg:hidden overflow-y-auto shadow-2xl"
+            className="fixed right-0 top-0 bottom-0 w-[85vw] max-w-sm h-screen bg-[#04395E] z-40 lg:hidden overflow-y-auto shadow-2xl"
           >
             <div className="sticky top-0 bg-blue-800 border-b border-blue-900/50 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between z-50">
               <div className="flex items-center gap-2">
