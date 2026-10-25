@@ -65,7 +65,7 @@ function Home() {
   title: (
     <div className="text-white">
       Welcome to{" "}
-      <span className="text-yellow-400">
+      <span className="text-cyan-300">
         Tullu Dimtu
       </span>
     </div>
@@ -73,7 +73,7 @@ function Home() {
   subtitle: "A Legacy of Excellence Since 2009",
   description: "At Tullu Dimtu School, we are committed to excellence in education and the holistic development of every student. ",
   titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold drop-shadow-lg",
-  subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-semibold drop-shadow",
+  subtitleStyle: "text-xl md:text-2xl text-cyan-300 font-semibold drop-shadow",
   descStyle: "text-lg md:text-lg text-gray-200",
 },
   {
@@ -81,13 +81,13 @@ function Home() {
       desktopImage: anim2,
       title: (
         <div className="text-white">
-          Academic <span className="text-yellow-400">Excellence</span>
+          Academic <span className="text-cyan-300">Excellence</span>
         </div>
       ),
       subtitle: "Consistent Top Performers",
       description: "70%+ pass rate in national examinations",
       titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white tracking-wide drop-shadow-lg",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300",
+      subtitleStyle: "text-xl md:text-2xl text-cyan-300",
       descStyle: "text-lg md:text-lg text-gray-200",
     },
 
@@ -96,13 +96,13 @@ function Home() {
       desktopImage: anim1,
       title: (
         <div className="text-white">
-          Nurturing <span className="text-yellow-400">Future Leaders</span>
+          Nurturing <span className="text-cyan-300">Future Leaders</span>
         </div>
       ),
       subtitle: "Holistic Education Approach",
       description: "Developing minds, building character, shaping destinies",
       titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white italic drop-shadow-md",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300",
+      subtitleStyle: "text-xl md:text-2xl text-cyan-300",
       descStyle: "text-lg md:text-lg text-gray-200",
     },
     
@@ -111,13 +111,13 @@ function Home() {
       desktopImage: Bg,
       title: (
         <div className="text-white">
-         Modern <span className="text-yellow-400">Facilities</span>
+         Modern <span className="text-cyan-300">Facilities</span>
         </div>
       ),
       subtitle: "State-of-the-Art Infrastructure",
       description: "Equipped for 21st century learning",
       titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white uppercase drop-shadow-md",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300  font-semibold",
+      subtitleStyle: "text-xl md:text-2xl text-cyan-300  font-semibold",
       descStyle: "text-lg md:text-lg text-gray-200",
     },
    
@@ -126,13 +126,13 @@ function Home() {
       desktopImage: anim6,
       title: (
         <div className="text-white">
-          Our Study <span className="text-yellow-400">Portal</span>
+          Our Study <span className="text-cyan-300">Portal</span>
         </div>
       ),
       subtitle: "Join Us ",
       description: "School provides students with easy access to learning resources, assignments, and interactive study materials.",
       titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
+      subtitleStyle: "text-xl md:text-2xl text-cyan-300 font-bold",
       descStyle: "text-lg md:text-lg text-white",
     },
     {
@@ -140,13 +140,13 @@ function Home() {
       desktopImage: anim7,
      title: (
         <div className="text-white">
-          Our Digital <span className="text-yellow-400">Library</span>
+          Our Digital <span className="text-cyan-300">Library</span>
         </div>
       ),
       subtitle: "Tullu Dimtu Digital Library",
       description: "It provides a modern, convenient way to study, explore new topics, and conduct research from anywhere.",
       titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
+      subtitleStyle: "text-xl md:text-2xl text-cyan-300 font-bold",
       descStyle: "text-lg md:text-lg text-white",
     },
      {
@@ -154,13 +154,13 @@ function Home() {
       desktopImage: anim5,
      title: (
         <div className="text-white">
-          Join Our <span className="text-yellow-400">Community</span>
+          Join Our <span className="text-cyan-300">Community</span>
         </div>
       ),
       subtitle: "Admissions Open 2025",
       description: "Limited seats available - Apply now!",
       titleStyle: "text-4xl md:text-3xl lg:text-6xl font-bold text-white drop-shadow-xl",
-      subtitleStyle: "text-xl md:text-2xl text-yellow-300 font-bold",
+      subtitleStyle: "text-xl md:text-2xl text-cyan-300 font-bold",
       descStyle: "text-lg md:text-lg text-white",
     },
   ];
@@ -395,7 +395,7 @@ function Home() {
         />
       </Helmet>
 
-      <div className="relative w-full font-sans antialiased bg-gray-50">
+      <div className="relative w-full font-sans antialiased bg-slate-50">
         {/* Hero Section */}
         <section className="relative w-full h-screen overflow-hidden">
           <div className="absolute inset-0 ">
@@ -424,7 +424,7 @@ function Home() {
           </div>
 
           {/* Hero overlay - solid blue to transparent */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#04395E] to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#111827]/95 via-[#111827]/70 to-transparent" />
 
           {/* Hero Content */}
           <div className="relative z-20 flex flex-col items-start justify-center h-full px-4 md:px-8 lg:px-16 text-left">
@@ -452,8 +452,8 @@ function Home() {
               <Link to="/admission">
                 <button className="
                   px-5 py-2.5 sm:px-8 sm:py-3
-                  bg-yellow-400 hover:bg-yellow-300
-                  text-[#04395E] font-bold
+                  bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-orange-400 hover:to-orange-300
+                  text-[#111827] font-bold shadow-lg shadow-cyan-500/20 hover:shadow-orange-500/25
                   rounded-lg
                   transition-all duration-300
                   w-full sm:w-auto
@@ -487,10 +487,10 @@ function Home() {
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-12">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#04395E] mb-4">
-                  <span className="text-yellow-500">Tullu Dimtu</span> in Numbers
+                <h2 className="text-3xl md:text-4xl font-bold text-[#111827] mb-4">
+                  <span className="text-orange-500">Tullu Dimtu</span> in Numbers
                 </h2>
-                <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                <p className="text-slate-600 text-lg max-w-2xl mx-auto">
                   Our journey of excellence measured through achievement and impact
                 </p>
               </div>
@@ -506,12 +506,12 @@ function Home() {
                 ].map((stat, index) => (
                   <div 
                     key={index} 
-                    className="text-center p-6 rounded-xl bg-blue-50 hover:bg-blue-100 transition-all duration-300"
+                    className="text-center p-6 rounded-xl bg-slate-50 hover:bg-cyan-50 transition-all duration-300"
                   >
-                    <div className="text-3xl md:text-4xl font-bold text-[#04395E] mb-2">
+                    <div className="text-3xl md:text-4xl font-bold text-[#111827] mb-2">
                       {stat.number}{stat.suffix}
                     </div>
-                    <div className="text-gray-700 font-medium">
+                    <div className="text-slate-700 font-medium">
                       {stat.label}
                     </div>
                   </div>
@@ -522,14 +522,14 @@ function Home() {
         </section>
 
         {/* Features Section */}
-        <section className="py-20 bg-gradient-to-b from-blue-50 via-white to-blue-50">
+        <section className="py-20 bg-gradient-to-b from-slate-50 via-white to-slate-50">
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-[#04395E] mb-4">
-                  Why Choose <span className="text-yellow-500">Tullu Dimtu?</span>
+                <h2 className="text-3xl md:text-4xl font-bold text-[#111827] mb-4">
+                  Why Choose <span className="text-orange-500">Tullu Dimtu?</span>
                 </h2>
-                <div className="w-24 h-1 bg-yellow-400 mx-auto"></div>
+                <div className="w-24 h-1 bg-cyan-400 mx-auto"></div>
               </div>
             </ScrollReveal>
 
@@ -542,21 +542,21 @@ function Home() {
                   return (
                     <div 
                       key={index} 
-                      className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-500 transform hover:-translate-y-1 group relative overflow-hidden border border-gray-100"
+                      className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-all duration-500 transform hover:-translate-y-1 group relative overflow-hidden border border-slate-200"
                     >
-                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#04395E] to-yellow-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
-                      <div className="text-[#04395E] group-hover:text-yellow-500 transition-all duration-500 transform group-hover:scale-110">
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#111827] to-yellow-400 transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500"></div>
+                      <div className="text-[#111827] group-hover:text-orange-500 transition-all duration-500 transform group-hover:scale-110">
                         {feature.icon}
                       </div>
-                      <h3 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-[#04395E] transition-colors duration-300">
+                      <h3 className="text-xl font-bold text-slate-800 mb-3 group-hover:text-[#111827] transition-colors duration-300">
                         {feature.title}
                       </h3>
-                      <p className="text-gray-600">
+                      <p className="text-slate-600">
                         {isExpanded ? feature.desc : shortDesc}
                       </p>
                       <button 
                         onClick={() => toggleExpand(index)}
-                        className="mt-4 text-[#04395E] hover:text-yellow-600 font-semibold flex items-center transition-all duration-300 group"
+                        className="mt-4 text-[#111827] hover:text-orange-500 font-semibold flex items-center transition-all duration-300 group"
                       >
                         {isExpanded ? "Read Less" : "Read More"}
                         <svg 
@@ -577,7 +577,7 @@ function Home() {
             {/* Digital Library Section */}
             <section>
               <ScrollReveal delay={0.2}>
-                <div className="w-full min-h-screen bg-gradient-to-b from-blue-50 via-white to-blue-50 flex items-center justify-center mt-16 px-4 sm:px-6 py-10">
+                <div className="w-full min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50 flex items-center justify-center mt-16 px-4 sm:px-6 py-10">
                   <div className="relative w-full max-w-6xl">
                     <div 
                       className="relative w-full h-[500px] sm:h-[240px] md:h-[280px] lg:h-[490px] overflow-hidden rounded-2xl sm:rounded-3xl group shadow-md"
@@ -592,9 +592,9 @@ function Home() {
                           fetchpriority="low"
                         />
 
-                        <div className="absolute inset-0 bg-gradient-to-tr from-[#04395E]/85 via-[#04395E]/55 to-[#04395E]/25"></div>
+                        <div className="absolute inset-0 bg-gradient-to-tr from-[#111827]/85 via-[#111827]/55 to-[#111827]/25"></div>
                         <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent"></div>
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#04395E]/30 to-transparent"></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#111827]/30 to-transparent"></div>
 
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-300 to-transparent opacity-50"></div>
                       </div>
@@ -618,7 +618,7 @@ function Home() {
 
                         <div className="flex flex-wrap gap-4">
                           <a href="/email-verification">
-                            <button className="px-8 py-3.5 bg-[#04395E] hover:bg-[#04395E]/90 text-white font-bold rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-3">
+                            <button className="px-8 py-3.5 bg-[#111827] hover:bg-[#111827]/90 text-white font-bold rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 flex items-center gap-3">
                               Explore Digital Library
                             </button>
                           </a>
@@ -628,7 +628,7 @@ function Home() {
 
                     {/* Overlapping Card */}
                     <div 
-                      className="relative md:absolute md:top-20 md:right-0 mt-10 md:mt-0 md:translate-x-4 lg:translate-x-10 w-full md:w-[380px] lg:w-[420px] p-6 md:p-8 rounded-2xl bg-gradient-to-br from-[#04395E] via-[#033150] to-[#022a45] border border-white/10 backdrop-blur-md shadow-lg"
+                      className="relative md:absolute md:top-20 md:right-0 mt-10 md:mt-0 md:translate-x-4 lg:translate-x-10 w-full md:w-[380px] lg:w-[420px] p-6 md:p-8 rounded-2xl bg-gradient-to-br from-[#111827] via-[#172554] to-[#0B1220] border border-white/10 backdrop-blur-md shadow-lg"
                     >
                       <div className="relative z-10">
                         <div className="flex items-center mb-6">
@@ -658,17 +658,17 @@ function Home() {
         </section>
 
         {/* Programs Section */}
-        <section className="py-20 bg-gradient-to-br from-white to-blue-50">
+        <section className="py-20 bg-gradient-to-br from-white to-slate-50">
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-16">
-                <h2 className="text-4xl md:text-5xl font-bold text-[#04395E] mb-4">
-                  Our <span className="text-yellow-500">Academic Programs</span>
+                <h2 className="text-4xl md:text-5xl font-bold text-[#111827] mb-4">
+                  Our <span className="text-orange-500">Academic Programs</span>
                 </h2>
-                <p className="text-gray-600 text-xl max-w-3xl mx-auto">
+                <p className="text-slate-600 text-xl max-w-3xl mx-auto">
                   Comprehensive educational programs designed for 21st-century global leaders
                 </p>
-                <div className="w-32 h-1 bg-gradient-to-r from-[#04395E] to-yellow-400 mx-auto mt-6 rounded-full"></div>
+                <div className="w-32 h-1 bg-gradient-to-r from-[#111827] to-yellow-400 mx-auto mt-6 rounded-full"></div>
               </div>
             </ScrollReveal>
 
@@ -679,7 +679,7 @@ function Home() {
                     key={card.id} 
                     className="group cursor-pointer"
                   >
-                    <div className={`relative overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-gray-100 bg-white ${
+                    <div className={`relative overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 border border-slate-200 bg-white ${
                       expandedCards[card.id] ? 'h-auto' : 'h-full'
                     }`}>
                       <div className="h-48 overflow-hidden relative">
@@ -694,17 +694,17 @@ function Home() {
                       </div>
                       
                       <div className="p-6 bg-white">
-                        <h3 className="text-2xl font-bold text-gray-800 mb-3">{card.title}</h3>
-                        <p className="text-gray-600 mb-4">
+                        <h3 className="text-2xl font-bold text-slate-800 mb-3">{card.title}</h3>
+                        <p className="text-slate-600 mb-4">
                           {expandedCards[card.id] ? card.fullDescription : card.shortDescription}
                         </p>
                         
                         {expandedCards[card.id] && (
-                          <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl">
+                          <div className="mb-6 p-4 bg-gradient-to-r from-slate-50 to-white rounded-xl">
                             <div className="grid grid-cols-3 gap-4 text-center">
                               {Object.entries(card.stats).map(([key, value], index) => (
                                 <div key={index}>
-                                  <div className="text-lg font-bold text-[#04395E]">{value}</div>
+                                  <div className="text-lg font-bold text-[#111827]">{value}</div>
                                   <div className="text-xs text-gray-500 uppercase">{key}</div>
                                 </div>
                               ))}
@@ -714,14 +714,14 @@ function Home() {
                         
                         {expandedCards[card.id] && (
                           <div className="mb-6">
-                            <h4 className="font-bold text-gray-700 mb-3 flex items-center gap-2">
+                            <h4 className="font-bold text-slate-700 mb-3 flex items-center gap-2">
                               <FaCheckCircle className="text-green-500" />
                               Program Features
                             </h4>
                             <ul className="space-y-2">
                               {card.features.map((feature, index) => (
-                                <li key={index} className="flex items-center gap-2 text-sm text-gray-600">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-[#04395E]"></div>
+                                <li key={index} className="flex items-center gap-2 text-sm text-slate-600">
+                                  <div className="w-1.5 h-1.5 rounded-full bg-[#111827]"></div>
                                   {feature}
                                 </li>
                               ))}
@@ -731,7 +731,7 @@ function Home() {
                         
                         <button
                           onClick={() => toggleCardExpansion(card.id)}
-                          className="w-full flex items-center justify-center gap-2 text-[#04395E] font-semibold hover:text-yellow-600 transition-colors duration-200 py-3 rounded-lg hover:bg-blue-50"
+                          className="w-full flex items-center justify-center gap-2 text-[#111827] font-semibold hover:text-orange-500 transition-colors duration-200 py-3 rounded-lg hover:bg-slate-50"
                         >
                           {expandedCards[card.id] ? (
                             <>
@@ -749,7 +749,7 @@ function Home() {
                         {expandedCards[card.id] && (
                           <div>
                             <a href="/form">
-                              <button className="w-full mt-3 px-6 py-3 bg-[#04395E] hover:bg-[#033150] text-white font-semibold rounded-lg transition-all duration-200">
+                              <button className="w-full mt-3 px-6 py-3 bg-[#111827] hover:bg-[#172554] text-white font-semibold rounded-lg transition-all duration-200">
                                 Apply to This Program
                               </button>
                             </a>
@@ -772,12 +772,12 @@ function Home() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div className="space-y-10">
               <div>
-                <h2 className="text-4xl lg:text-5xl font-bold text-[#04395E] mb-6">
-                  Our <span className="text-yellow-500">Student Life </span>
+                <h2 className="text-4xl lg:text-5xl font-bold text-[#111827] mb-6">
+                  Our <span className="text-orange-500">Student Life </span>
                 </h2>
               </div>
               
-              <div className="space-y-6 text-gray-700 text-lg">
+              <div className="space-y-6 text-slate-700 text-lg">
                 <p className="leading-relaxed">
                 Student life at Tullu Dimtu Secondary School is enriched by both academic learning and vibrant celebrations. 
                 Along with regular classes, students actively participate in special events such as Cultural Day, where different traditions, foods, music, and traditional clothing are proudly displayed.
@@ -792,10 +792,10 @@ function Home() {
                   ].map((facility, idx) => (
                     <div 
                       key={idx} 
-                      className="bg-white p-4 rounded-xl shadow-sm border border-gray-100"
+                      className="bg-white p-4 rounded-xl shadow-sm border border-slate-200"
                     >
-                      <div className="text-2xl font-bold text-[#04395E] mb-1">{facility.count}</div>
-                      <div className="text-sm text-gray-600">{facility.name}</div>
+                      <div className="text-2xl font-bold text-[#111827] mb-1">{facility.count}</div>
+                      <div className="text-sm text-slate-600">{facility.name}</div>
                     </div>
                   ))}
                 </div>
@@ -808,7 +808,7 @@ function Home() {
               
               <div>
                <a href="./students/life">
-                 <button className="inline-flex items-center gap-3 bg-[#04395E] hover:bg-[#033150] text-white px-8 py-4 rounded-md font-semibold transition-all duration-300 hover:gap-4 group">
+                 <button className="inline-flex items-center gap-3 bg-[#111827] hover:bg-[#172554] text-white px-8 py-4 rounded-md font-semibold transition-all duration-300 hover:gap-4 group">
                   Explore 
                   <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                 </button>
@@ -861,7 +861,7 @@ function Home() {
 
         {/* About Section */}
        <ScrollReveal delay={0.2}>
-         <section className="py-16 bg-gray-50">
+         <section className="py-16 bg-slate-50">
           <div className="container mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div className="relative rounded-lg overflow-hidden shadow-sm">
@@ -873,17 +873,17 @@ function Home() {
                   decoding="async"
                   fetchpriority="low"
                 />
-                <div className="absolute -bottom-4 -right-4 bg-yellow-400 text-[#04395E] p-4 rounded-lg">
+                <div className="absolute -bottom-4 -right-4 bg-cyan-400 text-[#111827] p-4 rounded-lg">
                   <span className="block text-2xl font-bold">10+</span>
                   <span className="block text-xs">Years of Excellence</span>
                 </div>
               </div>
 
               <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-[#04395E] mb-6">
-                  Nurturing <span className="text-yellow-500">Future Leaders</span>
+                <h2 className="text-3xl md:text-4xl font-bold text-[#111827] mb-6">
+                  Nurturing <span className="text-orange-500">Future Leaders</span>
                 </h2>
-                <p className="text-gray-600 mb-6">
+                <p className="text-slate-600 mb-6">
                   Established in 2009, Tullu Dimtu Secondary School has consistently ranked among the top educational institutions in the region.
                 </p>
                 <div className="space-y-3 mb-8">
@@ -898,15 +898,15 @@ function Home() {
                       key={index} 
                       className="flex items-start"
                     >
-                      <svg className="h-5 w-5 text-yellow-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="h-5 w-5 text-orange-500 mt-1 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
                       </svg>
-                      <p className="text-gray-700">{item}</p>
+                      <p className="text-slate-700">{item}</p>
                     </div>
                   ))}
                 </div>
                 <Link to="/about/our-history">
-                  <button className="px-6 py-3 bg-[#04395E] hover:bg-[#033150] text-white font-semibold rounded-lg transition-all duration-300">
+                  <button className="px-6 py-3 bg-[#111827] hover:bg-[#172554] text-white font-semibold rounded-lg transition-all duration-300">
                     Learn More About Us
                   </button>
                 </Link>
@@ -917,14 +917,14 @@ function Home() {
        </ScrollReveal>
 
         {/* Testimonials Section */}
-        <section className="py-20 bg-[#04395E] text-white mb-12">
+        <section className="py-20 bg-[#111827] text-white mb-12">
           <div className="container mx-auto px-6">
             <ScrollReveal>
               <div className="text-center mb-16">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                  What Our <span className="text-yellow-300">Community Says</span>
+                  What Our <span className="text-cyan-300">Community Says</span>
                 </h2>
-                <div className="w-24 h-1 bg-yellow-300 mx-auto"></div>
+                <div className="w-24 h-1 bg-cyan-300 mx-auto"></div>
               </div>
             </ScrollReveal>
 
@@ -951,7 +951,7 @@ function Home() {
                     key={index} 
                     className="bg-white/10 p-8 rounded-xl backdrop-blur-sm hover:bg-white/15 transition-all duration-300"
                   >
-                    <svg className="w-8 h-8 text-yellow-300 mb-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-8 h-8 text-cyan-300 mb-4" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"></path>
                     </svg>
                     <p className="italic mb-6 text-white/90">"{testimonial.quote}"</p>
@@ -970,7 +970,7 @@ function Home() {
         <section className="py-20 bg-white">
           <ScrollReveal>
             <div className="container mx-auto px-6">
-              <div className="bg-[#04395E] rounded-2xl p-12 text-center">
+              <div className="bg-[#111827] rounded-2xl p-12 text-center">
                 <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                   Ready to Join Our Community?
                 </h2>
@@ -978,7 +978,7 @@ function Home() {
                   Applications for the 2025 academic year are now open. Limited spaces available.
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                  <button className="px-8 py-3 bg-yellow-400 hover:bg-yellow-300 text-[#04395E] font-bold rounded-lg transition-all duration-300 transform hover:scale-105">
+                  <button className="px-8 py-3 bg-gradient-to-r from-cyan-400 to-cyan-300 hover:from-orange-400 hover:to-orange-300 text-[#111827] font-bold shadow-lg shadow-cyan-500/20 hover:shadow-orange-500/25 rounded-lg transition-all duration-300 transform hover:scale-105">
                     <a href='/admission'>Apply Now</a>
                   </button>
                   <button className="px-8 py-3 border-2 border-white text-white hover:bg-white/20 font-semibold rounded-lg transition-all duration-300 transform hover:scale-105">
@@ -995,7 +995,7 @@ function Home() {
         {showScrollTop && (
           <button
   onClick={scrollToTop}
-  className="fixed bottom-8 right-32 z-50 w-12 h-12 bg-yellow-400 text-[#04395E] rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+  className="fixed bottom-8 right-32 z-50 w-12 h-12 bg-cyan-400 text-[#111827] rounded-full shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center"
   aria-label="Scroll to top"
 >
   <FaChevronUp className="text-xl" />
